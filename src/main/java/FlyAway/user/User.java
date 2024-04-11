@@ -25,8 +25,10 @@ public class User {
     private Long id;
     private String firstname;
     private String lastname;
+    @Column(unique = true)
     private String email;
     private String password;
+    private String phoneNumber;
     private LocalDate dayOfBirth;
     @OneToMany(fetch = FetchType.LAZY)
     private List<Reservation> reservations;
