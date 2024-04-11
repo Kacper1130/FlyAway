@@ -1,4 +1,4 @@
-package FlyAway.config;
+package FlyAway.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
