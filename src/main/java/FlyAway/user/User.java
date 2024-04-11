@@ -28,9 +28,9 @@ public class User {
     private String email;
     private String password;
     private LocalDate dayOfBirth;
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Reservation> reservations;
-    @OneToOne
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
 }

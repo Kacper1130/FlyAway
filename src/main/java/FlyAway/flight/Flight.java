@@ -1,5 +1,6 @@
 package FlyAway.flight;
 
+import FlyAway.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -25,5 +27,7 @@ public class Flight {
     private LocalDateTime departureDate;
     private LocalDateTime arrivalDate;
     private String airline;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Reservation> reservations;
 
 }
