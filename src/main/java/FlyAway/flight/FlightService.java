@@ -13,11 +13,12 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<Flight> getALL() {
+    public List<Flight> getAll() {
         return flightRepository.findAll();
     }
 
-    public void addFlight(Flight flight) {
-        flightRepository.save(flight);
+    public Flight addFlight(Flight flight) {
+        Flight createdFlight = flightRepository.save(flight);
+        return createdFlight;
     }
 }

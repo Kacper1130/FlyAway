@@ -10,6 +10,13 @@ public class FlyAwayApplication {
 		SpringApplication.run(FlyAwayApplication.class, args);
 	}
 
+	//TODO
+	// polaczenie lotow rezerwacji i uzytkownikow
+	// userdto
+	// nadanie roli nowoutworzonego usera
+	// dodanie loggera
+	// thymleaf?
+
 //	@Bean
 //	public CommandLineRunner commandLineRunner(FlightService service){
 //		return args -> {
