@@ -1,5 +1,6 @@
 package FlyAway.flight;
 
+import FlyAway.flight.dto.CreateFlightDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,13 @@ public class FlightController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody Flight flight) {
+    public ResponseEntity<?> add(@RequestBody CreateFlightDto createFlightDto) {
+        Flight flight = new Flight();
+        flight.setDepartureCity(createFlightDto.departureCity());
+        flight.setArrivalCity(createFlightDto.arrivalCity());
+        flight.setDepartureDate(createFlightDto.departureDate());
+        flight.setArrivalDate(createFlightDto.arrivalDate());
+        flight.setAirline(createFlightDto.airline());
         flightService.addFlight(flight);
         return ResponseEntity.created(URI.create("/api/v1/flights/add" + flight.getId())).body(flight);
     }
