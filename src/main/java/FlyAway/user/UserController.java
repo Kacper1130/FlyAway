@@ -1,5 +1,6 @@
 package FlyAway.user;
 
+import FlyAway.user.dto.UserRegistrationDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +24,8 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody User user) {
-        userService.addUser(user);
+    public ResponseEntity<?> add(@RequestBody UserRegistrationDto userRegistrationDto) {
+        User user = userService.addUser(userRegistrationDto);
         return ResponseEntity.created(URI.create("/api/v1/users/add" + user.getId())).body(user);
     }
 }
