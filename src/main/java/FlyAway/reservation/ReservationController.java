@@ -1,16 +1,15 @@
 package FlyAway.reservation;
 
-import FlyAway.flight.Flight;
+import FlyAway.exceptions.FlightDoesNotExistException;
+import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.reservation.dto.CreateReservationDto;
+import FlyAway.reservation.dto.DisplayReservationDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
-import java.security.PublicKey;
 import java.util.List;
 
 @RestController
@@ -24,14 +23,21 @@ public class ReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Reservation>> getALl() {
-        List<Reservation> reservations = reservationService.getAll();
+    public ResponseEntity<List<DisplayReservationDto>> getALl() {
+        List<DisplayReservationDto> reservations = reservationService.getAll();
         return ResponseEntity.ok().body(reservations);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addReservation(CreateReservationDto createReservationDto) {
-        Reservation reservation = reservationService.addReservation(createReservationDto);
-        return ResponseEntity.created(URI.create("/api/v1/reservations/add" + reservation.getId())).body(reservation);
+    public ResponseEntity<?> addReservation(@RequestBody CreateReservationDto createReservationDto) {
+        try {
+            Reservation reservation = reservationService.addReservation(createReservationDto);
+            return ResponseEntity.created(URI.create("/api/v1/reservations/add" + reservation.getId())).body(reservation);
+        } catch (UserDoesNotExistException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found", e);
+        } catch (FlightDoesNotExistException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight with given id not found", e);
+        }
+
     }
 }

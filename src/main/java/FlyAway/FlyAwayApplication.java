@@ -11,7 +11,6 @@ public class FlyAwayApplication {
 	}
 
 	//TODO
-	// polaczenie lotow rezerwacji i uzytkownikow
 	// dodanie loggera
 	// thymleaf?
 
