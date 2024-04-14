@@ -25,13 +25,7 @@ public class FlightController {
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody CreateFlightDto createFlightDto) {
-        Flight flight = new Flight();
-        flight.setDepartureCity(createFlightDto.departureCity());
-        flight.setArrivalCity(createFlightDto.arrivalCity());
-        flight.setDepartureDate(createFlightDto.departureDate());
-        flight.setArrivalDate(createFlightDto.arrivalDate());
-        flight.setAirline(createFlightDto.airline());
-        flightService.addFlight(flight);
+        Flight flight = flightService.addFlight(createFlightDto);
         return ResponseEntity.created(URI.create("/api/v1/flights/add" + flight.getId())).body(flight);
     }
 }
