@@ -38,8 +38,8 @@ public class ReservationController {
         LOGGER.debug("Adding new reservation " + createReservationDto);
         try {
             Reservation reservation = reservationService.addReservation(createReservationDto);
-            LOGGER.info("Created reservation     with id {} ", reservation.getId());
-            return ResponseEntity.created(URI.create("/api/v1/reservations/add" + reservation.getId())).body(reservation);
+            LOGGER.info("Created reservation with id {} ", reservation.getId());
+            return ResponseEntity.created(URI.create("/api/v1/reservations/add" + reservation.getId())).body(reservation); //TODO change to reservationDTO?
         } catch (UserDoesNotExistException e) {
             LOGGER.error("User with id {} does not exist", createReservationDto.userId());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found", e);
@@ -47,6 +47,5 @@ public class ReservationController {
             LOGGER.error("Flight with id {} does not exist",createReservationDto.flightId());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight with given id not found", e);
         }
-
     }
 }

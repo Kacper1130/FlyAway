@@ -8,6 +8,6 @@ public record UserRegistrationDto(
         String email,
         String password,
         String phoneNumber,
-        LocalDate dateOfBirth
+        LocalDate dayOfBirth
 ) {
 }

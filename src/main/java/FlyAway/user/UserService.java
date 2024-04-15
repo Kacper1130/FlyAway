@@ -42,7 +42,7 @@ public class UserService {
         createdUser.setEmail(userRegistrationDto.email());
         createdUser.setPassword(userRegistrationDto.password());
         createdUser.setPhoneNumber(userRegistrationDto.phoneNumber());
-        createdUser.setDayOfBirth(userRegistrationDto.dateOfBirth());
+        createdUser.setDayOfBirth(userRegistrationDto.dayOfBirth());
         var role = roleRepository.findByName("ROLE_USER");
         createdUser.setRoles(Set.of(role));
         userRepository.save(createdUser);
