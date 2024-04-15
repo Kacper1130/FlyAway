@@ -31,7 +31,7 @@ public class FlightController {
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody CreateFlightDto createFlightDto) {
-        LOGGER.debug("Adding new flight");
+        LOGGER.debug("Adding new flight " + createFlightDto);
         Flight flight = flightService.addFlight(createFlightDto);       //TODO add catch try
         LOGGER.info("Added new flight with id {}",flight.getId());
         return ResponseEntity.created(URI.create("/api/v1/flights/add" + flight.getId())).body(flight);

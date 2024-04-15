@@ -30,7 +30,7 @@ public class UserController {
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody UserRegistrationDto userRegistrationDto) { //TODO add catch try
-        LOGGER.debug("Adding new user");
+        LOGGER.debug("Adding new user " + userRegistrationDto);
         User user = userService.addUser(userRegistrationDto);
         LOGGER.info("Added user with id {} ", user.getId());
         return ResponseEntity.created(URI.create("/api/v1/users/add" + user.getId())).body(user);

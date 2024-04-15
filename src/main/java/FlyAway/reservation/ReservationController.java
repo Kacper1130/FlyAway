@@ -35,7 +35,7 @@ public class ReservationController {
 
     @PostMapping("/add")
     public ResponseEntity<?> addReservation(@RequestBody CreateReservationDto createReservationDto) {
-        LOGGER.debug("Adding new reservation");
+        LOGGER.debug("Adding new reservation " + createReservationDto);
         try {
             Reservation reservation = reservationService.addReservation(createReservationDto);
             LOGGER.info("Created reservation     with id {} ", reservation.getId());
