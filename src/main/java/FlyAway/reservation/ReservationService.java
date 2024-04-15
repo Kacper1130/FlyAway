@@ -8,6 +8,8 @@ import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.user.User;
 import FlyAway.user.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,6 +23,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
     private final FlightRepository flightRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReservationService.class);
 
     public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, FlightRepository flightRepository) {
         this.reservationRepository = reservationRepository;
@@ -29,7 +32,8 @@ public class ReservationService {
     }
 
     public List<DisplayReservationDto> getAll() {
-        return reservationRepository.findAll()
+        LOGGER.debug("Retrieving all reservations from repository");
+        List<DisplayReservationDto> reservations =  reservationRepository.findAll()
                 .stream().map(
                         r -> new DisplayReservationDto(
                                 r.getId(),
@@ -40,11 +44,14 @@ public class ReservationService {
                                 r.getFlight().getId()
                         )
                 ).collect(Collectors.toList());
+        LOGGER.info("Retrieved {} reservations", reservations.size());
+        return reservations;
     }
 
     public Reservation addReservation(CreateReservationDto createReservationDto) {
+        LOGGER.debug("Adding new reservation");
         Optional<User> user = userRepository.findById(createReservationDto.userId());
-        if (user.isPresent()){
+        if (user.isPresent()) {
             Optional<Flight> flight = flightRepository.findById(createReservationDto.flightId());
             if (flight.isPresent()) {
                 Reservation createdReservation = new Reservation();
@@ -54,11 +61,14 @@ public class ReservationService {
                 createdReservation.setUser(user.get());
                 createdReservation.setFlight(flight.get());
                 reservationRepository.save(createdReservation);
+                LOGGER.info("Created reservation with id {}", createdReservation.getId());
                 return createdReservation;
             } else {
+                LOGGER.error("Flight with id {} does not exist", createReservationDto.flightId());
                 throw new FlightDoesNotExistException("Flight with id: " + createReservationDto.flightId() + " does not exist");
             }
         } else {
+            LOGGER.error("User with id {} does not exist", createReservationDto.userId());
             throw new UserDoesNotExistException("User with id: " + createReservationDto.userId() + " does not exist");
         }
 

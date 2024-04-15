@@ -4,6 +4,8 @@ import FlyAway.exceptions.FlightDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.List;
 public class ReservationController {
 
     private final ReservationService reservationService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReservationController.class);
 
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
@@ -24,18 +27,24 @@ public class ReservationController {
 
     @GetMapping
     public ResponseEntity<List<DisplayReservationDto>> getALl() {
+        LOGGER.debug("Retrieving all reservations");
         List<DisplayReservationDto> reservations = reservationService.getAll();
+        LOGGER.info("Retrieved {} reservations", reservations.size());
         return ResponseEntity.ok().body(reservations);
     }
 
     @PostMapping("/add")
     public ResponseEntity<?> addReservation(@RequestBody CreateReservationDto createReservationDto) {
+        LOGGER.debug("Adding new reservation");
         try {
             Reservation reservation = reservationService.addReservation(createReservationDto);
+            LOGGER.info("Created reservation     with id {} ", reservation.getId());
             return ResponseEntity.created(URI.create("/api/v1/reservations/add" + reservation.getId())).body(reservation);
         } catch (UserDoesNotExistException e) {
+            LOGGER.error("User with id {} does not exist", createReservationDto.userId());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found", e);
         } catch (FlightDoesNotExistException e){
+            LOGGER.error("Flight with id {} does not exist",createReservationDto.flightId());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight with given id not found", e);
         }
 
