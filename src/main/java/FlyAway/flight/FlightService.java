@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FlightService {
@@ -18,14 +19,23 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<Flight> getAll() {
+    public List<FlightDto> getAll() {
         LOGGER.debug("Retrieving all flights from repository");
-        List<Flight> flights = flightRepository.findAll();
+        List<FlightDto> flights = flightRepository.findAll()
+                .stream().map(
+                        f -> new FlightDto(
+                                f.getDepartureCity(),
+                                f.getArrivalCity(),
+                                f.getDepartureDate(),
+                                f.getArrivalDate(),
+                                f.getAirline()
+                        )
+                ).collect(Collectors.toList());
         LOGGER.info("Retrieved {} flights from repository", flights.size());
         return flights;
     }
 
-    public Flight addFlight(FlightDto createFlightDto) {
+    public FlightDto addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
         Flight createdFlight = new Flight();
         createdFlight.setDepartureCity(createFlightDto.departureCity());
@@ -35,6 +45,6 @@ public class FlightService {
         createdFlight.setAirline(createFlightDto.airline());
         flightRepository.save(createdFlight);
         LOGGER.info("Created flight with id {}", createdFlight.getId());
-        return createdFlight;
+        return createFlightDto;
     }
 }

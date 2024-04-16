@@ -1,5 +1,6 @@
 package FlyAway.user;
 
+import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAll() {  //TODO User -> UserDto ?
+    public ResponseEntity<List<UserDto>> getAll() {
         LOGGER.debug("Retrieving all Users");
-        List<User> users = userService.getAll();
+        List<UserDto> users = userService.getAll();
         LOGGER.info("Retrieved {} users", users.size());
         return ResponseEntity.ok(users);
     }
@@ -32,8 +33,8 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody UserRegistrationDto userRegistrationDto) { //TODO add catch try
         LOGGER.debug("Adding new user " + userRegistrationDto);
-        User user = userService.addUser(userRegistrationDto);
-        LOGGER.info("Added user with id {} ", user.getId());
+        UserDto user = userService.addUser(userRegistrationDto);
+        LOGGER.info("Added new user " + user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }

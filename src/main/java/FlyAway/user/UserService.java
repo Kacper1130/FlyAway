@@ -1,6 +1,7 @@
 package FlyAway.user;
 
 import FlyAway.security.RoleRepository;
+import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -21,14 +23,25 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public List<User> getAll(){
+    public List<UserDto> getAll(){
         LOGGER.debug("Retrieving all users from repository");
-        List<User> users = userRepository.findAll();
+        List<UserDto> users = userRepository.findAll()
+                .stream().map(
+                        u -> new UserDto(
+                                u.getFirstname(),
+                                u.getLastname(),
+                                u.getEmail(),
+                                u.getPhoneNumber(),
+                                u.getDayOfBirth()
+                        )
+                ).collect(Collectors.toList());
+
+                ;
         LOGGER.info("Retrieved {} users from repository", users.size());
         return users;
     }
 
-    public User addUser(UserRegistrationDto userRegistrationDto){
+    public UserDto addUser(UserRegistrationDto userRegistrationDto){
         LOGGER.debug("Adding new user");
         //  TODO
 //        if (emailExist(accountDto.getEmail())) {
@@ -47,6 +60,13 @@ public class UserService {
         createdUser.setRoles(Set.of(role));
         userRepository.save(createdUser);
         LOGGER.info("Created new user with id {}", createdUser.getId());
-        return createdUser;
+        UserDto createdUserDto = new UserDto(
+                createdUser.getFirstname(),
+                createdUser.getLastname(),
+                createdUser.getEmail(),
+                createdUser.getPhoneNumber(),
+                createdUser.getDayOfBirth()
+        );
+        return createdUserDto;
     }
 }

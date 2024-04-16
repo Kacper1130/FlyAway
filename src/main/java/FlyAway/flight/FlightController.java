@@ -23,9 +23,9 @@ public class FlightController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Flight>> getAll() {
+    public ResponseEntity<List<FlightDto>> getAll() {
         LOGGER.debug("Retrieving all flights");
-        List<Flight> flights = flightService.getAll();
+        List<FlightDto> flights = flightService.getAll();
         LOGGER.info("Retrieved {} flights", flights.size());
         return ResponseEntity.ok(flights);
     }
@@ -33,8 +33,8 @@ public class FlightController {
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight " + createFlightDto);
-        Flight flight = flightService.addFlight(createFlightDto);       //TODO add catch try
-        LOGGER.info("Added new flight with id {}",flight.getId());
+        FlightDto flight = flightService.addFlight(createFlightDto);
+        LOGGER.info("Created new flight " + flight);                //TODO add catch try
         return ResponseEntity.status(HttpStatus.CREATED).body(flight);
     }
 }

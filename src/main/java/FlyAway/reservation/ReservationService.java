@@ -36,7 +36,7 @@ public class ReservationService {
 
     public List<DisplayReservationDto> getAll() {
         LOGGER.debug("Retrieving all reservations from repository");
-        List<DisplayReservationDto> reservations =  reservationRepository.findAll()
+        List<DisplayReservationDto> reservations = reservationRepository.findAll()
                 .stream().map(
                         r -> new DisplayReservationDto(
                                 r.getId(),
