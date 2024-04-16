@@ -4,6 +4,7 @@ import FlyAway.exceptions.FlightDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
+import FlyAway.reservation.dto.ReservationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -37,9 +38,8 @@ public class ReservationController {
     public ResponseEntity<?> addReservation(@RequestBody CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation " + createReservationDto);
         try {
-            Reservation reservation = reservationService.addReservation(createReservationDto);
-            LOGGER.info("Created reservation with id {} ", reservation.getId());
-            return ResponseEntity.created(URI.create("/api/v1/reservations/add" + reservation.getId())).body(reservation); //TODO change to reservationDTO?
+            ReservationDto reservationDto = reservationService.addReservation(createReservationDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(reservationDto);
         } catch (UserDoesNotExistException e) {
             LOGGER.error("User with id {} does not exist", createReservationDto.userId());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found", e);

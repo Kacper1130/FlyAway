@@ -1,6 +1,6 @@
 package FlyAway.flight;
 
-import FlyAway.flight.dto.CreateFlightDto;
+import FlyAway.flight.dto.FlightDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +30,7 @@ public class FlightController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody CreateFlightDto createFlightDto) {
+    public ResponseEntity<?> add(@RequestBody FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight " + createFlightDto);
         Flight flight = flightService.addFlight(createFlightDto);       //TODO add catch try
         LOGGER.info("Added new flight with id {}",flight.getId());

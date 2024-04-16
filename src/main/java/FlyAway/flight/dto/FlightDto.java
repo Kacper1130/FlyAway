@@ -2,7 +2,7 @@ package FlyAway.flight.dto;
 
 import java.time.LocalDateTime;
 
-public record CreateFlightDto(
+public record FlightDto(
         String departureCity,
         String arrivalCity,
         LocalDateTime departureDate,

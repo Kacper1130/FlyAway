@@ -4,10 +4,13 @@ import FlyAway.exceptions.FlightDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
+import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
+import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.user.User;
 import FlyAway.user.UserRepository;
+import FlyAway.user.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -48,7 +51,7 @@ public class ReservationService {
         return reservations;
     }
 
-    public Reservation addReservation(CreateReservationDto createReservationDto) {
+    public ReservationDto addReservation(CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation");
         Optional<User> user = userRepository.findById(createReservationDto.userId());
         if (user.isPresent()) {
@@ -62,7 +65,26 @@ public class ReservationService {
                 createdReservation.setFlight(flight.get());
                 reservationRepository.save(createdReservation);
                 LOGGER.info("Created reservation with id {}", createdReservation.getId());
-                return createdReservation;
+                ReservationDto reservationDTO = new ReservationDto(
+                        createdReservation.getReservationDate(),
+                        createdReservation.getPrice(),
+                        createdReservation.getSeatNumber(),
+                        new UserDto(
+                                createdReservation.getUser().getFirstname(),
+                                createdReservation.getUser().getLastname(),
+                                createdReservation.getUser().getEmail(),
+                                createdReservation.getUser().getPhoneNumber(),
+                                createdReservation.getUser().getDayOfBirth()
+                        ),
+                        new FlightDto(
+                                createdReservation.getFlight().getDepartureCity(),
+                                createdReservation.getFlight().getArrivalCity(),
+                                createdReservation.getFlight().getDepartureDate(),
+                                createdReservation.getFlight().getArrivalDate(),
+                                createdReservation.getFlight().getAirline()
+                        )
+                );
+                return reservationDTO;
             } else {
                 LOGGER.error("Flight with id {} does not exist", createReservationDto.flightId());
                 throw new FlightDoesNotExistException("Flight with id: " + createReservationDto.flightId() + " does not exist");

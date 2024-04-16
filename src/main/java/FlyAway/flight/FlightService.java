@@ -1,6 +1,6 @@
 package FlyAway.flight;
 
-import FlyAway.flight.dto.CreateFlightDto;
+import FlyAway.flight.dto.FlightDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class FlightService {
         return flights;
     }
 
-    public Flight addFlight(CreateFlightDto createFlightDto) {
+    public Flight addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
         Flight createdFlight = new Flight();
         createdFlight.setDepartureCity(createFlightDto.departureCity());
