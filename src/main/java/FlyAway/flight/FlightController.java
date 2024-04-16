@@ -3,6 +3,7 @@ package FlyAway.flight;
 import FlyAway.flight.dto.FlightDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,6 @@ public class FlightController {
         LOGGER.debug("Adding new flight " + createFlightDto);
         Flight flight = flightService.addFlight(createFlightDto);       //TODO add catch try
         LOGGER.info("Added new flight with id {}",flight.getId());
-        return ResponseEntity.created(URI.create("/api/v1/flights/add" + flight.getId())).body(flight);
+        return ResponseEntity.status(HttpStatus.CREATED).body(flight);
     }
 }
