@@ -34,7 +34,7 @@ public class FlightController {
     public ResponseEntity<?> add(@RequestBody FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight " + createFlightDto);
         FlightDto flight = flightService.addFlight(createFlightDto);
-        LOGGER.info("Created new flight " + flight);                //TODO add catch try
+        LOGGER.info("Created new flight " + flight);
         return ResponseEntity.status(HttpStatus.CREATED).body(flight);
     }
 }

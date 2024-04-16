@@ -1,5 +1,6 @@
 package FlyAway.user;
 
+import FlyAway.exceptions.EmailExistsException;
 import FlyAway.security.RoleRepository;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,11 +45,11 @@ public class UserService {
 
     public UserDto addUser(UserRegistrationDto userRegistrationDto){
         LOGGER.debug("Adding new user");
-        //  TODO
-//        if (emailExist(accountDto.getEmail())) {
-//            throw new EmailExistsException
-//                    ("There is an account with that email adress: " + accountDto.getEmail());
-//        }
+
+        if (userRepository.findUserByEmail(userRegistrationDto.email()) != null) {
+            LOGGER.error("User with email {} already exists", userRegistrationDto.email());
+            throw new EmailExistsException(userRegistrationDto.email());
+        }
 
         User createdUser = new User();
         createdUser.setFirstname(userRegistrationDto.firstname());
@@ -60,6 +62,7 @@ public class UserService {
         createdUser.setRoles(Set.of(role));
         userRepository.save(createdUser);
         LOGGER.info("Created new user with id {}", createdUser.getId());
+
         UserDto createdUserDto = new UserDto(
                 createdUser.getFirstname(),
                 createdUser.getLastname(),

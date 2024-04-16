@@ -11,7 +11,6 @@ public class FlyAwayApplication {
 	}
 
 	//TODO
-	// dodanie loggera
 	// thymleaf?
 
 //	@Bean

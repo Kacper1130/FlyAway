@@ -39,6 +39,7 @@ public class ReservationController {
         LOGGER.debug("Adding new reservation " + createReservationDto);
         try {
             ReservationDto reservationDto = reservationService.addReservation(createReservationDto);
+            LOGGER.info("Created new reservation " + reservationDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(reservationDto);
         } catch (UserDoesNotExistException e) {
             LOGGER.error("User with id {} does not exist", createReservationDto.userId());

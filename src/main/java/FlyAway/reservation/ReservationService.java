@@ -84,6 +84,7 @@ public class ReservationService {
                                 createdReservation.getFlight().getAirline()
                         )
                 );
+                LOGGER.debug("Mapped to ReservationDto");
                 return reservationDTO;
             } else {
                 LOGGER.error("Flight with id {} does not exist", createReservationDto.flightId());

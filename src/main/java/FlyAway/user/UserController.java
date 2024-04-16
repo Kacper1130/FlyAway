@@ -1,5 +1,6 @@
 package FlyAway.user;
 
+import FlyAway.exceptions.EmailExistsException;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.util.List;
@@ -31,10 +33,15 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody UserRegistrationDto userRegistrationDto) { //TODO add catch try
+    public ResponseEntity<?> add(@RequestBody UserRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new user " + userRegistrationDto);
-        UserDto user = userService.addUser(userRegistrationDto);
-        LOGGER.info("Added new user " + user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        try{
+            UserDto user = userService.addUser(userRegistrationDto);
+            LOGGER.info("Added new user " + user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        } catch (EmailExistsException e) {
+            LOGGER.error("User with email {} already exists",userRegistrationDto.email());
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with given email already exits", e);
+        }
     }
 }
