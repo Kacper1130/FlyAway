@@ -30,7 +30,7 @@ public class    User {
     private String password;
     private String phoneNumber;
     private LocalDate dayOfBirth;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;

@@ -4,6 +4,7 @@ import FlyAway.exceptions.FlightDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
+import FlyAway.flight.FlightService;
 import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
@@ -53,16 +54,27 @@ public class ReservationService {
 
     public ReservationDto addReservation(CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation");
-        Optional<User> user = userRepository.findById(createReservationDto.userId());
-        if (user.isPresent()) {
-            Optional<Flight> flight = flightRepository.findById(createReservationDto.flightId());
-            if (flight.isPresent()) {
+        Optional<User> optionalUserser = userRepository.findById(createReservationDto.userId());
+        if (optionalUserser.isPresent()) {
+            User user = optionalUserser.get();
+            Optional<Flight> optionalFlight = flightRepository.findById(createReservationDto.flightId());
+            if (optionalFlight.isPresent()) {
+                Flight flight = optionalFlight.get();
                 Reservation createdReservation = new Reservation();
                 createdReservation.setPrice(createReservationDto.price());
                 createdReservation.setSeatNumber(createReservationDto.seatNumber());
                 createdReservation.setReservationDate(LocalDateTime.now());
-                createdReservation.setUser(user.get());
-                createdReservation.setFlight(flight.get());
+                createdReservation.setUser(user);
+                createdReservation.setFlight(flight);
+
+                List<Reservation> userReservations = user.getReservations();
+                userReservations.add(createdReservation);
+                user.setReservations(userReservations);
+
+                List<Reservation> flightReservations = flight.getReservations();
+                flightReservations.add(createdReservation);
+                flight.setReservations(flightReservations);
+
                 reservationRepository.save(createdReservation);
                 LOGGER.info("Created reservation with id {}", createdReservation.getId());
                 ReservationDto reservationDTO = new ReservationDto(

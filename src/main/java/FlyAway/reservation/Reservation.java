@@ -24,9 +24,9 @@ public class Reservation {
     private LocalDateTime reservationDate;
     private Long price;
     private Long seatNumber;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Flight flight;
 
 }

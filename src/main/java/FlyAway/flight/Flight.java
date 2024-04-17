@@ -27,7 +27,7 @@ public class Flight {
     private LocalDateTime departureDate;
     private LocalDateTime arrivalDate;
     private String airline;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
 }

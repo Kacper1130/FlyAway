@@ -2,6 +2,9 @@ package FlyAway.user;
 
 import FlyAway.exceptions.EmailExistsException;
 import FlyAway.exceptions.UserDoesNotExistException;
+import FlyAway.flight.dto.FlightDto;
+import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationWithoutUserDto;
 import FlyAway.security.RoleRepository;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
@@ -76,7 +79,7 @@ public class UserService {
         return createdUserDto;
     }
 
-    public UserReservationDto getUserWithReservations(Long id) {
+    public UserReservationDto getUserWithReservations(Long id) {        //TODO refactor this function
         LOGGER.debug("Retrieving user with reservations, user id {} ", id);
         Optional<User> optionalUser = userRepository.findById(id);
 
@@ -90,6 +93,20 @@ public class UserService {
                             u.getPhoneNumber(),
                             u.getDayOfBirth(),
                             u.getReservations()
+                                    .stream().map(
+                                            r -> new ReservationWithoutUserDto(
+                                                    r.getReservationDate(),
+                                                    r.getPrice(),
+                                                    r.getSeatNumber(),
+                                                    new FlightDto(
+                                                            r.getFlight().getDepartureCity(),
+                                                            r.getFlight().getArrivalCity(),
+                                                            r.getFlight().getDepartureDate(),
+                                                            r.getFlight().getArrivalDate(),
+                                                            r.getFlight().getAirline()
+                                                    )
+                                            )
+                                    ).collect(Collectors.toList())
                     );
                 }
         ).orElseThrow(() -> {
