@@ -9,6 +9,7 @@ public record ReservationWithoutUserDto(
         LocalDateTime reservationDate,
         Long price,
         Long seatNumber,
+        Boolean cancelled,
         FlightDto flightDto
 ) {
 }

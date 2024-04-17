@@ -98,6 +98,7 @@ public class UserService {
                                                     r.getReservationDate(),
                                                     r.getPrice(),
                                                     r.getSeatNumber(),
+                                                    r.getCancelled(),
                                                     new FlightDto(
                                                             r.getFlight().getDepartureCity(),
                                                             r.getFlight().getArrivalCity(),
@@ -113,5 +114,9 @@ public class UserService {
             LOGGER.error("User with id {} does not exist", id);
             return new UserDoesNotExistException(id);
         });
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }

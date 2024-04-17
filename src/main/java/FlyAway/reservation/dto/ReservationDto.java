@@ -10,6 +10,7 @@ public record ReservationDto(
         LocalDateTime reservationDate,
         Long price,
         Long seatNumber,
+        Boolean cancelled,
         UserDto userDto,
         FlightDto flightDto
 ) {

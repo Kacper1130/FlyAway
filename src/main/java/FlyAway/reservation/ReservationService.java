@@ -44,6 +44,7 @@ public class ReservationService {
                                 r.getReservationDate(),
                                 r.getPrice(),
                                 r.getSeatNumber(),
+                                r.getCancelled(),
                                 r.getUser().getId(),
                                 r.getFlight().getId()
                         )
@@ -81,6 +82,7 @@ public class ReservationService {
                         createdReservation.getReservationDate(),
                         createdReservation.getPrice(),
                         createdReservation.getSeatNumber(),
+                        createdReservation.getCancelled(),
                         new UserDto(
                                 createdReservation.getUser().getFirstname(),
                                 createdReservation.getUser().getLastname(),

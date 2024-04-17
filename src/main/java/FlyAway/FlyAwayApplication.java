@@ -12,6 +12,7 @@ public class FlyAwayApplication {
 
 	//TODO
 	// thymleaf?
+	// historia rezerwacji, anulowane i wykorzystane
 
 //	@Bean
 //	public CommandLineRunner commandLineRunner(FlightService service){

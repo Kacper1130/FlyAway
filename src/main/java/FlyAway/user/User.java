@@ -7,6 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SoftDelete;
+import org.hibernate.annotations.Where;
+import org.hibernate.type.NumericBooleanConverter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +22,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class    User {
+@SoftDelete(converter = NumericBooleanConverter.class)
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
