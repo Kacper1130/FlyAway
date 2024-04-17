@@ -1,11 +1,14 @@
 package FlyAway.user;
 
 import FlyAway.exceptions.EmailExistsException;
+import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.security.RoleRepository;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
+import FlyAway.user.dto.UserReservationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,5 +74,27 @@ public class UserService {
                 createdUser.getDayOfBirth()
         );
         return createdUserDto;
+    }
+
+    public UserReservationDto getUserWithReservations(Long id) {
+        LOGGER.debug("Retrieving user with reservations, user id {} ", id);
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        return optionalUser.map(
+                u -> {
+                    LOGGER.info("Successfully retrieved user with reservations, user id {}", id);
+                    return new UserReservationDto(
+                            u.getFirstname(),
+                            u.getLastname(),
+                            u.getEmail(),
+                            u.getPhoneNumber(),
+                            u.getDayOfBirth(),
+                            u.getReservations()
+                    );
+                }
+        ).orElseThrow(() -> {
+            LOGGER.error("User with id {} does not exist", id);
+            return new UserDoesNotExistException(id);
+        });
     }
 }
