@@ -1,6 +1,7 @@
 package FlyAway.reservation;
 
 import FlyAway.exceptions.FlightDoesNotExistException;
+import FlyAway.exceptions.ReservationDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,7 +80,7 @@ public class ReservationService {
 
                 reservationRepository.save(createdReservation);
                 LOGGER.info("Created reservation with id {}", createdReservation.getId());
-                ReservationDto reservationDTO = new ReservationDto(
+                ReservationDto reservationDTO = new ReservationDto(   //TODO add to mapper class
                         createdReservation.getReservationDate(),
                         createdReservation.getPrice(),
                         createdReservation.getSeatNumber(),
@@ -110,5 +112,20 @@ public class ReservationService {
         }
 
     }
+
+    public void cancelReservation(UUID id) {
+        LOGGER.debug("Cancelling reservation with id {}", id);
+        Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+        if (optionalReservation.isPresent()) {
+            Reservation reservation = optionalReservation.get();
+            reservation.setCancelled(true);
+            reservationRepository.save(reservation);
+            LOGGER.info("Successfully cancelled reservation with id {}",id);
+        } else {
+            LOGGER.error("Reservation with id {} does not exist", id);
+            throw new ReservationDoesNotExistException(id);
+        }
+    }
+
 
 }

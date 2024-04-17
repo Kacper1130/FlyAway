@@ -1,6 +1,7 @@
 package FlyAway.reservation;
 
 import FlyAway.exceptions.FlightDoesNotExistException;
+import FlyAway.exceptions.ReservationDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
@@ -14,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
@@ -47,6 +49,19 @@ public class ReservationController {
         } catch (FlightDoesNotExistException e){
             LOGGER.error("Flight with id {} does not exist",createReservationDto.flightId());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Flight with given id not found", e);
+        }
+    }
+
+    @PutMapping("{id}/cancel")
+    public ResponseEntity<?> cancelReservation(@PathVariable UUID id) {
+        LOGGER.debug("Cancelling reservation with id {} ", id);
+        try{
+            reservationService.cancelReservation(id);
+            LOGGER.info("Successfully cancelled reservation");
+            return ResponseEntity.ok("Cancelled reservation");
+        } catch (ReservationDoesNotExistException e ) {
+            LOGGER.error("Reservation with id {} does not exist",id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation with given id not found");
         }
     }
 }

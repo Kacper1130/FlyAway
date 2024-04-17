@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -116,7 +117,13 @@ public class UserService {
         });
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void cancelReservation(Long userId, UUID reservationId) {
+        //TODO
     }
+
+
+    //TODO delete reservations first
+//    public void deleteUser(Long id) {
+//        userRepository.deleteById(id);
+//    }
 }
