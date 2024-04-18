@@ -189,7 +189,30 @@ public class UserService {
     }
 
     public void cancelReservation(Long userId, UUID reservationId) {
-
+        LOGGER.info("Cancelling user reservation, user id {}, reservation id {}", userId, reservationId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()){
+            LOGGER.info("Successfully retrieved user with id {}",userId);
+            Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+            if (optionalReservation.isPresent()) {
+                LOGGER.info("Successfully retrieved reservation with id {}",reservationId);
+                if (!optionalUser.get().equals(optionalReservation.get().getUser())) {
+                    LOGGER.warn("User does not match with reservation user");
+                    throw new UserDoesNotMatchReservationUserException();
+                } else {
+                    Reservation reservation = optionalReservation.get();
+                    reservation.setCancelled(true);
+                    reservationRepository.save(reservation);
+                    LOGGER.info("Successfully cancelled reservation with id {}",reservation.getId());
+                }
+            } else {
+                LOGGER.error("Reservation with id {} does not exist",reservationId);
+                throw new ReservationDoesNotExistException(reservationId);
+            }
+        } else {
+            LOGGER.error("User with id {} does not exist", userId);
+            throw new UserDoesNotExistException(userId);
+        }
     }
 
 

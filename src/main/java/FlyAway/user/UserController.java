@@ -103,6 +103,9 @@ public class UserController {
             userService.cancelReservation(userId,reservationId);
             LOGGER.info("Successfully cancelled reservation");
             return ResponseEntity.ok("Cancelled reservation");
+        } catch (UserDoesNotMatchReservationUserException e ) {
+            LOGGER.error("User does not match reservation user");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have access to this reservation");
         } catch (UserDoesNotExistException e ) {
             LOGGER.error("User with id {} does not exist", userId);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found");
