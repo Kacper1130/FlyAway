@@ -1,8 +1,13 @@
 package FlyAway.user;
 
 import FlyAway.exceptions.EmailExistsException;
+import FlyAway.exceptions.ReservationDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
+import FlyAway.exceptions.UserDoesNotMatchReservationUserException;
 import FlyAway.flight.dto.FlightDto;
+import FlyAway.reservation.Reservation;
+import FlyAway.reservation.ReservationRepository;
+import FlyAway.reservation.ReservationService;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.reservation.dto.ReservationWithoutUserDto;
 import FlyAway.security.RoleRepository;
@@ -25,11 +30,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ReservationRepository reservationRepository;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ReservationRepository reservationRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     public List<UserDto> getAll(){
@@ -80,6 +87,26 @@ public class UserService {
         return createdUserDto;
     }
 
+    public UserDto getUser(Long id) {
+        LOGGER.debug("Retrieving user with id {}",id);
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser.map(
+                u -> {
+                    LOGGER.info("Successfully retrieved user with id {}",id);
+                    return new UserDto(
+                            u.getFirstname(),
+                            u.getLastname(),
+                            u.getEmail(),
+                            u.getPhoneNumber(),
+                            u.getDayOfBirth()
+                    );
+                }
+        ).orElseThrow(() -> {
+           LOGGER.error("User with id {} does not exist", id);
+           throw new UserDoesNotExistException(id);
+        });
+    }
+
     public UserReservationDto getUserWithReservations(Long id) {        //TODO refactor this function
         LOGGER.debug("Retrieving user with reservations, user id {} ", id);
         Optional<User> optionalUser = userRepository.findById(id);
@@ -113,12 +140,56 @@ public class UserService {
                 }
         ).orElseThrow(() -> {
             LOGGER.error("User with id {} does not exist", id);
-            return new UserDoesNotExistException(id);
+            throw new UserDoesNotExistException(id);
         });
     }
 
+    public ReservationDto getUserReservation(Long userId, UUID reservationId) {
+        LOGGER.debug("Retrieving user reservation, user id {}, reservation id {}",userId, reservationId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()){
+            LOGGER.info("Successfully retrieved user with id {}",userId);
+            Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+            if (optionalReservation.isPresent()) {
+                LOGGER.info("Successfully retrieved reservation with id {}",reservationId);
+                if (!optionalUser.get().equals(optionalReservation.get().getUser())) {
+                    LOGGER.warn("User does not match with reservation user");
+                    throw new UserDoesNotMatchReservationUserException();
+                } else {
+                    Reservation r = optionalReservation.get();
+                    return new ReservationDto(
+                            r.getReservationDate(),
+                            r.getPrice(),
+                            r.getSeatNumber(),
+                            r.getCancelled(),
+                            new UserDto(
+                                    r.getUser().getFirstname(),
+                                    r.getUser().getLastname(),
+                                    r.getUser().getEmail(),
+                                    r.getUser().getPhoneNumber(),
+                                    r.getUser().getDayOfBirth()
+                            ),
+                            new FlightDto(
+                                    r.getFlight().getDepartureCity(),
+                                    r.getFlight().getArrivalCity(),
+                                    r.getFlight().getDepartureDate(),
+                                    r.getFlight().getArrivalDate(),
+                                    r.getFlight().getAirline()
+                            )
+                    );
+                }
+            } else {
+                LOGGER.error("Reservation with id {} does not exist",reservationId);
+                throw new ReservationDoesNotExistException(reservationId);
+            }
+        } else {
+            LOGGER.error("User with id {} does not exist", userId);
+            throw new UserDoesNotExistException(userId);
+        }
+    }
+
     public void cancelReservation(Long userId, UUID reservationId) {
-        //TODO
+
     }
 
 

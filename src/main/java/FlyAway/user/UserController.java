@@ -3,6 +3,7 @@ package FlyAway.user;
 import FlyAway.exceptions.EmailExistsException;
 import FlyAway.exceptions.ReservationDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
+import FlyAway.exceptions.UserDoesNotMatchReservationUserException;
 import FlyAway.reservation.Reservation;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.user.dto.UserDto;
@@ -52,8 +53,21 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
+        LOGGER.debug("Retrieving user with id {}",id);
+        try {
+            UserDto userDto = userService.getUser(id);
+            LOGGER.info("Successfully retrieved user");
+            return ResponseEntity.ok(userDto);
+        } catch (UserDoesNotExistException e) {
+            LOGGER.error("User with id {} does not exist", id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found");
+        }
+    }
+
+    @GetMapping("/{id}/reservations")
     public ResponseEntity<UserReservationDto> getUserWithReservations(@PathVariable Long id) {
-        LOGGER.debug("Retrieving user with id " + id);
+        LOGGER.debug("Retrieving user's reservation, user id " + id);
         try {
             UserReservationDto userReservationDto = userService.getUserWithReservations(id);
             LOGGER.info("Successfully retrieved user with reservations");
@@ -62,10 +76,27 @@ public class UserController {
             LOGGER.error("User with id {} does not exist", id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found");
         }
-
     }
 
-    @PutMapping("/{userId}/{reservationId}/cancel")
+    @GetMapping("/{id}/reservations/{reservationId}")
+    public ResponseEntity<ReservationDto> getUserReservation(@PathVariable("id") Long userId, @PathVariable UUID reservationId) {
+        LOGGER.debug("Retrieving user reservation, user id {}, reservation id {}",userId,reservationId);
+        try{
+            ReservationDto reservationDto = userService.getUserReservation(userId,reservationId);
+            return ResponseEntity.ok(reservationDto);
+        } catch (UserDoesNotMatchReservationUserException e ){
+            LOGGER.error("User does not match reservation user");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User does not have access to this reservation");
+        } catch (UserDoesNotExistException e ) {
+            LOGGER.error("User with id {} does not exist", userId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User with given id not found");
+        } catch (ReservationDoesNotExistException e ) {
+            LOGGER.error("Reservation with id {} does not exist",reservationId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation with given id not found");
+        }
+    }
+
+    @DeleteMapping("/{userId}/reservations/{reservationId}/cancel")
     public ResponseEntity<?> cancelReservation(@PathVariable Long userId, @PathVariable UUID reservationId) {
         LOGGER.debug("Cancelling reservation, user id {}, reservation id {}", userId,reservationId);
         try{

@@ -11,8 +11,10 @@ public class FlyAwayApplication {
 	}
 
 	//TODO
+	// dodanie mapperow
 	// thymleaf?
 	// historia rezerwacji, anulowane i wykorzystane
+	// uwagi uzytkownikow
 
 //	@Bean
 //	public CommandLineRunner commandLineRunner(FlightService service){

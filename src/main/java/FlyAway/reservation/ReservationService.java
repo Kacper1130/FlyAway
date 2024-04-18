@@ -57,9 +57,9 @@ public class ReservationService {
 
     public ReservationDto addReservation(CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation");
-        Optional<User> optionalUserser = userRepository.findById(createReservationDto.userId());
-        if (optionalUserser.isPresent()) {
-            User user = optionalUserser.get();
+        Optional<User> optionalUser = userRepository.findById(createReservationDto.userId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
             Optional<Flight> optionalFlight = flightRepository.findById(createReservationDto.flightId());
             if (optionalFlight.isPresent()) {
                 Flight flight = optionalFlight.get();
@@ -111,6 +111,39 @@ public class ReservationService {
             throw new UserDoesNotExistException("User with id: " + createReservationDto.userId() + " does not exist");
         }
 
+    }
+
+    public ReservationDto getReservation(UUID id) {
+        LOGGER.debug("Retrieving reservation with id {}",id);
+        Optional<Reservation> optionalReservation = reservationRepository.findById(id);
+        return optionalReservation.map(
+                r -> {
+                    LOGGER.info("Successfully retrieved reservation with id {}",id);
+                    return new ReservationDto(
+                            r.getReservationDate(),
+                            r.getPrice(),
+                            r.getSeatNumber(),
+                            r.getCancelled(),
+                            new UserDto(
+                                    r.getUser().getFirstname(),
+                                    r.getUser().getLastname(),
+                                    r.getUser().getEmail(),
+                                    r.getUser().getPhoneNumber(),
+                                    r.getUser().getDayOfBirth()
+                            ),
+                            new FlightDto(
+                                    r.getFlight().getDepartureCity(),
+                                    r.getFlight().getArrivalCity(),
+                                    r.getFlight().getDepartureDate(),
+                                    r.getFlight().getArrivalDate(),
+                                    r.getFlight().getAirline()
+                            )
+                    );
+                }
+        ).orElseThrow(() -> {
+            LOGGER.error("Reservation with id {} does not exist",id);
+            throw new ReservationDoesNotExistException(id);
+        });
     }
 
     public void cancelReservation(UUID id) {

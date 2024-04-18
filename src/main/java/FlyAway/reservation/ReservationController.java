@@ -52,7 +52,7 @@ public class ReservationController {
         }
     }
 
-    @PutMapping("{id}/cancel")
+    @DeleteMapping("{id}/cancel")
     public ResponseEntity<?> cancelReservation(@PathVariable UUID id) {
         LOGGER.debug("Cancelling reservation with id {} ", id);
         try{
