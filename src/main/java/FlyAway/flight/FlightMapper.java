@@ -1,7 +1,6 @@
 package FlyAway.flight;
 
 import FlyAway.flight.dto.FlightDto;
-import FlyAway.reservation.dto.CreateReservationDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
