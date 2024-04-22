@@ -22,27 +22,15 @@ public class FlightService {
     public List<FlightDto> getAll() {
         LOGGER.debug("Retrieving all flights from repository");
         List<FlightDto> flights = flightRepository.findAll()
-                .stream().map(
-                        f -> new FlightDto(
-                                f.getDepartureCity(),
-                                f.getArrivalCity(),
-                                f.getDepartureDate(),
-                                f.getArrivalDate(),
-                                f.getAirline()
-                        )
-                ).collect(Collectors.toList());
+                .stream().map(FlightMapper.INSTANCE::flightToFlightDto)
+                .collect(Collectors.toList());
         LOGGER.info("Retrieved {} flights from repository", flights.size());
         return flights;
     }
 
     public FlightDto addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
-        Flight createdFlight = new Flight();
-        createdFlight.setDepartureCity(createFlightDto.departureCity());
-        createdFlight.setArrivalCity(createFlightDto.arrivalCity());
-        createdFlight.setDepartureDate(createFlightDto.departureDate());
-        createdFlight.setArrivalDate(createFlightDto.arrivalDate());
-        createdFlight.setAirline(createFlightDto.airline());
+        Flight createdFlight = FlightMapper.INSTANCE.flightDtoToFlight(createFlightDto);
         flightRepository.save(createdFlight);
         LOGGER.info("Created flight with id {}", createdFlight.getId());
         return createFlightDto;

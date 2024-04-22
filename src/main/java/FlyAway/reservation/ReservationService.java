@@ -40,17 +40,8 @@ public class ReservationService {
     public List<DisplayReservationDto> getAll() {
         LOGGER.debug("Retrieving all reservations from repository");
         List<DisplayReservationDto> reservations = reservationRepository.findAll()
-                .stream().map(
-                        r -> new DisplayReservationDto(
-                                r.getId(),
-                                r.getReservationDate(),
-                                r.getPrice(),
-                                r.getSeatNumber(),
-                                r.getCancelled(),
-                                r.getUser().getId(),
-                                r.getFlight().getId()
-                        )
-                ).collect(Collectors.toList());
+                .stream().map(ReservationMapper.INSTANCE::reservationToDisplayReservationDto)
+                .collect(Collectors.toList());
         LOGGER.info("Retrieved {} reservations", reservations.size());
         return reservations;
     }
@@ -80,26 +71,8 @@ public class ReservationService {
 
                 reservationRepository.save(createdReservation);
                 LOGGER.info("Created reservation with id {}", createdReservation.getId());
-                ReservationDto reservationDTO = new ReservationDto(   //TODO add to mapper class
-                        createdReservation.getReservationDate(),
-                        createdReservation.getPrice(),
-                        createdReservation.getSeatNumber(),
-                        createdReservation.getCancelled(),
-                        new UserDto(
-                                createdReservation.getUser().getFirstname(),
-                                createdReservation.getUser().getLastname(),
-                                createdReservation.getUser().getEmail(),
-                                createdReservation.getUser().getPhoneNumber(),
-                                createdReservation.getUser().getDayOfBirth()
-                        ),
-                        new FlightDto(
-                                createdReservation.getFlight().getDepartureCity(),
-                                createdReservation.getFlight().getArrivalCity(),
-                                createdReservation.getFlight().getDepartureDate(),
-                                createdReservation.getFlight().getArrivalDate(),
-                                createdReservation.getFlight().getAirline()
-                        )
-                );
+
+                ReservationDto reservationDTO = ReservationMapper.INSTANCE.createReservationDtoToReservationDto(createReservationDto);
                 LOGGER.debug("Mapped to ReservationDto");
                 return reservationDTO;
             } else {
@@ -119,26 +92,7 @@ public class ReservationService {
         return optionalReservation.map(
                 r -> {
                     LOGGER.info("Successfully retrieved reservation with id {}",id);
-                    return new ReservationDto(
-                            r.getReservationDate(),
-                            r.getPrice(),
-                            r.getSeatNumber(),
-                            r.getCancelled(),
-                            new UserDto(
-                                    r.getUser().getFirstname(),
-                                    r.getUser().getLastname(),
-                                    r.getUser().getEmail(),
-                                    r.getUser().getPhoneNumber(),
-                                    r.getUser().getDayOfBirth()
-                            ),
-                            new FlightDto(
-                                    r.getFlight().getDepartureCity(),
-                                    r.getFlight().getArrivalCity(),
-                                    r.getFlight().getDepartureDate(),
-                                    r.getFlight().getArrivalDate(),
-                                    r.getFlight().getAirline()
-                            )
-                    );
+                    return ReservationMapper.INSTANCE.reservationToReservationDto(r);
                 }
         ).orElseThrow(() -> {
             LOGGER.error("Reservation with id {} does not exist",id);

@@ -6,6 +6,7 @@ import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotMatchReservationUserException;
 import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.Reservation;
+import FlyAway.reservation.ReservationMapper;
 import FlyAway.reservation.ReservationRepository;
 import FlyAway.reservation.ReservationService;
 import FlyAway.reservation.dto.ReservationDto;
@@ -42,17 +43,8 @@ public class UserService {
     public List<UserDto> getAll(){
         LOGGER.debug("Retrieving all users from repository");
         List<UserDto> users = userRepository.findAll()
-                .stream().map(
-                        u -> new UserDto(
-                                u.getFirstname(),
-                                u.getLastname(),
-                                u.getEmail(),
-                                u.getPhoneNumber(),
-                                u.getDayOfBirth()
-                        )
-                ).collect(Collectors.toList());
-
-                ;
+                .stream().map(UserMapper.INSTANCE::userToUserDto)
+                .collect(Collectors.toList());
         LOGGER.info("Retrieved {} users from repository", users.size());
         return users;
     }
@@ -65,25 +57,13 @@ public class UserService {
             throw new EmailExistsException(userRegistrationDto.email());
         }
 
-        User createdUser = new User();
-        createdUser.setFirstname(userRegistrationDto.firstname());
-        createdUser.setLastname(userRegistrationDto.lastname());
-        createdUser.setEmail(userRegistrationDto.email());
-        createdUser.setPassword(userRegistrationDto.password());
-        createdUser.setPhoneNumber(userRegistrationDto.phoneNumber());
-        createdUser.setDayOfBirth(userRegistrationDto.dayOfBirth());
+        User mappedUser = UserMapper.INSTANCE.userRegistrationDtoToUser(userRegistrationDto);
         var role = roleRepository.findByName("ROLE_USER");
-        createdUser.setRoles(Set.of(role));
-        userRepository.save(createdUser);
-        LOGGER.info("Created new user with id {}", createdUser.getId());
+        mappedUser.setRoles(Set.of(role));
+        userRepository.save(mappedUser);
+        LOGGER.info("Created new user with id {}", mappedUser.getId());
 
-        UserDto createdUserDto = new UserDto(
-                createdUser.getFirstname(),
-                createdUser.getLastname(),
-                createdUser.getEmail(),
-                createdUser.getPhoneNumber(),
-                createdUser.getDayOfBirth()
-        );
+        UserDto createdUserDto = UserMapper.INSTANCE.userToUserDto(mappedUser);
         return createdUserDto;
     }
 
@@ -93,13 +73,7 @@ public class UserService {
         return optionalUser.map(
                 u -> {
                     LOGGER.info("Successfully retrieved user with id {}",id);
-                    return new UserDto(
-                            u.getFirstname(),
-                            u.getLastname(),
-                            u.getEmail(),
-                            u.getPhoneNumber(),
-                            u.getDayOfBirth()
-                    );
+                    return UserMapper.INSTANCE.userToUserDto(u);
                 }
         ).orElseThrow(() -> {
            LOGGER.error("User with id {} does not exist", id);
@@ -114,29 +88,7 @@ public class UserService {
         return optionalUser.map(
                 u -> {
                     LOGGER.info("Successfully retrieved user with reservations, user id {}", id);
-                    return new UserReservationDto(
-                            u.getFirstname(),
-                            u.getLastname(),
-                            u.getEmail(),
-                            u.getPhoneNumber(),
-                            u.getDayOfBirth(),
-                            u.getReservations()
-                                    .stream().map(
-                                            r -> new ReservationWithoutUserDto(
-                                                    r.getReservationDate(),
-                                                    r.getPrice(),
-                                                    r.getSeatNumber(),
-                                                    r.getCancelled(),
-                                                    new FlightDto(
-                                                            r.getFlight().getDepartureCity(),
-                                                            r.getFlight().getArrivalCity(),
-                                                            r.getFlight().getDepartureDate(),
-                                                            r.getFlight().getArrivalDate(),
-                                                            r.getFlight().getAirline()
-                                                    )
-                                            )
-                                    ).collect(Collectors.toList())
-                    );
+                    return UserMapper.INSTANCE.userToUserReservationDto(u);
                 }
         ).orElseThrow(() -> {
             LOGGER.error("User with id {} does not exist", id);
@@ -157,26 +109,7 @@ public class UserService {
                     throw new UserDoesNotMatchReservationUserException();
                 } else {
                     Reservation r = optionalReservation.get();
-                    return new ReservationDto(
-                            r.getReservationDate(),
-                            r.getPrice(),
-                            r.getSeatNumber(),
-                            r.getCancelled(),
-                            new UserDto(
-                                    r.getUser().getFirstname(),
-                                    r.getUser().getLastname(),
-                                    r.getUser().getEmail(),
-                                    r.getUser().getPhoneNumber(),
-                                    r.getUser().getDayOfBirth()
-                            ),
-                            new FlightDto(
-                                    r.getFlight().getDepartureCity(),
-                                    r.getFlight().getArrivalCity(),
-                                    r.getFlight().getDepartureDate(),
-                                    r.getFlight().getArrivalDate(),
-                                    r.getFlight().getAirline()
-                            )
-                    );
+                    return ReservationMapper.INSTANCE.reservationToReservationDto(r);
                 }
             } else {
                 LOGGER.error("Reservation with id {} does not exist",reservationId);
