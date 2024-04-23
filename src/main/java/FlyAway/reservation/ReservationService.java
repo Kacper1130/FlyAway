@@ -5,14 +5,11 @@ import FlyAway.exceptions.ReservationDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
-import FlyAway.flight.FlightService;
-import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.user.User;
 import FlyAway.user.UserRepository;
-import FlyAway.user.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -72,7 +69,7 @@ public class ReservationService {
                 reservationRepository.save(createdReservation);
                 LOGGER.info("Created reservation with id {}", createdReservation.getId());
 
-                ReservationDto reservationDTO = ReservationMapper.INSTANCE.createReservationDtoToReservationDto(createReservationDto);
+                ReservationDto reservationDTO = ReservationMapper.INSTANCE.reservationToReservationDto(createdReservation);
                 LOGGER.debug("Mapped to ReservationDto");
                 return reservationDTO;
             } else {
