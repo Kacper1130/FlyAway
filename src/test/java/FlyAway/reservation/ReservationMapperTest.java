@@ -19,7 +19,7 @@ class ReservationMapperTest {
     ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
 
     @Test
-    void shouldMapReservationToDisplayReservationDto() {
+    void testMapReservationToDisplayReservationDto() {
         Reservation reservation = new Reservation(
                 UUID.randomUUID(),
                 LocalDateTime.of(2024,4,23,17,48),
@@ -42,7 +42,7 @@ class ReservationMapperTest {
     }
 
     @Test
-    void shouldMapReservationToReservationDto() {
+    void testMapReservationToReservationDto() {
         Reservation reservation = new Reservation(
                 UUID.randomUUID(),
                 LocalDateTime.of(2024, 4, 23, 17, 48),
@@ -65,7 +65,7 @@ class ReservationMapperTest {
         assertEquals(reservation.getFlight().getDepartureCity(), reservationDto.flightDto().departureCity());
     }
     @Test
-    void shouldMapReservationToReservationWithoutUserDto() {
+    void testMapReservationToReservationWithoutUserDto() {
         Reservation reservation = new Reservation(
                 UUID.randomUUID(),
                 LocalDateTime.of(2024,4,23,17,48),

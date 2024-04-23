@@ -21,7 +21,7 @@ class UserMapperTest {
     private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
     @Test
-    void shouldMapUserToUserDto() {
+    void testMapUserToUserDto() {
         User user = new User(
                 1L,
                 "Steve",
@@ -44,7 +44,7 @@ class UserMapperTest {
     }
 
     @Test
-    void shouldMapUserRegistrationDtoToUser() {
+    void testMapUserRegistrationDtoToUser() {
         UserRegistrationDto userRegistrationDto = new UserRegistrationDto(
                 "John",
                 "Smith",
@@ -68,7 +68,7 @@ class UserMapperTest {
     }
 
     @Test
-    void shouldMapUserToUserReservationDto() {
+    void testMapUserToUserReservationDto() {
 
         Reservation reservation1 = new Reservation(
                 UUID.randomUUID(),

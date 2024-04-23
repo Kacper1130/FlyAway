@@ -18,7 +18,7 @@ class FlightMapperTest {
     private FlightMapper flightMapper = Mappers.getMapper(FlightMapper.class);
 
     @Test
-    void shouldMapFlightDtoToFlight() {
+    void testMapFlightDtoToFlight() {
 
         FlightDto flightDto = new FlightDto(
                 "Cracow",
@@ -38,7 +38,7 @@ class FlightMapperTest {
     }
 
     @Test
-    void shouldMapFlightToFlightDto() {
+    void testMapFlightToFlightDto() {
 
         Flight flight = new Flight(
                 UUID.randomUUID(),
