@@ -4,20 +4,16 @@ import FlyAway.exceptions.EmailExistsException;
 import FlyAway.exceptions.ReservationDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotMatchReservationUserException;
-import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.Reservation;
 import FlyAway.reservation.ReservationMapper;
 import FlyAway.reservation.ReservationRepository;
-import FlyAway.reservation.ReservationService;
 import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.reservation.dto.ReservationWithoutUserDto;
 import FlyAway.security.RoleRepository;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import FlyAway.user.dto.UserReservationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +36,7 @@ public class UserService {
         this.reservationRepository = reservationRepository;
     }
 
-    public List<UserDto> getAll(){
+    public List<UserDto> getAll() {
         LOGGER.debug("Retrieving all users from repository");
         List<UserDto> users = userRepository.findAll()
                 .stream().map(UserMapper.INSTANCE::userToUserDto)
@@ -49,7 +45,7 @@ public class UserService {
         return users;
     }
 
-    public UserDto addUser(UserRegistrationDto userRegistrationDto){
+    public UserDto addUser(UserRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new user");
 
         if (userRepository.findUserByEmail(userRegistrationDto.email()) != null) {
@@ -68,20 +64,20 @@ public class UserService {
     }
 
     public UserDto getUser(Long id) {
-        LOGGER.debug("Retrieving user with id {}",id);
+        LOGGER.debug("Retrieving user with id {}", id);
         Optional<User> optionalUser = userRepository.findById(id);
         return optionalUser.map(
                 u -> {
-                    LOGGER.info("Successfully retrieved user with id {}",id);
+                    LOGGER.info("Successfully retrieved user with id {}", id);
                     return UserMapper.INSTANCE.userToUserDto(u);
                 }
         ).orElseThrow(() -> {
-           LOGGER.error("User with id {} does not exist", id);
-           throw new UserDoesNotExistException(id);
+            LOGGER.error("User with id {} does not exist", id);
+            throw new UserDoesNotExistException(id);
         });
     }
 
-    public UserReservationDto getUserWithReservations(Long id) {        //TODO refactor this function
+    public UserReservationDto getUserWithReservations(Long id) {
         LOGGER.debug("Retrieving user with reservations, user id {} ", id);
         Optional<User> optionalUser = userRepository.findById(id);
 
@@ -97,13 +93,13 @@ public class UserService {
     }
 
     public ReservationDto getUserReservation(Long userId, UUID reservationId) {
-        LOGGER.debug("Retrieving user reservation, user id {}, reservation id {}",userId, reservationId);
+        LOGGER.debug("Retrieving user reservation, user id {}, reservation id {}", userId, reservationId);
         Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()){
-            LOGGER.info("Successfully retrieved user with id {}",userId);
+        if (optionalUser.isPresent()) {
+            LOGGER.info("Successfully retrieved user with id {}", userId);
             Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
             if (optionalReservation.isPresent()) {
-                LOGGER.info("Successfully retrieved reservation with id {}",reservationId);
+                LOGGER.info("Successfully retrieved reservation with id {}", reservationId);
                 if (!optionalUser.get().equals(optionalReservation.get().getUser())) {
                     LOGGER.warn("User does not match with reservation user");
                     throw new UserDoesNotMatchReservationUserException();
@@ -112,7 +108,7 @@ public class UserService {
                     return ReservationMapper.INSTANCE.reservationToReservationDto(r);
                 }
             } else {
-                LOGGER.error("Reservation with id {} does not exist",reservationId);
+                LOGGER.error("Reservation with id {} does not exist", reservationId);
                 throw new ReservationDoesNotExistException(reservationId);
             }
         } else {
@@ -124,11 +120,11 @@ public class UserService {
     public void cancelReservation(Long userId, UUID reservationId) {
         LOGGER.info("Cancelling user reservation, user id {}, reservation id {}", userId, reservationId);
         Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()){
-            LOGGER.info("Successfully retrieved user with id {}",userId);
+        if (optionalUser.isPresent()) {
+            LOGGER.info("Successfully retrieved user with id {}", userId);
             Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
             if (optionalReservation.isPresent()) {
-                LOGGER.info("Successfully retrieved reservation with id {}",reservationId);
+                LOGGER.info("Successfully retrieved reservation with id {}", reservationId);
                 if (!optionalUser.get().equals(optionalReservation.get().getUser())) {
                     LOGGER.warn("User does not match with reservation user");
                     throw new UserDoesNotMatchReservationUserException();
@@ -136,10 +132,10 @@ public class UserService {
                     Reservation reservation = optionalReservation.get();
                     reservation.setCancelled(true);
                     reservationRepository.save(reservation);
-                    LOGGER.info("Successfully cancelled reservation with id {}",reservation.getId());
+                    LOGGER.info("Successfully cancelled reservation with id {}", reservation.getId());
                 }
             } else {
-                LOGGER.error("Reservation with id {} does not exist",reservationId);
+                LOGGER.error("Reservation with id {} does not exist", reservationId);
                 throw new ReservationDoesNotExistException(reservationId);
             }
         } else {
