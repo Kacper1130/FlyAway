@@ -30,11 +30,11 @@ class FlightMapperTest {
 
         Flight flight = flightMapper.flightDtoToFlight(flightDto);
 
-        Assertions.assertEquals(flightDto.departureCity(), flight.getDepartureCity());
-        Assertions.assertEquals(flightDto.arrivalCity(), flight.getArrivalCity());
-        Assertions.assertEquals(flightDto.departureDate(), flight.getDepartureDate());
-        Assertions.assertEquals(flightDto.arrivalDate(), flight.getArrivalDate());
-        Assertions.assertEquals(flightDto.airline(), flight.getAirline());
+        assertEquals(flightDto.departureCity(), flight.getDepartureCity());
+        assertEquals(flightDto.arrivalCity(), flight.getArrivalCity());
+        assertEquals(flightDto.departureDate(), flight.getDepartureDate());
+        assertEquals(flightDto.arrivalDate(), flight.getArrivalDate());
+        assertEquals(flightDto.airline(), flight.getAirline());
     }
 
     @Test
@@ -52,11 +52,11 @@ class FlightMapperTest {
 
         FlightDto flightDto = flightMapper.flightToFlightDto(flight);
 
-        Assertions.assertEquals(flight.getDepartureCity(), flightDto.departureCity());
-        Assertions.assertEquals(flight.getArrivalCity(), flightDto.arrivalCity());
-        Assertions.assertEquals(flight.getDepartureDate(), flightDto.departureDate());
-        Assertions.assertEquals(flight.getArrivalDate(), flightDto.arrivalDate());
-        Assertions.assertEquals(flight.getAirline(), flightDto.airline());
+        assertEquals(flight.getDepartureCity(), flightDto.departureCity());
+        assertEquals(flight.getArrivalCity(), flightDto.arrivalCity());
+        assertEquals(flight.getDepartureDate(), flightDto.departureDate());
+        assertEquals(flight.getArrivalDate(), flightDto.arrivalDate());
+        assertEquals(flight.getAirline(), flightDto.airline());
     }
 
 }
