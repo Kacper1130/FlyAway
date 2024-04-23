@@ -31,8 +31,9 @@ public class FlightService {
     public FlightDto addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
         Flight createdFlight = FlightMapper.INSTANCE.flightDtoToFlight(createFlightDto);
-        flightRepository.save(createdFlight);
+        Flight flight = flightRepository.save(createdFlight);
         LOGGER.info("Created flight with id {}", createdFlight.getId());
-        return createFlightDto;
+        FlightDto createdFlightDto = FlightMapper.INSTANCE.flightToFlightDto(flight);
+        return createdFlightDto;
     }
 }
