@@ -12,6 +12,7 @@ import FlyAway.security.RoleRepository;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import FlyAway.user.dto.UserReservationDto;
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ReservationRepository reservationRepository;
+    private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository, ReservationRepository reservationRepository) {
@@ -39,7 +42,7 @@ public class UserService {
     public List<UserDto> getAll() {
         LOGGER.debug("Retrieving all users from repository");
         List<UserDto> users = userRepository.findAll()
-                .stream().map(UserMapper.INSTANCE::userToUserDto)
+                .stream().map(userMapper::userToUserDto)
                 .collect(Collectors.toList());
         LOGGER.info("Retrieved {} users from repository", users.size());
         return users;
@@ -53,13 +56,13 @@ public class UserService {
             throw new EmailExistsException(userRegistrationDto.email());
         }
 
-        User mappedUser = UserMapper.INSTANCE.userRegistrationDtoToUser(userRegistrationDto);
+        User mappedUser = userMapper.userRegistrationDtoToUser(userRegistrationDto);
         var role = roleRepository.findByName("ROLE_USER");
         mappedUser.setRoles(Set.of(role));
         userRepository.save(mappedUser);
         LOGGER.info("Created new user with id {}", mappedUser.getId());
 
-        UserDto createdUserDto = UserMapper.INSTANCE.userToUserDto(mappedUser);
+        UserDto createdUserDto = userMapper.userToUserDto(mappedUser);
         return createdUserDto;
     }
 
@@ -69,7 +72,7 @@ public class UserService {
         return optionalUser.map(
                 u -> {
                     LOGGER.info("Successfully retrieved user with id {}", id);
-                    return UserMapper.INSTANCE.userToUserDto(u);
+                    return userMapper.userToUserDto(u);
                 }
         ).orElseThrow(() -> {
             LOGGER.error("User with id {} does not exist", id);
@@ -84,7 +87,7 @@ public class UserService {
         return optionalUser.map(
                 u -> {
                     LOGGER.info("Successfully retrieved user with reservations, user id {}", id);
-                    return UserMapper.INSTANCE.userToUserReservationDto(u);
+                    return userMapper.userToUserReservationDto(u);
                 }
         ).orElseThrow(() -> {
             LOGGER.error("User with id {} does not exist", id);
@@ -105,7 +108,7 @@ public class UserService {
                     throw new UserDoesNotMatchReservationUserException();
                 } else {
                     Reservation r = optionalReservation.get();
-                    return ReservationMapper.INSTANCE.reservationToReservationDto(r);
+                    return reservationMapper.reservationToReservationDto(r);
                 }
             } else {
                 LOGGER.error("Reservation with id {} does not exist", reservationId);

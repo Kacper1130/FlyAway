@@ -10,6 +10,7 @@ import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.user.User;
 import FlyAway.user.UserRepository;
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final UserRepository userRepository;
     private final FlightRepository flightRepository;
+    private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationService.class);
 
     public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, FlightRepository flightRepository) {
@@ -37,7 +39,7 @@ public class ReservationService {
     public List<DisplayReservationDto> getAll() {
         LOGGER.debug("Retrieving all reservations from repository");
         List<DisplayReservationDto> reservations = reservationRepository.findAll()
-                .stream().map(ReservationMapper.INSTANCE::reservationToDisplayReservationDto)
+                .stream().map(reservationMapper::reservationToDisplayReservationDto)
                 .collect(Collectors.toList());
         LOGGER.info("Retrieved {} reservations", reservations.size());
         return reservations;
@@ -69,7 +71,7 @@ public class ReservationService {
                 reservationRepository.save(createdReservation);
                 LOGGER.info("Created reservation with id {}", createdReservation.getId());
 
-                ReservationDto reservationDTO = ReservationMapper.INSTANCE.reservationToReservationDto(createdReservation);
+                ReservationDto reservationDTO = reservationMapper.reservationToReservationDto(createdReservation);
                 LOGGER.debug("Mapped to ReservationDto");
                 return reservationDTO;
             } else {
@@ -89,7 +91,7 @@ public class ReservationService {
         return optionalReservation.map(
                 r -> {
                     LOGGER.info("Successfully retrieved reservation with id {}",id);
-                    return ReservationMapper.INSTANCE.reservationToReservationDto(r);
+                    return reservationMapper.reservationToReservationDto(r);
                 }
         ).orElseThrow(() -> {
             LOGGER.error("Reservation with id {} does not exist",id);

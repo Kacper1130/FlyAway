@@ -1,6 +1,7 @@
 package FlyAway.flight;
 
 import FlyAway.flight.dto.FlightDto;
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ public class FlightService {
 
     private final FlightRepository flightRepository;
 
+    private FlightMapper flightMapper = Mappers.getMapper(FlightMapper.class);
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FlightService.class);
 
     public FlightService(FlightRepository flightRepository) {
@@ -22,7 +25,7 @@ public class FlightService {
     public List<FlightDto> getAll() {
         LOGGER.debug("Retrieving all flights from repository");
         List<FlightDto> flights = flightRepository.findAll()
-                .stream().map(FlightMapper.INSTANCE::flightToFlightDto)
+                .stream().map(flightMapper::flightToFlightDto)
                 .collect(Collectors.toList());
         LOGGER.info("Retrieved {} flights from repository", flights.size());
         return flights;
@@ -30,10 +33,10 @@ public class FlightService {
 
     public FlightDto addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
-        Flight createdFlight = FlightMapper.INSTANCE.flightDtoToFlight(createFlightDto);
-        Flight flight = flightRepository.save(createdFlight);
+        Flight createdFlight = flightMapper.flightDtoToFlight(createFlightDto);
+        createdFlight = flightRepository.save(createdFlight);
         LOGGER.info("Created flight with id {}", createdFlight.getId());
-        FlightDto createdFlightDto = FlightMapper.INSTANCE.flightToFlightDto(flight);
+        FlightDto createdFlightDto = flightMapper.flightToFlightDto(createdFlight);
         return createdFlightDto;
     }
 }
