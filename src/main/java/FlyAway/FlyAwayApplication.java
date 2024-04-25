@@ -11,8 +11,8 @@ public class FlyAwayApplication {
 	}
 
 	//TODO
-	// dodanie mapperow
-	// thymleaf?
+	// dokonczenie testow
+	// dodanie validacji do kontrollerow
 	// historia rezerwacji, anulowane i wykorzystane
 	// uwagi uzytkownikow
 
