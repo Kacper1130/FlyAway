@@ -204,18 +204,6 @@ class UserServiceTest {
 
         Long userId = 1L;
 
-        User mockUser = new User(
-                1L,
-                "Thomas",
-                "Anderson",
-                "existingEmail@gmail.com",
-                "password",
-                "123123123",
-                LocalDate.of(2000, Month.OCTOBER, 11),
-                new ArrayList<Reservation>(),
-                new HashSet<Role>()
-        );
-
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> userService.getUserWithReservations(userId));
