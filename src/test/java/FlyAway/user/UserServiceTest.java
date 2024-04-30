@@ -5,6 +5,7 @@ import FlyAway.exceptions.ReservationDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.exceptions.UserDoesNotMatchReservationUserException;
 import FlyAway.flight.Flight;
+import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.Reservation;
 import FlyAway.reservation.ReservationRepository;
 import FlyAway.reservation.dto.ReservationDto;
@@ -47,7 +48,7 @@ class UserServiceTest {
     }
 
     @Test
-    void testGetAllWhenUserExist() {
+    void testGetAllWhenUsersExist() {
         User user1 = new User(
                 1L,
                 "John",
@@ -83,6 +84,16 @@ class UserServiceTest {
         assertEquals(mockUsers.size(), users.size());
         assertEquals(mockUsers.get(0).getFirstname(), users.get(0).firstname());
         assertEquals(mockUsers.get(1).getEmail(), users.get(1).email());
+        verify(userRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetAllWhenNoneExist() {
+        when(userRepository.findAll()).thenReturn(new ArrayList<>());
+
+        List<UserDto> users = userService.getAll();
+
+        assertEquals(0, users.size());
         verify(userRepository, times(1)).findAll();
     }
 
