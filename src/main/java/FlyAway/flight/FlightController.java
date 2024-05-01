@@ -1,6 +1,7 @@
 package FlyAway.flight;
 
 import FlyAway.flight.dto.FlightDto;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,7 @@ public class FlightController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody FlightDto createFlightDto) {
+    public ResponseEntity<?> add(@Valid @RequestBody FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight " + createFlightDto);
         FlightDto flight = flightService.addFlight(createFlightDto);
         LOGGER.info("Created new flight " + flight);

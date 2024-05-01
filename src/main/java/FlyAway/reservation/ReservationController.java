@@ -6,6 +6,7 @@ import FlyAway.exceptions.UserDoesNotExistException;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class ReservationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addReservation(@RequestBody CreateReservationDto createReservationDto) {
+    public ResponseEntity<?> addReservation(@Valid @RequestBody CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation " + createReservationDto);
         try {
             ReservationDto reservationDto = reservationService.addReservation(createReservationDto);

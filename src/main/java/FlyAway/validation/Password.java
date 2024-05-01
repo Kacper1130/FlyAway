@@ -11,12 +11,12 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
-@Constraint(validatedBy = PhoneNumberValidator.class)
+@Constraint(validatedBy = PasswordConstraintValidator.class)
 @Target(FIELD)
 @Retention(RUNTIME)
-public @interface PhoneNumber {
+public @interface Password {
 
-    String message() default "Phone Number must be valid";
+    String message() default "Password must be valid";
 
     Class<?>[] groups() default {};
 

@@ -9,6 +9,7 @@ import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import FlyAway.user.dto.UserReservationDto;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@RequestBody UserRegistrationDto userRegistrationDto) {
+    public ResponseEntity<?> add(@Valid @RequestBody UserRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new user " + userRegistrationDto);
         try{
             UserDto userDto = userService.addUser(userRegistrationDto);
