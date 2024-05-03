@@ -33,10 +33,8 @@ public class FlightService {
 
     public FlightDto addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
-        Flight createdFlight = flightMapper.flightDtoToFlight(createFlightDto);
-        createdFlight = flightRepository.save(createdFlight);
+        Flight createdFlight = flightRepository.save(flightMapper.flightDtoToFlight(createFlightDto));
         LOGGER.info("Created flight with id {}", createdFlight.getId());
-        FlightDto createdFlightDto = flightMapper.flightToFlightDto(createdFlight);
-        return createdFlightDto;
+        return flightMapper.flightToFlightDto(createdFlight);
     }
 }

@@ -11,8 +11,8 @@ public class FlyAwayApplication {
 	}
 
 	//TODO
+	// global exception handler
 	// dokonczenie testow
-	// dodanie validacji do kontrollerow
 	// historia rezerwacji, anulowane i wykorzystane
 	// uwagi uzytkownikow
 
