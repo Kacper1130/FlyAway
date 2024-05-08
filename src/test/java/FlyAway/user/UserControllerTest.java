@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,7 +29,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -156,14 +156,16 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(userRegistrationDto))
                         .characterEncoding("utf-8")
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()));
+
 
     }
 
     @Test
     void testGetUser() throws Exception {
 
-        UserDto userDto  = new UserDto(
+        UserDto userDto = new UserDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",
@@ -192,7 +194,8 @@ class UserControllerTest {
         when(userService.getUser(2L)).thenThrow(new UserDoesNotExistException());
 
         mockMvc.perform(get("/api/v1/users/2"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(UserDoesNotExistException.class, result.getResolvedException()));
 
     }
 
@@ -200,30 +203,30 @@ class UserControllerTest {
     void testGetUserWithReservations() throws Exception {
 
         ReservationWithoutUserDto reservationWithoutUserDto1 = new ReservationWithoutUserDto(
-                LocalDateTime.of(2024,5,7,16,30),
+                LocalDateTime.of(2024, 5, 7, 16, 30),
                 200L,
                 15L,
                 false,
                 new FlightDto(
                         "Cracow",
                         "Warsaw",
-                        LocalDateTime.of(2024,5,8,20,30),
-                        LocalDateTime.of(2024,5,8,21,30),
+                        LocalDateTime.of(2024, 5, 8, 20, 30),
+                        LocalDateTime.of(2024, 5, 8, 21, 30),
                         "Ryanair"
-                        )
+                )
 
         );
 
         ReservationWithoutUserDto reservationWithoutUserDto2 = new ReservationWithoutUserDto(
-                LocalDateTime.of(2024,5,7,16,40),
+                LocalDateTime.of(2024, 5, 7, 16, 40),
                 400L,
                 15L,
                 false,
                 new FlightDto(
                         "Cracow",
                         "Paris",
-                        LocalDateTime.of(2024,5,15,11,30),
-                        LocalDateTime.of(2024,5,15,14, 0),
+                        LocalDateTime.of(2024, 5, 15, 11, 30),
+                        LocalDateTime.of(2024, 5, 15, 14, 0),
                         "Ryanair"
                 )
 
@@ -252,16 +255,17 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(userReservationDto.email()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.reservations[1].seatNumber").value(15L));
 
-        verify(userService,times(1)).getUserWithReservations(1L);
+        verify(userService, times(1)).getUserWithReservations(1L);
     }
 
     @Test
     void testGetUserWithReservationsWhenUserIdDoesNotExist() throws Exception {
 
-        when(userService.getUserWithReservations(1L)).thenThrow(new UserDoesNotExistException());
+        when(userService.getUserWithReservations(2L)).thenThrow(new UserDoesNotExistException());
 
-        mockMvc.perform(get("/users/1/reservations"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        mockMvc.perform(get("/api/v1/users/2/reservations"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(UserDoesNotExistException.class, result.getResolvedException()));
 
     }
 
@@ -270,7 +274,7 @@ class UserControllerTest {
 
         UUID reservationId = UUID.randomUUID();
 
-        UserDto userDto  = new UserDto(
+        UserDto userDto = new UserDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",
@@ -287,7 +291,7 @@ class UserControllerTest {
         );
 
         ReservationDto reservationDto = new ReservationDto(
-                LocalDateTime.of(2024,5,7,16,30),
+                LocalDateTime.of(2024, 5, 7, 16, 30),
                 200L,
                 15L,
                 false,
@@ -320,7 +324,9 @@ class UserControllerTest {
         when(userService.getUserReservation(1L, reservationId)).thenThrow(new UserDoesNotExistException());
 
         mockMvc.perform(get("/api/v1/users/1/reservations/" + reservationId))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(UserDoesNotExistException.class, result.getResolvedException()));
+
 
     }
 
@@ -332,7 +338,9 @@ class UserControllerTest {
         when(userService.getUserReservation(1L, reservationId)).thenThrow(new ReservationDoesNotExistException());
 
         mockMvc.perform(get("/api/v1/users/1/reservations/" + reservationId))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(ReservationDoesNotExistException.class, result.getResolvedException()));
+
 
     }
 
@@ -344,8 +352,8 @@ class UserControllerTest {
         when(userService.getUserReservation(1L, reservationId)).thenThrow(new UserDoesNotMatchReservationUserException("User does not have access to this reservation"));
 
         mockMvc.perform(get("/api/v1/users/1/reservations/" + reservationId))
-                .andExpect(MockMvcResultMatchers.status().isForbidden());
-                //todo .andExpect(result -> assertInstanceOf(UserDoesNotMatchReservationUserException.class, result.getResolvedException()));
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(result -> assertInstanceOf(UserDoesNotMatchReservationUserException.class, result.getResolvedException()));
 
     }
 
@@ -372,7 +380,9 @@ class UserControllerTest {
                 .when(userService).cancelReservation(1L, reservationId);
 
         mockMvc.perform(delete("/api/v1/users/1/reservations/" + reservationId + "/cancel"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(UserDoesNotExistException.class, result.getResolvedException()));
+
 
     }
 
@@ -381,13 +391,12 @@ class UserControllerTest {
 
         UUID reservationId = UUID.randomUUID();
 
-
-
         doThrow(new ReservationDoesNotExistException())
                 .when(userService).cancelReservation(1L, reservationId);
 
         mockMvc.perform(delete("/api/v1/users/1/reservations/" + reservationId + "/cancel"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(ReservationDoesNotExistException.class, result.getResolvedException()));
 
     }
 
@@ -400,9 +409,9 @@ class UserControllerTest {
                 .when(userService).cancelReservation(1L, reservationId);
 
         mockMvc.perform(delete("/api/v1/users/1/reservations/" + reservationId + "/cancel"))
-                .andExpect(MockMvcResultMatchers.status().isForbidden());
+                .andExpect(MockMvcResultMatchers.status().isForbidden())
+                .andExpect(result -> assertInstanceOf(UserDoesNotMatchReservationUserException.class, result.getResolvedException()));
 
     }
-
 
 }

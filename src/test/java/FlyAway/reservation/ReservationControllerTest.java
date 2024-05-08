@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -93,7 +95,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    void testAddReservationSuccessful() throws Exception {
+    void testAddReservation() throws Exception {
         // Przykładowe dane wejściowe
         CreateReservationDto createReservationDto = new CreateReservationDto(
                 200L,
@@ -149,7 +151,7 @@ class ReservationControllerTest {
     }
 
     @Test
-    void testAddReservationUserNotFound() throws Exception {
+    void testAddReservationWhenUserDoesNotExist() throws Exception {
 
         CreateReservationDto createReservationDto = new CreateReservationDto(
                 200L,
@@ -163,11 +165,13 @@ class ReservationControllerTest {
         mockMvc.perform(post("/api/v1/reservations/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createReservationDto)))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(UserDoesNotExistException.class, result.getResolvedException()));
+
     }
 
     @Test
-    void testAddReservationFlightNotFound() throws Exception {
+    void testAddReservationWhenFlightDoesNotExist() throws Exception {
 
         CreateReservationDto createReservationDto = new CreateReservationDto(
                 200L,
@@ -182,11 +186,13 @@ class ReservationControllerTest {
         mockMvc.perform(post("/api/v1/reservations/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createReservationDto)))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(FlightDoesNotExistException.class, result.getResolvedException()));
+
     }
 
     @Test
-    void testAddReservationInvalidInput() throws Exception {
+    void testAddReservationWhenInvalidInput() throws Exception {
 
         CreateReservationDto createReservationDto = new CreateReservationDto(
                 200L,
@@ -198,11 +204,13 @@ class ReservationControllerTest {
         mockMvc.perform(post("/api/v1/reservations/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createReservationDto)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(result -> assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()));
+
     }
 
     @Test
-    public void testCancelReservationSuccess() throws Exception {
+    public void testCancelReservation() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
@@ -211,18 +219,20 @@ class ReservationControllerTest {
         mockMvc.perform(delete("/api/v1/reservations/" + reservationId + "/cancel"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").value("Cancelled reservation"));
+
     }
 
     @Test
-    public void testCancelReservationNotFound() throws Exception {
+    public void testCancelReservationWhenReservationDoesNotExist() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
         doThrow(new ReservationDoesNotExistException())
                 .when(reservationService).cancelReservation(reservationId);
 
-        mockMvc.perform(delete("/" + reservationId + "/cancel"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
+        mockMvc.perform(delete("/api/v1/reservations/" + reservationId + "/cancel"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(ReservationDoesNotExistException.class, result.getResolvedException()));
 
     }
 
