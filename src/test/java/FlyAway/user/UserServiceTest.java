@@ -1,11 +1,10 @@
 package FlyAway.user;
 
-import FlyAway.exceptions.EmailExistsException;
-import FlyAway.exceptions.ReservationDoesNotExistException;
-import FlyAway.exceptions.UserDoesNotExistException;
-import FlyAway.exceptions.UserDoesNotMatchReservationUserException;
+import FlyAway.exception.EmailExistsException;
+import FlyAway.exception.ReservationDoesNotExistException;
+import FlyAway.exception.UserDoesNotExistException;
+import FlyAway.exception.UserDoesNotMatchReservationUserException;
 import FlyAway.flight.Flight;
-import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.Reservation;
 import FlyAway.reservation.ReservationRepository;
 import FlyAway.reservation.dto.ReservationDto;

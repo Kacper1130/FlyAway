@@ -1,4 +1,4 @@
-package FlyAway.exceptions;
+package FlyAway.exception;
 
 public class FlightDoesNotExistException extends RuntimeException{
     public FlightDoesNotExistException() {

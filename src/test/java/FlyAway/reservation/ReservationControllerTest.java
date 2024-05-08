@@ -1,8 +1,8 @@
 package FlyAway.reservation;
 
-import FlyAway.exceptions.FlightDoesNotExistException;
-import FlyAway.exceptions.ReservationDoesNotExistException;
-import FlyAway.exceptions.UserDoesNotExistException;
+import FlyAway.exception.FlightDoesNotExistException;
+import FlyAway.exception.ReservationDoesNotExistException;
+import FlyAway.exception.UserDoesNotExistException;
 import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;

@@ -1,8 +1,8 @@
 package FlyAway.user;
 
-import FlyAway.exceptions.ReservationDoesNotExistException;
-import FlyAway.exceptions.UserDoesNotExistException;
-import FlyAway.exceptions.UserDoesNotMatchReservationUserException;
+import FlyAway.exception.ReservationDoesNotExistException;
+import FlyAway.exception.UserDoesNotExistException;
+import FlyAway.exception.UserDoesNotMatchReservationUserException;
 import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.reservation.dto.ReservationWithoutUserDto;
@@ -11,7 +11,6 @@ import FlyAway.user.dto.UserRegistrationDto;
 import FlyAway.user.dto.UserReservationDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

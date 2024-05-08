@@ -1,4 +1,4 @@
-package FlyAway.exceptions;
+package FlyAway.exception;
 
 import java.util.UUID;
 

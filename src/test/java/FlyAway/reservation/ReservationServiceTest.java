@@ -1,23 +1,19 @@
 package FlyAway.reservation;
 
-import FlyAway.exceptions.FlightDoesNotExistException;
-import FlyAway.exceptions.ReservationDoesNotExistException;
-import FlyAway.exceptions.UserDoesNotExistException;
+import FlyAway.exception.FlightDoesNotExistException;
+import FlyAway.exception.ReservationDoesNotExistException;
+import FlyAway.exception.UserDoesNotExistException;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
-import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.user.User;
 import FlyAway.user.UserRepository;
-import FlyAway.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.Mapping;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.*;
