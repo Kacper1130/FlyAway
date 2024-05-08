@@ -214,8 +214,6 @@ class ReservationControllerTest {
 
         UUID reservationId = UUID.randomUUID();
 
-        doNothing().when(reservationService).cancelReservation(reservationId);
-
         mockMvc.perform(delete("/api/v1/reservations/" + reservationId + "/cancel"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").value("Cancelled reservation"));

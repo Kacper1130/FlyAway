@@ -270,7 +270,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testGetUserReservation() throws Exception {
+    void testGetUserReservation() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
@@ -317,7 +317,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testGetUserReservationWhenUserDoesNotExist() throws Exception {
+    void testGetUserReservationWhenUserDoesNotExist() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
@@ -331,7 +331,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testGetUserReservationWhenReservationDoesNotExist() throws Exception {
+    void testGetUserReservationWhenReservationDoesNotExist() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
@@ -345,7 +345,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testGetUserReservationWhenUserDoesNotMatchReservationUser() throws Exception {
+    void testGetUserReservationWhenUserDoesNotMatchReservationUser() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
@@ -358,11 +358,9 @@ class UserControllerTest {
     }
 
     @Test
-    public void testCancelReservation() throws Exception {
+    void testCancelReservation() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
-
-        doNothing().when(userService).cancelReservation(1L, reservationId);
 
         mockMvc.perform(delete("/api/v1/users/1/reservations/" + reservationId + "/cancel"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -372,7 +370,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testCancelReservationWhenUserDoesNotExist() throws Exception {
+    void testCancelReservationWhenUserDoesNotExist() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
@@ -387,7 +385,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testCancelReservationWhenReservationDoesNotExist() throws Exception {
+    void testCancelReservationWhenReservationDoesNotExist() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
@@ -401,7 +399,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testCancelReservationWhenUserDoesNotMatchReservationUser() throws Exception {
+    void testCancelReservationWhenUserDoesNotMatchReservationUser() throws Exception {
 
         UUID reservationId = UUID.randomUUID();
 
