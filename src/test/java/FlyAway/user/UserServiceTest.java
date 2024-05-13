@@ -445,4 +445,96 @@ class UserServiceTest {
         verify(reservationRepository,times(1)).findById(reservationId);
     }
 
+    @Test
+    void testDeleteUserWhenUserDoesNotHaveReservations() {
+
+        Long userId = 1L;
+
+        User mockUser = new User(
+                1L,
+                "Thomas",
+                "Anderson",
+                "existingEmail@gmail.com",
+                "password",
+                "123123123",
+                LocalDate.of(2000, Month.OCTOBER, 11),
+                new ArrayList<Reservation>(),
+                new HashSet<Role>()
+        );
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+
+        userService.deleteUser(userId);
+
+        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).deleteById(userId);
+
+    }
+
+    @Test
+    void testDeleteUserWhenUserHaveReservations() {
+
+        Long userId = 1L;
+        UUID reservationId1 = UUID.randomUUID();
+        UUID reservationId2 = UUID.randomUUID();
+
+        User mockUser = new User(
+                1L,
+                "Thomas",
+                "Anderson",
+                "existingEmail@gmail.com",
+                "password",
+                "123123123",
+                LocalDate.of(2000, Month.OCTOBER, 11),
+                new ArrayList<Reservation>(),
+                new HashSet<Role>()
+        );
+
+        Reservation mockReservation1 = new Reservation(
+                reservationId1,
+                LocalDateTime.of(2024,Month.APRIL,24,19,30),
+                200L,
+                15L,
+                false,
+                mockUser,
+                new Flight()
+        );
+
+        Reservation mockReservation2 = new Reservation(
+                reservationId2,
+                LocalDateTime.of(2024,Month.APRIL,25,19,30),
+                200L,
+                16L,
+                false,
+                mockUser,
+                new Flight()
+        );
+
+        List<Reservation> reservations = new ArrayList<>();
+        reservations.add(mockReservation1);
+        reservations.add(mockReservation2);
+        mockUser.setReservations(reservations);
+
+        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+
+        userService.deleteUser(userId);
+
+        assertTrue(mockReservation1.getCancelled());
+        assertTrue(mockReservation2.getCancelled());
+        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).deleteById(userId);
+
+    }
+
+    @Test
+    void testDeleteUserWhenUserDoesNotExist() {
+        Long userId = 2L;
+
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+
+        assertThrows(UserDoesNotExistException.class, () -> userService.deleteUser(userId));
+        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository, never()).deleteById(any(Long.class));
+    }
+
 }

@@ -121,7 +121,7 @@ public class UserService {
     }
 
     public void cancelReservation(Long userId, UUID reservationId) {
-        LOGGER.info("Cancelling user reservation, user id {}, reservation id {}", userId, reservationId);
+        LOGGER.debug("Cancelling user reservation, user id {}, reservation id {}", userId, reservationId);
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             LOGGER.info("Successfully retrieved user with id {}", userId);
@@ -147,9 +147,30 @@ public class UserService {
         }
     }
 
+    public void deleteUser(Long id) {
+        LOGGER.debug("Deleting user with id {}", id);
 
-    //TODO delete reservations first
-//    public void deleteUser(Long id) {
-//        userRepository.deleteById(id);
-//    }
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new UserDoesNotExistException(id);
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.getReservations().isEmpty()) {
+            LOGGER.warn("User have active reservation(s)");
+            List<Reservation> reservations = user.getReservations();
+            reservations.stream().forEach(
+                    reservation -> {
+                        reservation.setCancelled(true);
+                        LOGGER.info("Successfully cancelled reservation with id {}",reservation.getId());
+                    }
+            );
+        }
+
+        userRepository.deleteById(id);
+        LOGGER.info("Successfully deleted user with id {}", id);
+
+    }
+
 }

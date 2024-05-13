@@ -36,7 +36,6 @@ public class UserController {
     @PostMapping("/add")
     public ResponseEntity<?> add(@Valid @RequestBody UserRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new user " + userRegistrationDto);
-
         UserDto userDto = userService.addUser(userRegistrationDto);
         LOGGER.info("Added new user " + userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
@@ -46,7 +45,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
         LOGGER.debug("Retrieving user with id {}", id);
-
         UserDto userDto = userService.getUser(id);
         LOGGER.info("Successfully retrieved user");
         return ResponseEntity.ok(userDto);
@@ -56,7 +54,6 @@ public class UserController {
     @GetMapping("/{id}/reservations")
     public ResponseEntity<UserReservationDto> getUserWithReservations(@PathVariable Long id) {
         LOGGER.debug("Retrieving user's reservation, user id " + id);
-
         UserReservationDto userReservationDto = userService.getUserWithReservations(id);
         LOGGER.info("Successfully retrieved user with reservations");
         return ResponseEntity.ok(userReservationDto);
@@ -66,7 +63,6 @@ public class UserController {
     @GetMapping("/{id}/reservations/{reservationId}")
     public ResponseEntity<ReservationDto> getUserReservation(@PathVariable("id") Long userId, @PathVariable UUID reservationId) {
         LOGGER.debug("Retrieving user reservation, user id {}, reservation id {}", userId, reservationId);
-
         ReservationDto reservationDto = userService.getUserReservation(userId, reservationId);
         return ResponseEntity.ok(reservationDto);
 
@@ -75,16 +71,17 @@ public class UserController {
     @DeleteMapping("/{userId}/reservations/{reservationId}/cancel")
     public ResponseEntity<?> cancelReservation(@PathVariable Long userId, @PathVariable UUID reservationId) {
         LOGGER.debug("Cancelling reservation, user id {}, reservation id {}", userId, reservationId);
-
         userService.cancelReservation(userId, reservationId);
         LOGGER.info("Successfully cancelled reservation");
         return ResponseEntity.ok("Cancelled reservation");
 
     }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-//        userService.deleteUser(id);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        LOGGER.debug("Deleting user with id {}", id);
+        userService.deleteUser(id);
+        LOGGER.info("Successfully deleted user with id {}", id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

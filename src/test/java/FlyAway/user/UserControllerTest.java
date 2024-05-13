@@ -392,6 +392,7 @@ class UserControllerTest {
         doThrow(new ReservationDoesNotExistException())
                 .when(userService).cancelReservation(1L, reservationId);
 
+
         mockMvc.perform(delete("/api/v1/users/1/reservations/" + reservationId + "/cancel"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andExpect(result -> assertInstanceOf(ReservationDoesNotExistException.class, result.getResolvedException()));
@@ -411,5 +412,29 @@ class UserControllerTest {
                 .andExpect(result -> assertInstanceOf(UserDoesNotMatchReservationUserException.class, result.getResolvedException()));
 
     }
+
+    @Test
+    void testDeleteUser() throws Exception {
+        Long userId = 1L;
+
+        mockMvc.perform(delete("/api/v1/users/" + userId))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+        verify(userService, times(1)).deleteUser(userId);
+
+    }
+
+    @Test
+    void testDeleteUserWhenUserDoesNotExist() throws Exception {
+        Long userId = 2L;
+
+        doThrow(new UserDoesNotExistException()).when(userService).deleteUser(userId);
+
+        mockMvc.perform(delete("/api/v1/users/" + userId))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(result -> assertInstanceOf(UserDoesNotExistException.class, result.getResolvedException()));
+
+    }
+
 
 }
