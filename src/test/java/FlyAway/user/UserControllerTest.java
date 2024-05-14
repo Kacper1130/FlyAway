@@ -70,7 +70,7 @@ class UserControllerTest {
         users.add(user1);
         users.add(user2);
 
-        when(userService.getAll()).thenReturn(users);
+        when(userService.getAllActiveUsers()).thenReturn(users);
 
         mockMvc.perform(get("/api/v1/users")
                         .accept(MediaType.APPLICATION_JSON))
@@ -84,7 +84,7 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].dayOfBirth")
                         .value(DateTimeFormatter.ISO_LOCAL_DATE.format(user2.dayOfBirth())));
 
-        verify(userService, times(1)).getAll();
+        verify(userService, times(1)).getAllActiveUsers();
 
     }
 

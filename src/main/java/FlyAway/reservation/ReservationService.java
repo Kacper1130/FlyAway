@@ -47,7 +47,7 @@ public class ReservationService {
 
     public ReservationDto addReservation(CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation");
-        Optional<User> optionalUser = userRepository.findById(createReservationDto.userId());
+        Optional<User> optionalUser = userRepository.findActiveById(createReservationDto.userId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             Optional<Flight> optionalFlight = flightRepository.findById(createReservationDto.flightId());

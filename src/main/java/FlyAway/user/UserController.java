@@ -27,9 +27,17 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAll() {
-        LOGGER.debug("Retrieving all Users");
-        List<UserDto> users = userService.getAll();
-        LOGGER.info("Retrieved {} users", users.size());
+        LOGGER.debug("Retrieving all active users");
+        List<UserDto> users = userService.getAllActiveUsers();
+        LOGGER.info("Retrieved {} active users", users.size());
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/deleted")
+    public ResponseEntity<List<UserReservationDto>> getAllDeletedUsers() {
+        LOGGER.debug("Retrieving deleted Users");
+        List<UserReservationDto> users = userService.getAllDeletedUsers();
+        LOGGER.info("Retrieved {} deleted users", users.size());
         return ResponseEntity.ok(users);
     }
 

@@ -163,7 +163,7 @@ class UserServiceTest {
                 false
         );
 
-        when(userRepository.findById(userId))
+        when(userRepository.findActiveById(userId))
                 .thenReturn(Optional.of(mockUser));
 
         UserDto userDto = userService.getUser(userId);
@@ -171,7 +171,7 @@ class UserServiceTest {
         assertNotNull(userDto);
         assertEquals(mockUser.getFirstname(), userDto.firstname());
         assertEquals(mockUser.getEmail(), userDto.email());
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
     }
 
     @Test
@@ -179,10 +179,10 @@ class UserServiceTest {
 
         Long userId = 2L;
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> userService.getUser(userId));
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
     }
 
     @Test
@@ -202,7 +202,7 @@ class UserServiceTest {
                 false
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
 
         UserReservationDto userReservationDto = userService.getUserWithReservations(userId);
 
@@ -210,7 +210,7 @@ class UserServiceTest {
         assertEquals(mockUser.getFirstname(), userReservationDto.firstname());
         assertEquals(mockUser.getEmail(), userReservationDto.email());
         assertEquals(1, userReservationDto.reservations().size());
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
     }
 
     @Test
@@ -218,10 +218,10 @@ class UserServiceTest {
 
         Long userId = 1L;
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> userService.getUserWithReservations(userId));
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
     }
 
     @Test
@@ -253,7 +253,7 @@ class UserServiceTest {
                 new Flight()
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
         when(reservationRepository.findById(reservationId)).thenReturn(Optional.of(mockReservation));
         System.out.println(mockUser);
         ReservationDto reservationDto = userService.getUserReservation(userId, reservationId);
@@ -261,7 +261,7 @@ class UserServiceTest {
         assertNotNull(reservationDto);
         assertEquals(mockReservation.getReservationDate(), reservationDto.reservationDate());
         assertEquals(mockReservation.getUser().getEmail(), reservationDto.userDto().email());
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
         verify(reservationRepository,times(1)).findById(reservationId);
     }
 
@@ -271,10 +271,10 @@ class UserServiceTest {
         Long userId = 2L;
         UUID reservationId = UUID.randomUUID();
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> userService.getUserReservation(userId,reservationId));
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
     }
 
     @Test
@@ -296,11 +296,11 @@ class UserServiceTest {
                 false
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
         when(reservationRepository.findById(reservationId)).thenReturn(Optional.empty());
 
         assertThrows(ReservationDoesNotExistException.class, () -> userService.getUserReservation(userId,reservationId));
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
         verify(reservationRepository,times(1)).findById(reservationId);
     }
 
@@ -332,11 +332,11 @@ class UserServiceTest {
                 new Flight()
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
         when(reservationRepository.findById(reservationId)).thenReturn(Optional.of(mockReservation));
 
         assertThrows(UserDoesNotMatchReservationUserException.class, () -> userService.getUserReservation(userId,reservationId));
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
         verify(reservationRepository,times(1)).findById(reservationId);
     }
 
@@ -369,13 +369,13 @@ class UserServiceTest {
                 new Flight()
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
         when(reservationRepository.findById(reservationId)).thenReturn(Optional.of(mockReservation));
 
         userService.cancelReservation(userId,reservationId);
 
         assertTrue(mockReservation.isCancelled());
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
         verify(reservationRepository,times(1)).findById(reservationId);
 
 
@@ -387,10 +387,10 @@ class UserServiceTest {
         Long userId = 2L;
         UUID reservationId = UUID.randomUUID();
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> userService.cancelReservation(userId,reservationId));
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
     }
 
     @Test
@@ -411,11 +411,11 @@ class UserServiceTest {
                 false
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
         when(reservationRepository.findById(reservationId)).thenReturn(Optional.empty());
 
         assertThrows(ReservationDoesNotExistException.class, () -> userService.cancelReservation(userId,reservationId));
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
         verify(reservationRepository,times(1)).findById(reservationId);
     }
 
@@ -447,11 +447,11 @@ class UserServiceTest {
                 new Flight()
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
         when(reservationRepository.findById(reservationId)).thenReturn(Optional.of(mockReservation));
 
         assertThrows(UserDoesNotMatchReservationUserException.class, () -> userService.cancelReservation(userId,reservationId));
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
         verify(reservationRepository,times(1)).findById(reservationId);
     }
 
@@ -473,12 +473,12 @@ class UserServiceTest {
                 false
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
 
         userService.deleteUser(userId);
 
         assertTrue(mockUser.isDeleted());
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
         verify(userRepository, times(1)).save(mockUser);
 
     }
@@ -528,14 +528,14 @@ class UserServiceTest {
         reservations.add(mockReservation2);
         mockUser.setReservations(reservations);
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(mockUser));
 
         userService.deleteUser(userId);
 
         assertTrue(mockUser.isDeleted());
         assertTrue(mockReservation1.isCancelled());
         assertTrue(mockReservation2.isCancelled());
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
         verify(userRepository, times(1)).save(mockUser);
 
     }
@@ -544,10 +544,10 @@ class UserServiceTest {
     void testDeleteUserWhenUserDoesNotExist() {
         Long userId = 2L;
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> userService.deleteUser(userId));
-        verify(userRepository,times(1)).findById(userId);
+        verify(userRepository,times(1)).findActiveById(userId);
         verify(userRepository, never()).deleteById(any(Long.class));
     }
 

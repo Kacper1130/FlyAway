@@ -48,6 +48,24 @@ public class UserService {
         return users;
     }
 
+    public List<UserDto> getAllActiveUsers() {
+        LOGGER.debug("Retrieving all active users from repository");
+        List<UserDto> users = userRepository.findAllActiveUsers()
+                .stream().map(userMapper::userToUserDto)
+                .collect(Collectors.toList());
+        LOGGER.info("Retrieved {} active users from repository", users.size());
+        return users;
+    }
+
+    public List<UserReservationDto> getAllDeletedUsers() {
+        LOGGER.debug("Retrieving deleted users from repository");
+        List<UserReservationDto> users = userRepository.findAllDeletedUsers()
+                .stream().map(userMapper::userToUserReservationDto)
+                .collect(Collectors.toList());
+        LOGGER.info("Retrieved {} deleted users from repository", users.size());
+        return users;
+    }
+
     public UserDto addUser(UserRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new user");
 
@@ -68,7 +86,7 @@ public class UserService {
 
     public UserDto getUser(Long id) {
         LOGGER.debug("Retrieving user with id {}", id);
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userRepository.findActiveById(id);
         return optionalUser.map(
                 u -> {
                     LOGGER.info("Successfully retrieved user with id {}", id);
@@ -82,7 +100,7 @@ public class UserService {
 
     public UserReservationDto getUserWithReservations(Long id) {
         LOGGER.debug("Retrieving user with reservations, user id {} ", id);
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userRepository.findActiveById(id);
 
         return optionalUser.map(
                 u -> {
@@ -97,7 +115,7 @@ public class UserService {
 
     public ReservationDto getUserReservation(Long userId, UUID reservationId) {
         LOGGER.debug("Retrieving user reservation, user id {}, reservation id {}", userId, reservationId);
-        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findActiveById(userId);
         if (optionalUser.isPresent()) {
             LOGGER.info("Successfully retrieved user with id {}", userId);
             Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
@@ -122,7 +140,7 @@ public class UserService {
 
     public void cancelReservation(Long userId, UUID reservationId) {
         LOGGER.debug("Cancelling user reservation, user id {}, reservation id {}", userId, reservationId);
-        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findActiveById(userId);
         if (optionalUser.isPresent()) {
             LOGGER.info("Successfully retrieved user with id {}", userId);
             Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
@@ -150,7 +168,7 @@ public class UserService {
     public void deleteUser(Long id) {
         LOGGER.debug("Deleting user with id {}", id);
 
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = userRepository.findActiveById(id);
         if (optionalUser.isEmpty()) {
             throw new UserDoesNotExistException(id);
         }

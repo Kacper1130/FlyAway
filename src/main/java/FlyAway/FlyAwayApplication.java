@@ -11,7 +11,7 @@ public class FlyAwayApplication {
 	}
 
 	//TODO
-	// checking if user is not deleted when creating reservation
+	// active reservations
 	// historia rezerwacji, anulowane i wykorzystane
 	// uwagi uzytkownikow
 

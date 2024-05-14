@@ -116,7 +116,7 @@ class ReservationServiceTest {
         );
 
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(user));
         when(flightRepository.findById(flightId)).thenReturn(Optional.of(flight));
         when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
 
@@ -125,7 +125,7 @@ class ReservationServiceTest {
         assertEquals(reservation.getSeatNumber(), reservationDto.seatNumber());
         assertEquals(user.getEmail(), reservationDto.userDto().email());
         assertEquals(flight.getAirline(), reservationDto.flightDto().airline());
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
         verify(flightRepository, times(1)).findById(flightId);
         verify(reservationRepository, times(1)).save(any(Reservation.class));
     }
@@ -142,10 +142,10 @@ class ReservationServiceTest {
                 flightId
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.empty());
 
         assertThrows(UserDoesNotExistException.class, () -> reservationService.addReservation(createReservationDto));
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
         verify(flightRepository, times(0)).findById(any(UUID.class));
         verify(reservationRepository, times(0)).save(any(Reservation.class));
     }
@@ -165,11 +165,11 @@ class ReservationServiceTest {
                 flightId
         );
 
-        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(user));
         when(flightRepository.findById(flightId)).thenReturn(Optional.empty());
 
         assertThrows(FlightDoesNotExistException.class, () -> reservationService.addReservation(createReservationDto));
-        verify(userRepository, times(1)).findById(userId);
+        verify(userRepository, times(1)).findActiveById(userId);
         verify(flightRepository, times(1)).findById(flightId);
         verify(reservationRepository, times(0)).save(any(Reservation.class));
     }
