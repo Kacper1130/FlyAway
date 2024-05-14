@@ -57,7 +57,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.FEBRUARY, 11),
                 new ArrayList<>(),
-                new HashSet<>()
+                new HashSet<>(),
+                false
         );
 
         User user2 = new User(
@@ -69,7 +70,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<>(),
-                new HashSet<>()
+                new HashSet<>(),
+                false
         );
 
         List<User> mockUsers = new ArrayList<>();
@@ -157,7 +159,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         when(userRepository.findById(userId))
@@ -195,7 +198,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(List.of(new Reservation())),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
@@ -235,7 +239,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         Reservation mockReservation = new Reservation(
@@ -287,7 +292,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
@@ -312,7 +318,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         Reservation mockReservation = new Reservation(
@@ -348,7 +355,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         Reservation mockReservation = new Reservation(
@@ -366,7 +374,7 @@ class UserServiceTest {
 
         userService.cancelReservation(userId,reservationId);
 
-        assertTrue(mockReservation.getCancelled());
+        assertTrue(mockReservation.isCancelled());
         verify(userRepository,times(1)).findById(userId);
         verify(reservationRepository,times(1)).findById(reservationId);
 
@@ -399,7 +407,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
@@ -424,7 +433,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         Reservation mockReservation = new Reservation(
@@ -459,15 +469,17 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(mockUser));
 
         userService.deleteUser(userId);
 
+        assertTrue(mockUser.isDeleted());
         verify(userRepository, times(1)).findById(userId);
-        verify(userRepository, times(1)).deleteById(userId);
+        verify(userRepository, times(1)).save(mockUser);
 
     }
 
@@ -487,7 +499,8 @@ class UserServiceTest {
                 "123123123",
                 LocalDate.of(2000, Month.OCTOBER, 11),
                 new ArrayList<Reservation>(),
-                new HashSet<Role>()
+                new HashSet<Role>(),
+                false
         );
 
         Reservation mockReservation1 = new Reservation(
@@ -519,10 +532,11 @@ class UserServiceTest {
 
         userService.deleteUser(userId);
 
-        assertTrue(mockReservation1.getCancelled());
-        assertTrue(mockReservation2.getCancelled());
+        assertTrue(mockUser.isDeleted());
+        assertTrue(mockReservation1.isCancelled());
+        assertTrue(mockReservation2.isCancelled());
         verify(userRepository, times(1)).findById(userId);
-        verify(userRepository, times(1)).deleteById(userId);
+        verify(userRepository, times(1)).save(mockUser);
 
     }
 

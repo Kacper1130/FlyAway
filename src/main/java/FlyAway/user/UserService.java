@@ -163,12 +163,14 @@ public class UserService {
             reservations.stream().forEach(
                     reservation -> {
                         reservation.setCancelled(true);
+                        reservationRepository.save(reservation);
                         LOGGER.info("Successfully cancelled reservation with id {}",reservation.getId());
                     }
             );
         }
 
-        userRepository.deleteById(id);
+        user.setDeleted(true);
+        userRepository.save(user);
         LOGGER.info("Successfully deleted user with id {}", id);
 
     }

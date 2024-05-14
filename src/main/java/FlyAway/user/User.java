@@ -25,7 +25,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-@SoftDelete(converter = NumericBooleanConverter.class)
 public class User {
 
     @Id
@@ -53,5 +52,7 @@ public class User {
     private List<Reservation> reservations;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+    //@Column(name = "deleted", columnDefinition = "boolean default false")
+    private boolean deleted = false;
 
 }

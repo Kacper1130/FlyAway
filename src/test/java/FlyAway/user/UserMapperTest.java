@@ -32,7 +32,8 @@ class UserMapperTest {
                 "123456789",
                 LocalDate.of(2000, Month.JANUARY, 20),
                 new ArrayList<Reservation>(),
-                new HashSet<>()
+                new HashSet<>(),
+                false
         );
 
         UserDto userDto = userMapper.userToUserDto(user);
@@ -100,7 +101,8 @@ class UserMapperTest {
                 "123456789",
                 LocalDate.of(2000, Month.JANUARY, 20),
                 List.of(reservation1, reservation2),
-                new HashSet<>()
+                new HashSet<>(),
+                false
         );
 
         UserReservationDto userReservationDto = userMapper.userToUserReservationDto(user);

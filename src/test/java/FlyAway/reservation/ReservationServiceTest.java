@@ -212,7 +212,7 @@ class ReservationServiceTest {
 
         reservationService.cancelReservation(reservationId);
 
-        assertTrue(reservation.getCancelled());
+        assertTrue(reservation.isCancelled());
         verify(reservationRepository, times(1)).findById(reservationId);
         verify(reservationRepository, times(1)).save(reservation);
     }

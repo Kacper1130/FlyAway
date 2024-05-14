@@ -26,7 +26,7 @@ class ReservationMapperTest {
                 100L,
                 20L,
                 false,
-                new User(1L,null,null,null,null,null,null,null,null),
+                new User(1L,null,null,null,null,null,null,null,null,false),
                 new Flight(UUID.randomUUID(),null,null,null,null,null,null)
         );
 
@@ -36,7 +36,7 @@ class ReservationMapperTest {
         assertEquals(reservation.getReservationDate(), reservationDto.reservationDate());
         assertEquals(reservation.getPrice(), reservationDto.price());
         assertEquals(reservation.getSeatNumber(), reservationDto.seatNumber());
-        assertEquals(reservation.getCancelled(), reservationDto.cancelled());
+        assertEquals(reservation.isCancelled(), reservationDto.cancelled());
         assertEquals(reservation.getUser().getId(), reservationDto.userId());
         assertEquals(reservation.getFlight().getId(), reservationDto.flightId());
     }
@@ -49,7 +49,7 @@ class ReservationMapperTest {
                 100L,
                 20L,
                 false,
-                new User(1L, "Mac", null, null, null, null, null, null, null),
+                new User(1L, "Mac", null, null, null, null, null, null, null,false),
                 new Flight(UUID.randomUUID(), "New York", null, null, null, null, null)
         );
 
@@ -58,7 +58,7 @@ class ReservationMapperTest {
         assertEquals(reservation.getReservationDate(), reservationDto.reservationDate());
         assertEquals(reservation.getPrice(), reservationDto.price());
         assertEquals(reservation.getSeatNumber(), reservationDto.seatNumber());
-        assertEquals(reservation.getCancelled(), reservationDto.cancelled());
+        assertEquals(reservation.isCancelled(), reservationDto.cancelled());
         assertNotNull(reservationDto.userDto());
         assertEquals(reservation.getUser().getFirstname(), reservationDto.userDto().firstname());
         assertNotNull(reservationDto.flightDto());
@@ -72,7 +72,7 @@ class ReservationMapperTest {
                 100L,
                 20L,
                 false,
-                new User(1L,null,null,null,null,null,null,null,null),
+                new User(1L,null,null,null,null,null,null,null,null,false),
                 new Flight(UUID.randomUUID(),"New York",null,null,null,null,null)
         );
 
@@ -81,7 +81,7 @@ class ReservationMapperTest {
         assertEquals(reservation.getReservationDate(), reservationWithoutUserDto.reservationDate());
         assertEquals(reservation.getPrice(), reservationWithoutUserDto.price());
         assertEquals(reservation.getSeatNumber(), reservationWithoutUserDto.seatNumber());
-        assertEquals(reservation.getCancelled(), reservationWithoutUserDto.cancelled());
+        assertEquals(reservation.isCancelled(), reservationWithoutUserDto.cancelled());
         assertNotNull(reservationWithoutUserDto.flightDto());
         assertEquals(reservation.getFlight().getDepartureCity(), reservationWithoutUserDto.flightDto().departureCity());
     }
