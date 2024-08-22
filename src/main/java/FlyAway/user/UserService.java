@@ -8,7 +8,7 @@ import FlyAway.reservation.Reservation;
 import FlyAway.reservation.ReservationMapper;
 import FlyAway.reservation.ReservationRepository;
 import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.security.RoleRepository;
+import FlyAway.role.RoleRepository;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import FlyAway.user.dto.UserReservationDto;
@@ -69,13 +69,13 @@ public class UserService {
     public UserDto addUser(UserRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new user");
 
-        if (userRepository.findUserByEmail(userRegistrationDto.email()) != null) {
+        if (userRepository.findByEmail(userRegistrationDto.email()).isPresent()) {
             LOGGER.error("User with email {} already exists", userRegistrationDto.email());
             throw new EmailExistsException(userRegistrationDto.email());
         }
 
         User mappedUser = userMapper.userRegistrationDtoToUser(userRegistrationDto);
-        var role = roleRepository.findByName("ROLE_USER");
+        var role = roleRepository.findByName("ROLE_USER").orElseThrow();
         mappedUser.setRoles(Set.of(role));
         userRepository.save(mappedUser);
         LOGGER.info("Created new user with id {}", mappedUser.getId());

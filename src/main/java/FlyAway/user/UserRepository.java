@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findUserByEmail(String email);
+
+    Optional<User> findByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.deleted = false")
     List<User> findAllActiveUsers();

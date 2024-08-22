@@ -1,6 +1,7 @@
 package FlyAway.flight;
 
 import FlyAway.flight.dto.FlightDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/flights")
+@Tag(name = "Flight")
 public class FlightController {
 
     private final FlightService flightService;

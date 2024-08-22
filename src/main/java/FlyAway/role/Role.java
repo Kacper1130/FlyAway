@@ -1,4 +1,4 @@
-package FlyAway.security;
+package FlyAway.role;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

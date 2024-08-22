@@ -1,25 +1,19 @@
 package FlyAway.user;
 
 import FlyAway.reservation.Reservation;
-import FlyAway.security.Role;
+import FlyAway.role.Role;
 import FlyAway.validation.Password;
 import FlyAway.validation.PhoneNumber;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SoftDelete;
-import org.hibernate.annotations.Where;
-import org.hibernate.type.NumericBooleanConverter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -53,6 +47,6 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
     //@Column(name = "deleted", columnDefinition = "boolean default false")
-    private boolean deleted = false;
+    private boolean deleted;
 
 }

@@ -1,14 +1,11 @@
 package FlyAway.user;
 
 import FlyAway.reservation.Reservation;
-import FlyAway.security.Role;
 import FlyAway.user.dto.UserDto;
 import FlyAway.user.dto.UserRegistrationDto;
 import FlyAway.user.dto.UserReservationDto;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

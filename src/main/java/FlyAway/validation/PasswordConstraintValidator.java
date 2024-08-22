@@ -14,7 +14,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<Password
     public boolean isValid(String password, ConstraintValidatorContext context) {
 
         PasswordValidator validator = new PasswordValidator(Arrays.asList(
-                new LengthRule(6, 30),
+                new LengthRule(6, Integer.MAX_VALUE),
                 new CharacterRule(EnglishCharacterData.UpperCase, 1),
                 new CharacterRule(EnglishCharacterData.LowerCase, 1),
                 new CharacterRule(EnglishCharacterData.Digit, 1),
