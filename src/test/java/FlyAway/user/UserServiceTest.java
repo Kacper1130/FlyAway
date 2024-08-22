@@ -117,7 +117,7 @@ class UserServiceTest {
                 userRegistrationDto.dayOfBirth()
         );
 
-        when(roleRepository.findByName("ROLE_USER")).thenReturn(new Role(1L, "ROLE_USER"));
+        when(roleRepository.findByName("ROLE_USER")).thenReturn(Optional.of(new Role(1L, "ROLE_USER")));
 
         UserDto userDto = userService.addUser(userRegistrationDto);
 
@@ -139,7 +139,7 @@ class UserServiceTest {
                 LocalDate.of(2000, Month.OCTOBER, 11)
         );
 
-        when(userRepository.findUserByEmail(userRegistrationDto.email())).thenReturn(new User());
+        when(userRepository.findByEmail(userRegistrationDto.email())).thenReturn(Optional.of(new User()));
 
         assertThrows(EmailExistsException.class, () -> userService.addUser(userRegistrationDto));
         verify(userRepository, never()).save(any(User.class));
