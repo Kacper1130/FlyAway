@@ -37,7 +37,6 @@ public class ReservationController {
     @PostMapping("/add")
     public ResponseEntity<?> addReservation(@Valid @RequestBody CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation " + createReservationDto);
-
         ReservationDto reservationDto = reservationService.addReservation(createReservationDto);
         LOGGER.info("Created new reservation " + reservationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationDto);
@@ -47,7 +46,6 @@ public class ReservationController {
     @DeleteMapping("{id}/cancel")
     public ResponseEntity<?> cancelReservation(@PathVariable UUID id) {
         LOGGER.debug("Cancelling reservation with id {} ", id);
-
         reservationService.cancelReservation(id);
         LOGGER.info("Successfully cancelled reservation");
         return ResponseEntity.ok("Cancelled reservation");
