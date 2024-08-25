@@ -1,26 +1,24 @@
 package FlyAway.user;
 
-import FlyAway.reservation.Reservation;
 import FlyAway.role.Role;
 import FlyAway.validation.Password;
 import FlyAway.validation.PhoneNumber;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
-
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,14 +37,6 @@ public class User {
     private String password;
     @PhoneNumber
     private String phoneNumber;
-    @NotNull
-    @Past(message = "Date of brith should be a past date")
-    private LocalDate dayOfBirth;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Reservation> reservations;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-    //@Column(name = "deleted", columnDefinition = "boolean default false")
-    private boolean deleted;
-
 }

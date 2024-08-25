@@ -1,5 +1,6 @@
 package FlyAway.reservation;
 
+import FlyAway.client.dto.ClientDto;
 import FlyAway.exception.FlightDoesNotExistException;
 import FlyAway.exception.ReservationDoesNotExistException;
 import FlyAway.exception.UserDoesNotExistException;
@@ -7,7 +8,6 @@ import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.user.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +104,7 @@ class ReservationControllerTest {
                 UUID.randomUUID()
         );
 
-        UserDto userDto = new UserDto(
+        ClientDto userDto = new ClientDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",

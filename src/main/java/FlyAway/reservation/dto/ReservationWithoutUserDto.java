@@ -1,7 +1,6 @@
 package FlyAway.reservation.dto;
 
 import FlyAway.flight.dto.FlightDto;
-import FlyAway.user.dto.UserDto;
 
 import java.time.LocalDateTime;
 

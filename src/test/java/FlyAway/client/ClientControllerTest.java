@@ -1,14 +1,14 @@
-package FlyAway.user;
+package FlyAway.client;
 
+import FlyAway.client.dto.ClientDto;
+import FlyAway.client.dto.ClientRegistrationDto;
+import FlyAway.client.dto.ClientReservationDto;
 import FlyAway.exception.ReservationDoesNotExistException;
 import FlyAway.exception.UserDoesNotExistException;
 import FlyAway.exception.UserDoesNotMatchReservationUserException;
 import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.reservation.dto.ReservationWithoutUserDto;
-import FlyAway.user.dto.UserDto;
-import FlyAway.user.dto.UserRegistrationDto;
-import FlyAway.user.dto.UserReservationDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +34,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class)
+@WebMvcTest(ClientController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class UserControllerTest {
+class ClientControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -45,11 +45,11 @@ class UserControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    UserService userService;
+    ClientService userService;
 
     @Test
     void testGetAll() throws Exception {
-        UserDto user1 = new UserDto(
+        ClientDto user1 = new ClientDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",
@@ -57,7 +57,7 @@ class UserControllerTest {
                 LocalDate.of(2000, 5, 7)
         );
 
-        UserDto user2 = new UserDto(
+        ClientDto user2 = new ClientDto(
                 "user2",
                 "user2",
                 "user2@gmail.com",
@@ -66,7 +66,7 @@ class UserControllerTest {
         );
 
 
-        List<UserDto> users = new ArrayList<>();
+        List<ClientDto> users = new ArrayList<>();
         users.add(user1);
         users.add(user2);
 
@@ -103,7 +103,7 @@ class UserControllerTest {
     @Test
     void testAdd() throws Exception {
 
-        UserRegistrationDto userRegistrationDto = new UserRegistrationDto(
+        ClientRegistrationDto userRegistrationDto = new ClientRegistrationDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",
@@ -112,7 +112,7 @@ class UserControllerTest {
                 LocalDate.of(2000, 5, 7)
         );
 
-        UserDto userDto = new UserDto(
+        ClientDto userDto = new ClientDto(
                 userRegistrationDto.firstname(),
                 userRegistrationDto.lastname(),
                 userRegistrationDto.email(),
@@ -142,7 +142,7 @@ class UserControllerTest {
     @Test
     void testAddWhenInvalidUserRegistrationDto() throws Exception {
 
-        UserRegistrationDto userRegistrationDto = new UserRegistrationDto(
+        ClientRegistrationDto userRegistrationDto = new ClientRegistrationDto(
                 "user1",
                 "",
                 "user1@gmail.com",
@@ -165,7 +165,7 @@ class UserControllerTest {
     @Test
     void testGetUser() throws Exception {
 
-        UserDto userDto = new UserDto(
+        ClientDto userDto = new ClientDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",
@@ -232,7 +232,7 @@ class UserControllerTest {
 
         );
 
-        UserReservationDto userReservationDto = new UserReservationDto(
+        ClientReservationDto userReservationDto = new ClientReservationDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",
@@ -274,7 +274,7 @@ class UserControllerTest {
 
         UUID reservationId = UUID.randomUUID();
 
-        UserDto userDto = new UserDto(
+        ClientDto userDto = new ClientDto(
                 "user1",
                 "user1",
                 "user1@gmail.com",

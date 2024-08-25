@@ -1,13 +1,11 @@
-package FlyAway.user.dto;
+package FlyAway.client.dto;
 
-import FlyAway.reservation.Reservation;
-import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.reservation.dto.ReservationWithoutUserDto;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public record UserReservationDto(
+public record ClientReservationDto(
         String firstname,
         String lastname,
         String email,

@@ -6,8 +6,8 @@ import FlyAway.auth.dto.RegistrationRequest;
 import FlyAway.role.RoleRepository;
 import FlyAway.security.JwtService;
 import FlyAway.security.SecurityUser;
-import FlyAway.user.User;
-import FlyAway.user.UserRepository;
+import FlyAway.client.Client;
+import FlyAway.client.ClientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,12 +22,12 @@ public class AuthenticationService {
 
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private final ClientRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
-    public AuthenticationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthenticationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, ClientRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -36,10 +36,10 @@ public class AuthenticationService {
     }
 
     public void register(RegistrationRequest request) {
-        var userRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new IllegalStateException("ROLE USER was not initialized"));
+        var userRole = roleRepository.findByName("ROLE_CLIENT")
+                .orElseThrow(() -> new IllegalStateException("ROLE CLIENT was not initialized"));
 
-        var user = User.builder()
+        var user = Client.builder()
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .email(request.email())
@@ -49,7 +49,7 @@ public class AuthenticationService {
                 .roles(Set.of(userRole))
                 .build();
         userRepository.save(user);
-        LOGGER.info("Created new user: {}", user);
+        LOGGER.info("Created new client: {}", user.toString());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

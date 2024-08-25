@@ -8,8 +8,8 @@ import FlyAway.flight.FlightRepository;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.user.User;
-import FlyAway.user.UserRepository;
+import FlyAway.client.Client;
+import FlyAway.client.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -37,7 +37,7 @@ class ReservationServiceTest {
     ReservationRepository reservationRepository;
 
     @Mock
-    UserRepository userRepository;
+    ClientRepository userRepository;
 
     @Mock
     FlightRepository flightRepository;
@@ -87,10 +87,10 @@ class ReservationServiceTest {
         Long userId = 1L;
         UUID flightId = UUID.randomUUID();
 
-        User user = new User();
-        user.setId(userId);
-        user.setEmail("testuser@gmail.com");
-        user.setReservations(new ArrayList<>());
+        Client client = new Client();
+        client.setId(userId);
+        client.setEmail("testuser@gmail.com");
+        client.setReservations(new ArrayList<>());
 
         Flight flight = new Flight();
         flight.setId(flightId);
@@ -111,19 +111,19 @@ class ReservationServiceTest {
                 150L,
                 15L,
                 false,
-                user,
+                client,
                 flight
         );
 
 
-        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(client));
         when(flightRepository.findById(flightId)).thenReturn(Optional.of(flight));
         when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
 
         ReservationDto reservationDto = reservationService.addReservation(createReservationDto);
 
         assertEquals(reservation.getSeatNumber(), reservationDto.seatNumber());
-        assertEquals(user.getEmail(), reservationDto.userDto().email());
+        assertEquals(client.getEmail(), reservationDto.userDto().email());
         assertEquals(flight.getAirline(), reservationDto.flightDto().airline());
         verify(userRepository, times(1)).findActiveById(userId);
         verify(flightRepository, times(1)).findById(flightId);
@@ -155,8 +155,8 @@ class ReservationServiceTest {
         Long userId = 1L;
         UUID flightId = UUID.randomUUID();
 
-        User user = new User();
-        user.setId(userId);
+        Client client = new Client();
+        client.setId(userId);
 
         CreateReservationDto createReservationDto = new CreateReservationDto(
                 150L,
@@ -165,7 +165,7 @@ class ReservationServiceTest {
                 flightId
         );
 
-        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(user));
+        when(userRepository.findActiveById(userId)).thenReturn(Optional.of(client));
         when(flightRepository.findById(flightId)).thenReturn(Optional.empty());
 
         assertThrows(FlightDoesNotExistException.class, () -> reservationService.addReservation(createReservationDto));

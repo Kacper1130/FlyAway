@@ -1,8 +1,8 @@
-package FlyAway.user.dto;
+package FlyAway.client.dto;
 
 import java.time.LocalDate;
 
-public record UserDto (
+public record ClientDto(
         String firstname,
         String lastname,
         String email,

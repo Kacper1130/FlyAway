@@ -1,5 +1,7 @@
 package FlyAway.security;
 
+import FlyAway.client.Client;
+import FlyAway.client.ClientRepository;
 import FlyAway.user.User;
 import FlyAway.user.UserRepository;
 import jakarta.transaction.Transactional;

@@ -8,8 +8,8 @@ import FlyAway.flight.FlightRepository;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.user.User;
-import FlyAway.user.UserRepository;
+import FlyAway.client.Client;
+import FlyAway.client.ClientRepository;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +25,12 @@ import java.util.stream.Collectors;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-    private final UserRepository userRepository;
+    private final ClientRepository userRepository;
     private final FlightRepository flightRepository;
     private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationService.class);
 
-    public ReservationService(ReservationRepository reservationRepository, UserRepository userRepository, FlightRepository flightRepository) {
+    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository) {
         this.reservationRepository = reservationRepository;
         this.userRepository = userRepository;
         this.flightRepository = flightRepository;
@@ -47,9 +47,9 @@ public class ReservationService {
 
     public ReservationDto addReservation(CreateReservationDto createReservationDto) {
         LOGGER.debug("Adding new reservation");
-        Optional<User> optionalUser = userRepository.findActiveById(createReservationDto.userId());
+        Optional<Client> optionalUser = userRepository.findActiveById(createReservationDto.clientId());
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+            Client client = optionalUser.get();
             Optional<Flight> optionalFlight = flightRepository.findById(createReservationDto.flightId());
             if (optionalFlight.isPresent()) {
                 Flight flight = optionalFlight.get();
@@ -57,12 +57,12 @@ public class ReservationService {
                 createdReservation.setPrice(createReservationDto.price());
                 createdReservation.setSeatNumber(createReservationDto.seatNumber());
                 createdReservation.setReservationDate(LocalDateTime.now());
-                createdReservation.setUser(user);
+                createdReservation.setClient(client);
                 createdReservation.setFlight(flight);
 
-                List<Reservation> userReservations = user.getReservations();
+                List<Reservation> userReservations = client.getReservations();
                 userReservations.add(createdReservation);
-                user.setReservations(userReservations);
+                client.setReservations(userReservations);
 
                 List<Reservation> flightReservations = flight.getReservations();
                 flightReservations.add(createdReservation);
@@ -79,8 +79,8 @@ public class ReservationService {
                 throw new FlightDoesNotExistException("Flight with id: " + createReservationDto.flightId() + " does not exist");
             }
         } else {
-            LOGGER.error("User with id {} does not exist", createReservationDto.userId());
-            throw new UserDoesNotExistException("User with id: " + createReservationDto.userId() + " does not exist");
+            LOGGER.error("User with id {} does not exist", createReservationDto.clientId());
+            throw new UserDoesNotExistException("User with id: " + createReservationDto.clientId() + " does not exist");
         }
 
     }

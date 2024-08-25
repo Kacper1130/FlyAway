@@ -1,9 +1,9 @@
-package FlyAway.user;
+package FlyAway.client;
 
+import FlyAway.client.dto.ClientDto;
+import FlyAway.client.dto.ClientReservationDto;
 import FlyAway.reservation.Reservation;
-import FlyAway.user.dto.UserDto;
-import FlyAway.user.dto.UserRegistrationDto;
-import FlyAway.user.dto.UserReservationDto;
+import FlyAway.client.dto.ClientRegistrationDto;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -14,13 +14,13 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserMapperTest {
+class ClientMapperTest {
 
-    private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
+    private ClientMapper userMapper = Mappers.getMapper(ClientMapper.class);
 
     @Test
     void testMapUserToUserDto() {
-        User user = new User(
+        Client client = new Client(
                 1L,
                 "Steve",
                 "Anderson",
@@ -33,18 +33,18 @@ class UserMapperTest {
                 false
         );
 
-        UserDto userDto = userMapper.userToUserDto(user);
+        ClientDto userDto = userMapper.clientToClientDto(client);
 
-        assertEquals(user.getFirstname(),userDto.firstname());
-        assertEquals(user.getLastname(),userDto.lastname());
-        assertEquals(user.getEmail(),userDto.email());
-        assertEquals(user.getPhoneNumber(),userDto.phoneNumber());
-        assertEquals(user.getDayOfBirth(),userDto.dayOfBirth());
+        assertEquals(client.getFirstname(),userDto.firstname());
+        assertEquals(client.getLastname(),userDto.lastname());
+        assertEquals(client.getEmail(),userDto.email());
+        assertEquals(client.getPhoneNumber(),userDto.phoneNumber());
+        assertEquals(client.getDayOfBirth(),userDto.dayOfBirth());
     }
 
     @Test
     void testMapUserRegistrationDtoToUser() {
-        UserRegistrationDto userRegistrationDto = new UserRegistrationDto(
+        ClientRegistrationDto userRegistrationDto = new ClientRegistrationDto(
                 "John",
                 "Smith",
                 "john.smith@gmail.com",
@@ -53,17 +53,17 @@ class UserMapperTest {
                 LocalDate.of(2003,Month.DECEMBER,12)
         );
 
-        User user = userMapper.userRegistrationDtoToUser(userRegistrationDto);
+        Client client = userMapper.clientRegistrationDtoToClient(userRegistrationDto);
 
-        assertNull(user.getId());
-        assertEquals(userRegistrationDto.firstname(), user.getFirstname());
-        assertEquals(userRegistrationDto.lastname(), user.getLastname());
-        assertEquals(userRegistrationDto.email(), user.getEmail());
-        assertEquals(userRegistrationDto.password(), user.getPassword());
-        assertEquals(userRegistrationDto.phoneNumber(), user.getPhoneNumber());
-        assertEquals(userRegistrationDto.dayOfBirth(), user.getDayOfBirth());
-        assertNull(user.getReservations());
-        assertNull(user.getRoles());
+        assertNull(client.getId());
+        assertEquals(userRegistrationDto.firstname(), client.getFirstname());
+        assertEquals(userRegistrationDto.lastname(), client.getLastname());
+        assertEquals(userRegistrationDto.email(), client.getEmail());
+        assertEquals(userRegistrationDto.password(), client.getPassword());
+        assertEquals(userRegistrationDto.phoneNumber(), client.getPhoneNumber());
+        assertEquals(userRegistrationDto.dayOfBirth(), client.getDayOfBirth());
+        assertNull(client.getReservations());
+        assertNull(client.getRoles());
     }
 
     @Test
@@ -89,7 +89,7 @@ class UserMapperTest {
                 null
         );
 
-        User user = new User(
+        Client client = new Client(
                 1L,
                 "Steve",
                 "Anderson",
@@ -102,13 +102,13 @@ class UserMapperTest {
                 false
         );
 
-        UserReservationDto userReservationDto = userMapper.userToUserReservationDto(user);
+        ClientReservationDto userReservationDto = userMapper.clientToClientReservationDto(client);
 
-        assertEquals(user.getFirstname(),userReservationDto.firstname());
-        assertEquals(user.getLastname(),userReservationDto.lastname());
-        assertEquals(user.getEmail(),userReservationDto.email());
-        assertEquals(user.getPhoneNumber(),userReservationDto.phoneNumber());
-        assertEquals(user.getDayOfBirth(),userReservationDto.dayOfBirth());
+        assertEquals(client.getFirstname(),userReservationDto.firstname());
+        assertEquals(client.getLastname(),userReservationDto.lastname());
+        assertEquals(client.getEmail(),userReservationDto.email());
+        assertEquals(client.getPhoneNumber(),userReservationDto.phoneNumber());
+        assertEquals(client.getDayOfBirth(),userReservationDto.dayOfBirth());
         assertEquals(2, userReservationDto.reservations().size());
         assertEquals(18L, userReservationDto.reservations().get(0).seatNumber());
         assertEquals(19L, userReservationDto.reservations().get(1).seatNumber());

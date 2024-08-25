@@ -1,25 +1,24 @@
 package FlyAway.reservation;
 
+import FlyAway.client.ClientMapper;
 import FlyAway.flight.FlightMapper;
-import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.reservation.dto.ReservationWithoutUserDto;
-import FlyAway.user.UserMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(uses = {UserMapper.class, FlightMapper.class})
+@Mapper(uses = {ClientMapper.class, FlightMapper.class})
 public interface ReservationMapper {
 
     ReservationMapper INSTANCE = Mappers.getMapper(ReservationMapper.class);
 
-    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "client.id", target = "clientId")
     @Mapping(source = "flight.id", target = "flightId")
     DisplayReservationDto reservationToDisplayReservationDto(Reservation reservation);
 
-    @Mapping(source = "user", target = "userDto")
+    @Mapping(source = "client", target = "clientDto")
     @Mapping(source = "flight", target = "flightDto")
     ReservationDto reservationToReservationDto(Reservation reservation);
 

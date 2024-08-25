@@ -11,7 +11,7 @@ public record CreateReservationDto (
         @NotNull
         Long seatNumber,
         @NotNull
-        Long userId,
+        Long clientId,
         @NotNull
         UUID flightId
 ) {

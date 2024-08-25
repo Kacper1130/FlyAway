@@ -9,7 +9,7 @@ public record DisplayReservationDto(
         Long price,
         Long seatNumber,
         Boolean cancelled,
-        Long userId,
+        Long clientId,
         UUID flightId
 ) {
 }

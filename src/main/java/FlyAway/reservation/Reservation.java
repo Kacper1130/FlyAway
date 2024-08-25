@@ -1,13 +1,10 @@
 package FlyAway.reservation;
 
 import FlyAway.flight.Flight;
-import FlyAway.user.User;
+import FlyAway.client.Client;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -31,7 +28,7 @@ public class Reservation {
     private Long seatNumber;
     private boolean cancelled = false;
     @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
+    private Client client;
     @ManyToOne(fetch = FetchType.EAGER)
     private Flight flight;
 

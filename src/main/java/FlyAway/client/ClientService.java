@@ -1,5 +1,8 @@
-package FlyAway.user;
+package FlyAway.client;
 
+import FlyAway.client.dto.ClientDto;
+import FlyAway.client.dto.ClientRegistrationDto;
+import FlyAway.client.dto.ClientReservationDto;
 import FlyAway.exception.EmailExistsException;
 import FlyAway.exception.ReservationDoesNotExistException;
 import FlyAway.exception.UserDoesNotExistException;
@@ -9,9 +12,6 @@ import FlyAway.reservation.ReservationMapper;
 import FlyAway.reservation.ReservationRepository;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.role.RoleRepository;
-import FlyAway.user.dto.UserDto;
-import FlyAway.user.dto.UserRegistrationDto;
-import FlyAway.user.dto.UserReservationDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,73 +24,75 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class ClientService {
 
-    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
     private final RoleRepository roleRepository;
     private final ReservationRepository reservationRepository;
-    private UserMapper userMapper = Mappers.getMapper(UserMapper.class);
-    private ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    private final ClientMapper clientMapper = Mappers.getMapper(ClientMapper.class);
+    private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientService.class);
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, ReservationRepository reservationRepository) {
-        this.userRepository = userRepository;
+    public ClientService(ClientRepository userRepository, RoleRepository roleRepository, ReservationRepository reservationRepository) {
+        this.clientRepository = userRepository;
         this.roleRepository = roleRepository;
         this.reservationRepository = reservationRepository;
     }
 
-    public List<UserDto> getAll() {
-        LOGGER.debug("Retrieving all users from repository");
-        List<UserDto> users = userRepository.findAll()
-                .stream().map(userMapper::userToUserDto)
+    public List<ClientDto> getAll() {
+        LOGGER.debug("Retrieving all clients from repository");
+        List<ClientDto> clients = clientRepository.findAll()
+                .stream().map(clientMapper::clientToClientDto)
                 .collect(Collectors.toList());
-        LOGGER.info("Retrieved {} users from repository", users.size());
-        return users;
+        LOGGER.info("Retrieved {} clients from repository", clients.size());
+        return clients;
     }
 
-    public List<UserDto> getAllActiveUsers() {
-        LOGGER.debug("Retrieving all active users from repository");
-        List<UserDto> users = userRepository.findAllActiveUsers()
-                .stream().map(userMapper::userToUserDto)
+    public List<ClientDto> getAllActiveClients() {
+        LOGGER.debug("Retrieving all active clients from repository");
+        List<ClientDto> clients = clientRepository.findAllActiveClients()
+                .stream().map(clientMapper::clientToClientDto)
                 .collect(Collectors.toList());
-        LOGGER.info("Retrieved {} active users from repository", users.size());
-        return users;
+        LOGGER.info("Retrieved {} active clients from repository", clients.size());
+        return clients;
     }
 
-    public List<UserReservationDto> getAllDeletedUsers() {
+    public List<ClientReservationDto> getAllDeletedClients() {
         LOGGER.debug("Retrieving deleted users from repository");
-        List<UserReservationDto> users = userRepository.findAllDeletedUsers()
-                .stream().map(userMapper::userToUserReservationDto)
+        List<ClientReservationDto> users = clientRepository.findAllDeletedClients()
+                .stream().map(clientMapper::clientToClientReservationDto)
                 .collect(Collectors.toList());
         LOGGER.info("Retrieved {} deleted users from repository", users.size());
         return users;
     }
 
-    public UserDto addUser(UserRegistrationDto userRegistrationDto) {
+    public ClientDto addClient
+            (ClientRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new user");
 
-        if (userRepository.findByEmail(userRegistrationDto.email()).isPresent()) {
+        if (clientRepository.findByEmail(userRegistrationDto.email()).isPresent()) {
             LOGGER.error("User with email {} already exists", userRegistrationDto.email());
             throw new EmailExistsException(userRegistrationDto.email());
         }
 
-        User mappedUser = userMapper.userRegistrationDtoToUser(userRegistrationDto);
+        Client mappedClient = clientMapper.clientRegistrationDtoToClient(userRegistrationDto);
         var role = roleRepository.findByName("ROLE_USER").orElseThrow();
-        mappedUser.setRoles(Set.of(role));
-        userRepository.save(mappedUser);
-        LOGGER.info("Created new user with id {}", mappedUser.getId());
+        mappedClient.setRoles(Set.of(role));
+        clientRepository.save(mappedClient);
+        LOGGER.info("Created new user with id {}", mappedClient.getId());
 
-        UserDto createdUserDto = userMapper.userToUserDto(mappedUser);
+        ClientDto createdUserDto = clientMapper.clientToClientDto(mappedClient);
         return createdUserDto;
     }
 
-    public UserDto getUser(Long id) {
+    public ClientDto getClient
+            (Long id) {
         LOGGER.debug("Retrieving user with id {}", id);
-        Optional<User> optionalUser = userRepository.findActiveById(id);
+        Optional<Client> optionalUser = clientRepository.findActiveById(id);
         return optionalUser.map(
                 u -> {
                     LOGGER.info("Successfully retrieved user with id {}", id);
-                    return userMapper.userToUserDto(u);
+                    return clientMapper.clientToClientDto(u);
                 }
         ).orElseThrow(() -> {
             LOGGER.error("User with id {} does not exist", id);
@@ -98,14 +100,14 @@ public class UserService {
         });
     }
 
-    public UserReservationDto getUserWithReservations(Long id) {
+    public ClientReservationDto getClientWithReservations(Long id) {
         LOGGER.debug("Retrieving user with reservations, user id {} ", id);
-        Optional<User> optionalUser = userRepository.findActiveById(id);
+        Optional<Client> optionalUser = clientRepository.findActiveById(id);
 
         return optionalUser.map(
                 u -> {
                     LOGGER.info("Successfully retrieved user with reservations, user id {}", id);
-                    return userMapper.userToUserReservationDto(u);
+                    return clientMapper.clientToClientReservationDto(u);
                 }
         ).orElseThrow(() -> {
             LOGGER.error("User with id {} does not exist", id);
@@ -113,15 +115,15 @@ public class UserService {
         });
     }
 
-    public ReservationDto getUserReservation(Long userId, UUID reservationId) {
+    public ReservationDto getClientReservation(Long userId, UUID reservationId) {
         LOGGER.debug("Retrieving user reservation, user id {}, reservation id {}", userId, reservationId);
-        Optional<User> optionalUser = userRepository.findActiveById(userId);
+        Optional<Client> optionalUser = clientRepository.findActiveById(userId);
         if (optionalUser.isPresent()) {
             LOGGER.info("Successfully retrieved user with id {}", userId);
             Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
             if (optionalReservation.isPresent()) {
                 LOGGER.info("Successfully retrieved reservation with id {}", reservationId);
-                if (!optionalUser.get().equals(optionalReservation.get().getUser())) {
+                if (!optionalUser.get().equals(optionalReservation.get().getClient())) {
                     LOGGER.warn("User does not match with reservation user");
                     throw new UserDoesNotMatchReservationUserException();
                 } else {
@@ -140,14 +142,14 @@ public class UserService {
 
     public void cancelReservation(Long userId, UUID reservationId) {
         LOGGER.debug("Cancelling user reservation, user id {}, reservation id {}", userId, reservationId);
-        Optional<User> optionalUser = userRepository.findActiveById(userId);
+        Optional<Client> optionalUser = clientRepository.findActiveById(userId);
         if (optionalUser.isPresent()) {
             LOGGER.info("Successfully retrieved user with id {}", userId);
             Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
             if (optionalReservation.isPresent()) {
                 LOGGER.info("Successfully retrieved reservation with id {}", reservationId);
-                if (!optionalUser.get().equals(optionalReservation.get().getUser())) {
-                    LOGGER.warn("User does not match with reservation user");
+                if (!optionalUser.get().equals(optionalReservation.get().getClient())) {
+                    LOGGER.warn("Client does not match with reservation client");
                     throw new UserDoesNotMatchReservationUserException();
                 } else {
                     Reservation reservation = optionalReservation.get();
@@ -160,24 +162,25 @@ public class UserService {
                 throw new ReservationDoesNotExistException(reservationId);
             }
         } else {
-            LOGGER.error("User with id {} does not exist", userId);
+            LOGGER.error("Client with id {} does not exist", userId);
             throw new UserDoesNotExistException(userId);
         }
     }
 
-    public void deleteUser(Long id) {
+    public void deleteClient
+            (Long id) {
         LOGGER.debug("Deleting user with id {}", id);
 
-        Optional<User> optionalUser = userRepository.findActiveById(id);
-        if (optionalUser.isEmpty()) {
+        Optional<Client> optionalClient = clientRepository.findActiveById(id);
+        if (optionalClient.isEmpty()) {
             throw new UserDoesNotExistException(id);
         }
 
-        User user = optionalUser.get();
+        Client client = optionalClient.get();
 
-        if (!user.getReservations().isEmpty()) {
-            LOGGER.warn("User have active reservation(s)");
-            List<Reservation> reservations = user.getReservations();
+        if (!client.getReservations().isEmpty()) {
+            LOGGER.warn("Client has active reservation(s)");
+            List<Reservation> reservations = client.getReservations();
             reservations.stream().forEach(
                     reservation -> {
                         reservation.setCancelled(true);
@@ -187,9 +190,9 @@ public class UserService {
             );
         }
 
-        user.setDeleted(true);
-        userRepository.save(user);
-        LOGGER.info("Successfully deleted user with id {}", id);
+        client.setDeleted(true);
+        clientRepository.save(client);
+        LOGGER.info("Successfully deleted client with id {}", id);
 
     }
 
