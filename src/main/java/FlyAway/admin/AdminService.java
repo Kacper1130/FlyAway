@@ -41,7 +41,8 @@ public class AdminService {
         employee.setPhoneNumber(addEmployeeDto.phoneNumber());
         employee.setRoles(Set.of(employeeRole));
         employee.setHireDate(LocalDateTime.now());
-        employee.setEnabled(false);
+        employee.setEnabled(true);
+        employee.setMustChangePassword(true);
         employeeService.addEmployee(employee);
         return new EmployeeCredentialsDto(employee.getEmail(), generatedPassword);
     }

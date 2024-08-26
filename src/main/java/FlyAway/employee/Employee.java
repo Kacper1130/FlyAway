@@ -18,4 +18,5 @@ import java.time.LocalDateTime;
 public class Employee extends User {
 
     private LocalDateTime hireDate;
+    private boolean mustChangePassword;
 }

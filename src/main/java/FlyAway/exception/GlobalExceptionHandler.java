@@ -1,5 +1,6 @@
 package FlyAway.exception;
 
+import FlyAway.validation.Password;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -72,6 +73,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailExistsException.class)
     public ResponseEntity<Object> handleEmailExistsException(EmailExistsException exception) {
         LOGGER.error("Email already exists", exception);
+        ErrorMessage errorMessage = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(IncorrectOldPasswordException.class)
+    public ResponseEntity<Object> handleIncorrectOldPasswordException(IncorrectOldPasswordException exception) {
+        LOGGER.error("Old password does not match with actual password", exception);
+        ErrorMessage errorMessage = new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(PasswordsDoNotMatchException.class)
+    public ResponseEntity<Object> handlePasswordsDoNotMatchException(PasswordsDoNotMatchException exception) {
+        LOGGER.error("Given passwords do not match", exception);
         ErrorMessage errorMessage = new ErrorMessage(
                 HttpStatus.CONFLICT.value(),
                 exception.getMessage()

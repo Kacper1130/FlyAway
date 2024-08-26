@@ -47,9 +47,10 @@ public class AuthenticationService {
                 .phoneNumber(request.phoneNumber())
                 .dayOfBirth(request.dayOfBirth())
                 .roles(Set.of(userRole))
+                .enabled(true)
                 .build();
         userRepository.save(user);
-        LOGGER.info("Created new client: {}", user.toString());
+        LOGGER.info("Created new client: {}", user.getEmail());
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
