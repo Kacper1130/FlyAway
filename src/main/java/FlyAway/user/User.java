@@ -39,4 +39,5 @@ public abstract class User {
     private String phoneNumber;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+    private boolean enabled;
 }

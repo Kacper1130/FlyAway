@@ -1,18 +1,7 @@
 package FlyAway;
 
-import FlyAway.flight.Flight;
-import FlyAway.flight.FlightService;
-import FlyAway.flight.dto.FlightDto;
-import FlyAway.role.Role;
-import FlyAway.role.RoleRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.List;
 
 @SpringBootApplication
 public class FlyAwayApplication {
@@ -27,7 +16,12 @@ public class FlyAwayApplication {
 	// uwagi uzytkownikow
 
 //	@Bean
-//	public CommandLineRunner commandLineRunner(FlightService service, RoleRepository roleRepository){
+//	public CommandLineRunner commandLineRunner(
+//			FlightService service,
+//			RoleRepository roleRepository,
+//			PasswordEncoder passwordEncoder,
+//			AdminRepository adminRepository
+//	){
 //		return args -> {
 //			FlightDto flight = new FlightDto(
 //					"Warsaw",
@@ -60,6 +54,20 @@ public class FlyAwayApplication {
 //			roleRepository.save(employee);
 //			roleRepository.save(admin);
 //
+//			var adminRole = roleRepository.findByName("ROLE_ADMIN")
+//					.orElseThrow(() -> new IllegalStateException("ROLE ADMIN was not initialized"));
+//
+//			Admin admin1 = Admin.builder()
+//					.firstname("admin")
+//					.lastname("admin")
+//					.email("admin@flyaway.com")
+//					.password(passwordEncoder.encode("tajnehaslo123$"))
+//					.phoneNumber("1234567890")
+//					.roles(Set.of(adminRole))
+//					.createdAccounts(null)
+//					.build();
+//
+//			adminRepository.save(admin1);
 //		};
 //	}
 }

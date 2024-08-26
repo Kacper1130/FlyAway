@@ -40,6 +40,15 @@ public class SecurityConfiguration {
                                         "/swagger-ui.html",
                                         "/api/v1/auth/**"
                                 ).permitAll()
+                                .requestMatchers(
+                                        "/api/v1/admin/**"
+                                ).hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(
+                                        "/api/v1/employee/**"
+                                ).hasAuthority("ROLE_EMPLOYEE")
+                                .requestMatchers(
+                                        "/api/v1/flights/add"
+                                ).hasAnyAuthority("ROLE_ADMIN", "ROLE_EMPLOYEE")
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

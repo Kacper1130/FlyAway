@@ -1,6 +1,5 @@
 package FlyAway.employee;
 
-import FlyAway.employee.dto.AddEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,10 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public EmployeeCredentialsDto addEmployee(Employee employee) {
+    public void addEmployee(Employee employee) {
         employeeRepository.save(employee);
-        return new EmployeeCredentialsDto(employee.getEmail(), employee.getPassword());
     }
+
+    
+
 }
