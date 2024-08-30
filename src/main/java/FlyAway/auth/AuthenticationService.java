@@ -3,11 +3,12 @@ package FlyAway.auth;
 import FlyAway.auth.dto.AuthenticationRequest;
 import FlyAway.auth.dto.AuthenticationResponse;
 import FlyAway.auth.dto.RegistrationRequest;
+import FlyAway.client.Client;
+import FlyAway.exception.EmailExistsException;
 import FlyAway.role.RoleRepository;
 import FlyAway.security.JwtService;
 import FlyAway.security.SecurityUser;
-import FlyAway.client.Client;
-import FlyAway.client.ClientRepository;
+import FlyAway.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Set;
 
 @Service
@@ -22,12 +24,12 @@ public class AuthenticationService {
 
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ClientRepository userRepository;
+    private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
-    public AuthenticationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, ClientRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthenticationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
@@ -36,6 +38,10 @@ public class AuthenticationService {
     }
 
     public void register(RegistrationRequest request) {
+        if (userRepository.existsByEmail(request.email())) {
+            throw new EmailExistsException(request.email());
+        }
+
         var userRole = roleRepository.findByName("ROLE_CLIENT")
                 .orElseThrow(() -> new IllegalStateException("ROLE CLIENT was not initialized"));
 
@@ -54,18 +60,19 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-
+        //todo sprawdzenie czy istnieje taki uzytkownik przed authenticate,
+        // nie ma errorow w przypadku braku authentykacji tylko 403
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
                         request.password()
                 )
         );
-        //var claims = new HashMap<String, Object>();
+        var claims = new HashMap<String, Object>();
         var securityUser = ((SecurityUser) auth.getPrincipal());
-        //var user = securityUser.getUser();
-        //claims.put("preferredCurrency", user.getPreferredCurrency());
-        var jwtToken = jwtService.generateToken(securityUser);
+        var user = securityUser.getUser();
+        claims.put("firstname", user.getFirstname());
+        var jwtToken = jwtService.generateToken(claims, securityUser);
         return new AuthenticationResponse(jwtToken);
     }
 
