@@ -1,17 +1,16 @@
 package FlyAway.exception;
 
-import FlyAway.validation.Password;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,83 +19,100 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException exception) {
-        Map<String, String> errors = new HashMap<>();
+    public ResponseEntity<ErrorMessage> handleValidationExceptions(MethodArgumentNotValidException exception) {
+        Set<String> errors = new HashSet<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+            error.getDefaultMessage().replace(",.", ", ");
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+            errors.add(error.getDefaultMessage());
         });
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message("Validation failed")
+                .errors(errors)
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
     @ExceptionHandler(FlightDoesNotExistException.class)
-    public ResponseEntity<Object> handleFlightDoesNotExistException(FlightDoesNotExistException exception) {
+    public ResponseEntity<ErrorMessage> handleFlightDoesNotExistException(FlightDoesNotExistException exception) {
         LOGGER.error("Flight not found", exception);
-        ErrorMessage errorMessage = new ErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
-                exception.getMessage()
-        );
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .message(exception.getMessage())
+                .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(UserDoesNotExistException.class)
-    public ResponseEntity<Object> handleUserDoesNotExistException(UserDoesNotExistException exception) {
+    public ResponseEntity<ErrorMessage> handleUserDoesNotExistException(UserDoesNotExistException exception) {
         LOGGER.error("User not found", exception);
-        ErrorMessage errorMessage = new ErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
-                exception.getMessage()
-        );
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .message(exception.getMessage())
+                .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(ReservationDoesNotExistException.class)
-    public ResponseEntity<Object> handleReservationDoesNotExistException(ReservationDoesNotExistException exception) {
+    public ResponseEntity<ErrorMessage> handleReservationDoesNotExistException(ReservationDoesNotExistException exception) {
         LOGGER.error("Reservation not found", exception);
-        ErrorMessage errorMessage = new ErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
-                exception.getMessage()
-        );
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .message(exception.getMessage())
+                .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(UserDoesNotMatchReservationUserException.class)
-    public ResponseEntity<Object> handleUserDoesNotMatchReservationUserException(UserDoesNotMatchReservationUserException exception) {
+    public ResponseEntity<ErrorMessage> handleUserDoesNotMatchReservationUserException(UserDoesNotMatchReservationUserException exception) {
         LOGGER.error("User does not match reservation user", exception);
-        ErrorMessage errorMessage = new ErrorMessage(
-                HttpStatus.FORBIDDEN.value(),
-                exception.getMessage()
-        );
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.FORBIDDEN.value())
+                .message(exception.getMessage())
+                .build();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
     }
 
     @ExceptionHandler(EmailExistsException.class)
-    public ResponseEntity<Object> handleEmailExistsException(EmailExistsException exception) {
+    public ResponseEntity<ErrorMessage> handleEmailExistsException(EmailExistsException exception) {
         LOGGER.error("Email already exists", exception);
-        ErrorMessage errorMessage = new ErrorMessage(
-                HttpStatus.CONFLICT.value(),
-                exception.getMessage()
-        );
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.CONFLICT.value())
+                .message(exception.getMessage())
+                .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
     @ExceptionHandler(IncorrectOldPasswordException.class)
-    public ResponseEntity<Object> handleIncorrectOldPasswordException(IncorrectOldPasswordException exception) {
+    public ResponseEntity<ErrorMessage> handleIncorrectOldPasswordException(IncorrectOldPasswordException exception) {
         LOGGER.error("Old password does not match with actual password", exception);
-        ErrorMessage errorMessage = new ErrorMessage(
-                HttpStatus.CONFLICT.value(),
-                exception.getMessage()
-        );
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.CONFLICT.value())
+                .message(exception.getMessage())
+                .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
     @ExceptionHandler(PasswordsDoNotMatchException.class)
-    public ResponseEntity<Object> handlePasswordsDoNotMatchException(PasswordsDoNotMatchException exception) {
+    public ResponseEntity<ErrorMessage> handlePasswordsDoNotMatchException(PasswordsDoNotMatchException exception) {
         LOGGER.error("Given passwords do not match", exception);
-        ErrorMessage errorMessage = new ErrorMessage(
-                HttpStatus.CONFLICT.value(),
-                exception.getMessage()
-        );
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.CONFLICT.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorMessage> handleAuthenticationException(AuthenticationException exception) {
+        LOGGER.error("Authentication failed", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.CONFLICT.value())
+                .message("Wrong email or password")
+                .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
