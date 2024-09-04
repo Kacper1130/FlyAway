@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorMessage> handleValidationExceptions(MethodArgumentNotValidException exception) {
         Set<String> errors = new HashSet<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
-            error.getDefaultMessage().replace(",.", ", ");
+//            error.getDefaultMessage().replace(",.", ", ");
 //            String fieldName = ((FieldError) error).getField();
 //            String errorMessage = error.getDefaultMessage();
 //            errors.put(fieldName, errorMessage);

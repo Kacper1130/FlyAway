@@ -45,6 +45,7 @@ public class JwtService {
 
         return Jwts
                 .builder()
+                .setHeaderParam("typ", "JWT")
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
