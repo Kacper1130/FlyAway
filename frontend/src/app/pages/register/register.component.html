@@ -1,0 +1,205 @@
+<!--<div class="container-fluid card login-container mat-app-background">-->
+<!--  <h3 class="text-center">Create an account</h3>-->
+<!--  <hr>-->
+<!--  <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">-->
+<!--    <p *ngFor="let msg of errorMsg">{{ msg }}</p>-->
+<!--  </div>-->
+<!--  <div class="mb-3">-->
+<!--    <label for="firstname" class="form-label">Firstname</label>-->
+<!--    <input [(ngModel)]="registerRequest.firstname" type="text" class="form-control" id="firstname"-->
+<!--           placeholder="Firstname">-->
+<!--  </div>-->
+<!--  <div class="mb-3">-->
+<!--    <label for="lastname" class="form-label">Lastname</label>-->
+<!--    <input [(ngModel)]="registerRequest.lastname" type="text" class="form-control" id="lastname" placeholder="Lastname">-->
+<!--  </div>-->
+<!--  <div class="mb-3">-->
+<!--    <label for="dayofbirth" class="form-label">Day of birth</label>-->
+<!--    <input [(ngModel)]="registerRequest.dayOfBirth" type="text" class="form-control" id="dayofbirth"-->
+<!--           placeholder="day of birth">-->
+<!--  </div>-->
+<!--  <div class="mb-3">-->
+<!--    <label for="phonenumber" class="form-label">Phone number</label>-->
+<!--    <input [(ngModel)]="registerRequest.phoneNumber" type="text" class="form-control" id="phonenumber"-->
+<!--           placeholder="123456789">-->
+<!--  </div>-->
+<!--  <div class="mb-3">-->
+<!--    <label for="login" class="form-label">Email address</label>-->
+<!--    <input [(ngModel)]="registerRequest.email" type="email" class="form-control" id="login"-->
+<!--           placeholder="name@example.com">-->
+<!--  </div>-->
+<!--  <div class="mb-3">-->
+<!--    <label for="password" class="form-label">Password</label>-->
+<!--    <input [(ngModel)]="registerRequest.password" type="password" class="form-control" id="password"-->
+<!--           placeholder="Password">-->
+<!--  </div>-->
+<!--  <div class="d-flex justify-content-between mb-3">-->
+<!--    <button (click)="register()" type="button" class="btn btn-primary">-->
+<!--      <em class="fas fa-sign-in-alt">&nbsp;Create an account</em>-->
+<!--    </button>-->
+<!--    <div>-->
+<!--      Already have an account?&nbsp;-->
+<!--      <button (click)="login()" type="button" class="btn btn-link">-->
+<!--        Login-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+<!--<div class="container-fluid card login-container">-->
+<!--  <h3 class="text-center mt-3">Create an account</h3>-->
+<!--  <hr>-->
+<!--  <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">-->
+<!--    <p *ngFor="let msg of errorMsg">{{ msg }}</p>-->
+<!--  </div>-->
+<!--  <form class="">-->
+<!--    <table class="example-full-width">-->
+<!--      <tr>-->
+<!--        <td>-->
+<!--          <mat-form-field class="example-full-width">-->
+<!--            <mat-label>First name</mat-label>-->
+<!--            <input matInput [(ngModel)]="registerRequest.firstname" name="firstname">-->
+<!--          </mat-form-field>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <mat-form-field class="example-full-width">-->
+<!--            <mat-label>Last name</mat-label>-->
+<!--            <input matInput [(ngModel)]="registerRequest.lastname" name="lastname">-->
+<!--          </mat-form-field>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--    </table>-->
+<!--    <table class="example-full-width">-->
+<!--      <tr>-->
+<!--        <td>-->
+<!--          <mat-form-field class="example-full-width">-->
+<!--            <mat-label>Choose a date</mat-label>-->
+<!--            <input matInput [matDatepicker]="picker" [(ngModel)]="registerRequest.dayOfBirth" name="dayOfBirth">-->
+<!--              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
+<!--            <mat-datepicker startView="multi-year" #picker></mat-datepicker>-->
+<!--          </mat-form-field>-->
+
+<!--        </td>-->
+<!--        <td>-->
+<!--          <mat-form-field class="example-full-width">-->
+<!--            <mat-label>Phone number</mat-label>-->
+<!--            <input matInput [(ngModel)]="registerRequest.phoneNumber" name="phoneNumber">-->
+<!--          </mat-form-field>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--    </table>-->
+<!--    <mat-form-field class="example-full-width">-->
+<!--      <mat-label>Enter your email</mat-label>-->
+<!--      <input-->
+<!--        matInput-->
+<!--        placeholder="email@example.com"-->
+<!--        required-->
+<!--        [(ngModel)]="registerRequest.email"-->
+<!--        name="email"-->
+<!--      />-->
+<!--    </mat-form-field>-->
+<!--    <mat-form-field class="example-full-width">-->
+<!--      <mat-label>Enter your password</mat-label>-->
+<!--      <input-->
+<!--        matInput [type]="hide() ? 'password' : 'text'"-->
+<!--        [(ngModel)]="registerRequest.password"-->
+<!--        name="password"-->
+<!--      />-->
+<!--      <button-->
+<!--        mat-icon-button-->
+<!--        matSuffix-->
+<!--        (click)="clickEvent($event)"-->
+<!--        [attr.aria-label]="'Hide password'"-->
+<!--        [attr.aria-pressed]="hide()"-->
+<!--      >-->
+<!--        <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>-->
+<!--      </button>-->
+<!--    </mat-form-field >-->
+<!--    <button-->
+<!--      mat-raised-button-->
+<!--      color="primary"-->
+<!--      class="full-width-btn"-->
+<!--      (click)="register()"-->
+<!--    >-->
+<!--      Create an account-->
+<!--    </button>-->
+<!--    <div class="login">-->
+<!--      Already have an account?&nbsp;-->
+<!--      <a mat-raised-button (click)="login()" target="_blank">Login</a>-->
+<!--    </div>-->
+
+<!--  </form>-->
+<!--</div>-->
+<app-navbar></app-navbar>
+<app-new-navbar></app-new-navbar>
+
+<div class="container-fluid card login-container">
+  <h3 class="text-center mt-3">Create an account</h3>
+  <hr>
+  <form>
+    <div class="row">
+      <!-- Firstname -->
+      <div class="col-md-6">
+        <mat-form-field class="full-width">
+          <mat-label>First name</mat-label>
+          <input matInput [(ngModel)]="registerRequest.firstname" name="firstname">
+        </mat-form-field>
+      </div>
+      <!-- Lastname -->
+      <div class="col-md-6">
+        <mat-form-field class="full-width">
+          <mat-label>Last name</mat-label>
+          <input matInput [(ngModel)]="registerRequest.lastname" name="lastname">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Day of Birth -->
+      <div class="col-md-6">
+        <mat-form-field class="full-width">
+          <mat-label>Day of birth</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="registerRequest.dayOfBirth" name="dayOfBirth">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker startView="multi-year" #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <!-- Phone number -->
+      <div class="col-md-6">
+        <mat-form-field class="full-width">
+          <mat-label>Phone number</mat-label>
+          <input matInput [(ngModel)]="registerRequest.phoneNumber" name="phoneNumber">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <mat-form-field class="full-width">
+      <mat-label>Enter your email</mat-label>
+      <input matInput placeholder="email@example.com" required [(ngModel)]="registerRequest.email" name="email">
+    </mat-form-field>
+
+    <!-- Password -->
+    <mat-form-field class="full-width">
+      <mat-label>Enter your password</mat-label>
+      <input matInput [type]="hide() ? 'password' : 'text'" [(ngModel)]="registerRequest.password" name="password">
+      <button mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
+        <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!-- Submit button -->
+    <button mat-raised-button color="primary" class="full-width-btn" (click)="register()">
+      Create an account
+    </button>
+
+    <!-- Login link -->
+    <div class="login">
+      Already have an account?&nbsp;
+      <a mat-raised-button (click)="login()" target="_blank">Login</a>
+    </div>
+  </form>
+</div>
+

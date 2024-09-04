@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/" href="javascript:void(0)">FlyAway</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/flights">
+            <i class="fas fa-plane"></i>&nbsp;Flights
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/reservations">
+            <i class="fas fa-book"></i>&nbsp;My reservations
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/books/my-waiting-list">
+            <i class="fas fa-heart"></i>&nbsp;My waiting list
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/books/my-returned-books">
+            <i class="fas fa-home-alt"></i>&nbsp;My returned books
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" routerLink="/books/my-borrowed-books">
+            <i class="fas fa-home-alt"></i>&nbsp;Borrowed books
+          </a>
+        </li>
+      </ul>
+      <div class="d-flex ms-auto" *ngIf="!localStorage.getItem('token')">
+        <button class="btn btn-outline-primary me-2" routerLink="/login">Log In</button>
+        <button class="btn btn-primary" routerLink="/register">Sign Up</button>
+      </div>
+      <div *ngIf="localStorage.getItem('token')">
+        <form class="d-flex gap-2 align-items-center" role="search">
+          <span>Welcome</span>
+          <span class="text-capitalize fw-bold" >{{Firstname}}</span>
+          <button class="btn btn-link" type="button" (click)="logout()"><i class="fas fa-right-from-bracket" style="color: black"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,56 @@
+//.example-form {
+//  min-width: 150px;
+//  max-width: 400px;
+//  width: 100%;
+//}
+//
+//.example-full-width {
+//  width: 100%;
+//}
+//
+//td {
+//  padding-right: 8px;
+//}
+//
+//.full-width-btn {
+//  border-radius: 5px;
+//  width: 100%;
+//  margin-top: 15px;
+//}
+//
+//.login {
+//  margin-top: 50px;
+//  margin-bottom: 10px;
+//  font-size: 14px;
+//  text-align: right;
+//}
+//
+//
+
+.full-width {
+  width: 100%;
+}
+
+.full-width-btn {
+  width: 100%;
+  margin-top: 15px;
+  border-radius: 5px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-md-6 {
+  flex: 0 0 50%; /* Każda kolumna zajmuje 50% szerokości */
+  max-width: 50%;
+  padding-right: 8px; /* Dystans między polami */
+}
+
+.login {
+  margin-top: 50px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: right;
+}

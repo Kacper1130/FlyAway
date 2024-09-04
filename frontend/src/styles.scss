@@ -1,0 +1,87 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use "@angular/material" as mat;
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+//@include mat.core();
+
+//$custom-primary: mat-palette($mat-indigo);
+//$custom-accent: mat-palette($mat-indigo, A200, A100, A400);
+//$custom-warn: mat-palette($mat-red);
+//
+//$myapp-theme-primary: mat.m2-define-palette(mat.$m2-blue-palette);
+//$myapp-theme-accent: mat.m2-define-palette(mat.$m2-orange-palette);
+//$myapp-theme-warn: mat.m2-define-palette(mat.$m2-light-blue-palette);
+//
+//$myapp-theme: mat.m2-define-light-theme((
+//  color: (
+//    primary: $myapp-theme-primary,
+//    accent: $myapp-theme-accent,
+//    warn: $myapp-theme-warn,
+//  )
+//));
+//
+//$my-theme: mat.define-theme((
+//  color: (
+//    theme-type: dark,
+//    primary: mat.$orange-palette,
+//  ),
+//));
+//
+//
+//html {
+//  @include mat.all-component-themes($myapp-theme);
+//}
+
+
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.login-container {
+  width: 800px !important;
+  margin-top: 50px;
+  background-color: #ffffff;
+}
+
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #2f2f2f;
+}
+
+.snackbar-error {
+  .mdc-snackbar__surface {
+    background-color: #be2323 !important;
+  }
+  .mdc-snackbar__label {
+    color: white !important;
+  }
+  .mat-mdc-button.mat-mdc-snack-bar-action {
+    color: black !important;
+  }
+  white-space: pre-line;
+}
+
+.snackbar-success {
+  .mdc-snackbar__surface {
+    background-color: #00a61e !important;
+  }
+  .mdc-snackbar__label {
+    color: white !important;
+  }
+  .mat-mdc-button.mat-mdc-snack-bar-action {
+    color: black !important;
+  }
+  white-space: pre-line;
+}
+
+
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Verification - FlyAway</title>
+</head>
+<body>
+<div style="font-family: Arial, sans-serif; padding: 20px;">
+    <h2>Welcome to FlyAway, <span th:text="${username}">User</span>!</h2>
+    <p>Thank you for registering with our application. To complete the registration process, please confirm your email address.</p>
+
+    <p>To verify your email, click the link below:</p>
+
+    <a th:href="${verificationLink}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+        Verify your email
+    </a>
+
+    <p>Or copy and paste this address into your browser:</p>
+    <p><a th:href="${verificationLink}" th:text="${verificationLink}">Verification link</a></p>
+
+    <p>If you did not sign up for FlyAway, please ignore this email.</p>
+
+    <hr>
+    <footer style="text-align: center; font-size: 12px; color: #888;">
+        <p>FlyAway &copy; 2024</p>
+        <p><a href="http://localhost:8080" th:href="@{http://localhost:8080}">Visit our website</a></p>
+    </footer>
+</div>
+</body>
+</html>

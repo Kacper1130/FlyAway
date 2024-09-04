@@ -1,0 +1,29 @@
+<mat-toolbar>
+  <a class="navbar-brand" routerLink="/">FlyAway</a>
+  <div class="nav-buttons ms-4">
+    <button mat-button class="large-button" routerLink="/flights" routerLinkActive="active">Flights</button>
+    <button mat-button class="large-button" routerLink="/reservations" routerLinkActive="active">My Reservations</button>
+  </div>
+
+  <span class="container-fluid"></span>
+
+  <div class="d-flex ms-auto" *ngIf="!localStorage.getItem('token')">
+    <a class="m-1" mat-button routerLink="/register">Sign up</a>
+    <a class="m-1" mat-flat-button routerLink="/login">Log in</a>
+  </div>
+
+  <div *ngIf="localStorage.getItem('token')">
+    <form class="d-flex gap-2 align-items-center" role="search">
+      <span>Welcome</span>
+      <span class="text-capitalize fw-bold">{{ Firstname }}</span>
+      <div>
+        <button mat-icon-button class="example-icon" routerLink="/profile">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-toolbar>
