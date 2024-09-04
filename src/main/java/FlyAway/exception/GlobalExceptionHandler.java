@@ -116,4 +116,34 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
+    @ExceptionHandler(InvalidConfirmationTokenException.class)
+    public ResponseEntity<ErrorMessage> handleInvalidConfirmationTokenException(InvalidConfirmationTokenException exception) {
+        LOGGER.error("Invalid token ", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.UNAUTHORIZED.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
+    }
+
+    @ExceptionHandler(ExpiredConfirmationTokenException.class)
+    public ResponseEntity<ErrorMessage> handleExpiredConfirmationTokenException(ExpiredConfirmationTokenException exception) {
+        LOGGER.error("Expired confirmation token ", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.FORBIDDEN.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+    }
+
+    @ExceptionHandler(AccountNotActivatedException.class)
+    public ResponseEntity<ErrorMessage> handleAccountNotActivatedException(AccountNotActivatedException exception) {
+        LOGGER.error("Account email is not verified ", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.FORBIDDEN.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+    }
+
 }
