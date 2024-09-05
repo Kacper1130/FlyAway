@@ -465,6 +465,36 @@
         }
       }
     },
+    "/api/v1/auth/confirm-account": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "confirmUserAccount",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/admin/employees": {
       "get": {
         "tags": [
@@ -688,6 +718,10 @@
         }
       },
       "AuthenticationRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
         "type": "object",
         "properties": {
           "email": {

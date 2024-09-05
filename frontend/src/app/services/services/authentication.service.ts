@@ -12,6 +12,8 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { authenticate } from '../fn/authentication/authenticate';
 import { Authenticate$Params } from '../fn/authentication/authenticate';
 import { AuthenticationResponse } from '../models/authentication-response';
+import { confirmUserAccount } from '../fn/authentication/confirm-user-account';
+import { ConfirmUserAccount$Params } from '../fn/authentication/confirm-user-account';
 import { register } from '../fn/authentication/register';
 import { Register$Params } from '../fn/authentication/register';
 
@@ -72,6 +74,35 @@ export class AuthenticationService extends BaseService {
   authenticate(params: Authenticate$Params, context?: HttpContext): Observable<AuthenticationResponse> {
     return this.authenticate$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `confirmUserAccount()` */
+  static readonly ConfirmUserAccountPath = '/api/v1/auth/confirm-account';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `confirmUserAccount()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  confirmUserAccount$Response(params: ConfirmUserAccount$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return confirmUserAccount(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `confirmUserAccount$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  confirmUserAccount(params: ConfirmUserAccount$Params, context?: HttpContext): Observable<{
+}> {
+    return this.confirmUserAccount$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
     );
   }
 

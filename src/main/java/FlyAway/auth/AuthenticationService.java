@@ -98,15 +98,17 @@ public class AuthenticationService {
 
     private void sendConfirmationEmail(User user) throws MessagingException {
         var token = generateConfirmationToken(user);
-        String verificationLink = "http://localhost:8080/api/v1/auth/confirm-account?token=" + token.getToken();
+        String verificationLink = "http://localhost:4200/activate-account?token=" + token.getToken();
         emailService.sendConfirmationEmail(user.getEmail(), user.getFirstname(), verificationLink);
         LOGGER.info("Confirmation email has been sent to {}", user.getEmail());
     }
 
     private ConfirmationToken generateConfirmationToken(User user) {
+        LOGGER.info("generating confirmation token for user {}", user.getEmail());
         ConfirmationToken confirmationToken = confirmationTokenService.createConfirmationToken();
         confirmationToken.setUser(user);
         confirmationTokenService.save(confirmationToken);
+        LOGGER.info("saved new token {}", confirmationToken.getToken());
         return confirmationToken;
     }
 
@@ -126,6 +128,7 @@ public class AuthenticationService {
                 });
         user.setEnabled(true);
         userRepository.save(user);
+        LOGGER.info("{} verified successfully", user.getEmail());
     }
 
 }

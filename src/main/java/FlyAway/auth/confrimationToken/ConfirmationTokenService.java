@@ -35,6 +35,7 @@ public class ConfirmationTokenService {
 
     public void save(ConfirmationToken confirmationToken) {
         confirmationTokenRepository.save(confirmationToken);
+        LOGGER.info("Saved new confirmation token {}", confirmationToken.toString());
     }
 
     public ConfirmationToken findByToken(String token) {

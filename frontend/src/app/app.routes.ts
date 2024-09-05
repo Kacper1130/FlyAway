@@ -5,6 +5,7 @@ import {HomeComponent} from "./pages/home/home/home.component";
 import {authGuard} from "./services/guard/auth.guard";
 import {FlightsComponent} from "./pages/flights/flights.component";
 import {ReservationsComponent} from "./pages/reservations/reservations.component";
+import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 
 export const routes: Routes = [
   {
@@ -18,6 +19,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'activate-account',
+    component: ActivateAccountComponent
   },
   {
     path: 'flights',

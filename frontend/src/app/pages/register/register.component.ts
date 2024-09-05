@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../servicesOLD/services/authentication.service";
-import {RegistrationRequest} from "../../servicesOLD/models/registration-request";
+import {AuthenticationService} from "../../services/services/authentication.service";
+import {RegistrationRequest} from "../../services/models/registration-request";
 import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {MatFormField, MatFormFieldModule, MatHint, MatLabel, MatSuffix} from "@angular/material/form-field";
@@ -67,7 +67,7 @@ export class RegisterComponent {
     }).subscribe({
       next: () => {
         this.router.navigate(['']);
-        const message = 'Your account has been created successfully.\n Please check your email to activate your account.'
+        const message = 'Thank you for signing up!\nPlease check your email to activate your account.'
         this._snackBar.open(message, 'close', {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,

@@ -1,6 +1,6 @@
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../servicesOLD/services/authentication.service";
-import {AuthenticationRequest} from "../../servicesOLD/models/authentication-request";
+import {AuthenticationService} from "../../services/services/authentication.service";
+import {AuthenticationRequest} from "../../services/models/authentication-request";
 import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {TokenService} from "../../services/token/token.service";
