@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/clients")
-@Tag(name = "User")
+@Tag(name = "Client")
 public class ClientController {
 
     private final ClientService clientService;

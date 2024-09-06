@@ -5,6 +5,7 @@ import FlyAway.employee.Employee;
 import FlyAway.employee.EmployeeService;
 import FlyAway.employee.dto.AddEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/admin")
+@Tag(name = "admin")
 public class AdminController {
 
     private final EmployeeService employeeService;

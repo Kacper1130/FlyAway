@@ -1,6 +1,7 @@
 package FlyAway.user;
 
 import FlyAway.user.dto.ChangePasswordRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1")
+@Tag(name = "User")
 public class UserController {
 
     private final UserService userService;
