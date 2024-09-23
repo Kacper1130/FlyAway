@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {NavbarComponent} from "../../components/navbar/navbar.component";
-import {NewNavbarComponent} from "../../components/new-navbar/new-navbar.component";
+import {NavbarComponent} from "../../../components/navbar/navbar.component";
+import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.component";
 
 @Component({
   selector: 'app-reservations',
