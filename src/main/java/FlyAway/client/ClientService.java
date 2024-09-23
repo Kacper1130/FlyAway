@@ -12,9 +12,12 @@ import FlyAway.reservation.ReservationMapper;
 import FlyAway.reservation.ReservationRepository;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.role.RoleRepository;
+import FlyAway.security.SecurityUser;
+import FlyAway.user.User;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -85,8 +88,7 @@ public class ClientService {
         return createdUserDto;
     }
 
-    public ClientDto getClient
-            (Long id) {
+    public ClientDto getClientFromId(Long id) {
         LOGGER.debug("Retrieving user with id {}", id);
         Optional<Client> optionalUser = clientRepository.findActiveById(id);
         return optionalUser.map(
@@ -185,7 +187,7 @@ public class ClientService {
                     reservation -> {
                         reservation.setCancelled(true);
                         reservationRepository.save(reservation);
-                        LOGGER.info("Successfully cancelled reservation with id {}",reservation.getId());
+                        LOGGER.info("Successfully cancelled reservation with id {}", reservation.getId());
                     }
             );
         }
@@ -196,4 +198,9 @@ public class ClientService {
 
     }
 
+    public ClientDto getClient(Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Client client = (Client) securityUser.getUser();
+        return clientMapper.clientToClientDto(client);
+    }
 }

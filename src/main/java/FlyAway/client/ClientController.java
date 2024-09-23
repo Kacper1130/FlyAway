@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -53,9 +54,17 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientDto> getClient(@PathVariable Long id) {
+    public ResponseEntity<ClientDto> getClientFromId(@PathVariable Long id) {
         LOGGER.debug("Retrieving client with id {}", id);
-        ClientDto clientDto = clientService.getClient(id);
+        ClientDto clientDto = clientService.getClientFromId(id);
+        LOGGER.info("Successfully retrieved client");
+        return ResponseEntity.ok(clientDto);
+    }
+
+    @GetMapping("/client")
+    public ResponseEntity<ClientDto> getClient(Authentication authentication) {
+        LOGGER.debug("Retrieving client {}", authentication.getCredentials());
+        ClientDto clientDto = clientService.getClient(authentication);
         LOGGER.info("Successfully retrieved client");
         return ResponseEntity.ok(clientDto);
 
