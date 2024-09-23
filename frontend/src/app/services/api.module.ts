@@ -6,11 +6,11 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { ReservationService } from './services/reservation.service';
 import { FlightService } from './services/flight.service';
-import { EmployeeControllerService } from './services/employee-controller.service';
-import { UserService } from './services/user.service';
+import { EmployeeService } from './services/employee.service';
+import { ClientService } from './services/client.service';
 import { AuthenticationService } from './services/authentication.service';
-import { AdminControllerService } from './services/admin-controller.service';
-import { UserControllerService } from './services/user-controller.service';
+import { AdminService } from './services/admin.service';
+import { UserService } from './services/user.service';
 
 /**
  * Module that provides all services and configuration.
@@ -22,11 +22,11 @@ import { UserControllerService } from './services/user-controller.service';
   providers: [
     ReservationService,
     FlightService,
-    EmployeeControllerService,
-    UserService,
+    EmployeeService,
+    ClientService,
     AuthenticationService,
-    AdminControllerService,
-    UserControllerService,
+    AdminService,
+    UserService,
     ApiConfiguration
   ],
 })

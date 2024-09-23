@@ -75,7 +75,7 @@
     "/api/v1/employee/activate": {
       "post": {
         "tags": [
-          "employee-controller"
+          "Employee"
         ],
         "operationId": "activateEmployee",
         "responses": {
@@ -95,7 +95,7 @@
     "/api/v1/clients/add": {
       "post": {
         "tags": [
-          "User"
+          "Client"
         ],
         "operationId": "add_1",
         "requestBody": {
@@ -185,7 +185,7 @@
     "/api/v1/admin/employees/add": {
       "post": {
         "tags": [
-          "admin-controller"
+          "admin"
         ],
         "operationId": "addEmployee",
         "parameters": [
@@ -215,7 +215,7 @@
     "/api/v1/change-password": {
       "patch": {
         "tags": [
-          "user-controller"
+          "User"
         ],
         "operationId": "changePassword",
         "requestBody": {
@@ -291,7 +291,7 @@
     "/api/v1/clients": {
       "get": {
         "tags": [
-          "User"
+          "Client"
         ],
         "operationId": "getAll_1",
         "responses": {
@@ -314,9 +314,9 @@
     "/api/v1/clients/{id}": {
       "get": {
         "tags": [
-          "User"
+          "Client"
         ],
-        "operationId": "getClient",
+        "operationId": "getClientFromId",
         "parameters": [
           {
             "name": "id",
@@ -343,7 +343,7 @@
       },
       "delete": {
         "tags": [
-          "User"
+          "Client"
         ],
         "operationId": "deleteClient",
         "parameters": [
@@ -374,7 +374,7 @@
     "/api/v1/clients/{id}/reservations": {
       "get": {
         "tags": [
-          "User"
+          "Client"
         ],
         "operationId": "getClientWithReservations",
         "parameters": [
@@ -405,7 +405,7 @@
     "/api/v1/clients/{id}/reservations/{reservationId}": {
       "get": {
         "tags": [
-          "User"
+          "Client"
         ],
         "operationId": "getClientReservation",
         "parameters": [
@@ -445,7 +445,7 @@
     "/api/v1/clients/deleted": {
       "get": {
         "tags": [
-          "User"
+          "Client"
         ],
         "operationId": "getAllDeletedUsers",
         "responses": {
@@ -458,6 +458,26 @@
                   "items": {
                     "$ref": "#/components/schemas/ClientReservationDto"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/clients/client": {
+      "get": {
+        "tags": [
+          "Client"
+        ],
+        "operationId": "getClient",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientDto"
                 }
               }
             }
@@ -498,7 +518,7 @@
     "/api/v1/admin/employees": {
       "get": {
         "tags": [
-          "admin-controller"
+          "admin"
         ],
         "operationId": "getAllEmployees",
         "responses": {
@@ -552,7 +572,7 @@
     "/api/v1/clients/{userId}/reservations/{reservationId}/cancel": {
       "delete": {
         "tags": [
-          "User"
+          "Client"
         ],
         "operationId": "cancelReservation_1",
         "parameters": [

@@ -9,11 +9,11 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { activateEmployee } from '../fn/employee-controller/activate-employee';
-import { ActivateEmployee$Params } from '../fn/employee-controller/activate-employee';
+import { activateEmployee } from '../fn/employee/activate-employee';
+import { ActivateEmployee$Params } from '../fn/employee/activate-employee';
 
 @Injectable({ providedIn: 'root' })
-export class EmployeeControllerService extends BaseService {
+export class EmployeeService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

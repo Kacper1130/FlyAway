@@ -6,16 +6,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ClientDto } from '../../models/client-dto';
 
-export interface GetClient$Params {
-  id: number;
+export interface ActivateEmployee$Params {
 }
 
-export function getClient(http: HttpClient, rootUrl: string, params: GetClient$Params, context?: HttpContext): Observable<StrictHttpResponse<ClientDto>> {
-  const rb = new RequestBuilder(rootUrl, getClient.PATH, 'get');
+export function activateEmployee(http: HttpClient, rootUrl: string, params?: ActivateEmployee$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+  const rb = new RequestBuilder(rootUrl, activateEmployee.PATH, 'post');
   if (params) {
-    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -23,9 +21,10 @@ export function getClient(http: HttpClient, rootUrl: string, params: GetClient$P
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ClientDto>;
+      return r as StrictHttpResponse<{
+      }>;
     })
   );
 }
 
-getClient.PATH = '/api/v1/clients/{id}';
+activateEmployee.PATH = '/api/v1/employee/activate';

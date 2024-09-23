@@ -3,9 +3,11 @@ import {LoginComponent} from "./pages/login/login.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {HomeComponent} from "./pages/home/home/home.component";
 import {authGuard} from "./services/guard/auth.guard";
-import {FlightsComponent} from "./pages/flights/flights.component";
-import {ReservationsComponent} from "./pages/reservations/reservations.component";
+import {FlightsComponent} from "./modules/flights/pages/available-flights/flights.component";
+import {ReservationsComponent} from "./modules/reservations/reservations/reservations.component";
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
+import {ClientDetailsComponent} from "./pages/client-details/client-details.component";
+import {AdminPanelComponent} from "./modules/admin/pages/admin-panel/admin-panel.component";
 
 export const routes: Routes = [
   {
@@ -23,6 +25,11 @@ export const routes: Routes = [
   {
     path: 'activate-account',
     component: ActivateAccountComponent
+  },
+  {
+    path: 'profile',
+    component: ClientDetailsComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'flights',
