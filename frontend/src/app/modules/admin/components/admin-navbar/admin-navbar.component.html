@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <a class="navbar-brand" routerLink="/admin">ADMIN PANEL</a>
+  <div class="nav-buttons ms-4">
+    <button mat-button class="large-button" routerLink="/admin/employees" routerLinkActive="active">Employees</button>
+  </div>
+
+  <span class="container-fluid"></span>
+
+  <form class="d-flex gap-2 align-items-center" role="search">
+    <div>
+      <button mat-icon-button class="example-icon" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </form>
+</mat-toolbar>

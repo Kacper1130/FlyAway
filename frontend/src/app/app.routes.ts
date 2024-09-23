@@ -40,5 +40,13 @@ export const routes: Routes = [
     path: 'reservations',
     component: ReservationsComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'admin',
+    component: AdminPanelComponent,
+    canActivate: [authGuard],
+    data: {
+      role: 'ROLE_ADMIN'
+    }
   }
 ];

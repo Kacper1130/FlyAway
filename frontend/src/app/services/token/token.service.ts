@@ -38,4 +38,9 @@ export class TokenService {
     return this.jwtHelper.decodeToken(token).firstname;
   }
 
+  getRole() {
+    const token = this.token
+    return this.jwtHelper.decodeToken(token).authorities;
+  }
+
 }

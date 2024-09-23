@@ -59,10 +59,18 @@ export class LoginComponent {
       body: this.authRequest
     }).subscribe({
       next: (res) => {
-        console.log(res.token)
-        console.log(res)
+        // console.log(res.token)
+        // console.log(res)
         this.tokenService.token = res.token as string;
-        this.router.navigate(['']);
+        const role = this.tokenService.getRole()[0];
+        console.log(role);
+        if (role === 'ROLE_ADMIN') {
+          this.router.navigate(['admin']);
+        } else if (role === 'ROLE_EMPLOYEE') {
+          this.router.navigate(['employee']);
+        } else {
+          this.router.navigate(['']);
+        }
       },
       error: (err) => {
         if (err.error.errors) {
