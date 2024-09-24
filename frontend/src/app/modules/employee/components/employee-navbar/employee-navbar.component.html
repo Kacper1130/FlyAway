@@ -1,0 +1,20 @@
+<mat-toolbar>
+  <a class="navbar-brand" routerLink="/employee">EMPLOYEE PANEL</a>
+  <div class="nav-buttons ms-4">
+    <button mat-button class="large-button" routerLink="/employee/flights" routerLinkActive="active">Flights</button>
+    <button mat-button class="large-button" routerLink="/employee/reservations" routerLinkActive="active">Reservations</button>
+    <button mat-button class="large-button" routerLink="/employee/issues" routerLinkActive="active">Client Issues</button>
+  </div>
+
+  <span class="container-fluid"></span>
+
+  <form class="d-flex gap-2 align-items-center">
+    <span>Logged in as: </span>
+    <span >{{ Email }}</span>
+    <div>
+      <button mat-icon-button class="example-icon" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </form>
+</mat-toolbar>

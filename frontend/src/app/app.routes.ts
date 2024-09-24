@@ -10,6 +10,7 @@ import {ClientDetailsComponent} from "./pages/client-details/client-details.comp
 import {AdminPanelComponent} from "./modules/admin/pages/admin-panel/admin-panel.component";
 import {AdminEmployeesComponent} from "./modules/admin/pages/admin-employees/admin-employees.component";
 import {AddEmployeeComponent} from "./modules/admin/pages/add-employee/add-employee.component";
+import {EmployeePanelComponent} from "./modules/employee/pages/employee-panel/employee-panel.component";
 
 export const routes: Routes = [
   {
@@ -69,4 +70,17 @@ export const routes: Routes = [
       }
     ]
   },
+  {
+    path: 'employee',
+    canActivate: [authGuard],
+    data: {
+      role: 'ROLE_EMPLOYEE'
+    },
+    children: [
+      {
+        path: '',
+        component: EmployeePanelComponent
+      },
+    ]
+  }
 ];

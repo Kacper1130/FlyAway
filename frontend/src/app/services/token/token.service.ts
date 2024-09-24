@@ -43,4 +43,8 @@ export class TokenService {
     return this.jwtHelper.decodeToken(token).authorities;
   }
 
+  getEmail() {
+    const token = this.token
+    return this.jwtHelper.decodeToken(token).sub;
+  }
 }
