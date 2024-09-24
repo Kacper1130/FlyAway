@@ -188,23 +188,23 @@
           "admin"
         ],
         "operationId": "addEmployee",
-        "parameters": [
-          {
-            "name": "addEmployeeDto",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/AddEmployeeDto"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEmployeeDto"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/EmployeeCredentialsDto"
                 }
               }
             }
@@ -762,8 +762,10 @@
       },
       "AddEmployeeDto": {
         "required": [
+          "email",
           "firstname",
-          "lastname"
+          "lastname",
+          "phoneNumber"
         ],
         "type": "object",
         "properties": {
@@ -781,6 +783,23 @@
             "type": "string"
           },
           "phoneNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "EmployeeCredentialsDto": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
             "type": "string"
           }
         }

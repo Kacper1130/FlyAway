@@ -10,6 +10,7 @@ export { ClientReservationDto } from './models/client-reservation-dto';
 export { CreateReservationDto } from './models/create-reservation-dto';
 export { DisplayReservationDto } from './models/display-reservation-dto';
 export { Employee } from './models/employee';
+export { EmployeeCredentialsDto } from './models/employee-credentials-dto';
 export { FlightDto } from './models/flight-dto';
 export { RegistrationRequest } from './models/registration-request';
 export { ReservationDto } from './models/reservation-dto';

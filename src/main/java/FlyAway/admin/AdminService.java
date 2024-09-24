@@ -4,7 +4,9 @@ import FlyAway.employee.Employee;
 import FlyAway.employee.EmployeeService;
 import FlyAway.employee.dto.AddEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
+import FlyAway.exception.EmailExistsException;
 import FlyAway.role.RoleRepository;
+import FlyAway.user.UserRepository;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
@@ -20,15 +22,21 @@ public class AdminService {
 
     private final EmployeeService employeeService;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AdminService(EmployeeService employeeService, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AdminService(EmployeeService employeeService, RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.employeeService = employeeService;
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public EmployeeCredentialsDto createEmployee(AddEmployeeDto addEmployeeDto) {
+        if (userRepository.existsByEmail(addEmployeeDto.email())) {
+            throw new EmailExistsException(addEmployeeDto.email());
+        }
+
         var employeeRole = roleRepository.findByName("ROLE_EMPLOYEE")
                 .orElseThrow(() -> new IllegalStateException("ROLE EMPLOYEE was not initialized"));
 
@@ -44,7 +52,7 @@ public class AdminService {
         employee.setEnabled(true);
         employee.setMustChangePassword(true);
         employeeService.addEmployee(employee);
-        return new EmployeeCredentialsDto(employee.getEmail(), generatedPassword);
+        return new EmployeeCredentialsDto(employee.getFirstname(), employee.getLastname(), employee.getEmail(), generatedPassword);
     }
 
     private String generatePassword() {

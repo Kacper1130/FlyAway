@@ -8,6 +8,8 @@ import {ReservationsComponent} from "./modules/reservations/reservations/reserva
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {ClientDetailsComponent} from "./pages/client-details/client-details.component";
 import {AdminPanelComponent} from "./modules/admin/pages/admin-panel/admin-panel.component";
+import {AdminEmployeesComponent} from "./modules/admin/pages/admin-employees/admin-employees.component";
+import {AddEmployeeComponent} from "./modules/admin/pages/add-employee/add-employee.component";
 
 export const routes: Routes = [
   {
@@ -43,10 +45,28 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    component: AdminPanelComponent,
     canActivate: [authGuard],
     data: {
       role: 'ROLE_ADMIN'
-    }
-  }
+    },
+    children: [
+      {
+        path: '',
+        component: AdminPanelComponent
+      },
+      {
+        path: 'employees',
+        children: [
+          {
+            path: '',
+            component: AdminEmployeesComponent
+          },
+          {
+            path: 'add',
+            component: AddEmployeeComponent
+          }
+        ]
+      }
+    ]
+  },
 ];

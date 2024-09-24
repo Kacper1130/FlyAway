@@ -12,6 +12,7 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { addEmployee } from '../fn/admin/add-employee';
 import { AddEmployee$Params } from '../fn/admin/add-employee';
 import { Employee } from '../models/employee';
+import { EmployeeCredentialsDto } from '../models/employee-credentials-dto';
 import { getAllEmployees } from '../fn/admin/get-all-employees';
 import { GetAllEmployees$Params } from '../fn/admin/get-all-employees';
 
@@ -28,10 +29,9 @@ export class AdminService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `addEmployee()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addEmployee$Response(params: AddEmployee$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
+  addEmployee$Response(params: AddEmployee$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeeCredentialsDto>> {
     return addEmployee(this.http, this.rootUrl, params, context);
   }
 
@@ -39,14 +39,11 @@ export class AdminService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `addEmployee$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addEmployee(params: AddEmployee$Params, context?: HttpContext): Observable<{
-}> {
+  addEmployee(params: AddEmployee$Params, context?: HttpContext): Observable<EmployeeCredentialsDto> {
     return this.addEmployee$Response(params, context).pipe(
-      map((r: StrictHttpResponse<{
-}>): {
-} => r.body)
+      map((r: StrictHttpResponse<EmployeeCredentialsDto>): EmployeeCredentialsDto => r.body)
     );
   }
 

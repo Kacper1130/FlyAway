@@ -7,16 +7,16 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { AddEmployeeDto } from '../../models/add-employee-dto';
+import { EmployeeCredentialsDto } from '../../models/employee-credentials-dto';
 
 export interface AddEmployee$Params {
-  addEmployeeDto: AddEmployeeDto;
+      body: AddEmployeeDto
 }
 
-export function addEmployee(http: HttpClient, rootUrl: string, params: AddEmployee$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
+export function addEmployee(http: HttpClient, rootUrl: string, params: AddEmployee$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeeCredentialsDto>> {
   const rb = new RequestBuilder(rootUrl, addEmployee.PATH, 'post');
   if (params) {
-    rb.query('addEmployeeDto', params.addEmployeeDto, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -24,8 +24,7 @@ export function addEmployee(http: HttpClient, rootUrl: string, params: AddEmploy
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<EmployeeCredentialsDto>;
     })
   );
 }

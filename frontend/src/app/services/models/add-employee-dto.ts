@@ -1,8 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface AddEmployeeDto {
-  email?: string;
+  email: string;
   firstname: string;
   lastname: string;
-  phoneNumber?: string;
+  phoneNumber: string;
 }
