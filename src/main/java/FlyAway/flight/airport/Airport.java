@@ -1,7 +1,9 @@
 package FlyAway.flight.airport;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.UUID;
@@ -18,13 +20,18 @@ public class Airport {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @NotBlank
+    @NotEmpty(message = "Name can not be empty")
+    @NotBlank(message = "Name can not be blank")
     private String name;
-    @NotBlank
+    @NotEmpty(message = "IATA code can not be empty")
+    @NotBlank(message = "IATA code can not be blank")
+    @JsonProperty("IATACode")
     private String IATACode;
-    @NotBlank
+    @NotEmpty(message = "City can not be empty")
+    @NotBlank(message = "City can not be blank")
     private String city;
-    @NotBlank
+    @NotEmpty(message = "Country can not be empty")
+    @NotBlank(message = "Country can not be blank")
     private String country;
 
 }
