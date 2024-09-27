@@ -3,7 +3,6 @@ package FlyAway.flight;
 import FlyAway.flight.dto.FlightDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 import org.mockito.*;
 
 import java.time.LocalDateTime;

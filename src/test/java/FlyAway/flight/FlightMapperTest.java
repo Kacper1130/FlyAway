@@ -2,7 +2,6 @@ package FlyAway.flight;
 
 import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.Reservation;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 

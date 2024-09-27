@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -26,9 +25,9 @@ public class FlightController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FlightDto>> getAll() {
+    public ResponseEntity<List<Flight>> getAll() {
         LOGGER.debug("Retrieving all flights");
-        List<FlightDto> flights = flightService.getAll();
+        List<Flight> flights = flightService.getAll();
         LOGGER.info("Retrieved {} flights", flights.size());
         return ResponseEntity.ok(flights);
     }

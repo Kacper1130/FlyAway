@@ -1,21 +1,26 @@
 package FlyAway.flight.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import FlyAway.flight.aircraft.Aircraft;
+import FlyAway.flight.aircraft.CabinClass;
+import FlyAway.flight.airport.Airport;
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public record FlightDto(
-        @NotBlank
-        String departureCity,
-        @NotBlank
-        String arrivalCity,
+        @NotNull
+        Airport departureAirport,
+        @NotNull
+        Airport arrivalAirport,
         @NotNull
         LocalDateTime departureDate,
         @NotNull
         LocalDateTime arrivalDate,
-        @NotBlank
-        String airline
+        @NotNull
+        Aircraft aircraft,
+        @NotNull
+        Map<CabinClass, BigDecimal> cabinClassPrices
 ) {
 }

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FlightService {
@@ -22,11 +21,9 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<FlightDto> getAll() {
+    public List<Flight> getAll() {
         LOGGER.debug("Retrieving all flights from repository");
-        List<FlightDto> flights = flightRepository.findAll()
-                .stream().map(flightMapper::flightToFlightDto)
-                .collect(Collectors.toList());
+        List<Flight> flights = flightRepository.findAll();
         LOGGER.info("Retrieved {} flights from repository", flights.size());
         return flights;
     }
