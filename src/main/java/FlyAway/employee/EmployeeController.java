@@ -1,10 +1,7 @@
 package FlyAway.employee;
 
-import FlyAway.admin.AdminController;
-import FlyAway.admin.AdminService;
 import FlyAway.employee.dto.AddEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
-import FlyAway.flight.dto.FlightDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/employee")
+@RequestMapping("/api/v1/employees")
 @Tag(name = "Employee")
 public class EmployeeController {
 
@@ -24,11 +21,6 @@ public class EmployeeController {
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-    }
-
-    @PostMapping("/activate")
-    public ResponseEntity<?> activateEmployee() {
-        return null;
     }
 
     @GetMapping
