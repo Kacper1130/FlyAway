@@ -1,0 +1,5 @@
+<app-admin-navbar></app-admin-navbar>
+<h2 class="text-white text-center mt-2">Aircraft Fleet</h2>
+<div *ngFor="let aircraft of aircraftList">
+  <app-single-aircraft [aircraft]="aircraft"></app-single-aircraft>
+</div>

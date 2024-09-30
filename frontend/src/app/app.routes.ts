@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 import {LoginComponent} from "./pages/login/login.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {HomeComponent} from "./pages/home/home/home.component";
@@ -12,6 +12,7 @@ import {AdminEmployeesComponent} from "./modules/admin/pages/admin-employees/adm
 import {AddEmployeeComponent} from "./modules/admin/pages/add-employee/add-employee.component";
 import {EmployeePanelComponent} from "./modules/employee/pages/employee-panel/employee-panel.component";
 import {CountriesComponent} from "./modules/admin/pages/countries/countries.component";
+import {AircraftListComponent} from "./modules/admin/pages/aircraft-list/aircraft-list.component";
 
 export const routes: Routes = [
   {
@@ -72,6 +73,10 @@ export const routes: Routes = [
       {
         path: 'countries',
         component: CountriesComponent
+      },
+      {
+        path: 'aircraft',
+        component: AircraftListComponent
       },
     ]
   },

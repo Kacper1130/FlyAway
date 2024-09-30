@@ -1,0 +1,18 @@
+<div class="aircraft-card m-1">
+  <div class="left-column">
+    <h2>{{ aircraft.model }} <span>({{ aircraft.productionYear }})</span></h2>
+    <p><strong>Registration:</strong> {{ aircraft.registration }}</p>
+  </div>
+  <div class="middle-column">
+    <p><strong>Total Seats:</strong> {{ aircraft.totalSeats }}</p>
+  </div>
+  <div class="right-column" *ngIf="aircraft.seatClassRanges">
+    <h3>Seat Class Ranges:</h3>
+    <ul>
+      <li *ngFor="let seatClass of objectKeys(aircraft.seatClassRanges)">
+        <strong>({{getSeatsInClass(seatClass)}}) {{ seatClass }}:</strong>
+        {{ getSeatsRange(seatClass) }}
+      </li>
+    </ul>
+  </div>
+</div>
