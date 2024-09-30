@@ -9,7 +9,9 @@ import { FlightService } from './services/flight.service';
 import { EmployeeService } from './services/employee.service';
 import { ClientService } from './services/client.service';
 import { AuthenticationService } from './services/authentication.service';
-import { AdminService } from './services/admin.service';
+import { AirportService } from './services/airport.service';
+import { AircraftService } from './services/aircraft.service';
+import { CountryService } from './services/country.service';
 import { UserService } from './services/user.service';
 
 /**
@@ -25,7 +27,9 @@ import { UserService } from './services/user.service';
     EmployeeService,
     ClientService,
     AuthenticationService,
-    AdminService,
+    AirportService,
+    AircraftService,
+    CountryService,
     UserService,
     ApiConfiguration
   ],

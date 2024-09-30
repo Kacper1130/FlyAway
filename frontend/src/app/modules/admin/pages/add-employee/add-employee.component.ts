@@ -9,11 +9,11 @@ import {MatInput} from "@angular/material/input";
 import {PaginatorModule} from "primeng/paginator";
 import {AddEmployeeDto} from "../../../../services/models/add-employee-dto";
 import {Router} from "@angular/router";
-import {AdminService} from "../../../../services/services/admin.service";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {EmployeeCredentialsDto} from "../../../../services/models/employee-credentials-dto";
 import {NgIf} from "@angular/common";
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {EmployeeService} from "../../../../services/services/employee.service";
 
 @Component({
   selector: 'app-add-employee',
@@ -66,7 +66,7 @@ export class AddEmployeeComponent {
 
   constructor(
     private router: Router,
-    private adminService: AdminService
+    private employeeService: EmployeeService
   ) {
   }
 
@@ -75,7 +75,7 @@ export class AddEmployeeComponent {
     if (!this.addEmployeeDto.email?.endsWith("@flyaway.com")) {
       this.addEmployeeDto.email += '@flyaway.com';
     }
-    this.adminService.addEmployee({
+    this.employeeService.addEmployee({
       body: this.addEmployeeDto
     }).subscribe({
         next: (res) => {

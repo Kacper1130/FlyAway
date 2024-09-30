@@ -1,0 +1,15 @@
+.full-width-table {
+  width: 100%;
+}
+
+.mat-header-cell, .mat-cell {
+  flex: 1;
+  text-align: center;
+}
+
+.mat-column-id, .mat-column-name, .mat-column-enabled {
+  text-align: center;
+  height: 50px;
+  width: 50%;
+}
+

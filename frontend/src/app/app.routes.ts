@@ -11,6 +11,7 @@ import {AdminPanelComponent} from "./modules/admin/pages/admin-panel/admin-panel
 import {AdminEmployeesComponent} from "./modules/admin/pages/admin-employees/admin-employees.component";
 import {AddEmployeeComponent} from "./modules/admin/pages/add-employee/add-employee.component";
 import {EmployeePanelComponent} from "./modules/employee/pages/employee-panel/employee-panel.component";
+import {CountriesComponent} from "./modules/admin/pages/countries/countries.component";
 
 export const routes: Routes = [
   {
@@ -67,7 +68,11 @@ export const routes: Routes = [
             component: AddEmployeeComponent
           }
         ]
-      }
+      },
+      {
+        path: 'countries',
+        component: CountriesComponent
+      },
     ]
   },
   {

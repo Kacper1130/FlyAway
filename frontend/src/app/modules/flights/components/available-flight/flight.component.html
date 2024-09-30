@@ -1,7 +1,6 @@
 <div class="flight-container">
   <div class="flight-info">
-    <h2>{{ flight.airline }}</h2>
-    <p><strong>Departure:</strong> {{ flight.departureCity }} - {{ flight.departureDate | date:'short' }}</p>
-    <p><strong>Arrival:</strong> {{ flight.arrivalCity }} - {{ flight.arrivalDate | date:'short' }}</p>
+    <p><strong>Departure:</strong> {{ flight.departureAirport }} - {{ flight.departureDate | date:'short' }}</p>
+    <p><strong>Arrival:</strong> {{ flight.arrivalAirport }} - {{ flight.arrivalDate | date:'short' }}</p>
   </div>
 </div>

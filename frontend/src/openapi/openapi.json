@@ -72,19 +72,29 @@
         }
       }
     },
-    "/api/v1/employee/activate": {
+    "/api/v1/employees/add": {
       "post": {
         "tags": [
           "Employee"
         ],
-        "operationId": "activateEmployee",
+        "operationId": "addEmployee",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEmployeeDto"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/EmployeeCredentialsDto"
                 }
               }
             }
@@ -182,17 +192,17 @@
         }
       }
     },
-    "/api/v1/admin/employees/add": {
+    "/api/v1/airports/add": {
       "post": {
         "tags": [
-          "admin"
+          "Airport"
         ],
-        "operationId": "addEmployee",
+        "operationId": "add_2",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddEmployeeDto"
+                "$ref": "#/components/schemas/CreateAirportDto"
               }
             }
           },
@@ -204,7 +214,68 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EmployeeCredentialsDto"
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/aircraft/add": {
+      "post": {
+        "tags": [
+          "Aircraft"
+        ],
+        "operationId": "addAircraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aircraft"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aircraft"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/countries/{id}": {
+      "patch": {
+        "tags": [
+          "Country"
+        ],
+        "operationId": "switchCountryStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Country"
                 }
               }
             }
@@ -279,7 +350,53 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/FlightDto"
+                    "$ref": "#/components/schemas/Flight"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "operationId": "getAllEmployees",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Employee"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/countries": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "operationId": "getAllCountries",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Country"
                   }
                 }
               }
@@ -515,12 +632,12 @@
         }
       }
     },
-    "/api/v1/admin/employees": {
+    "/api/v1/airports": {
       "get": {
         "tags": [
-          "admin"
+          "Airport"
         ],
-        "operationId": "getAllEmployees",
+        "operationId": "getAll_2",
         "responses": {
           "200": {
             "description": "OK",
@@ -529,7 +646,30 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Employee"
+                    "$ref": "#/components/schemas/Airport"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/aircraft": {
+      "get": {
+        "tags": [
+          "Aircraft"
+        ],
+        "operationId": "getAllAircraft",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aircraft"
                   }
                 }
               }
@@ -622,12 +762,11 @@
         "type": "object",
         "properties": {
           "price": {
-            "type": "integer",
-            "format": "int64"
+            "type": "number"
           },
           "seatNumber": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "clientId": {
             "type": "integer",
@@ -639,21 +778,102 @@
           }
         }
       },
+      "Aircraft": {
+        "required": [
+          "model",
+          "productionYear",
+          "registration",
+          "seatClassRanges",
+          "totalSeats"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "model": {
+            "type": "string"
+          },
+          "productionYear": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "registration": {
+            "type": "string"
+          },
+          "totalSeats": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seatClassRanges": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SeatClassRange"
+            }
+          }
+        }
+      },
+      "Airport": {
+        "required": [
+          "IATACode",
+          "city",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "$ref": "#/components/schemas/Country"
+          },
+          "IATACode": {
+            "type": "string"
+          }
+        }
+      },
+      "Country": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
       "FlightDto": {
         "required": [
-          "airline",
-          "arrivalCity",
+          "aircraft",
+          "arrivalAirport",
           "arrivalDate",
-          "departureCity",
+          "cabinClassPrices",
+          "departureAirport",
           "departureDate"
         ],
         "type": "object",
         "properties": {
-          "departureCity": {
-            "type": "string"
+          "departureAirport": {
+            "$ref": "#/components/schemas/Airport"
           },
-          "arrivalCity": {
-            "type": "string"
+          "arrivalAirport": {
+            "$ref": "#/components/schemas/Airport"
           },
           "departureDate": {
             "type": "string",
@@ -663,7 +883,70 @@
             "type": "string",
             "format": "date-time"
           },
-          "airline": {
+          "aircraft": {
+            "$ref": "#/components/schemas/Aircraft"
+          },
+          "cabinClassPrices": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "SeatClassRange": {
+        "type": "object",
+        "properties": {
+          "startSeat": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endSeat": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "AddEmployeeDto": {
+        "required": [
+          "email",
+          "firstname",
+          "lastname",
+          "phoneNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "lastname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          }
+        }
+      },
+      "EmployeeCredentialsDto": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
             "type": "string"
           }
         }
@@ -760,46 +1043,25 @@
           }
         }
       },
-      "AddEmployeeDto": {
+      "CreateAirportDto": {
         "required": [
-          "email",
-          "firstname",
-          "lastname",
-          "phoneNumber"
+          "IATACode",
+          "city",
+          "country",
+          "name"
         ],
         "type": "object",
         "properties": {
-          "firstname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
+          "IATACode": {
             "type": "string"
           },
-          "lastname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
+          "name": {
             "type": "string"
           },
-          "email": {
+          "city": {
             "type": "string"
           },
-          "phoneNumber": {
-            "type": "string"
-          }
-        }
-      },
-      "EmployeeCredentialsDto": {
-        "type": "object",
-        "properties": {
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
+          "country": {
             "type": "string"
           }
         }
@@ -830,12 +1092,11 @@
             "format": "date-time"
           },
           "price": {
-            "type": "integer",
-            "format": "int64"
+            "type": "number"
           },
           "seatNumber": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "cancelled": {
             "type": "boolean"
@@ -847,6 +1108,207 @@
           "flightId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "Client": {
+        "required": [
+          "dayOfBirth",
+          "firstname",
+          "lastname"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "lastname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "roles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "dayOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "reservations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reservation"
+            }
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Flight": {
+        "required": [
+          "arrivalDate",
+          "departureDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "departureAirport": {
+            "$ref": "#/components/schemas/Airport"
+          },
+          "arrivalAirport": {
+            "$ref": "#/components/schemas/Airport"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "aircraft": {
+            "$ref": "#/components/schemas/Aircraft"
+          },
+          "cabinClassPrices": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "reservations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reservation"
+            }
+          }
+        }
+      },
+      "Reservation": {
+        "required": [
+          "price",
+          "reservationDate",
+          "seatNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reservationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number"
+          },
+          "seatNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          },
+          "flight": {
+            "$ref": "#/components/schemas/Flight"
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Employee": {
+        "required": [
+          "firstname",
+          "lastname"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "lastname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "roles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "hireDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mustChangePassword": {
+            "type": "boolean"
           }
         }
       },
@@ -906,12 +1368,11 @@
             "format": "date-time"
           },
           "price": {
-            "type": "integer",
-            "format": "int64"
+            "type": "number"
           },
           "seatNumber": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "cancelled": {
             "type": "boolean"
@@ -929,12 +1390,11 @@
             "format": "date-time"
           },
           "price": {
-            "type": "integer",
-            "format": "int64"
+            "type": "number"
           },
           "seatNumber": {
             "type": "integer",
-            "format": "int64"
+            "format": "int32"
           },
           "cancelled": {
             "type": "boolean"
@@ -944,67 +1404,6 @@
           },
           "flightDto": {
             "$ref": "#/components/schemas/FlightDto"
-          }
-        }
-      },
-      "Employee": {
-        "required": [
-          "firstname",
-          "lastname"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "lastname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "roles": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Role"
-            }
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "hireDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "mustChangePassword": {
-            "type": "boolean"
-          }
-        }
-      },
-      "Role": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
           }
         }
       }

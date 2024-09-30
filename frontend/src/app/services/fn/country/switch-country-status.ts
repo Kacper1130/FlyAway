@@ -6,14 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Flight } from '../../models/flight';
+import { Country } from '../../models/country';
 
-export interface GetAll$Params {
+export interface SwitchCountryStatus$Params {
+  id: number;
 }
 
-export function getAll(http: HttpClient, rootUrl: string, params?: GetAll$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Flight>>> {
-  const rb = new RequestBuilder(rootUrl, getAll.PATH, 'get');
+export function switchCountryStatus(http: HttpClient, rootUrl: string, params: SwitchCountryStatus$Params, context?: HttpContext): Observable<StrictHttpResponse<Country>> {
+  const rb = new RequestBuilder(rootUrl, switchCountryStatus.PATH, 'patch');
   if (params) {
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -21,9 +23,9 @@ export function getAll(http: HttpClient, rootUrl: string, params?: GetAll$Params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Flight>>;
+      return r as StrictHttpResponse<Country>;
     })
   );
 }
 
-getAll.PATH = '/api/v1/flights';
+switchCountryStatus.PATH = '/api/v1/countries/{id}';

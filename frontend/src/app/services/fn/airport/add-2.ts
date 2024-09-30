@@ -6,14 +6,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { CreateAirportDto } from '../../models/create-airport-dto';
 
-export interface ActivateEmployee$Params {
+export interface Add2$Params {
+      body: CreateAirportDto
 }
 
-export function activateEmployee(http: HttpClient, rootUrl: string, params?: ActivateEmployee$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+export function add2(http: HttpClient, rootUrl: string, params: Add2$Params, context?: HttpContext): Observable<StrictHttpResponse<{
 }>> {
-  const rb = new RequestBuilder(rootUrl, activateEmployee.PATH, 'post');
+  const rb = new RequestBuilder(rootUrl, add2.PATH, 'post');
   if (params) {
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -27,4 +30,4 @@ export function activateEmployee(http: HttpClient, rootUrl: string, params?: Act
   );
 }
 
-activateEmployee.PATH = '/api/v1/employee/activate';
+add2.PATH = '/api/v1/airports/add';

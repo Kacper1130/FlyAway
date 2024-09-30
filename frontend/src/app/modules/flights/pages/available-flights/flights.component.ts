@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {FlightDto} from "../../../../services/models/flight-dto";
 import {NgForOf} from "@angular/common";
 import {FlightComponent} from "../../components/available-flight/flight.component";
+import {Flight} from "../../../../services/models/flight";
 
 @Component({
   selector: 'app-flights',
@@ -20,7 +21,7 @@ import {FlightComponent} from "../../components/available-flight/flight.componen
   styleUrl: './flights.component.scss'
 })
 export class FlightsComponent implements OnInit{
-  flights: FlightDto[] = [];
+  flights: Flight[] = [];
 
   constructor(
     private flightService: FlightService,

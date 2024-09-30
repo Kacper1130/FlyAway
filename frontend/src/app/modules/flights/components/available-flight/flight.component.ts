@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {FlightDto} from "../../../../services/models/flight-dto";
 import {DatePipe} from "@angular/common";
+import {Flight} from "../../../../services/models/flight";
 
 @Component({
   selector: 'app-flight',
@@ -12,5 +12,5 @@ import {DatePipe} from "@angular/common";
   styleUrl: './flight.component.scss'
 })
 export class FlightComponent {
-  @Input() flight!: FlightDto;
+  @Input() flight!: Flight;
 }

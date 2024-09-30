@@ -6,14 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Flight } from '../../models/flight';
+import { Aircraft } from '../../models/aircraft';
 
-export interface GetAll$Params {
+export interface AddAircraft$Params {
+      body: Aircraft
 }
 
-export function getAll(http: HttpClient, rootUrl: string, params?: GetAll$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Flight>>> {
-  const rb = new RequestBuilder(rootUrl, getAll.PATH, 'get');
+export function addAircraft(http: HttpClient, rootUrl: string, params: AddAircraft$Params, context?: HttpContext): Observable<StrictHttpResponse<Aircraft>> {
+  const rb = new RequestBuilder(rootUrl, addAircraft.PATH, 'post');
   if (params) {
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -21,9 +23,9 @@ export function getAll(http: HttpClient, rootUrl: string, params?: GetAll$Params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Flight>>;
+      return r as StrictHttpResponse<Aircraft>;
     })
   );
 }
 
-getAll.PATH = '/api/v1/flights';
+addAircraft.PATH = '/api/v1/aircraft/add';
