@@ -11,6 +11,7 @@ import FlyAway.flight.aircraft.CabinClass;
 import FlyAway.flight.aircraft.SeatClassRange;
 import FlyAway.flight.airport.Airport;
 import FlyAway.flight.airport.AirportRepository;
+import FlyAway.flight.country.CountryRepository;
 import FlyAway.role.Role;
 import FlyAway.role.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -22,10 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @SpringBootApplication
 @EnableAsync
@@ -45,35 +43,36 @@ public class FlyAwayApplication {
 //	CommandLineRunner commandLineRunner(
 //			FlightRepository flightRepository,
 //			AircraftRepository aircraftRepository,
-//			AirportRepository airportRepository
+//			AirportRepository airportRepository,
+//			CountryRepository countryRepository
 //	) {
 //		return args -> {
 //			Airport departureAirport = new Airport();
 //			departureAirport.setName("Warsaw Chopin Airport");
 //			departureAirport.setIATACode("WAW");
 //			departureAirport.setCity("Warsaw");
-//			departureAirport.setCountry("Poland");
+//			departureAirport.setCountry(countryRepository.findById(165).orElseThrow());
 //
 //			Airport arrivalAirport = new Airport();
 //			arrivalAirport.setName("Heathrow Airport");
 //			arrivalAirport.setIATACode("LHR");
 //			arrivalAirport.setCity("London");
-//			arrivalAirport.setCountry("England");
+//			arrivalAirport.setCountry(countryRepository.findById(219).orElseThrow());
 //
 //			airportRepository.saveAll(List.of(departureAirport,arrivalAirport));
 //
 //
-//			Aircraft aircraft = new Aircraft();
-//			aircraft.setModel("Boeing 737");
-//			aircraft.setProductionYear(2007);
-//			aircraft.setRegistration("SP-FNA");
-//			aircraft.setTotalSeats(130);
+//			Aircraft aircraft1 = new Aircraft();
+//			aircraft1.setModel("Boeing 737");
+//			aircraft1.setProductionYear(2007);
+//			aircraft1.setRegistration("SP-FNA");
+//			aircraft1.setTotalSeats(130);
 //
 //			Map<CabinClass, SeatClassRange> seatClassRanges = new HashMap<>();
 //			seatClassRanges.put(CabinClass.BUSINESS, new SeatClassRange(1,20));
 //			seatClassRanges.put(CabinClass.ECONOMY, new SeatClassRange(21,130));
-//			aircraft.setSeatClassRanges(seatClassRanges);
-//			aircraftRepository.save(aircraft);
+//			aircraft1.setSeatClassRanges(seatClassRanges);
+//			aircraftRepository.save(aircraft1);
 //
 //			Aircraft aircraft2 = new Aircraft();
 //			aircraft2.setModel("Boeing 777");
@@ -87,18 +86,18 @@ public class FlyAwayApplication {
 //			seatClassRanges2.put(CabinClass.ECONOMY, new SeatClassRange(82,340));
 //			aircraft2.setSeatClassRanges(seatClassRanges2);
 //			aircraftRepository.save(aircraft2);
-
+//
 //			Flight flight = new Flight();
 //
-//			Airport departureAirport = airportRepository.findById(UUID.fromString("2ec0c743-388f-4322-b952-1383de20b28d")).orElseThrow();
-//			Airport arrivalAirport = airportRepository.findById(UUID.fromString("45eab6b3-ba3d-41c8-82f3-87bf2a127dff")).orElseThrow();
+//			Airport airport1 = airportRepository.findAirportByIATACode("WAW").orElseThrow();
+//			Airport airport2 = airportRepository.findAirportByIATACode("LHR").orElseThrow();
 //
 //			flight.setDepartureAirport(departureAirport);
 //			flight.setArrivalAirport(arrivalAirport);
 //			flight.setDepartureDate(LocalDateTime.of(2025,9,11,12,30));
 //			flight.setArrivalDate(LocalDateTime.of(2025,9,11,15,30));
 //
-//			Aircraft aircraft = aircraftRepository.findById(UUID.fromString("a39723b4-3eeb-4e63-9776-2ce2b0cb1ce4")).orElseThrow();
+//			Aircraft aircraft = aircraftRepository.findAircraftByRegistration("SP-FNB").orElseThrow();
 //			flight.setAircraft(aircraft);
 //
 //			Map<CabinClass, BigDecimal> cabinClassPrices = new HashMap<>();
@@ -113,7 +112,6 @@ public class FlyAwayApplication {
 
 //	@Bean
 //	public CommandLineRunner commandLineRunner(
-//			FlightService service,
 //			RoleRepository roleRepository,
 //			PasswordEncoder passwordEncoder,
 //			AdminRepository adminRepository

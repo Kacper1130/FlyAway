@@ -146,4 +146,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
     }
 
+    @ExceptionHandler(CountryDoesNotExistException.class)
+    public ResponseEntity<ErrorMessage> handleCountryDoesNotExistException(CountryDoesNotExistException exception) {
+        LOGGER.error("Country not found", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
 }

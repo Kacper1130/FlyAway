@@ -1,5 +1,6 @@
 package FlyAway.flight;
 
+import FlyAway.exception.CountryDoesNotExistException;
 import FlyAway.flight.dto.FlightDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class FlightService {
 
     public FlightDto addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
+        if(!createFlightDto.arrivalAirport().getCountry().isEnabled() || createFlightDto.departureAirport().getCountry().isEnabled()) {
+            throw new CountryDoesNotExistException();
+        }
         Flight createdFlight = flightRepository.save(flightMapper.flightDtoToFlight(createFlightDto));
         LOGGER.info("Created flight with id {}", createdFlight.getId());
         return flightMapper.flightToFlightDto(createdFlight);
