@@ -1,5 +1,74 @@
 <app-admin-navbar></app-admin-navbar>
 <h2 class="text-white text-center mt-2">Aircraft Fleet</h2>
-<div *ngFor="let aircraft of aircraftList">
+
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>add</mat-icon>&nbsp; Add Aircraft
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <!-- Aircraft Form -->
+    <form [formGroup]="aircraftForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Model</mat-label>
+        <input matInput formControlName="model" placeholder="Enter aircraft model" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Production Year</mat-label>
+        <input matInput type="number" formControlName="productionYear" placeholder="Enter year" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Registration</mat-label>
+        <input matInput formControlName="registration" placeholder="Enter registration" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Total Seats</mat-label>
+        <input matInput type="number" formControlName="totalSeats" placeholder="Enter total seats" required />
+      </mat-form-field>
+
+      <div formArrayName="seatClassRanges">
+        <h4>Seat Class Ranges</h4>
+
+        <div *ngFor="let seatClass of seatClassRanges.controls; let i = index" [formGroupName]="i" class="seat-class-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Class</mat-label>
+            <mat-select formControlName="class" placeholder="Select a class">
+              <mat-option value="First">FIRST</mat-option>
+              <mat-option value="Business">BUSINESS</mat-option>
+              <mat-option value="Economy">ECONOMY</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Start Seat</mat-label>
+            <input matInput type="number" formControlName="startSeat" placeholder="Start seat number" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Seat</mat-label>
+            <input matInput type="number" formControlName="endSeat" placeholder="End seat number" />
+          </mat-form-field>
+
+          <button mat-icon-button color="warn" (click)="removeSeatClass(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <button mat-stroked-button type="button" color="primary" (click)="addSeatClass()">+ Add Seat Class</button>
+      </div>
+
+      <div class="submit-container">
+        <button class="mt-2" mat-flat-button color="primary" type="submit">Confirm</button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div class="mt-2" *ngFor="let aircraft of aircraftList">
   <app-single-aircraft [aircraft]="aircraft"></app-single-aircraft>
 </div>
