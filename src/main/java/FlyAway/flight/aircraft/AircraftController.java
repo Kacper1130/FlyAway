@@ -16,7 +16,7 @@ import java.util.List;
 public class AircraftController {
 
     private final AircraftService aircraftService;
-    private final static Logger LOGGER = LoggerFactory.getLogger(AircraftController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AircraftController.class);
 
     public AircraftController(AircraftService aircraftService) {
         this.aircraftService = aircraftService;

@@ -1,4 +1,4 @@
-import {Component, OnInit, viewChild} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {AdminNavbarComponent} from "../../components/admin-navbar/admin-navbar.component";
 import {AircraftService} from "../../../../services/services/aircraft.service";
 import {Aircraft} from "../../../../services/models/aircraft";
@@ -13,6 +13,7 @@ import {MatDatepicker} from "@angular/material/datepicker";
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatOption, MatSelect} from "@angular/material/select";
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-aircraft',
@@ -42,11 +43,16 @@ import {MatOption, MatSelect} from "@angular/material/select";
 })
 export class AircraftListComponent implements OnInit {
 
+  private readonly _snackBar = inject(MatSnackBar);
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+  errorMsg: Array<string> = [];
+
   aircraftList: Aircraft[] = [];
+  aircraftForm: FormGroup;
+  classes = ['FIRST', 'BUSINESS', 'ECONOMY'];
 
-  accordion = viewChild.required(MatAccordion);
-
-  constructor(private fb: FormBuilder, private aircraftService: AircraftService) {
+  constructor(private readonly fb: FormBuilder, private readonly aircraftService: AircraftService) {
     this.aircraftForm = this.fb.group({
       model: [''],
       productionYear: [''],
@@ -68,8 +74,6 @@ export class AircraftListComponent implements OnInit {
     })
   }
 
-  aircraftForm: FormGroup;
-
   get seatClassRanges(): FormArray {
     return this.aircraftForm.get('seatClassRanges') as FormArray;
   }
@@ -88,21 +92,22 @@ export class AircraftListComponent implements OnInit {
   }
 
   onSubmit() {
-    // Pobranie danych z formularza
+    this.errorMsg = [];
     const formValues = this.aircraftForm.value;
 
-    // Tworzenie obiektu samolotu na podstawie wartości formularza
     const newAircraft: Aircraft = {
       model: formValues.model,
       productionYear: formValues.productionYear,
       registration: formValues.registration,
       totalSeats: formValues.totalSeats,
       seatClassRanges: formValues.seatClassRanges.reduce((acc: any, seatClassRange: any) => {
-        acc[seatClassRange.class.toUpperCase()] = {
-          startSeat: seatClassRange.startSeat,
-          endSeat: seatClassRange.endSeat
-        };
-        return acc;
+        if(seatClassRange.class !== '') {
+          acc[seatClassRange.class.toUpperCase()] = {
+            startSeat: seatClassRange.startSeat,
+            endSeat: seatClassRange.endSeat
+          };
+          return acc;
+        }
       }, {})
     };
 
@@ -111,8 +116,24 @@ export class AircraftListComponent implements OnInit {
         this.aircraftForm.reset();
         this.ngOnInit();
       },
-      error: () => {
-
+      error: (err) => {
+        if (err.error.errors) {
+          const errorMessages = Object.values(err.error.errors).join('\n');
+          this.errorMsg.push(errorMessages);
+          this._snackBar.open(this.errorMsg.toString(), 'close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            panelClass: ['snackbar-error'],
+            duration: 5000
+          });
+        } else if (err.error.message) {
+          this._snackBar.open(err.error.message.toString(), 'close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            panelClass: ['snackbar-error'],
+            duration: 5000
+          });
+        }
       }
     });
   }

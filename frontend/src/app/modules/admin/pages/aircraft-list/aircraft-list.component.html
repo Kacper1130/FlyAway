@@ -9,7 +9,6 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <!-- Aircraft Form -->
     <form [formGroup]="aircraftForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline">
         <mat-label>Model</mat-label>
@@ -38,9 +37,9 @@
           <mat-form-field appearance="outline">
             <mat-label>Class</mat-label>
             <mat-select formControlName="class" placeholder="Select a class">
-              <mat-option value="First">FIRST</mat-option>
-              <mat-option value="Business">BUSINESS</mat-option>
-              <mat-option value="Economy">ECONOMY</mat-option>
+              <div *ngFor="let c of classes">
+                <mat-option [value]="c">{{c}}</mat-option>
+              </div>
             </mat-select>
           </mat-form-field>
 
@@ -54,7 +53,7 @@
             <input matInput type="number" formControlName="endSeat" placeholder="End seat number" />
           </mat-form-field>
 
-          <button mat-icon-button color="warn" (click)="removeSeatClass(i)">
+          <button mat-icon-button color="warn" type="button" (click)="removeSeatClass(i)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>

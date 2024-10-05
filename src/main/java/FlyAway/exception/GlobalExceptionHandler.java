@@ -21,13 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> handleValidationExceptions(MethodArgumentNotValidException exception) {
         Set<String> errors = new HashSet<>();
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-//            error.getDefaultMessage().replace(",.", ", ");
-//            String fieldName = ((FieldError) error).getField();
-//            String errorMessage = error.getDefaultMessage();
-//            errors.put(fieldName, errorMessage);
-            errors.add(error.getDefaultMessage());
-        });
+        exception.getBindingResult().getAllErrors().forEach(error -> errors.add(error.getDefaultMessage()));
         ErrorMessage errorMessage = ErrorMessage.builder()
                 .statusCode(HttpStatus.BAD_REQUEST.value())
                 .message("Validation failed")
@@ -154,6 +148,46 @@ public class GlobalExceptionHandler {
                 .message(exception.getMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
+    @ExceptionHandler(InvalidSeatRangeException.class)
+    public ResponseEntity<ErrorMessage> handleInvalidSeatRangeException(InvalidSeatRangeException exception) {
+        LOGGER.error("Invalid seat range", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler(TotalSeatsMismatchException.class)
+    public ResponseEntity<ErrorMessage> handleTotalSeatsMismatchException(TotalSeatsMismatchException exception) {
+        LOGGER.error("Total seats mismatch", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler(OverlappingSeatException.class)
+    public ResponseEntity<ErrorMessage> handleOverlappingSeatException(OverlappingSeatException exception) {
+        LOGGER.error("Overlapping seat range", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler(AircraftAlreadyExistsException.class)
+    public ResponseEntity<ErrorMessage> handleAircraftAlreadyExistsException(AircraftAlreadyExistsException exception) {
+        LOGGER.error("Aircraft already exists", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.CONFLICT.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
 }
