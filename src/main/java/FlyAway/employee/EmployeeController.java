@@ -1,6 +1,7 @@
 package FlyAway.employee;
 
 import FlyAway.employee.dto.AddEmployeeDto;
+import FlyAway.employee.dto.DisplayEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,9 +25,9 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    public ResponseEntity<List<DisplayEmployeeDto>> getAllEmployees() {
         LOGGER.debug("Retrieving all employees");
-        List<Employee> employees = employeeService.getAll();
+        List<DisplayEmployeeDto> employees = employeeService.getAll();
         LOGGER.info("Retrieved {} employees", employees.size());
         return ResponseEntity.ok(employees);
     }

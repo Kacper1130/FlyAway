@@ -1,0 +1,23 @@
+<mat-card class="employee-info-card full-width">
+  <mat-card-header>
+    <mat-card-title>{{ employee.firstname }} {{ employee.lastname }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="employee-detail">
+      <mat-icon>email</mat-icon>
+      <span><strong>Email:</strong> {{ employee.email }}</span>
+    </div>
+    <div class="employee-detail">
+      <mat-icon>phone</mat-icon>
+      <span><strong>Phone Number:</strong> {{ employee.phoneNumber }}</span>
+    </div>
+    <div class="employee-detail">
+      <mat-icon>event</mat-icon>
+      <span><strong>Hire Date:</strong> {{ employee.hireDate }}</span>
+    </div>
+    <div class="employee-detail">
+      <mat-icon>login</mat-icon>
+      <span><strong>Last Login:</strong> {{ employee.lastLogin }}</span>
+    </div>
+  </mat-card-content>
+</mat-card>

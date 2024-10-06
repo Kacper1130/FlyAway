@@ -1,0 +1,17 @@
+.d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.ms-auto {
+  margin-left: auto;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.mt-3 {
+  top:20px;
+}

@@ -1,20 +1,18 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { addEmployee } from '../fn/employee/add-employee';
-import { AddEmployee$Params } from '../fn/employee/add-employee';
-import { Employee } from '../models/employee';
-import { EmployeeCredentialsDto } from '../models/employee-credentials-dto';
-import { getAllEmployees } from '../fn/employee/get-all-employees';
-import { GetAllEmployees$Params } from '../fn/employee/get-all-employees';
+import {addEmployee, AddEmployee$Params} from '../fn/employee/add-employee';
+import {DisplayEmployeeDto} from '../models/display-employee-dto';
+import {EmployeeCredentialsDto} from '../models/employee-credentials-dto';
+import {getAllEmployees, GetAllEmployees$Params} from '../fn/employee/get-all-employees';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeService extends BaseService {
@@ -56,7 +54,7 @@ export class EmployeeService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllEmployees$Response(params?: GetAllEmployees$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Employee>>> {
+  getAllEmployees$Response(params?: GetAllEmployees$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DisplayEmployeeDto>>> {
     return getAllEmployees(this.http, this.rootUrl, params, context);
   }
 
@@ -66,9 +64,9 @@ export class EmployeeService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllEmployees(params?: GetAllEmployees$Params, context?: HttpContext): Observable<Array<Employee>> {
+  getAllEmployees(params?: GetAllEmployees$Params, context?: HttpContext): Observable<Array<DisplayEmployeeDto>> {
     return this.getAllEmployees$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Employee>>): Array<Employee> => r.body)
+      map((r: StrictHttpResponse<Array<DisplayEmployeeDto>>): Array<DisplayEmployeeDto> => r.body)
     );
   }
 

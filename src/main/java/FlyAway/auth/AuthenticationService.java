@@ -7,6 +7,7 @@ import FlyAway.auth.dto.AuthenticationResponse;
 import FlyAway.auth.dto.RegistrationRequest;
 import FlyAway.client.Client;
 import FlyAway.email.EmailService;
+import FlyAway.employee.Employee;
 import FlyAway.exception.AccountNotActivatedException;
 import FlyAway.exception.EmailExistsException;
 import FlyAway.exception.ExpiredConfirmationTokenException;
@@ -22,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -87,9 +87,16 @@ public class AuthenticationService {
                         request.password()
                 )
         );
-        var claims = new HashMap<String, Object>();
+
         var securityUser = ((SecurityUser) auth.getPrincipal());
         var user = securityUser.getUser();
+
+        if (user instanceof Employee employee) {
+            employee.setLastLogin(LocalDateTime.now());
+            userRepository.save(employee);
+        }
+
+        var claims = new HashMap<String, Object>();
         claims.put("firstname", user.getFirstname());
         var jwtToken = jwtService.generateToken(claims, securityUser);
         LOGGER.info("{} has logged in", user.getEmail());

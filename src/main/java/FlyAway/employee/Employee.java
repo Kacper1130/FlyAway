@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Table(name = "employees")
 public class Employee extends User {
 
-    private LocalDateTime hireDate;
+    private LocalDate hireDate;
     private boolean mustChangePassword;
+    private LocalDateTime lastLogin;
 }

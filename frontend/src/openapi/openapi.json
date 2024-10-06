@@ -373,7 +373,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Employee"
+                    "$ref": "#/components/schemas/DisplayEmployeeDto"
                   }
                 }
               }
@@ -1263,52 +1263,28 @@
           }
         }
       },
-      "Employee": {
-        "required": [
-          "firstname",
-          "lastname"
-        ],
+      "DisplayEmployeeDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
           "firstname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
             "type": "string"
           },
           "lastname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
             "type": "string"
           },
           "email": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
-          },
           "phoneNumber": {
             "type": "string"
           },
-          "roles": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Role"
-            }
-          },
-          "enabled": {
-            "type": "boolean"
-          },
           "hireDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
-          "mustChangePassword": {
-            "type": "boolean"
+          "lastLogin": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

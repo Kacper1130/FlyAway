@@ -6,12 +6,12 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Employee } from '../../models/employee';
+import { DisplayEmployeeDto } from '../../models/display-employee-dto';
 
 export interface GetAllEmployees$Params {
 }
 
-export function getAllEmployees(http: HttpClient, rootUrl: string, params?: GetAllEmployees$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Employee>>> {
+export function getAllEmployees(http: HttpClient, rootUrl: string, params?: GetAllEmployees$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DisplayEmployeeDto>>> {
   const rb = new RequestBuilder(rootUrl, getAllEmployees.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function getAllEmployees(http: HttpClient, rootUrl: string, params?: GetA
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Employee>>;
+      return r as StrictHttpResponse<Array<DisplayEmployeeDto>>;
     })
   );
 }
