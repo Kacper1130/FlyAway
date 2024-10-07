@@ -1,10 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
-import { Country } from '../models/country';
 export interface Airport {
   IATACode: string;
   city: string;
-  country?: Country;
+  enabled?: boolean;
   id?: string;
   name: string;
 }

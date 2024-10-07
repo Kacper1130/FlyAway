@@ -7,16 +7,15 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { Airport } from '../../models/airport';
-import { CreateAirportDto } from '../../models/create-airport-dto';
 
-export interface Add2$Params {
-      body: CreateAirportDto
+export interface SwitchAirportStatus$Params {
+  id: string;
 }
 
-export function add2(http: HttpClient, rootUrl: string, params: Add2$Params, context?: HttpContext): Observable<StrictHttpResponse<Airport>> {
-  const rb = new RequestBuilder(rootUrl, add2.PATH, 'post');
+export function switchAirportStatus(http: HttpClient, rootUrl: string, params: SwitchAirportStatus$Params, context?: HttpContext): Observable<StrictHttpResponse<Airport>> {
+  const rb = new RequestBuilder(rootUrl, switchAirportStatus.PATH, 'patch');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -29,4 +28,4 @@ export function add2(http: HttpClient, rootUrl: string, params: Add2$Params, con
   );
 }
 
-add2.PATH = '/api/v1/airports/add';
+switchAirportStatus.PATH = '/api/v1/airports/{id}';

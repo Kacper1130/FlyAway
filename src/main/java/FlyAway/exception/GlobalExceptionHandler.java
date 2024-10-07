@@ -190,4 +190,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
+    @ExceptionHandler(AirportDoesNotExistException.class)
+    public ResponseEntity<ErrorMessage> handleAirportDoesNotExistException(AirportDoesNotExistException exception) {
+        LOGGER.error("Airport not found", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
 }

@@ -1,9 +1,12 @@
 package FlyAway.flight.country;
 
+import FlyAway.flight.airport.Airport;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,4 +25,6 @@ public class Country {
     @Column(unique = true)
     private String name;
     private boolean enabled;
+    @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
+    private List<Airport> airports;
 }

@@ -6,17 +6,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Airport } from '../../models/airport';
-import { CreateAirportDto } from '../../models/create-airport-dto';
+import { Country } from '../../models/country';
 
-export interface Add2$Params {
-      body: CreateAirportDto
+export interface GetAllEnabledCountries$Params {
 }
 
-export function add2(http: HttpClient, rootUrl: string, params: Add2$Params, context?: HttpContext): Observable<StrictHttpResponse<Airport>> {
-  const rb = new RequestBuilder(rootUrl, add2.PATH, 'post');
+export function getAllEnabledCountries(http: HttpClient, rootUrl: string, params?: GetAllEnabledCountries$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Country>>> {
+  const rb = new RequestBuilder(rootUrl, getAllEnabledCountries.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -24,9 +21,9 @@ export function add2(http: HttpClient, rootUrl: string, params: Add2$Params, con
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Airport>;
+      return r as StrictHttpResponse<Array<Country>>;
     })
   );
 }
 
-add2.PATH = '/api/v1/airports/add';
+getAllEnabledCountries.PATH = '/api/v1/countries/enabled-countries';

@@ -1,0 +1,34 @@
+<app-admin-navbar></app-admin-navbar>
+<h2 class="text-white text-center mt-2">Operating Airports</h2>
+<mat-accordion multi>
+  <mat-expansion-panel *ngFor="let country of countries">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ country.name }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <table mat-table [dataSource]="country.airports" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Airport </th>
+        <td mat-cell *matCellDef="let airport"> {{ airport.name }} </td>
+      </ng-container>
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef> City </th>
+        <td mat-cell *matCellDef="let airport"> {{ airport.city }} </td>
+      </ng-container>
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef> IATA Code </th>
+        <td mat-cell *matCellDef="let airport"> {{ airport.IATACode }} </td>
+      </ng-container>
+      <ng-container matColumnDef="enabled">
+        <th mat-header-cell *matHeaderCellDef> Akcje </th>
+        <td mat-cell *matCellDef="let airport">
+          <mat-slide-toggle [(ngModel)]="airport.enabled" (change)="onToggleChange(airport)">
+          </mat-slide-toggle>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['name', 'city', 'code', 'enabled']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name','city', 'code', 'enabled']"></tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>

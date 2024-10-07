@@ -11,6 +11,7 @@ export { ClientDto } from './models/client-dto';
 export { ClientRegistrationDto } from './models/client-registration-dto';
 export { ClientReservationDto } from './models/client-reservation-dto';
 export { Country } from './models/country';
+export { CountryDto } from './models/country-dto';
 export { CreateAirportDto } from './models/create-airport-dto';
 export { CreateReservationDto } from './models/create-reservation-dto';
 export { DisplayEmployeeDto } from './models/display-employee-dto';

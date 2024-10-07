@@ -6,12 +6,12 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Country } from '../../models/country';
+import { CountryDto } from '../../models/country-dto';
 
 export interface GetAllCountries$Params {
 }
 
-export function getAllCountries(http: HttpClient, rootUrl: string, params?: GetAllCountries$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Country>>> {
+export function getAllCountries(http: HttpClient, rootUrl: string, params?: GetAllCountries$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CountryDto>>> {
   const rb = new RequestBuilder(rootUrl, getAllCountries.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function getAllCountries(http: HttpClient, rootUrl: string, params?: GetA
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Country>>;
+      return r as StrictHttpResponse<Array<CountryDto>>;
     })
   );
 }

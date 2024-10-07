@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/airports")
@@ -32,10 +33,16 @@ public class AirportController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody CreateAirportDto createAirportDto) {
-        LOGGER.debug("Adding new airport " + createAirportDto);
+    public ResponseEntity<Airport> add(@Valid @RequestBody CreateAirportDto createAirportDto) {
+        LOGGER.debug("Adding new airport {}", createAirportDto);
         Airport airport = airportService.addFlight(createAirportDto);
-        LOGGER.info("Created new airport " + airport);
+        LOGGER.info("Created new airport {}", airport);
         return ResponseEntity.status(HttpStatus.CREATED).body(airport);
+    }
+
+    @PatchMapping("/{id}")
+    public Airport switchAirportStatus(@PathVariable UUID id) {
+        LOGGER.info("Switching status of airport id {}", id);
+        return airportService.switchAirportStatus(id);
     }
 }

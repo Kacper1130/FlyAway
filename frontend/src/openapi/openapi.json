@@ -214,7 +214,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/Airport"
                 }
               }
             }
@@ -275,7 +275,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Country"
+                  "$ref": "#/components/schemas/CountryDto"
                 }
               }
             }
@@ -306,6 +306,37 @@
               "application/json": {
                 "schema": {
                   "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/airports/{id}": {
+      "patch": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "switchAirportStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
                 }
               }
             }
@@ -388,6 +419,29 @@
           "Country"
         ],
         "operationId": "getAllCountries",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CountryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/countries/enabled-countries": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "operationId": "getAllEnabledCountries",
         "responses": {
           "200": {
             "description": "OK",
@@ -832,29 +886,11 @@
           "city": {
             "type": "string"
           },
-          "country": {
-            "$ref": "#/components/schemas/Country"
+          "enabled": {
+            "type": "boolean"
           },
           "IATACode": {
             "type": "string"
-          }
-        }
-      },
-      "Country": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean"
           }
         }
       },
@@ -1063,6 +1099,21 @@
           },
           "country": {
             "type": "string"
+          }
+        }
+      },
+      "CountryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
           }
         }
       },
@@ -1285,6 +1336,30 @@
           "lastLogin": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "Country": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "airports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Airport"
+            }
           }
         }
       },

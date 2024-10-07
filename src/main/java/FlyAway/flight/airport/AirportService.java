@@ -1,5 +1,6 @@
 package FlyAway.flight.airport;
 
+import FlyAway.exception.AirportDoesNotExistException;
 import FlyAway.flight.airport.dto.CreateAirportDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AirportService {
@@ -32,5 +34,15 @@ public class AirportService {
         Airport createdFlight = airportRepository.save(airportMapper.createAirportDtoToAirport(createAirportDto));
         LOGGER.info("Created flight with id {}", createdFlight.getId());
         return createdFlight;
+    }
+
+    public Airport switchAirportStatus(UUID id) {
+        Airport airport = airportRepository.findById(id)
+                .orElseThrow(AirportDoesNotExistException::new);
+        LOGGER.info("Current status of {} - {},", airport.getName(), airport.isEnabled());
+        airport.setEnabled(!airport.isEnabled());
+        LOGGER.info("Changed status of {} to {}", airport.getName(), airport.isEnabled());
+        airportRepository.save(airport);
+        return airport;
     }
 }

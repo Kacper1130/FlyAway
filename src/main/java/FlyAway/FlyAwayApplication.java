@@ -1,29 +1,8 @@
 package FlyAway;
 
-import FlyAway.admin.Admin;
-import FlyAway.admin.AdminRepository;
-import FlyAway.flight.Flight;
-import FlyAway.flight.FlightRepository;
-import FlyAway.flight.FlightService;
-import FlyAway.flight.aircraft.Aircraft;
-import FlyAway.flight.aircraft.AircraftRepository;
-import FlyAway.flight.aircraft.CabinClass;
-import FlyAway.flight.aircraft.SeatClassRange;
-import FlyAway.flight.airport.Airport;
-import FlyAway.flight.airport.AirportRepository;
-import FlyAway.flight.country.CountryRepository;
-import FlyAway.role.Role;
-import FlyAway.role.RoleRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.*;
 
 @SpringBootApplication
 @EnableAsync
@@ -148,4 +127,52 @@ public class FlyAwayApplication {
 //			adminRepository.save(admin1);
 //		};
 //	}
+
+//	@Bean
+//	CommandLineRunner commandLineRunner(AirportRepository airportRepository, CountryRepository countryRepository) {
+//		return args -> {
+//			Airport airport1 = new Airport(
+//					UUID.randomUUID(),
+//					"lotnisko nazwa aha",
+//					"AHA1",
+//					"Warszawa",
+//					true,
+//					countryRepository.findById(1).get()
+//			);
+//			Airport airport2 = new Airport(
+//					UUID.randomUUID(),
+//					"lotnisko nazwa aha",
+//					"AHA1",
+//					"Krakwo",
+//					true,
+//					countryRepository.findById(1).get()
+//			);
+//			Airport airport3 = new Airport(
+//					UUID.randomUUID(),
+//					"lotniskoo nazwa aha",
+//					"AHA12",
+//					"Warsawa",
+//					false,
+//					countryRepository.findById(1).get()
+//			);
+//			Airport airport4 = new Airport(
+//					UUID.randomUUID(),
+//					"lotnisko nazwa aha",
+//					"AHA1",
+//					"Warszawa",
+//					true,
+//					countryRepository.findById(1).get()
+//			);
+//			Airport airport5 = new Airport(
+//					UUID.randomUUID(),
+//					"lodasftnisko nazwa aha",
+//					"AHA125",
+//					"Berlin",
+//					true,
+//					countryRepository.findById(2).get()
+//			);
+//			airportRepository.saveAll(List.of(airport1,airport2,airport3,airport4,airport5));
+//		};
+//	}
+
 }

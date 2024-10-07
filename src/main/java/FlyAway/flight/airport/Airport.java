@@ -1,6 +1,7 @@
 package FlyAway.flight.airport;
 
 import FlyAway.flight.country.Country;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -31,7 +32,9 @@ public class Airport {
     @NotEmpty(message = "City can not be empty")
     @NotBlank(message = "City can not be blank")
     private String city;
+    private boolean enabled;
     @ManyToOne
+    @JsonIgnore
     private Country country;
 
 }

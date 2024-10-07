@@ -1,5 +1,6 @@
 package FlyAway.flight.country;
 
+import FlyAway.flight.country.dto.CountryDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,16 +21,23 @@ public class CountryController {
     }
 
     @GetMapping
-    public List<Country> getAllCountries() {
-        List<Country> countries = countryService.getAllCountries();
+    public List<CountryDto> getAllCountries() {
+        List<CountryDto> countries = countryService.getAllCountries();
         LOGGER.info("Retrieved {} countries", countries.size());
         return countries;
     }
 
     @PatchMapping("/{id}")
-    public Country switchCountryStatus(@PathVariable Integer id) {
+    public CountryDto switchCountryStatus(@PathVariable Integer id) {
         LOGGER.info("Switching status of country id {}", id);
         return countryService.switchCountryStatus(id);
+    }
+
+    @GetMapping("/enabled-countries")
+    public List<Country> getAllEnabledCountries() {
+        List<Country> countries = countryService.getAllEnabledCountries();
+        LOGGER.info("Retrieved {} enabled countries", countries.size());
+        return countries;
     }
 
 }

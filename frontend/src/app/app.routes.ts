@@ -13,6 +13,7 @@ import {AddEmployeeComponent} from "./modules/admin/pages/add-employee/add-emplo
 import {EmployeePanelComponent} from "./modules/employee/pages/employee-panel/employee-panel.component";
 import {CountriesComponent} from "./modules/admin/pages/countries/countries.component";
 import {AircraftListComponent} from "./modules/admin/pages/aircraft-list/aircraft-list.component";
+import {AirportsComponent} from "./modules/admin/pages/airports/airports.component";
 
 export const routes: Routes = [
   {
@@ -78,6 +79,10 @@ export const routes: Routes = [
         path: 'aircraft',
         component: AircraftListComponent
       },
+      {
+        path: 'airports',
+        component: AirportsComponent
+      }
     ]
   },
   {
