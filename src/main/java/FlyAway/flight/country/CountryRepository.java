@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CountryRepository extends JpaRepository<Country, Integer> {
 
@@ -15,5 +16,7 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
             "ORDER BY c.enabled DESC, c.name ASC" +
             "")
     List<CountryDto> findAllWithoutAirports();
+
+    Optional<Country> findByName(String countryName);
 
 }

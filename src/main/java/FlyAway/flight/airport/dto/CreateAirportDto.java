@@ -17,6 +17,7 @@ public record CreateAirportDto(
         String city,
         @NotEmpty(message = "Country can not be empty")
         @NotBlank(message = "Country can not be blank")
-        String country
+        String country,
+        boolean enabled
 ) {
 }

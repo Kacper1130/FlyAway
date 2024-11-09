@@ -1,5 +1,6 @@
 package FlyAway.flight.airport;
 
+import FlyAway.flight.airport.dto.AirportDto;
 import FlyAway.flight.airport.dto.CreateAirportDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -25,17 +26,17 @@ public class AirportController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Airport>> getAll() {
+    public ResponseEntity<List<AirportDto>> getAll() {
         LOGGER.debug("Retrieving all airports");
-        List<Airport> airports = airportService.getAll();
+        List<AirportDto> airports = airportService.getAll();
         LOGGER.info("Retrieved {} airports", airports.size());
         return ResponseEntity.ok(airports);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Airport> add(@Valid @RequestBody CreateAirportDto createAirportDto) {
+    public ResponseEntity<AirportDto> add(@Valid @RequestBody CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport {}", createAirportDto);
-        Airport airport = airportService.addFlight(createAirportDto);
+        AirportDto airport = airportService.addAirport(createAirportDto);
         LOGGER.info("Created new airport {}", airport);
         return ResponseEntity.status(HttpStatus.CREATED).body(airport);
     }
@@ -44,5 +45,12 @@ public class AirportController {
     public Airport switchAirportStatus(@PathVariable UUID id) {
         LOGGER.info("Switching status of airport id {}", id);
         return airportService.switchAirportStatus(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAirport(@PathVariable UUID id) {
+        LOGGER.info("Deleting airport with id {}", id);
+        airportService.deleteAirport(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

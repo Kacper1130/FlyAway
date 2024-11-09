@@ -33,7 +33,7 @@ public class CountryController {
         return countryService.switchCountryStatus(id);
     }
 
-    @GetMapping("/enabled-countries")
+    @GetMapping("/enabled")
     public List<Country> getAllEnabledCountries() {
         List<Country> countries = countryService.getAllEnabledCountries();
         LOGGER.info("Retrieved {} enabled countries", countries.size());
