@@ -112,31 +112,39 @@ export class AirportsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: CreateAirportDto) => {
-      console.log(result);
-      this.airportService.addAirport({body: result}).subscribe({
-        next: () => {
-          console.log("success");
-        },
-        error: (err) => {
-          if (err.error.errors) {
-            const errorMessages = Object.values(err.error.errors).join('\n');
-            this.errorMsg.push(errorMessages);
-            this._snackBar.open(this.errorMsg.toString(), 'close', {
-              horizontalPosition: this.horizontalPosition,
-              verticalPosition: this.verticalPosition,
-              panelClass: ['snackbar-error'],
-              duration: 5000
-            });
-          } else if (err.error.message) {
-            this._snackBar.open(err.error.message.toString(), 'close', {
-              horizontalPosition: this.horizontalPosition,
-              verticalPosition: this.verticalPosition,
-              panelClass: ['snackbar-error'],
-              duration: 5000
-            });
+      if(result) {
+        this.airportService.addAirport({body: result}).subscribe({
+          next: (createdAirport: Airport) => {
+            const country = this.countries.find(c => c.name === result.country);
+            console.log("found {}", country)
+            if (country) {
+              // console.log(country.airports);
+              // console.log("pushing {}", createdAirport);
+              // country.airports?.push(createdAirport);
+              country.airports = [...(country.airports ?? []), createdAirport];
+            }
+          },
+          error: (err) => {
+            if (err.error.errors) {
+              const errorMessages = Object.values(err.error.errors).join('\n');
+              this.errorMsg.push(errorMessages);
+              this._snackBar.open(this.errorMsg.toString(), 'close', {
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['snackbar-error'],
+                duration: 5000
+              });
+            } else if (err.error.message) {
+              this._snackBar.open(err.error.message.toString(), 'close', {
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['snackbar-error'],
+                duration: 5000
+              });
+            }
           }
-        }
-      })
+        })
+      }
     });
   }
 }

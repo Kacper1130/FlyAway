@@ -34,9 +34,9 @@ public class AirportController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<AirportDto> addAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
+    public ResponseEntity<Airport> addAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport {}", createAirportDto);
-        AirportDto airport = airportService.addAirport(createAirportDto);
+        Airport airport = airportService.addAirport(createAirportDto);
         LOGGER.info("Created new airport {}", airport);
         return ResponseEntity.status(HttpStatus.CREATED).body(airport);
     }

@@ -40,4 +40,17 @@ public class CountryController {
         return countries;
     }
 
+    @GetMapping("/names")
+    public List<String> getAllCountriesNames() {
+        List<String> countries = countryService.getAllCountriesNames();
+        LOGGER.info("Retrieved {} countries names", countries.size());
+        return countries;
+    }
+
+    @GetMapping("/is-enabled")
+    public boolean isCountryEnabled(@RequestParam String countryName) {
+        LOGGER.info("Checking status of country {}", countryName);
+        return countryService.isCountryEnabled(countryName);
+    }
+
 }

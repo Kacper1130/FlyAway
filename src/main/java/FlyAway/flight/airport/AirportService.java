@@ -36,7 +36,7 @@ public class AirportService {
         return airports;
     }
 
-    public AirportDto addAirport(CreateAirportDto createAirportDto) {
+    public Airport addAirport(CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport");
         Country country = countryRepository.findByName(createAirportDto.country())
                 .orElseThrow(() -> new CountryDoesNotExistException(createAirportDto.country()));
@@ -48,8 +48,8 @@ public class AirportService {
                 .country(country)
                 .build();
         airportRepository.save(airport);
-        LOGGER.info("Created flight with id {}", airport.getId());
-        return airportMapper.airportToAirportDto(airport);
+        LOGGER.info("Created airport with id {}", airport.getId());
+        return airport;
     }
 
     public Airport switchAirportStatus(UUID id) {

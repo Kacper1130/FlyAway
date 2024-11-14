@@ -35,7 +35,7 @@ export class AirportService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addAirport$Response(params: AddAirport$Params, context?: HttpContext): Observable<StrictHttpResponse<AirportDto>> {
+  addAirport$Response(params: AddAirport$Params, context?: HttpContext): Observable<StrictHttpResponse<Airport>> {
     return addAirport(this.http, this.rootUrl, params, context);
   }
 
@@ -45,9 +45,9 @@ export class AirportService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addAirport(params: AddAirport$Params, context?: HttpContext): Observable<AirportDto> {
+  addAirport(params: AddAirport$Params, context?: HttpContext): Observable<Airport> {
     return this.addAirport$Response(params, context).pipe(
-      map((r: StrictHttpResponse<AirportDto>): AirportDto => r.body)
+      map((r: StrictHttpResponse<Airport>): Airport => r.body)
     );
   }
 

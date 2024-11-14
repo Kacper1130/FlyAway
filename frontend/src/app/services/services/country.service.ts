@@ -13,8 +13,12 @@ import { Country } from '../models/country';
 import { CountryDto } from '../models/country-dto';
 import { getAllCountries } from '../fn/country/get-all-countries';
 import { GetAllCountries$Params } from '../fn/country/get-all-countries';
+import { getAllCountriesNames } from '../fn/country/get-all-countries-names';
+import { GetAllCountriesNames$Params } from '../fn/country/get-all-countries-names';
 import { getAllEnabledCountries } from '../fn/country/get-all-enabled-countries';
 import { GetAllEnabledCountries$Params } from '../fn/country/get-all-enabled-countries';
+import { isCountryEnabled } from '../fn/country/is-country-enabled';
+import { IsCountryEnabled$Params } from '../fn/country/is-country-enabled';
 import { switchCountryStatus } from '../fn/country/switch-country-status';
 import { SwitchCountryStatus$Params } from '../fn/country/switch-country-status';
 
@@ -71,6 +75,56 @@ export class CountryService extends BaseService {
   getAllCountries(params?: GetAllCountries$Params, context?: HttpContext): Observable<Array<CountryDto>> {
     return this.getAllCountries$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<CountryDto>>): Array<CountryDto> => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllCountriesNames()` */
+  static readonly GetAllCountriesNamesPath = '/api/v1/countries/names';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllCountriesNames()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllCountriesNames$Response(params?: GetAllCountriesNames$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<string>>> {
+    return getAllCountriesNames(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllCountriesNames$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllCountriesNames(params?: GetAllCountriesNames$Params, context?: HttpContext): Observable<Array<string>> {
+    return this.getAllCountriesNames$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<string>>): Array<string> => r.body)
+    );
+  }
+
+  /** Path part for operation `isCountryEnabled()` */
+  static readonly IsCountryEnabledPath = '/api/v1/countries/is-enabled';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `isCountryEnabled()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  isCountryEnabled$Response(params: IsCountryEnabled$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+    return isCountryEnabled(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `isCountryEnabled$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  isCountryEnabled(params: IsCountryEnabled$Params, context?: HttpContext): Observable<boolean> {
+    return this.isCountryEnabled$Response(params, context).pipe(
+      map((r: StrictHttpResponse<boolean>): boolean => r.body)
     );
   }
 

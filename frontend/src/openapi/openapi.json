@@ -214,7 +214,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AirportDto"
+                  "$ref": "#/components/schemas/Airport"
                 }
               }
             }
@@ -451,6 +451,59 @@
                   "items": {
                     "$ref": "#/components/schemas/CountryDto"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/countries/names": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "operationId": "getAllCountriesNames",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/countries/is-enabled": {
+      "get": {
+        "tags": [
+          "Country"
+        ],
+        "operationId": "isCountryEnabled",
+        "parameters": [
+          {
+            "name": "countryName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
                 }
               }
             }
@@ -1127,30 +1180,6 @@
           }
         }
       },
-      "AirportDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "IATACode": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean"
-          }
-        }
-      },
       "CountryDto": {
         "type": "object",
         "properties": {
@@ -1504,6 +1533,30 @@
           },
           "flightDto": {
             "$ref": "#/components/schemas/FlightDto"
+          }
+        }
+      },
+      "AirportDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "IATACode": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
           }
         }
       }
