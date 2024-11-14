@@ -1,18 +1,24 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {add2, Add2$Params} from '../fn/airport/add-2';
-import {Airport} from '../models/airport';
-import {getAll2, GetAll2$Params} from '../fn/airport/get-all-2';
-import {switchAirportStatus, SwitchAirportStatus$Params} from '../fn/airport/switch-airport-status';
+import { addAirport } from '../fn/airport/add-airport';
+import { AddAirport$Params } from '../fn/airport/add-airport';
+import { Airport } from '../models/airport';
+import { AirportDto } from '../models/airport-dto';
+import { deleteAirport } from '../fn/airport/delete-airport';
+import { DeleteAirport$Params } from '../fn/airport/delete-airport';
+import { getAllAirports } from '../fn/airport/get-all-airports';
+import { GetAllAirports$Params } from '../fn/airport/get-all-airports';
+import { switchAirportStatus } from '../fn/airport/switch-airport-status';
+import { SwitchAirportStatus$Params } from '../fn/airport/switch-airport-status';
 
 @Injectable({ providedIn: 'root' })
 export class AirportService extends BaseService {
@@ -20,28 +26,53 @@ export class AirportService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `add2()` */
-  static readonly Add2Path = '/api/v1/airports/add';
+  /** Path part for operation `addAirport()` */
+  static readonly AddAirportPath = '/api/v1/airports/add';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `add2()` instead.
+   * To access only the response body, use `addAirport()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  add2$Response(params: Add2$Params, context?: HttpContext): Observable<StrictHttpResponse<Airport>> {
-    return add2(this.http, this.rootUrl, params, context);
+  addAirport$Response(params: AddAirport$Params, context?: HttpContext): Observable<StrictHttpResponse<AirportDto>> {
+    return addAirport(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `add2$Response()` instead.
+   * To access the full response (for headers, for example), `addAirport$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  add2(params: Add2$Params, context?: HttpContext): Observable<Airport> {
-    return this.add2$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Airport>): Airport => r.body)
+  addAirport(params: AddAirport$Params, context?: HttpContext): Observable<AirportDto> {
+    return this.addAirport$Response(params, context).pipe(
+      map((r: StrictHttpResponse<AirportDto>): AirportDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteAirport()` */
+  static readonly DeleteAirportPath = '/api/v1/airports/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteAirport()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteAirport$Response(params: DeleteAirport$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteAirport(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteAirport$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteAirport(params: DeleteAirport$Params, context?: HttpContext): Observable<void> {
+    return this.deleteAirport$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
@@ -70,28 +101,28 @@ export class AirportService extends BaseService {
     );
   }
 
-  /** Path part for operation `getAll2()` */
-  static readonly GetAll2Path = '/api/v1/airports';
+  /** Path part for operation `getAllAirports()` */
+  static readonly GetAllAirportsPath = '/api/v1/airports';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAll2()` instead.
+   * To access only the response body, use `getAllAirports()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAll2$Response(params?: GetAll2$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Airport>>> {
-    return getAll2(this.http, this.rootUrl, params, context);
+  getAllAirports$Response(params?: GetAllAirports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<AirportDto>>> {
+    return getAllAirports(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getAll2$Response()` instead.
+   * To access the full response (for headers, for example), `getAllAirports$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAll2(params?: GetAll2$Params, context?: HttpContext): Observable<Array<Airport>> {
-    return this.getAll2$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Airport>>): Array<Airport> => r.body)
+  getAllAirports(params?: GetAllAirports$Params, context?: HttpContext): Observable<Array<AirportDto>> {
+    return this.getAllAirports$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<AirportDto>>): Array<AirportDto> => r.body)
     );
   }
 

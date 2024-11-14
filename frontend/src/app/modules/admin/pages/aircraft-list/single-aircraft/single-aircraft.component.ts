@@ -18,7 +18,7 @@ export class SingleAircraftComponent {
 
   getSeatsInClass(cabinClass: string): number {
     const range = this.aircraft.seatClassRanges[cabinClass];
-    if (!range) {
+    if (!range || range.startSeat == null || range.endSeat == null) {
       return 0;
     }
     return range.endSeat - range.startSeat + 1;

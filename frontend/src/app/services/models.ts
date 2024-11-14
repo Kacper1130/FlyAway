@@ -3,6 +3,7 @@
 export { AddEmployeeDto } from './models/add-employee-dto';
 export { Aircraft } from './models/aircraft';
 export { Airport } from './models/airport';
+export { AirportDto } from './models/airport-dto';
 export { AuthenticationRequest } from './models/authentication-request';
 export { AuthenticationResponse } from './models/authentication-response';
 export { ChangePasswordRequest } from './models/change-password-request';

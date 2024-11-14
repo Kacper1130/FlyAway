@@ -1,5 +1,8 @@
 <app-admin-navbar></app-admin-navbar>
-<h2 class="text-white text-center mt-2">Operating Airports</h2>
+<div class="header-container mt-2">
+  <h2 class="text-white text-center">Operating Airports</h2>
+  <button mat-raised-button color="primary" class="add-global-button mt-2" (click)="addAirport()">Add Airport</button>
+</div>
 <mat-accordion multi>
   <mat-expansion-panel *ngFor="let country of countries">
     <mat-expansion-panel-header>
@@ -21,14 +24,20 @@
         <td mat-cell *matCellDef="let airport"> {{ airport.IATACode }} </td>
       </ng-container>
       <ng-container matColumnDef="enabled">
-        <th mat-header-cell *matHeaderCellDef> Akcje </th>
+        <th mat-header-cell *matHeaderCellDef> Enabled </th>
         <td mat-cell *matCellDef="let airport">
-          <mat-slide-toggle [(ngModel)]="airport.enabled" (change)="onToggleChange(airport)">
+          <mat-slide-toggle color="primary" [(ngModel)]="airport.enabled" (change)="onToggleChange(airport)">
           </mat-slide-toggle>
         </td>
       </ng-container>
-      <tr mat-header-row *matHeaderRowDef="['name', 'city', 'code', 'enabled']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['name','city', 'code', 'enabled']"></tr>
+      <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef> Options </th>
+        <td mat-cell *matCellDef="let airport">
+          <button mat-button color="warn" (click)="deleteAirport(airport, country)">Delete</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['name', 'city', 'code', 'enabled', 'options']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name','city', 'code', 'enabled', 'options']"></tr>
     </table>
   </mat-expansion-panel>
 </mat-accordion>

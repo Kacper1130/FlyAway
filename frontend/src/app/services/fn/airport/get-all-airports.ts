@@ -6,13 +6,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Airport } from '../../models/airport';
+import { AirportDto } from '../../models/airport-dto';
 
-export interface GetAll2$Params {
+export interface GetAllAirports$Params {
 }
 
-export function getAll2(http: HttpClient, rootUrl: string, params?: GetAll2$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Airport>>> {
-  const rb = new RequestBuilder(rootUrl, getAll2.PATH, 'get');
+export function getAllAirports(http: HttpClient, rootUrl: string, params?: GetAllAirports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<AirportDto>>> {
+  const rb = new RequestBuilder(rootUrl, getAllAirports.PATH, 'get');
   if (params) {
   }
 
@@ -21,9 +21,9 @@ export function getAll2(http: HttpClient, rootUrl: string, params?: GetAll2$Para
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Airport>>;
+      return r as StrictHttpResponse<Array<AirportDto>>;
     })
   );
 }
 
-getAll2.PATH = '/api/v1/airports';
+getAllAirports.PATH = '/api/v1/airports';

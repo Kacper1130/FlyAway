@@ -26,7 +26,7 @@ public class AirportController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AirportDto>> getAll() {
+    public ResponseEntity<List<AirportDto>> getAllAirports() {
         LOGGER.debug("Retrieving all airports");
         List<AirportDto> airports = airportService.getAll();
         LOGGER.info("Retrieved {} airports", airports.size());
@@ -34,7 +34,7 @@ public class AirportController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<AirportDto> add(@Valid @RequestBody CreateAirportDto createAirportDto) {
+    public ResponseEntity<AirportDto> addAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport {}", createAirportDto);
         AirportDto airport = airportService.addAirport(createAirportDto);
         LOGGER.info("Created new airport {}", airport);

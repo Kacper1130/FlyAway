@@ -26,4 +26,4 @@ export function getAllEnabledCountries(http: HttpClient, rootUrl: string, params
   );
 }
 
-getAllEnabledCountries.PATH = '/api/v1/countries/enabled-countries';
+getAllEnabledCountries.PATH = '/api/v1/countries/enabled';

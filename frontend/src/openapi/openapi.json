@@ -197,7 +197,7 @@
         "tags": [
           "Airport"
         ],
-        "operationId": "add_2",
+        "operationId": "addAirport",
         "requestBody": {
           "content": {
             "application/json": {
@@ -214,7 +214,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Airport"
+                  "$ref": "#/components/schemas/AirportDto"
                 }
               }
             }
@@ -314,6 +314,28 @@
       }
     },
     "/api/v1/airports/{id}": {
+      "delete": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "deleteAirport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "patch": {
         "tags": [
           "Airport"
@@ -436,7 +458,7 @@
         }
       }
     },
-    "/api/v1/countries/enabled-countries": {
+    "/api/v1/countries/enabled": {
       "get": {
         "tags": [
           "Country"
@@ -691,7 +713,7 @@
         "tags": [
           "Airport"
         ],
-        "operationId": "getAll_2",
+        "operationId": "getAllAirports",
         "responses": {
           "200": {
             "description": "OK",
@@ -700,7 +722,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Airport"
+                    "$ref": "#/components/schemas/AirportDto"
                   }
                 }
               }
@@ -1099,6 +1121,33 @@
           },
           "country": {
             "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AirportDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "IATACode": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
           }
         }
       },

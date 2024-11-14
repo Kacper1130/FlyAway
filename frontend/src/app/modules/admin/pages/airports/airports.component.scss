@@ -1,9 +1,24 @@
 table {
   width: 100%;
   margin-top: 16px;
+  text-align: center;
 }
 
 .mat-expansion-panel{
   margin-top: 5px;
+  text-align: center;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.add-global-button {
+  position: absolute;
+  top: 0;
+  right: 16px;
 }
 

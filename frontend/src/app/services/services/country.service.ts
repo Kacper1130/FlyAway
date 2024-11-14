@@ -1,19 +1,22 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {Country} from '../models/country';
-import {CountryDto} from '../models/country-dto';
-import {getAllCountries, GetAllCountries$Params} from '../fn/country/get-all-countries';
-import {getAllEnabledCountries, GetAllEnabledCountries$Params} from '../fn/country/get-all-enabled-countries';
-import {switchCountryStatus, SwitchCountryStatus$Params} from '../fn/country/switch-country-status';
+import { Country } from '../models/country';
+import { CountryDto } from '../models/country-dto';
+import { getAllCountries } from '../fn/country/get-all-countries';
+import { GetAllCountries$Params } from '../fn/country/get-all-countries';
+import { getAllEnabledCountries } from '../fn/country/get-all-enabled-countries';
+import { GetAllEnabledCountries$Params } from '../fn/country/get-all-enabled-countries';
+import { switchCountryStatus } from '../fn/country/switch-country-status';
+import { SwitchCountryStatus$Params } from '../fn/country/switch-country-status';
 
 @Injectable({ providedIn: 'root' })
 export class CountryService extends BaseService {
@@ -72,7 +75,7 @@ export class CountryService extends BaseService {
   }
 
   /** Path part for operation `getAllEnabledCountries()` */
-  static readonly GetAllEnabledCountriesPath = '/api/v1/countries/enabled-countries';
+  static readonly GetAllEnabledCountriesPath = '/api/v1/countries/enabled';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
