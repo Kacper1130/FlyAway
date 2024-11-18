@@ -14,6 +14,11 @@ import {EmployeePanelComponent} from "./modules/employee/pages/employee-panel/em
 import {CountriesComponent} from "./modules/admin/pages/countries/countries.component";
 import {AircraftListComponent} from "./modules/admin/pages/aircraft-list/aircraft-list.component";
 import {AirportsComponent} from "./modules/admin/pages/airports/airports.component";
+import {
+  EmployeeReservationsComponent
+} from "./modules/employee/pages/employee-reservations/employee-reservations.component";
+import {EmployeeIssuesComponent} from "./modules/employee/pages/employee-issues/employee-issues.component";
+import {EmployeeFlightsComponent} from "./modules/employee/pages/employee-flights/employee-flights.component";
 
 export const routes: Routes = [
   {
@@ -96,6 +101,18 @@ export const routes: Routes = [
         path: '',
         component: EmployeePanelComponent
       },
+      {
+        path: 'flights',
+        component: EmployeeFlightsComponent
+      },
+      {
+        path: 'reservations',
+        component: EmployeeReservationsComponent
+      },
+      {
+        path: 'issues',
+        component: EmployeeIssuesComponent
+      }
     ]
   }
 ];

@@ -6,20 +6,22 @@ import {MatToolbar} from "@angular/material/toolbar";
 import {PaginatorModule} from "primeng/paginator";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {TokenService} from "../../../../services/token/token.service";
+import {MatBadge} from "@angular/material/badge";
 
 @Component({
   selector: 'app-employee-navbar',
   standalone: true,
-    imports: [
-        FormsModule,
-        MatButton,
-        MatIcon,
-        MatIconButton,
-        MatToolbar,
-        PaginatorModule,
-        RouterLink,
-        RouterLinkActive
-    ],
+  imports: [
+    FormsModule,
+    MatButton,
+    MatIcon,
+    MatIconButton,
+    MatToolbar,
+    PaginatorModule,
+    RouterLink,
+    RouterLinkActive,
+    MatBadge
+  ],
   templateUrl: './employee-navbar.component.html',
   styleUrl: './employee-navbar.component.scss'
 })
