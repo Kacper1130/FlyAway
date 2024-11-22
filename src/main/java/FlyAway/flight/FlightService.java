@@ -1,6 +1,7 @@
 package FlyAway.flight;
 
 import FlyAway.exception.CountryDoesNotExistException;
+import FlyAway.exception.MissingCabinClassPriceException;
 import FlyAway.flight.dto.FlightDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -34,6 +35,11 @@ public class FlightService {
         LOGGER.debug("Adding new flight");
         if (!createFlightDto.arrivalAirportDto().country().enabled() || !createFlightDto.departureAirportDto().country().enabled()) {
             throw new CountryDoesNotExistException();
+        }
+        for(var c : createFlightDto.aircraft().getSeatClassRanges().keySet()) {
+            if (!createFlightDto.cabinClassPrices().containsKey(c)) {
+                throw new MissingCabinClassPriceException(c.toString());
+            }
         }
         Flight createdFlight = flightRepository.save(flightMapper.flightDtoToFlight(createFlightDto));
         LOGGER.info("Created flight with id {}", createdFlight.getId());

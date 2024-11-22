@@ -200,4 +200,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
+    @ExceptionHandler(MissingCabinClassPriceException.class)
+    public ResponseEntity<ErrorMessage> handleMissingCabinClassPriceException(MissingCabinClassPriceException exception) {
+        LOGGER.error("Missing price for cabin class", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
 }
