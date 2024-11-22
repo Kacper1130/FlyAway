@@ -18,6 +18,8 @@ public class FlyAwayApplication {
 	// uwagi uzytkownikow
 	// employee wysyla maila do wielu uzytkownikow
 
+
+
 //	@Bean
 //	CommandLineRunner commandLineRunner(
 //			FlightRepository flightRepository,
@@ -26,37 +28,37 @@ public class FlyAwayApplication {
 //			CountryRepository countryRepository
 //	) {
 //		return args -> {
-//			Airport departureAirport = new Airport();
-//			departureAirport.setName("Warsaw Chopin Airport");
-//			departureAirport.setIATACode("WAW");
-//			departureAirport.setCity("Warsaw");
-//			departureAirport.setCountry(countryRepository.findById(165).orElseThrow());
+////			Airport departureAirport = new Airport();
+////			departureAirport.setName("Warsaw Chopin Airport");
+////			departureAirport.setIATACode("ee1");
+////			departureAirport.setCity("Warsaw");
+////			departureAirport.setCountry(countryRepository.findById(165).orElseThrow());
+////
+////			Airport arrivalAirport = new Airport();
+////			arrivalAirport.setName("Heathrow Airport");
+////			arrivalAirport.setIATACode("ee2");
+////			arrivalAirport.setCity("London");
+////			arrivalAirport.setCountry(countryRepository.findById(219).orElseThrow());
+////
+////			airportRepository.saveAll(List.of(departureAirport,arrivalAirport));
 //
-//			Airport arrivalAirport = new Airport();
-//			arrivalAirport.setName("Heathrow Airport");
-//			arrivalAirport.setIATACode("LHR");
-//			arrivalAirport.setCity("London");
-//			arrivalAirport.setCountry(countryRepository.findById(219).orElseThrow());
 //
-//			airportRepository.saveAll(List.of(departureAirport,arrivalAirport));
-//
-//
-//			Aircraft aircraft1 = new Aircraft();
-//			aircraft1.setModel("Boeing 737");
-//			aircraft1.setProductionYear(2007);
-//			aircraft1.setRegistration("SP-FNA");
-//			aircraft1.setTotalSeats(130);
-//
-//			Map<CabinClass, SeatClassRange> seatClassRanges = new HashMap<>();
-//			seatClassRanges.put(CabinClass.BUSINESS, new SeatClassRange(1,20));
-//			seatClassRanges.put(CabinClass.ECONOMY, new SeatClassRange(21,130));
-//			aircraft1.setSeatClassRanges(seatClassRanges);
-//			aircraftRepository.save(aircraft1);
+////			Aircraft aircraft1 = new Aircraft();
+////			aircraft1.setModel("Boeing 737");
+////			aircraft1.setProductionYear(2007);
+////			aircraft1.setRegistration("sp-abc");
+////			aircraft1.setTotalSeats(130);
+////
+////			Map<CabinClass, SeatClassRange> seatClassRanges = new HashMap<>();
+////			seatClassRanges.put(CabinClass.BUSINESS, new SeatClassRange(1,20));
+////			seatClassRanges.put(CabinClass.ECONOMY, new SeatClassRange(21,130));
+////			aircraft1.setSeatClassRanges(seatClassRanges);
+////			aircraftRepository.save(aircraft1);
 //
 //			Aircraft aircraft2 = new Aircraft();
 //			aircraft2.setModel("Boeing 777");
 //			aircraft2.setProductionYear(2019);
-//			aircraft2.setRegistration("SP-FNB");
+//			aircraft2.setRegistration("SP-FNY");
 //			aircraft2.setTotalSeats(340);
 //
 //			Map<CabinClass, SeatClassRange> seatClassRanges2 = new HashMap<>();
@@ -68,18 +70,19 @@ public class FlyAwayApplication {
 //
 //			Flight flight = new Flight();
 //
-//			Airport airport1 = airportRepository.findAirportByIATACode("WAW").orElseThrow();
-//			Airport airport2 = airportRepository.findAirportByIATACode("LHR").orElseThrow();
+//			Airport airport1 = airportRepository.findAirportByIATACode("ee1").orElseThrow();
+//			Airport airport2 = airportRepository.findAirportByIATACode("ee2").orElseThrow();
 //
-//			flight.setDepartureAirport(departureAirport);
-//			flight.setArrivalAirport(arrivalAirport);
+//			flight.setDepartureAirport(airport1);
+//			flight.setArrivalAirport(airport2);
 //			flight.setDepartureDate(LocalDateTime.of(2025,9,11,12,30));
 //			flight.setArrivalDate(LocalDateTime.of(2025,9,11,15,30));
 //
-//			Aircraft aircraft = aircraftRepository.findAircraftByRegistration("SP-FNB").orElseThrow();
+//			Aircraft aircraft = aircraftRepository.findAircraftByRegistration("SP-FNY").orElseThrow();
 //			flight.setAircraft(aircraft);
 //
 //			Map<CabinClass, BigDecimal> cabinClassPrices = new HashMap<>();
+//			cabinClassPrices.put(CabinClass.FIRST, new BigDecimal(200));
 //			cabinClassPrices.put(CabinClass.BUSINESS, new BigDecimal(100));
 //			cabinClassPrices.put(CabinClass.ECONOMY, new BigDecimal(75));
 //

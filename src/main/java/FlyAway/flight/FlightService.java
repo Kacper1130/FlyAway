@@ -22,16 +22,17 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<Flight> getAll() {
+    public List<FlightDto> getAll() {
         LOGGER.debug("Retrieving all flights from repository");
-        List<Flight> flights = flightRepository.findAll();
+        List<FlightDto> flights = flightRepository.findAll()
+                        .stream().map(flightMapper::flightToFlightDto).toList();
         LOGGER.info("Retrieved {} flights from repository", flights.size());
         return flights;
     }
 
     public FlightDto addFlight(FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
-        if(!createFlightDto.arrivalAirport().getCountry().isEnabled() || createFlightDto.departureAirport().getCountry().isEnabled()) {
+        if (!createFlightDto.arrivalAirportDto().country().enabled() || !createFlightDto.departureAirportDto().country().enabled()) {
             throw new CountryDoesNotExistException();
         }
         Flight createdFlight = flightRepository.save(flightMapper.flightDtoToFlight(createFlightDto));

@@ -25,18 +25,18 @@ public class FlightController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Flight>> getAll() {
+    public ResponseEntity<List<FlightDto>> getAll() {
         LOGGER.debug("Retrieving all flights");
-        List<Flight> flights = flightService.getAll();
+        List<FlightDto> flights = flightService.getAll();
         LOGGER.info("Retrieved {} flights", flights.size());
         return ResponseEntity.ok(flights);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody FlightDto createFlightDto) {
-        LOGGER.debug("Adding new flight " + createFlightDto);
+    public ResponseEntity<FlightDto> add(@Valid @RequestBody FlightDto createFlightDto) {
+        LOGGER.debug("Adding new flight {} ", createFlightDto);
         FlightDto flight = flightService.addFlight(createFlightDto);
-        LOGGER.info("Created new flight " + flight);
+        LOGGER.info("Created new flight {}", flight);
         return ResponseEntity.status(HttpStatus.CREATED).body(flight);
     }
 }

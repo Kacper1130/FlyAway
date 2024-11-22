@@ -16,6 +16,5 @@ public interface AirportMapper {
 
     //AirportDto createAirportDtoToAirportDto(CreateAirportDto createAirportDto);
 
-    @Mapping(source = "country.name", target = "country")
     AirportDto airportToAirportDto(Airport airport);
 }
