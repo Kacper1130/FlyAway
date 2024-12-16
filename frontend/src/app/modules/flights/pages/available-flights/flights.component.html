@@ -1,4 +1,8 @@
 <app-new-navbar></app-new-navbar>
+<h2>Available flights</h2>
+<!--<div *ngFor="let flight of flights">-->
+<!--  <app-flight [flight]="flight"></app-flight>-->
+<!--</div>-->
 <div *ngFor="let flight of flights">
-  <app-flight [flight]="flight"></app-flight>
+  <app-available-flight [flight]="flight"></app-available-flight>
 </div>

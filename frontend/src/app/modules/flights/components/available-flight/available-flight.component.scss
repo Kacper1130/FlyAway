@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f4f4f4;
+}
+
+.container {
+  max-width: 90vw;
+  margin: 20px auto;
+  background-color: #888888;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Flight Info Section */
+.flight-info {
+  padding: 20px;
+}
+
+.flight-duration {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.flight-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+}
+
+.airplane-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.airplane-line .line {
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.airplane-line i {
+  font-size: 18px;
+  position: relative;
+}
+
+.station-info {
+  text-align: center;
+}
+
+.station-info h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.iata-code {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.airplane {
+  font-size: 24px;
+  color: #007bff;
+}
+
+/* Cabin Classes Section */
+.right-section {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.cabin-classes {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.cabin-class {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.cabin-class.economy {
+  background-color: #067e22;
+}
+
+.cabin-class.business {
+  background-color: #014fad;
+}
+
+.cabin-class.first {
+  background-color: #9b0010;
+}
+
+.cabin-class:hover {
+  background-color: #2d2d2d;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .flight-details {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .right-section {
+    justify-content: center;
+  }
+
+  .cabin-classes {
+    flex-direction: column;
+  }
+
+}

@@ -1,24 +1,117 @@
-.flight-container {
-  width: 100%;
+.flight-card-modern {
   display: flex;
   justify-content: space-between;
-  padding: 15px;
-  background-color: #f0f0f0;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  align-items: flex-start;
+  padding: 16px;
+  margin: 16px auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  font-family: 'Arial', sans-serif;
 }
 
-.flight-info {
+.flight-details {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
-.flight-info h2 {
-  margin: 0;
-  font-size: 1.5em;
+.flight-time {
+  text-align: center;
+  margin-bottom: 12px;
 }
 
-.flight-info p {
-  margin: 5px 0;
+.time {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.airport-code {
+  display: block;
+  font-size: 1rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.flight-route {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+.route-icon {
+  font-size: 1.2rem;
+  margin-right: 8px;
+}
+
+.duration {
+  font-size: 1rem;
+  color: #666;
+}
+
+.flight-cabin-prices {
+  display: flex;
+  gap: 12px;
+}
+
+.price-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  width: 120px;
+  background-color: #f9f9f9;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.price-box.highlight {
+  border-color: #0078d4;
+  background-color: #e6f3ff;
+}
+
+.price-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cabin-class {
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.price {
+  font-size: 1.4rem;
+  color: #0078d4;
+  margin: 8px 0;
+}
+
+.offer {
+  font-size: 0.9rem;
+  color: #28a745;
+}
+
+@media (max-width: 768px) {
+  .flight-card-modern {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+
+  .flight-cabin-prices {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .price-box {
+    width: 100%;
+  }
 }

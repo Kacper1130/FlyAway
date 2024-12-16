@@ -12,8 +12,7 @@ export interface Add$Params {
       body: FlightDto
 }
 
-export function add(http: HttpClient, rootUrl: string, params: Add$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
+export function add(http: HttpClient, rootUrl: string, params: Add$Params, context?: HttpContext): Observable<StrictHttpResponse<FlightDto>> {
   const rb = new RequestBuilder(rootUrl, add.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,8 +23,7 @@ export function add(http: HttpClient, rootUrl: string, params: Add$Params, conte
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<FlightDto>;
     })
   );
 }

@@ -64,7 +64,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/FlightDto"
                 }
               }
             }
@@ -403,7 +403,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Flight"
+                    "$ref": "#/components/schemas/FlightDto"
                   }
                 }
               }
@@ -943,10 +943,12 @@
           }
         }
       },
-      "Airport": {
+      "AirportDto": {
         "required": [
           "IATACode",
           "city",
+          "country",
+          "id",
           "name"
         ],
         "type": "object",
@@ -958,33 +960,51 @@
           "name": {
             "type": "string"
           },
+          "IATACode": {
+            "type": "string"
+          },
           "city": {
             "type": "string"
           },
           "enabled": {
             "type": "boolean"
           },
-          "IATACode": {
+          "country": {
+            "$ref": "#/components/schemas/CountryDto"
+          }
+        }
+      },
+      "CountryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
             "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
           }
         }
       },
       "FlightDto": {
         "required": [
           "aircraft",
-          "arrivalAirport",
+          "arrivalAirportDto",
           "arrivalDate",
           "cabinClassPrices",
-          "departureAirport",
+          "departureAirportDto",
           "departureDate"
         ],
         "type": "object",
         "properties": {
-          "departureAirport": {
-            "$ref": "#/components/schemas/Airport"
+          "departureAirportDto": {
+            "$ref": "#/components/schemas/AirportDto"
           },
-          "arrivalAirport": {
-            "$ref": "#/components/schemas/Airport"
+          "arrivalAirportDto": {
+            "$ref": "#/components/schemas/AirportDto"
           },
           "departureDate": {
             "type": "string",
@@ -1180,18 +1200,29 @@
           }
         }
       },
-      "CountryDto": {
+      "Airport": {
+        "required": [
+          "IATACode",
+          "city",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "uuid"
           },
           "name": {
             "type": "string"
           },
+          "city": {
+            "type": "string"
+          },
           "enabled": {
             "type": "boolean"
+          },
+          "IATACode": {
+            "type": "string"
           }
         }
       },
@@ -1237,158 +1268,6 @@
           "flightId": {
             "type": "string",
             "format": "uuid"
-          }
-        }
-      },
-      "Client": {
-        "required": [
-          "dayOfBirth",
-          "firstname",
-          "lastname"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "lastname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "roles": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Role"
-            }
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "dayOfBirth": {
-            "type": "string",
-            "format": "date"
-          },
-          "reservations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Reservation"
-            }
-          },
-          "deleted": {
-            "type": "boolean"
-          }
-        }
-      },
-      "Flight": {
-        "required": [
-          "arrivalDate",
-          "departureDate"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "departureAirport": {
-            "$ref": "#/components/schemas/Airport"
-          },
-          "arrivalAirport": {
-            "$ref": "#/components/schemas/Airport"
-          },
-          "departureDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "arrivalDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "aircraft": {
-            "$ref": "#/components/schemas/Aircraft"
-          },
-          "cabinClassPrices": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "number"
-            }
-          },
-          "reservations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Reservation"
-            }
-          }
-        }
-      },
-      "Reservation": {
-        "required": [
-          "price",
-          "reservationDate",
-          "seatNumber"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "reservationDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "price": {
-            "type": "number"
-          },
-          "seatNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "cabinClass": {
-            "type": "string",
-            "enum": [
-              "FIRST",
-              "BUSINESS",
-              "ECONOMY"
-            ]
-          },
-          "cancelled": {
-            "type": "boolean"
-          },
-          "client": {
-            "$ref": "#/components/schemas/Client"
-          },
-          "flight": {
-            "$ref": "#/components/schemas/Flight"
-          }
-        }
-      },
-      "Role": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
           }
         }
       },
@@ -1533,30 +1412,6 @@
           },
           "flightDto": {
             "$ref": "#/components/schemas/FlightDto"
-          }
-        }
-      },
-      "AirportDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "IATACode": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean"
           }
         }
       }

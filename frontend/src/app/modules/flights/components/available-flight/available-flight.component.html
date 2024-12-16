@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="flight-info">
+    <div class="flight-duration">{{ flightDuration }}</div>
+    <div class="flight-details">
+      <div class="station-info">
+        <h3>{{ flight.departureDate |  date: 'HH:mm' }}</h3>
+        <h3>{{ flight.departureAirportDto.IATACode }}</h3>
+        <p class="iata-code">{{ flight.departureAirportDto.city }}</p>
+      </div>
+      <div class="airplane-line">
+        <span class="line"></span>
+        <i class="fa-solid fa-plane" aria-label="Airplane Icon"></i>
+        <span class="line"></span>
+      </div>
+      <div class="station-info">
+        <h3>{{ flight.arrivalDate |  date: 'HH:mm' }}</h3>
+        <h3>{{ flight.arrivalAirportDto.IATACode }}</h3>
+        <p class="iata-code">{{flight.arrivalAirportDto.city}}</p>
+      </div>
+      <div class="right-section">
+        <div class="cabin-classes">
+          <button class="cabin-class economy" type="button" aria-label="Economy Class">
+            <span>Economy</span>
+            <span> - $150.00</span>
+          </button>
+          <button class="cabin-class business" type="button" aria-label="Business Class">
+            <span>Business</span>
+            <span> - $300.00</span>
+          </button>
+          <button class="cabin-class first" type="button" aria-label="First Class">
+            <span>First</span>
+            <span> - $600.00</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

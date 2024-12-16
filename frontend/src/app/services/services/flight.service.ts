@@ -1,19 +1,17 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { add } from '../fn/flight/add';
-import { Add$Params } from '../fn/flight/add';
-import { Flight } from '../models/flight';
-import { getAll } from '../fn/flight/get-all';
-import { GetAll$Params } from '../fn/flight/get-all';
+import {add, Add$Params} from '../fn/flight/add';
+import {FlightDto} from '../models/flight-dto';
+import {getAll, GetAll$Params} from '../fn/flight/get-all';
 
 @Injectable({ providedIn: 'root' })
 export class FlightService extends BaseService {
@@ -30,8 +28,7 @@ export class FlightService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  add$Response(params: Add$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
+  add$Response(params: Add$Params, context?: HttpContext): Observable<StrictHttpResponse<FlightDto>> {
     return add(this.http, this.rootUrl, params, context);
   }
 
@@ -41,12 +38,9 @@ export class FlightService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  add(params: Add$Params, context?: HttpContext): Observable<{
-}> {
+  add(params: Add$Params, context?: HttpContext): Observable<FlightDto> {
     return this.add$Response(params, context).pipe(
-      map((r: StrictHttpResponse<{
-}>): {
-} => r.body)
+      map((r: StrictHttpResponse<FlightDto>): FlightDto => r.body)
     );
   }
 
@@ -59,7 +53,7 @@ export class FlightService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAll$Response(params?: GetAll$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Flight>>> {
+  getAll$Response(params?: GetAll$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FlightDto>>> {
     return getAll(this.http, this.rootUrl, params, context);
   }
 
@@ -69,9 +63,9 @@ export class FlightService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAll(params?: GetAll$Params, context?: HttpContext): Observable<Array<Flight>> {
+  getAll(params?: GetAll$Params, context?: HttpContext): Observable<Array<FlightDto>> {
     return this.getAll$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Flight>>): Array<Flight> => r.body)
+      map((r: StrictHttpResponse<Array<FlightDto>>): Array<FlightDto> => r.body)
     );
   }
 
