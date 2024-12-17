@@ -412,6 +412,60 @@
         }
       }
     },
+    "/api/v1/flights/full": {
+      "get": {
+        "tags": [
+          "Flight"
+        ],
+        "operationId": "getAllFullFlights",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FlightDetailsDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/flights/full/{id}": {
+      "get": {
+        "tags": [
+          "Flight"
+        ],
+        "operationId": "getFlightDetails",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FlightDetailsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employees": {
       "get": {
         "tags": [
@@ -1268,6 +1322,204 @@
           "flightId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "Client": {
+        "required": [
+          "dayOfBirth",
+          "firstname",
+          "lastname"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "lastname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "roles": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "dayOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "reservations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reservation"
+            }
+          },
+          "deleted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Flight": {
+        "required": [
+          "aircraft",
+          "arrivalAirport",
+          "arrivalDate",
+          "cabinClassPrices",
+          "departureAirport",
+          "departureDate",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "departureAirport": {
+            "$ref": "#/components/schemas/Airport"
+          },
+          "arrivalAirport": {
+            "$ref": "#/components/schemas/Airport"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "aircraft": {
+            "$ref": "#/components/schemas/Aircraft"
+          },
+          "cabinClassPrices": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "FlightDetailsDto": {
+        "required": [
+          "aircraft",
+          "arrivalAirportDto",
+          "arrivalDate",
+          "cabinClassPrices",
+          "departureAirportDto",
+          "departureDate",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "departureAirportDto": {
+            "$ref": "#/components/schemas/AirportDto"
+          },
+          "arrivalAirportDto": {
+            "$ref": "#/components/schemas/AirportDto"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "aircraft": {
+            "$ref": "#/components/schemas/Aircraft"
+          },
+          "cabinClassPrices": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "reservations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Reservation"
+            }
+          }
+        }
+      },
+      "Reservation": {
+        "required": [
+          "price",
+          "reservationDate",
+          "seatNumber"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reservationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number"
+          },
+          "seatNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "client": {
+            "$ref": "#/components/schemas/Client"
+          },
+          "flight": {
+            "$ref": "#/components/schemas/Flight"
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
           }
         }
       },

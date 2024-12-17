@@ -1,2 +1,5 @@
 <app-employee-navbar></app-employee-navbar>
-<p>employee-flights works!</p>
+<h2>Flights</h2>
+<div *ngFor="let flight of flights">
+    <app-employee-flight-card [flight]="flight"></app-employee-flight-card>
+</div>

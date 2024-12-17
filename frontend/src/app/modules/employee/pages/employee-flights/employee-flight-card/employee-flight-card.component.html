@@ -1,0 +1,34 @@
+<div class="flight-card" [routerLink]="['/employee/flights', flight.id]" routerLinkActive="active">
+  <h2>{{ flight.id }}</h2>
+  <div class="flight-section">
+    <div class="flight-info">
+      <h3>Departure</h3>
+      <p><strong>{{ flight.departureAirportDto.IATACode }} </strong></p>
+      <p>{{ flight.departureAirportDto.name }} </p>
+      <p>{{ flight.departureAirportDto.city }}, {{ flight.departureAirportDto.country.name }}</p>
+      <p>{{ flight.departureDate | date: 'yyyy-MM-dd HH:mm' }}</p>
+    </div>
+
+    <div class="flight-info">
+      <h3>Arrival</h3>
+      <p><strong>{{ flight.arrivalAirportDto.IATACode }}</strong></p>
+      <p>{{ flight.arrivalAirportDto.name }} </p>
+      <p>{{ flight.arrivalAirportDto.city }}, {{ flight.arrivalAirportDto.country.name }}</p>
+      <p>{{ flight.arrivalDate | date: 'yyyy-MM-dd HH:mm' }}</p>
+    </div>
+
+    <div class="flight-info">
+      <h3>Aircraft</h3>
+      <p>Model: {{ flight.aircraft.model }}</p>
+      <p>Year: {{ flight.aircraft.productionYear }}</p>
+      <p>Reg: {{ flight.aircraft.registration }}</p>
+    </div>
+
+    <div class="flight-info">
+      <h3>Cabin Class Prices</h3>
+      <p>Economy: {{ flight.cabinClassPrices['ECONOMY'] || 'Not available' }}</p>
+      <p>Business: {{ flight.cabinClassPrices['BUSINESS'] || 'Not available' }}</p>
+      <p>First: {{ flight.cabinClassPrices['FIRST'] || 'Not available' }}</p>
+    </div>
+  </div>
+</div>

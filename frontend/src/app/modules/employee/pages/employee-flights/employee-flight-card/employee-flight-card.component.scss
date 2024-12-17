@@ -1,0 +1,47 @@
+.flight-card {
+  cursor: pointer;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 20px auto;
+
+  h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+
+  .flight-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    text-align: center;
+
+    .flight-info {
+      flex: 1;
+      min-width: 180px;
+
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+        color: #007bff;
+      }
+
+      p {
+        margin: 4px 0;
+        font-size: 0.95rem;
+        color: #555;
+      }
+
+      &:not(:last-child) {
+        border-right: 1px solid #ddd;
+        padding-right: 15px;
+      }
+    }
+  }
+}

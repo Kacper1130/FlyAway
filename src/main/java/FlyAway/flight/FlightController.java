@@ -1,5 +1,6 @@
 package FlyAway.flight;
 
+import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/flights")
@@ -38,5 +40,19 @@ public class FlightController {
         FlightDto flight = flightService.addFlight(createFlightDto);
         LOGGER.info("Created new flight {}", flight);
         return ResponseEntity.status(HttpStatus.CREATED).body(flight);
+    }
+
+    @GetMapping("/full")
+    public ResponseEntity<List<FlightDetailsDto>> getAllFullFlights() {
+        LOGGER.debug("Retrieving all full flight entities for employees");
+        List<FlightDetailsDto> flights = flightService.getAllFlightsWithId();
+        LOGGER.info("Retrieved {} full flight entities", flights.size());
+        return ResponseEntity.ok(flights);
+    }
+
+    @GetMapping("/full/{id}")
+    public ResponseEntity<FlightDetailsDto> getFlightDetails(@PathVariable UUID id) {
+        FlightDetailsDto flight = flightService.getFlightDetails(id);
+        return ResponseEntity.ok(flight);
     }
 }
