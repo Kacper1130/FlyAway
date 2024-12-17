@@ -101,13 +101,35 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
+
+.cabin-class-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Ensure content is vertically centered */
+  color: white;
+  height: 100%;
+  position: relative; /* Allows precise positioning of header and price */
+}
+
+.cabin-class-content h4 {
+  font-size: 24px;
+  position: absolute; /* Position header at the top */
+  top: 4px; /* Adjust spacing from the top */
+}
+
+.cabin-class-content p {
+  font-weight: bold;
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%); /* Adjust for exact centering */
+  font-size: 20px;
+}
+
 
 
 .cabin-class.economy {

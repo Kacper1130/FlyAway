@@ -20,18 +20,25 @@
       <div class="right-section">
         <div class="cabin-classes">
           <button class="cabin-class economy" type="button" aria-label="Economy Class">
-            <span>Economy</span>
-            <span> - $150.00</span>
+            <div class="cabin-class-content">
+              <h4>Economy</h4>
+              <p>{{ flight.cabinClassPrices['ECONOMY'] ? ('$' + flight.cabinClassPrices['ECONOMY']) : 'Not available' }}</p>
+            </div>
           </button>
           <button class="cabin-class business" type="button" aria-label="Business Class">
-            <span>Business</span>
-            <span> - $300.00</span>
+            <div class="cabin-class-content">
+              <h4>Business</h4>
+              <p>{{ flight.cabinClassPrices['BUSINESS'] ? ('$' + flight.cabinClassPrices['BUSINESS']) : 'Not available' }}</p>
+            </div>
           </button>
           <button class="cabin-class first" type="button" aria-label="First Class">
-            <span>First</span>
-            <span> - $600.00</span>
+            <div class="cabin-class-content">
+              <h4>First</h4>
+              <p>{{ flight.cabinClassPrices['FIRST'] ? ('$' + flight.cabinClassPrices['FIRST']) : 'Not available' }}</p>
+            </div>
           </button>
         </div>
+
       </div>
     </div>
   </div>
