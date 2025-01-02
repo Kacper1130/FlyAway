@@ -113,6 +113,13 @@ export class AircraftListComponent implements OnInit {
 
     this.aircraftService.addAircraft({body: newAircraft}).subscribe({
       next: () => {
+        const message = `Successfully added ${newAircraft.model}(${newAircraft.registration})`
+        this._snackBar.open(message, 'close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          panelClass: ['snackbar-success'],
+          duration: 9000
+        });
         this.aircraftForm.reset();
         this.ngOnInit();
       },
