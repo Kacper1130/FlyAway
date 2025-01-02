@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {AsyncPipe, JsonPipe, NgForOf, NgIf} from "@angular/common";
 import {EmployeeNavbarComponent} from "../../components/employee-navbar/employee-navbar.component";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
@@ -27,9 +27,8 @@ import {AircraftService} from "../../../../services/services/aircraft.service";
 import {Aircraft} from "../../../../services/models/aircraft";
 import {AirportDto} from "../../../../services/models/airport-dto";
 import {map} from "rxjs/operators";
-import {CreateAirportDto} from "../../../../services/models/create-airport-dto";
 import {FlightDto} from "../../../../services/models/flight-dto";
-import {Flight} from "../../../../services/models/flight";
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-employee-flights-add',
@@ -66,7 +65,11 @@ import {Flight} from "../../../../services/models/flight";
   templateUrl: './employee-flights-add.component.html',
   styleUrl: './employee-flights-add.component.scss'
 })
-export class EmployeeFlightsAddComponent implements OnInit{
+export class EmployeeFlightsAddComponent implements OnInit {
+
+  private readonly _snackBar = inject(MatSnackBar);
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   flightForm!: FormGroup;
   departureAirports: Observable<Array<AirportDto>> | undefined;
@@ -144,9 +147,9 @@ export class EmployeeFlightsAddComponent implements OnInit{
       arrivalTime: ['', Validators.required],
       aircraft: ['', Validators.required],
       cabinClassPrices: this.fb.group({
-        ECONOMY: [{ value: '', disabled: true }, [Validators.required, Validators.min(0)]],
-        BUSINESS: [{ value: '', disabled: true }, [Validators.required, Validators.min(0)]],
-        FIRST: [{ value: '', disabled: true }, [Validators.required, Validators.min(0)]]
+        ECONOMY: [{value: '', disabled: true}, [Validators.required, Validators.min(0)]],
+        BUSINESS: [{value: '', disabled: true}, [Validators.required, Validators.min(0)]],
+        FIRST: [{value: '', disabled: true}, [Validators.required, Validators.min(0)]]
       })
     });
   }
@@ -189,15 +192,19 @@ export class EmployeeFlightsAddComponent implements OnInit{
         departureAirportDto: formValue.departureAirport,
         departureDate: departureDateTime
       };
-      console.log(departureDateTime);
-      console.log(arrivalDateTime);
       this.flightService.add({body: newFlight}).subscribe({
         next: () => {
-          console.log("success");
+          const message = `Successfully created flight from ${newFlight.departureAirportDto.city}(${newFlight.departureAirportDto.country.name})
+          to ${newFlight.arrivalAirportDto.city}(${newFlight.arrivalAirportDto.country.name})`;
+          this._snackBar.open(message, 'close', {
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            panelClass: ['snackbar-success'],
+            duration: 9000
+          });
         }
       })
     }
-
   }
 
   combineDateAndTime(date: string, time: string): string {
