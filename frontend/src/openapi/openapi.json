@@ -838,6 +838,29 @@
         }
       }
     },
+    "/api/v1/airports/enabled": {
+      "get": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "getAllEnabledAirports",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AirportDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/aircraft": {
       "get": {
         "tags": [

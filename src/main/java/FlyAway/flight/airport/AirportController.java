@@ -53,4 +53,11 @@ public class AirportController {
         airportService.deleteAirport(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/enabled")
+    public ResponseEntity<List<AirportDto>> getAllEnabledAirports() {
+        List<AirportDto> activeAirports = airportService.getAllActiveAirports();
+        LOGGER.info("Retrieved {} active airports", activeAirports.size());
+        return ResponseEntity.ok(activeAirports);
+    }
 }

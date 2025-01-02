@@ -1,0 +1,179 @@
+<app-employee-navbar></app-employee-navbar>
+<h2 mat-dialog-title>Add New Flight</h2>
+<div class="flight-form-container">
+  <mat-dialog-content class="form-content">
+    <form [formGroup]="flightForm" class="flight-form">
+      <!-- Flight Route Section -->
+      <div class="form-section">
+        <h3 class="section-title">Flight Route</h3>
+        <div class="route-container">
+          <div class="airport-section">
+            <mat-form-field appearance="outline" class="airport-field">
+              <mat-label>From</mat-label>
+              <input matInput
+                     required
+                     placeholder="Search departure airport"
+                     formControlName="departureAirport"
+                     [matAutocomplete]="departureAuto">
+              <mat-icon matPrefix>flight_takeoff</mat-icon>
+              <mat-autocomplete #departureAuto="matAutocomplete">
+                @for (airport of departureAirports | async; track airport) {
+                  <mat-option [value]="airport">
+                    <div class="airport-option">
+                      <span class="airport-code">{{ airport.IATACode }}</span>
+                      <span class="airport-name">{{ airport.name }}</span>
+                      <span class="airport-city">{{ airport.city }}</span>
+                    </div>
+                  </mat-option>
+                }
+              </mat-autocomplete>
+              <mat-error *ngIf="flightForm.controls['departureAirport'].hasError('required')">
+                Please select departure airport
+              </mat-error>
+            </mat-form-field>
+
+            <div class="route-arrow">
+              <mat-icon>arrow_forward</mat-icon>
+            </div>
+
+            <mat-form-field appearance="outline" class="airport-field">
+              <mat-label>To</mat-label>
+              <input matInput
+                     required
+                     placeholder="Search arrival airport"
+                     formControlName="arrivalAirport"
+                     [matAutocomplete]="arrivalAuto">
+              <mat-icon matPrefix>flight_land</mat-icon>
+              <mat-autocomplete #arrivalAuto="matAutocomplete">
+                @for (airport of arrivalAirports | async; track airport) {
+                  <mat-option [value]="airport">
+                    <div class="airport-option">
+                      <span class="airport-code">{{ airport.IATACode }}</span>
+                      <span class="airport-name">{{ airport.name }}</span>
+                      <span class="airport-city">{{ airport.city }}</span>
+                    </div>
+                  </mat-option>
+                }
+              </mat-autocomplete>
+              <mat-error *ngIf="flightForm.controls['arrivalAirport'].hasError('required')">
+                Please select arrival airport
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flight Schedule Section -->
+      <div class="form-section">
+        <h3 class="section-title">Flight Schedule</h3>
+        <div class="schedule-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Departure Date & Time</mat-label>
+            <input matInput
+                   required
+                   [matDatepicker]="departurePicker"
+                   [min]="minDate"
+                   formControlName="departureDate"
+                   placeholder="Choose departure date">
+            <mat-datepicker-toggle matSuffix [for]="departurePicker"></mat-datepicker-toggle>
+            <mat-datepicker #departurePicker></mat-datepicker>
+            <mat-error *ngIf="flightForm.controls['departureDate'].hasError('required')">
+              Please select departure date
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Arrival Date & Time</mat-label>
+            <input matInput
+                   required
+                   [matDatepicker]="arrivalPicker"
+                   [min]="flightForm.get('departureDate')?.value"
+                   formControlName="arrivalDate"
+                   placeholder="Choose arrival date">
+            <mat-datepicker-toggle matSuffix [for]="arrivalPicker"></mat-datepicker-toggle>
+            <mat-datepicker #arrivalPicker></mat-datepicker>
+            <mat-error *ngIf="flightForm.controls['arrivalDate'].hasError('required')">
+              Please select arrival date
+            </mat-error>
+            <mat-error *ngIf="flightForm.controls['arrivalDate'].hasError('invalidDate')">
+              Arrival date must be after departure date
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- Aircraft & Pricing Section -->
+      <div class="form-section">
+        <h3 class="section-title">Aircraft & Pricing</h3>
+        <div class="aircraft-pricing-container">
+          <mat-form-field appearance="outline" class="aircraft-field">
+            <mat-label>Select Aircraft</mat-label>
+            <input matInput
+                   required
+                   placeholder="Search aircraft"
+                   formControlName="aircraft"
+                   [matAutocomplete]="aircraftAuto">
+            <mat-icon matPrefix>airplane_ticket</mat-icon>
+            <mat-autocomplete #aircraftAuto="matAutocomplete">
+              @for (aircraft of aircraftList | async; track aircraft) {
+                <mat-option [value]="aircraft">
+                  <div class="aircraft-option">
+                    <span class="aircraft-name">{{ aircraft.name }}</span>
+                    <span class="aircraft-capacity">Capacity: {{ aircraft.capacity }}</span>
+                  </div>
+                </mat-option>
+              }
+            </mat-autocomplete>
+            <mat-error *ngIf="flightForm.controls['aircraft'].hasError('required')">
+              Please select an aircraft
+            </mat-error>
+          </mat-form-field>
+
+          <div class="pricing-grid" formGroupName="cabinClassPrices">
+            <mat-form-field appearance="outline">
+              <mat-label>Economy Price</mat-label>
+              <input matInput type="number" formControlName="economy" min="0">
+              <mat-icon matPrefix>attach_money</mat-icon>
+              <mat-error *ngIf="flightForm.get('cabinClassPrices.economy')?.hasError('required')">
+                Economy price is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Business Price</mat-label>
+              <input matInput type="number" formControlName="business" min="0">
+              <mat-icon matPrefix>attach_money</mat-icon>
+              <mat-error *ngIf="flightForm.get('cabinClassPrices.business')?.hasError('required')">
+                Business price is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>First Class Price</mat-label>
+              <input matInput type="number" formControlName="firstClass" min="0">
+              <mat-icon matPrefix>attach_money</mat-icon>
+              <mat-error *ngIf="flightForm.get('cabinClassPrices.firstClass')?.hasError('required')">
+                First class price is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="form-actions">
+    <button mat-button (click)="onCancel()" class="cancel-button">
+      <mat-icon>close</mat-icon>
+      Cancel
+    </button>
+    <button mat-raised-button
+            color="primary"
+            (click)="onSubmit()"
+            [disabled]="flightForm.invalid || isSubmitting"
+            class="submit-button">
+      <mat-icon>add_circle</mat-icon>
+      {{ isSubmitting ? 'Adding Flight...' : 'Add Flight' }}
+    </button>
+  </mat-dialog-actions>
+</div>

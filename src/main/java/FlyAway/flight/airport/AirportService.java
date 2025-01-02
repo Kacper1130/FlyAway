@@ -68,4 +68,11 @@ public class AirportService {
         airportRepository.deleteById(id);
         LOGGER.info("Deleted airport {} in {}", airport.getName(), airport.getCountry().getName());
     }
+
+    public List<AirportDto> getAllActiveAirports() {
+        List<AirportDto> activeAirports = airportRepository.findAllByEnabledTrue()
+                .stream().map(airportMapper::airportToAirportDto).toList();
+        LOGGER.info("Retrieved {} active airports from repository", activeAirports.size());
+        return activeAirports;
+    }
 }

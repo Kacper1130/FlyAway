@@ -17,6 +17,8 @@ import { deleteAirport } from '../fn/airport/delete-airport';
 import { DeleteAirport$Params } from '../fn/airport/delete-airport';
 import { getAllAirports } from '../fn/airport/get-all-airports';
 import { GetAllAirports$Params } from '../fn/airport/get-all-airports';
+import { getAllEnabledAirports } from '../fn/airport/get-all-enabled-airports';
+import { GetAllEnabledAirports$Params } from '../fn/airport/get-all-enabled-airports';
 import { switchAirportStatus } from '../fn/airport/switch-airport-status';
 import { SwitchAirportStatus$Params } from '../fn/airport/switch-airport-status';
 
@@ -122,6 +124,31 @@ export class AirportService extends BaseService {
    */
   getAllAirports(params?: GetAllAirports$Params, context?: HttpContext): Observable<Array<AirportDto>> {
     return this.getAllAirports$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<AirportDto>>): Array<AirportDto> => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllEnabledAirports()` */
+  static readonly GetAllEnabledAirportsPath = '/api/v1/airports/enabled';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllEnabledAirports()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllEnabledAirports$Response(params?: GetAllEnabledAirports$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<AirportDto>>> {
+    return getAllEnabledAirports(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllEnabledAirports$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllEnabledAirports(params?: GetAllEnabledAirports$Params, context?: HttpContext): Observable<Array<AirportDto>> {
+    return this.getAllEnabledAirports$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<AirportDto>>): Array<AirportDto> => r.body)
     );
   }

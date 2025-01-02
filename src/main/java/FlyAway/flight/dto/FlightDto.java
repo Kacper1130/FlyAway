@@ -5,6 +5,7 @@ import FlyAway.flight.aircraft.CabinClass;
 import FlyAway.flight.airport.dto.AirportDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

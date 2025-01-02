@@ -22,6 +22,12 @@ import {EmployeeFlightsComponent} from "./modules/employee/pages/employee-flight
 import {
   EmployeeFlightDetailsComponent
 } from "./modules/employee/pages/employee-flights/employee-flight-details/employee-flight-details.component";
+import {
+  AddFlightFormComponent
+} from "./modules/employee/pages/employee-flights/add-flight-form/add-flight-form.component";
+import {
+  EmployeeFlightsAddComponent
+} from "./modules/employee/pages/employee-flights-add/employee-flights-add.component";
 
 export const routes: Routes = [
   {
@@ -110,6 +116,10 @@ export const routes: Routes = [
           {
             path: '',
             component: EmployeeFlightsComponent
+          },
+          {
+            path: 'add',
+            component: EmployeeFlightsAddComponent
           },
           {
             path: ':id',

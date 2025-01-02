@@ -1,5 +1,8 @@
 <app-employee-navbar></app-employee-navbar>
-<h2>Flights</h2>
+<div class="header-container mt-2">
+  <h2 class="text-white text-center">Flights</h2>
+  <button mat-raised-button color="primary" class="add-global-button mt-2" routerLink="/employee/flights/add">Add Flight</button>
+</div>
 <div *ngFor="let flight of flights">
     <app-employee-flight-card [flight]="flight"></app-employee-flight-card>
 </div>

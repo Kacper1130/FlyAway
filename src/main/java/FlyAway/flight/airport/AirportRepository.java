@@ -13,4 +13,6 @@ public interface AirportRepository extends JpaRepository<Airport, UUID> {
     @Query("SELECT a FROM Airport a ORDER BY a.country.name DESC")
     List<Airport> findAll();
 
+    List<Airport> findAllByEnabledTrue();
+
 }
