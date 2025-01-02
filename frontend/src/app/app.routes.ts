@@ -23,9 +23,6 @@ import {
   EmployeeFlightDetailsComponent
 } from "./modules/employee/pages/employee-flights/employee-flight-details/employee-flight-details.component";
 import {
-  AddFlightFormComponent
-} from "./modules/employee/pages/employee-flights/add-flight-form/add-flight-form.component";
-import {
   EmployeeFlightsAddComponent
 } from "./modules/employee/pages/employee-flights-add/employee-flights-add.component";
 
