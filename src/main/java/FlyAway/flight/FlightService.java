@@ -1,5 +1,6 @@
 package FlyAway.flight;
 
+import FlyAway.common.PageResponse;
 import FlyAway.exception.CountryDoesNotExistException;
 import FlyAway.exception.FlightDoesNotExistException;
 import FlyAway.exception.MissingCabinClassPriceException;
@@ -9,6 +10,10 @@ import FlyAway.flight.dto.FlightDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -28,12 +33,21 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-    public List<FlightDto> getAll() {
-        LOGGER.debug("Retrieving all flights from repository");
-        List<FlightDto> flights = flightRepository.findAll()
-                .stream().map(flightMapper::flightToFlightDto).toList();
-        LOGGER.info("Retrieved {} flights from repository", flights.size());
-        return flights;
+    public PageResponse<FlightDto> getFlights(int page, int size) {
+        LOGGER.debug("Retrieving {} page with size {} from repository", page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").descending());
+        Page<Flight> flights = flightRepository.findAll(pageable);
+        List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
+        LOGGER.info("Retrieved {} flights from repository", flightsResponse);
+        return new PageResponse<>(
+                flightsResponse,
+                flights.getNumber(),
+                flights.getSize(),
+                flights.getTotalElements(),
+                flights.getTotalPages(),
+                flights.isFirst(),
+                flights.isLast()
+        );
     }
 
     public FlightDto addFlight(FlightDto createFlightDto) {

@@ -1,5 +1,6 @@
 package FlyAway.flight;
 
+import FlyAway.common.PageResponse;
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,10 +28,14 @@ public class FlightController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FlightDto>> getAll() {
+    public ResponseEntity<PageResponse<FlightDto>> getFlights(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            @RequestParam(name = "departureCountry", required = false) String departureCountry
+    ) {
         LOGGER.debug("Retrieving all flights");
-        List<FlightDto> flights = flightService.getAll();
-        LOGGER.info("Retrieved {} flights", flights.size());
+        PageResponse<FlightDto> flights = flightService.getFlights(page, size);
+        LOGGER.info("Retrieved {} flights", flights);
         return ResponseEntity.ok(flights);
     }
 
