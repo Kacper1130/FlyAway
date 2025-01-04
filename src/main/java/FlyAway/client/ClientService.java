@@ -13,7 +13,6 @@ import FlyAway.reservation.ReservationRepository;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.role.RoleRepository;
 import FlyAway.security.SecurityUser;
-import FlyAway.user.User;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -203,4 +202,16 @@ public class ClientService {
         Client client = (Client) securityUser.getUser();
         return clientMapper.clientToClientDto(client);
     }
+
+    public ClientDto updateClient(ClientDto clientDto, Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Client client = (Client) securityUser.getUser();
+        client.setFirstname(clientDto.firstname());
+        client.setLastname(clientDto.lastname());
+        client.setPhoneNumber(clientDto.phoneNumber());
+        client.setDayOfBirth(clientDto.dayOfBirth());
+        clientRepository.save(client);
+        return clientMapper.clientToClientDto(client);
+    }
+
 }

@@ -1,9 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface ClientDto {
-  dayOfBirth?: string;
+  dayOfBirth: string;
   email?: string;
-  firstname?: string;
-  lastname?: string;
+  firstname: string;
+  lastname: string;
   phoneNumber?: string;
 }

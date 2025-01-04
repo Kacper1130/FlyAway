@@ -67,7 +67,14 @@ public class ClientController {
         ClientDto clientDto = clientService.getClient(authentication);
         LOGGER.info("Successfully retrieved client");
         return ResponseEntity.ok(clientDto);
+    }
 
+    @PatchMapping("/client")
+    public ResponseEntity<ClientDto> updateClient(@Valid @RequestBody ClientDto clientDto, Authentication authentication) {
+        LOGGER.debug("Retrieving client {}", authentication.getCredentials());
+        ClientDto updatedClient = clientService.updateClient(clientDto, authentication);
+        LOGGER.info("{} updated info.\nBefore {}, after {}",clientDto.email(), clientDto, updatedClient);
+        return ResponseEntity.ok(updatedClient);
     }
 
     @GetMapping("/{id}/reservations")

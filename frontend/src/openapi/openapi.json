@@ -283,6 +283,54 @@
         }
       }
     },
+    "/api/v1/clients/client": {
+      "get": {
+        "tags": [
+          "Client"
+        ],
+        "operationId": "getClient",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Client"
+        ],
+        "operationId": "updateClient",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/change-password": {
       "patch": {
         "tags": [
@@ -785,26 +833,6 @@
                   "items": {
                     "$ref": "#/components/schemas/ClientReservationDto"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/clients/client": {
-      "get": {
-        "tags": [
-          "Client"
-        ],
-        "operationId": "getClient",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ClientDto"
                 }
               }
             }
@@ -1330,6 +1358,36 @@
           }
         }
       },
+      "ClientDto": {
+        "required": [
+          "dayOfBirth",
+          "firstname",
+          "lastname"
+        ],
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "lastname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "dayOfBirth": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
       "ChangePasswordRequest": {
         "type": "object",
         "properties": {
@@ -1652,27 +1710,6 @@
             "items": {
               "$ref": "#/components/schemas/Airport"
             }
-          }
-        }
-      },
-      "ClientDto": {
-        "type": "object",
-        "properties": {
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "dayOfBirth": {
-            "type": "string",
-            "format": "date"
           }
         }
       },
