@@ -1,12 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {FlightDto} from "../../../../services/models/flight-dto";
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-available-flight',
   standalone: true,
   imports: [
-    DatePipe
+    DatePipe,
+    NgClass
   ],
   templateUrl: './available-flight.component.html',
   styleUrl: './available-flight.component.scss'

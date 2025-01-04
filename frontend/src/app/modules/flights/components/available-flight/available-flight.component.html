@@ -3,7 +3,7 @@
     <div class="flight-duration">{{ flightDuration }}</div>
     <div class="flight-details">
       <div class="station-info">
-        <h3>{{ flight.departureDate |  date: 'HH:mm' }}</h3>
+        <h3>{{ flight.departureDate |  date: 'MM/dd/yyyy HH:mm' }}</h3>
         <h3>{{ flight.departureAirportDto.IATACode }}</h3>
         <p class="iata-code">{{ flight.departureAirportDto.city }}</p>
       </div>
@@ -13,25 +13,43 @@
         <span class="line"></span>
       </div>
       <div class="station-info">
-        <h3>{{ flight.arrivalDate |  date: 'HH:mm' }}</h3>
+        <h3>{{ flight.arrivalDate |  date: 'MM/dd/yyyy HH:mm' }}</h3>
         <h3>{{ flight.arrivalAirportDto.IATACode }}</h3>
         <p class="iata-code">{{flight.arrivalAirportDto.city}}</p>
       </div>
       <div class="right-section">
         <div class="cabin-classes">
-          <button class="cabin-class economy" type="button" aria-label="Economy Class">
+          <!-- Modified buttons with disabled state -->
+          <button
+            class="cabin-class economy"
+            type="button"
+            [disabled]="!flight.cabinClassPrices['ECONOMY']"
+            [ngClass]="{'disabled': !flight.cabinClassPrices['ECONOMY']}"
+            aria-label="Economy Class">
             <div class="cabin-class-content">
               <h4>Economy</h4>
               <p>{{ flight.cabinClassPrices['ECONOMY'] ? ('$' + flight.cabinClassPrices['ECONOMY']) : 'Not available' }}</p>
             </div>
           </button>
-          <button class="cabin-class business" type="button" aria-label="Business Class">
+
+          <button
+            class="cabin-class business"
+            type="button"
+            [disabled]="!flight.cabinClassPrices['BUSINESS']"
+            [ngClass]="{'disabled': !flight.cabinClassPrices['BUSINESS']}"
+            aria-label="Business Class">
             <div class="cabin-class-content">
               <h4>Business</h4>
               <p>{{ flight.cabinClassPrices['BUSINESS'] ? ('$' + flight.cabinClassPrices['BUSINESS']) : 'Not available' }}</p>
             </div>
           </button>
-          <button class="cabin-class first" type="button" aria-label="First Class">
+
+          <button
+            class="cabin-class first"
+            type="button"
+            [disabled]="!flight.cabinClassPrices['FIRST']"
+            [ngClass]="{'disabled': !flight.cabinClassPrices['FIRST']}"
+            aria-label="First Class">
             <div class="cabin-class-content">
               <h4>First</h4>
               <p>{{ flight.cabinClassPrices['FIRST'] ? ('$' + flight.cabinClassPrices['FIRST']) : 'Not available' }}</p>
