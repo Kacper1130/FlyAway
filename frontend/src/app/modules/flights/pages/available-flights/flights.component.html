@@ -1,8 +1,16 @@
 <app-new-navbar></app-new-navbar>
 <h2>Available flights</h2>
-<!--<div *ngFor="let flight of flights">-->
-<!--  <app-flight [flight]="flight"></app-flight>-->
-<!--</div>-->
-<div *ngFor="let flight of flights">
+<div *ngFor="let flight of flights.content">
   <app-available-flight [flight]="flight"></app-available-flight>
+</div>
+<div class="paginator-container">
+  <mat-paginator
+    [length]="flights.totalElements"
+    [pageSizeOptions]="[5,10,20]"
+    [pageSize]="size"
+    [pageIndex]="page"
+    [showFirstLastButtons]="true"
+    aria-label="Select page"
+    (page)="onPageChange($event)">
+  </mat-paginator>
 </div>

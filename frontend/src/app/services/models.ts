@@ -21,6 +21,7 @@ export { EmployeeCredentialsDto } from './models/employee-credentials-dto';
 export { Flight } from './models/flight';
 export { FlightDetailsDto } from './models/flight-details-dto';
 export { FlightDto } from './models/flight-dto';
+export { PageResponseFlightDto } from './models/page-response-flight-dto';
 export { RegistrationRequest } from './models/registration-request';
 export { Reservation } from './models/reservation';
 export { ReservationDto } from './models/reservation-dto';

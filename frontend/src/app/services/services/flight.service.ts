@@ -1,24 +1,21 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { add } from '../fn/flight/add';
-import { Add$Params } from '../fn/flight/add';
-import { FlightDetailsDto } from '../models/flight-details-dto';
-import { FlightDto } from '../models/flight-dto';
-import { getAll } from '../fn/flight/get-all';
-import { GetAll$Params } from '../fn/flight/get-all';
-import { getAllFullFlights } from '../fn/flight/get-all-full-flights';
-import { GetAllFullFlights$Params } from '../fn/flight/get-all-full-flights';
-import { getFlightDetails } from '../fn/flight/get-flight-details';
-import { GetFlightDetails$Params } from '../fn/flight/get-flight-details';
+import {add, Add$Params} from '../fn/flight/add';
+import {FlightDetailsDto} from '../models/flight-details-dto';
+import {FlightDto} from '../models/flight-dto';
+import {getAllFullFlights, GetAllFullFlights$Params} from '../fn/flight/get-all-full-flights';
+import {getFlightDetails, GetFlightDetails$Params} from '../fn/flight/get-flight-details';
+import {getFlights, GetFlights$Params} from '../fn/flight/get-flights';
+import {PageResponseFlightDto} from '../models/page-response-flight-dto';
 
 @Injectable({ providedIn: 'root' })
 export class FlightService extends BaseService {
@@ -51,28 +48,28 @@ export class FlightService extends BaseService {
     );
   }
 
-  /** Path part for operation `getAll()` */
-  static readonly GetAllPath = '/api/v1/flights';
+  /** Path part for operation `getFlights()` */
+  static readonly GetFlightsPath = '/api/v1/flights';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAll()` instead.
+   * To access only the response body, use `getFlights()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAll$Response(params?: GetAll$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FlightDto>>> {
-    return getAll(this.http, this.rootUrl, params, context);
+  getFlights$Response(params?: GetFlights$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseFlightDto>> {
+    return getFlights(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getAll$Response()` instead.
+   * To access the full response (for headers, for example), `getFlights$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAll(params?: GetAll$Params, context?: HttpContext): Observable<Array<FlightDto>> {
-    return this.getAll$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<FlightDto>>): Array<FlightDto> => r.body)
+  getFlights(params?: GetFlights$Params, context?: HttpContext): Observable<PageResponseFlightDto> {
+    return this.getFlights$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PageResponseFlightDto>): PageResponseFlightDto => r.body)
     );
   }
 

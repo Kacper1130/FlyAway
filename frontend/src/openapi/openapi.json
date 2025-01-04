@@ -394,17 +394,44 @@
         "tags": [
           "Flight"
         ],
-        "operationId": "getAll",
+        "operationId": "getFlights",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "departureCountry",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FlightDto"
-                  }
+                  "$ref": "#/components/schemas/PageResponseFlightDto"
                 }
               }
             }
@@ -593,7 +620,7 @@
         "tags": [
           "Client"
         ],
-        "operationId": "getAll_1",
+        "operationId": "getAll",
         "responses": {
           "200": {
             "description": "OK",
@@ -1345,6 +1372,39 @@
           "flightId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "PageResponseFlightDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlightDto"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
           }
         }
       },

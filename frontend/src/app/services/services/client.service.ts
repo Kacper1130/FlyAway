@@ -1,35 +1,26 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { add1 } from '../fn/client/add-1';
-import { Add1$Params } from '../fn/client/add-1';
-import { cancelReservation1 } from '../fn/client/cancel-reservation-1';
-import { CancelReservation1$Params } from '../fn/client/cancel-reservation-1';
-import { ClientDto } from '../models/client-dto';
-import { ClientReservationDto } from '../models/client-reservation-dto';
-import { deleteClient } from '../fn/client/delete-client';
-import { DeleteClient$Params } from '../fn/client/delete-client';
-import { getAll1 } from '../fn/client/get-all-1';
-import { GetAll1$Params } from '../fn/client/get-all-1';
-import { getAllDeletedUsers } from '../fn/client/get-all-deleted-users';
-import { GetAllDeletedUsers$Params } from '../fn/client/get-all-deleted-users';
-import { getClient } from '../fn/client/get-client';
-import { GetClient$Params } from '../fn/client/get-client';
-import { getClientFromId } from '../fn/client/get-client-from-id';
-import { GetClientFromId$Params } from '../fn/client/get-client-from-id';
-import { getClientReservation } from '../fn/client/get-client-reservation';
-import { GetClientReservation$Params } from '../fn/client/get-client-reservation';
-import { getClientWithReservations } from '../fn/client/get-client-with-reservations';
-import { GetClientWithReservations$Params } from '../fn/client/get-client-with-reservations';
-import { ReservationDto } from '../models/reservation-dto';
+import {add1, Add1$Params} from '../fn/client/add-1';
+import {cancelReservation1, CancelReservation1$Params} from '../fn/client/cancel-reservation-1';
+import {ClientDto} from '../models/client-dto';
+import {ClientReservationDto} from '../models/client-reservation-dto';
+import {deleteClient, DeleteClient$Params} from '../fn/client/delete-client';
+import {getAll, GetAll$Params} from '../fn/client/get-all';
+import {getAllDeletedUsers, GetAllDeletedUsers$Params} from '../fn/client/get-all-deleted-users';
+import {getClient, GetClient$Params} from '../fn/client/get-client';
+import {getClientFromId, GetClientFromId$Params} from '../fn/client/get-client-from-id';
+import {getClientReservation, GetClientReservation$Params} from '../fn/client/get-client-reservation';
+import {getClientWithReservations, GetClientWithReservations$Params} from '../fn/client/get-client-with-reservations';
+import {ReservationDto} from '../models/reservation-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ClientService extends BaseService {
@@ -66,27 +57,27 @@ export class ClientService extends BaseService {
     );
   }
 
-  /** Path part for operation `getAll1()` */
-  static readonly GetAll1Path = '/api/v1/clients';
+  /** Path part for operation `getAll()` */
+  static readonly GetAllPath = '/api/v1/clients';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAll1()` instead.
+   * To access only the response body, use `getAll()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAll1$Response(params?: GetAll1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ClientDto>>> {
-    return getAll1(this.http, this.rootUrl, params, context);
+  getAll$Response(params?: GetAll$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ClientDto>>> {
+    return getAll(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getAll1$Response()` instead.
+   * To access the full response (for headers, for example), `getAll$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getAll1(params?: GetAll1$Params, context?: HttpContext): Observable<Array<ClientDto>> {
-    return this.getAll1$Response(params, context).pipe(
+  getAll(params?: GetAll$Params, context?: HttpContext): Observable<Array<ClientDto>> {
+    return this.getAll$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ClientDto>>): Array<ClientDto> => r.body)
     );
   }

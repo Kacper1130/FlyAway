@@ -3,7 +3,6 @@ import {AdminNavbarComponent} from "../../components/admin-navbar/admin-navbar.c
 import {AircraftService} from "../../../../services/services/aircraft.service";
 import {Aircraft} from "../../../../services/models/aircraft";
 import {NgForOf, NgIf} from "@angular/common";
-import {FlightComponent} from "../../../flights/components/available-flight/flight.component";
 import {SingleAircraftComponent} from "./single-aircraft/single-aircraft.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -22,7 +21,6 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
     AdminNavbarComponent,
     NgForOf,
     NgIf,
-    FlightComponent,
     SingleAircraftComponent,
     MatAccordion,
     MatExpansionModule,
