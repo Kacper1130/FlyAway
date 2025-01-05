@@ -1,61 +1,206 @@
-@use '@angular/material' as mat;
-
-.example-spacer {
-  flex: 1 1 auto;
+.navbar {
+  background: #242936;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 64px;
 }
 
-section {
-  display: table;
-}
-
-.example-label {
-  display: table-cell;
-  font-size: 14px;
-  margin-left: 8px;
-  min-width: 120px;
-}
-
-.example-button-row {
-  display: table-cell;
-  max-width: 600px;
-}
-
-.example-button-row .mat-mdc-button-base {
-  margin: 8px 8px 8px 0;
-}
-
-.example-flex-container {
+.navbar-container {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 100%;
 }
 
-.example-button-container {
+// Brand/Logo
+.navbar-brand {
   display: flex;
-  justify-content: center;
-  width: 120px;
-}
+  align-items: center;
+  text-decoration: none;
+  gap: 8px;
+  color: #e4e6eb;
+  transition: opacity 0.2s ease;
 
-.nav-buttons {
-  margin-left: 30px; /* Dostosuj wartość w zależności od potrzeb */
-}
-
-
-.large-button {
-  font-size: 1.2rem;
-  padding: 12px 24px;
-  border-radius: 50px;
   &:hover {
-    text-decoration: underline;
-    border-radius: 50px;
+    opacity: 0.8;
   }
-  &.active {
-    text-decoration: underline;
-    border-radius: 50px;
+
+  .brand-icon {
+    color: #60a5fa;
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand-name {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
   }
 }
 
-.logo {
-  padding: 10px 10px;
+// Navigation Links
+.nav-links {
+  display: flex;
+  gap: 8px;
+  margin-left: 48px;
+
+  .nav-button {
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #b0b3b8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      margin-right: 4px;
+    }
+
+    &.active {
+      background-color: rgba(96, 165, 250, 0.15);
+      color: #60a5fa;
+    }
+
+    &:hover:not(.active) {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: #e4e6eb;
+    }
+  }
 }
 
+// Auth Section
+.auth-section {
+  display: flex;
+  align-items: center;
+
+  .auth-buttons {
+    display: flex;
+    gap: 12px;
+
+    .signup-btn {
+      font-weight: 500;
+      color: #b0b3b8;
+
+      &:hover {
+        color: #e4e6eb;
+      }
+    }
+
+    .login-btn {
+      height: 36px;
+      padding: 0 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      background: #4f46e5;
+      color: white;
+
+      &:hover {
+        background: #5b54e6;
+      }
+    }
+  }
+
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .welcome-text {
+      color: #b0b3b8;
+      font-size: 14px;
+    }
+
+    .user-name {
+      color: #e4e6eb;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 4px;
+      margin-left: 8px;
+
+      button {
+        color: #b0b3b8;
+        transition: all 0.2s ease;
+
+        &:hover {
+          color: #60a5fa;
+          background-color: rgba(96, 165, 250, 0.15);
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design remains the same
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 16px;
+  }
+
+  .nav-links {
+    margin-left: 24px;
+
+    .nav-button {
+      padding: 0 12px;
+
+      span {
+        display: none;
+      }
+
+      mat-icon {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .auth-section {
+    .user-menu {
+      .welcome-text {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+
+  .brand-name {
+    display: none;
+  }
+
+  .nav-links {
+    margin-left: 12px;
+  }
+
+  .auth-buttons {
+    .signup-btn {
+      display: none;
+    }
+  }
+
+  .user-menu {
+    .user-name {
+      display: none;
+    }
+  }
+}

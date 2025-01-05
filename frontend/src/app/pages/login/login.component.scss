@@ -1,31 +1,119 @@
-.example-container mat-form-field + mat-form-field {
-  margin-left: 8px;
+.login-wrapper {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #13151a 0%, #1a1f2c 100%);
+  padding: 20px;
 }
 
-.example-right-align {
-  text-align: right;
-}
-
-input.example-right-align::-webkit-outer-spin-button,
-input.example-right-align::-webkit-inner-spin-button {
-  display: none;
-}
-
-input.example-right-align {
-  -moz-appearance: textfield;
-}
-
-.register {
-  margin-top: 50px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  text-align: right;
-}
-
-.full-width-btn {
-  border-radius: 5px;
+.login-container {
+  background: #242936;
+  border-radius: 16px;
+  padding: 40px;
   width: 100%;
-  margin-top: 15px;
+  max-width: 420px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-out;
 }
 
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
 
+  h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: #e4e6eb;
+  }
+
+  .subtitle {
+    margin-top: 8px;
+    color: #b0b3b8;
+    font-size: 16px;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  mat-form-field {
+    width: 100%;
+
+    ::ng-deep {
+      .mat-form-field-wrapper {
+        margin: 0;
+      }
+
+      .mat-form-field-outline {
+        background: #2f3441;
+      }
+
+      .mat-form-field-prefix {
+        margin-right: 12px;
+        color: #b0b3b8;
+      }
+
+      .mat-form-field-label {
+        color: #b0b3b8;
+      }
+
+      .mat-input-element {
+        color: #e4e6eb;
+      }
+    }
+  }
+}
+
+.login-button {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #4f46e5 !important;
+  color: white !important;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: #5b54e6;
+  }
+
+  mat-icon {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    margin-left: 4px;
+  }
+}
+
+.register-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #3a3f4b;
+
+  span {
+    color: #b0b3b8;
+    font-size: 14px;
+  }
+
+  a {
+    color: #4f46e5;
+    font-weight: 500;
+
+    &:hover {
+      color: #5b54e6;
+    }
+  }
+}

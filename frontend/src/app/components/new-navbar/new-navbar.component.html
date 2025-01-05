@@ -1,29 +1,45 @@
-<mat-toolbar>
-  <a class="navbar-brand" routerLink="/">FlyAway</a>
-  <div class="nav-buttons ms-4">
-    <button mat-button class="large-button" routerLink="/flights" routerLinkActive="active">Flights</button>
-    <button mat-button class="large-button" routerLink="/reservations" routerLinkActive="active">My Reservations</button>
-  </div>
+<mat-toolbar class="navbar">
+  <div class="navbar-container">
+    <!-- Logo Section -->
+    <a class="navbar-brand" routerLink="/">
+      <mat-icon class="brand-icon">flight</mat-icon>
+      <span class="brand-name">FlyAway</span>
+    </a>
 
-  <span class="container-fluid"></span>
+    <!-- Navigation Links -->
+    <nav class="nav-links">
+      <button mat-button class="nav-button" routerLink="/flights" routerLinkActive="active">
+        <mat-icon>flight_takeoff</mat-icon>
+        <span>Flights</span>
+      </button>
+      <button mat-button class="nav-button" routerLink="/reservations" routerLinkActive="active">
+        <mat-icon>bookmark</mat-icon>
+        <span>My Reservations</span>
+      </button>
+    </nav>
 
-  <div class="d-flex ms-auto" *ngIf="!localStorage.getItem('token')">
-    <a class="m-1" mat-button routerLink="/register">Sign up</a>
-    <a class="m-1" mat-flat-button routerLink="/login">Log in</a>
-  </div>
-
-  <div *ngIf="localStorage.getItem('token')">
-    <form class="d-flex gap-2 align-items-center" role="search">
-      <span>Welcome</span>
-      <span class="text-capitalize fw-bold">{{ Firstname }}</span>
-      <div>
-        <button mat-icon-button class="example-icon" routerLink="/profile">
-          <mat-icon>account_circle</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" (click)="logout()">
-          <mat-icon>logout</mat-icon>
-        </button>
+    <!-- Auth Section -->
+    <div class="auth-section">
+      <!-- Logged Out State -->
+      <div class="auth-buttons" *ngIf="!localStorage.getItem('token')">
+        <a mat-button class="signup-btn" routerLink="/register">Sign up</a>
+        <a mat-flat-button class="login-btn" routerLink="/login" color="primary">Log in</a>
       </div>
-    </form>
+
+      <!-- Logged In State -->
+      <div class="user-menu" *ngIf="localStorage.getItem('token')">
+        <span class="welcome-text">Welcome,</span>
+        <span class="user-name">{{ Firstname }}</span>
+
+        <div class="action-buttons">
+          <button mat-icon-button routerLink="/profile" class="profile-btn" matTooltip="Profile">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <button mat-icon-button (click)="logout()" class="logout-btn" matTooltip="Logout">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </mat-toolbar>

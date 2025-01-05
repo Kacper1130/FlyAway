@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import {MatToolbar} from "@angular/material/toolbar";
+import {Component} from '@angular/core';
+import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
 import {MatIcon} from "@angular/material/icon";
-import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
 import {TokenService} from "../../services/token/token.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 @Component({
@@ -22,7 +22,8 @@ import {TokenService} from "../../services/token/token.service";
     FormsModule,
     NgIf,
     MatAnchor,
-    RouterLinkActive
+    RouterLinkActive,
+    MatTooltip
   ],
   templateUrl: './new-navbar.component.html',
   styleUrl: './new-navbar.component.scss'
@@ -30,7 +31,7 @@ import {TokenService} from "../../services/token/token.service";
 export class NewNavbarComponent {
 
   constructor(
-    private tokenService: TokenService
+    private readonly tokenService: TokenService
   ) {
   }
 

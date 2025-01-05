@@ -1,47 +1,59 @@
 <app-new-navbar></app-new-navbar>
 
-<div class="container-fluid card login-container">
-  <h3 class="text-center mt-3">Login</h3>
-  <hr>
-  <mat-form-field>
-    <mat-label>Enter your email</mat-label>
-    <input
-      matInput
-      placeholder="email@example.com"
-      required
-      [(ngModel)]="authRequest.email"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Enter your password</mat-label>
-    <input
-      matInput [type]="hide() ? 'password' : 'text'"
-      [(ngModel)]="authRequest.password"
-    />
-    <button
-      mat-icon-button
-      matSuffix
-      (click)="clickEvent($event)"
-      [attr.aria-label]="'Hide password'"
-      [attr.aria-pressed]="hide()"
-    >
-      <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
-    </button>
-  </mat-form-field>
-  <button
-    mat-raised-button
-    color="primary"
-    class="full-width-btn"
-    (click)="login()"
-  >
-    Log in
-  </button>
-  <div class="register">
-    Don't have an account?&nbsp;
-    <a mat-raised-button (click)="register()" target="_blank">Register</a>
+<div class="login-wrapper">
+  <div class="login-container">
+    <div class="login-header">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Please sign in to continue</p>
+    </div>
+
+    <div class="login-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="email@example.com"
+          required
+          [(ngModel)]="authRequest.email"
+          type="email"
+        />
+        <mat-icon matPrefix>email</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hide() ? 'password' : 'text'"
+          [(ngModel)]="authRequest.password"
+          required
+        />
+        <mat-icon matPrefix>lock</mat-icon>
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button
+        mat-flat-button
+        color="primary"
+        class="login-button"
+        (click)="login()"
+      >
+        <span>Log in</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+
+      <div class="register-section">
+        <span>Don't have an account?</span>
+        <a mat-button color="accent" (click)="register()">Create Account</a>
+      </div>
+    </div>
   </div>
 </div>
-
-
-
-

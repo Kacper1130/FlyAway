@@ -6,16 +6,16 @@
 
 body {
   line-height: 1.5;
-  color: #333;
-  background-color: #f4f4f4;
+  color: #e4e6eb;
+  background-color: #1a1f2c;
 }
 
 .container {
   max-width: 1200px;
   margin: 20px auto;
-  background: linear-gradient(145deg, #ffffff, #f5f7fa);
+  background: linear-gradient(145deg, #242936, #1f242d);
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -31,10 +31,10 @@ body {
   font-weight: 600;
   text-align: center;
   margin-bottom: 25px;
-  color: #2d3748;
+  color: #e4e6eb;
   padding: 10px;
   border-radius: 8px;
-  background-color: #f8fafc;
+  background-color: #2f3441;
 }
 
 .flight-details {
@@ -59,33 +59,33 @@ body {
 .airplane-line .line {
   flex: 1;
   height: 2px;
-  background: linear-gradient(90deg, #e2e8f0 0%, #94a3b8 50%, #e2e8f0 100%);
+  background: linear-gradient(90deg, #3a3f4b 0%, #4a5568 50%, #3a3f4b 100%);
 }
 
 .airplane-line i {
   font-size: 24px;
-  color: #2d3748;
+  color: #60a5fa;
 }
 
 .station-info {
   text-align: center;
   padding: 15px;
   min-width: 120px;
-  background-color: #ffffff;
+  background-color: #2f3441;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .station-info h3 {
   font-size: 18px;
   font-weight: 600;
-  color: #1a365d;
+  color: #e4e6eb;
   margin-bottom: 8px;
 }
 
 .iata-code {
   font-size: 15px;
-  color: #4a5568;
+  color: #b0b3b8;
   font-weight: 500;
 }
 
@@ -141,31 +141,31 @@ body {
   top: 55%;
   transform: translateY(-50%);
   font-size: 24px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .cabin-class.economy {
-  background: linear-gradient(145deg, #34d399, #059669);
-  box-shadow: 0 4px 15px rgba(6, 126, 34, 0.2);
+  background: linear-gradient(145deg, #059669, #047857);
+  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
 }
 
 .cabin-class.business {
-  background: linear-gradient(145deg, #3b82f6, #1d4ed8);
-  box-shadow: 0 4px 15px rgba(1, 79, 173, 0.2);
+  background: linear-gradient(145deg, #2563eb, #1d4ed8);
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
 }
 
 .cabin-class.first {
-  background: linear-gradient(145deg, #ef4444, #b91c1c);
-  box-shadow: 0 4px 15px rgba(155, 0, 16, 0.2);
+  background: linear-gradient(145deg, #dc2626, #b91c1c);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
 }
 
 .cabin-class:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .cabin-class.disabled {
-  background: linear-gradient(145deg, #9ca3af, #6b7280);
+  background: linear-gradient(145deg, #4b5563, #374151);
   cursor: not-allowed;
   opacity: 0.7;
   box-shadow: none;
@@ -176,7 +176,7 @@ body {
   box-shadow: none;
 }
 
-/* Responsive Design */
+/* Responsive Design remains the same */
 @media (max-width: 968px) {
   .container {
     margin: 10px;
