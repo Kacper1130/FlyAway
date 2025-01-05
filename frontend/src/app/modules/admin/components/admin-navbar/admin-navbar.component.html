@@ -1,19 +1,63 @@
-<mat-toolbar>
-  <a class="navbar-brand" routerLink="/admin">ADMIN PANEL</a>
-  <div class="nav-buttons ms-4">
-    <button mat-button class="large-button" routerLink="/admin/employees" routerLinkActive="active">Employees</button>
-    <button mat-button class="large-button" routerLink="/admin/aircraft" routerLinkActive="active">Aircraft</button>
-    <button mat-button class="large-button" routerLink="/admin/countries" routerLinkActive="active">Countries</button>
-    <button mat-button class="large-button" routerLink="/admin/airports" routerLinkActive="active">Airports</button>
-  </div>
+<mat-toolbar class="admin-navbar">
+  <div class="admin-navbar__container">
+    <div class="admin-navbar__brand">
+      <a routerLink="/admin" class="brand-link">
+        <span class="brand-text">ADMIN PANEL</span>
+      </a>
+    </div>
 
-  <span class="container-fluid"></span>
+    <nav class="admin-navbar__nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a mat-button
+             class="nav-link"
+             routerLink="/admin/employees"
+             routerLinkActive="is-active"
+             aria-label="Manage Employees">
+            <mat-icon class="nav-icon">people</mat-icon>
+            <span class="nav-text">Employees</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a mat-button
+             class="nav-link"
+             routerLink="/admin/aircraft"
+             routerLinkActive="is-active"
+             aria-label="Manage Aircraft">
+            <mat-icon class="nav-icon">flight</mat-icon>
+            <span class="nav-text">Aircraft</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a mat-button
+             class="nav-link"
+             routerLink="/admin/countries"
+             routerLinkActive="is-active"
+             aria-label="Manage Countries">
+            <mat-icon class="nav-icon">public</mat-icon>
+            <span class="nav-text">Countries</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a mat-button
+             class="nav-link"
+             routerLink="/admin/airports"
+             routerLinkActive="is-active"
+             aria-label="Manage Airports">
+            <mat-icon class="nav-icon">location_city</mat-icon>
+            <span class="nav-text">Airports</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-  <form class="d-flex gap-2 align-items-center" role="search">
-    <div>
-      <button mat-icon-button class="example-icon" (click)="logout()">
+    <div class="admin-navbar__actions">
+      <button mat-icon-button
+              class="action-button"
+              (click)="logout()"
+              aria-label="Logout">
         <mat-icon>logout</mat-icon>
       </button>
     </div>
-  </form>
+  </div>
 </mat-toolbar>
