@@ -7,6 +7,7 @@ import {EmployeeCardComponent} from "./employee-card/employee-card.component";
 import {EmployeeService} from "../../../../services/services/employee.service";
 import {DisplayEmployeeDto} from "../../../../services/models/display-employee-dto";
 import {MatButton} from "@angular/material/button";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-admin-employees',
@@ -17,7 +18,8 @@ import {MatButton} from "@angular/material/button";
     NgForOf,
     SingleAircraftComponent,
     EmployeeCardComponent,
-    MatButton
+    MatButton,
+    MatIcon
   ],
   templateUrl: './admin-employees.component.html',
   styleUrl: './admin-employees.component.scss'
