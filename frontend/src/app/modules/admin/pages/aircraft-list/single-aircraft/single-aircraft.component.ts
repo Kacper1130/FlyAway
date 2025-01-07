@@ -1,13 +1,15 @@
 import {Component, Input} from '@angular/core';
 import {Aircraft} from "../../../../../services/models/aircraft";
 import {NgForOf, NgIf} from "@angular/common";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-single-aircraft',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    MatIcon
   ],
   templateUrl: './single-aircraft.component.html',
   styleUrl: './single-aircraft.component.scss'

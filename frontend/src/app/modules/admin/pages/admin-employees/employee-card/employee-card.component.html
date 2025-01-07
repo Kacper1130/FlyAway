@@ -1,23 +1,45 @@
-<mat-card class="employee-info-card full-width">
-  <mat-card-header>
-    <mat-card-title>{{ employee.firstname }} {{ employee.lastname }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="employee-detail">
-      <mat-icon>email</mat-icon>
-      <span><strong>Email:</strong> {{ employee.email }}</span>
-    </div>
-    <div class="employee-detail">
-      <mat-icon>phone</mat-icon>
-      <span><strong>Phone Number:</strong> {{ employee.phoneNumber }}</span>
-    </div>
-    <div class="employee-detail">
-      <mat-icon>event</mat-icon>
-      <span><strong>Hire Date:</strong> {{ employee.hireDate }}</span>
-    </div>
-    <div class="employee-detail">
-      <mat-icon>login</mat-icon>
-      <span><strong>Last Login:</strong> {{ employee.lastLogin }}</span>
-    </div>
-  </mat-card-content>
-</mat-card>
+<div class="admin-employee">
+  <mat-card class="employee-card">
+    <mat-card-header>
+      <mat-card-title class="employee-card__title">
+        {{ employee.firstname }} {{ employee.lastname }}
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="employee-card__content">
+      <div class="employee-details">
+        <div class="detail-item">
+          <mat-icon class="detail-icon">email</mat-icon>
+          <div class="detail-content">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">{{ employee.email }}</span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon class="detail-icon">phone</mat-icon>
+          <div class="detail-content">
+            <span class="detail-label">Phone Number</span>
+            <span class="detail-value">{{ employee.phoneNumber }}</span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon class="detail-icon">event</mat-icon>
+          <div class="detail-content">
+            <span class="detail-label">Hire Date</span>
+            <span class="detail-value">{{ employee.hireDate }}</span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon class="detail-icon">login</mat-icon>
+          <div class="detail-content">
+            <span class="detail-label">Last Login</span>
+            <span class="detail-value">{{ employee.lastLogin }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

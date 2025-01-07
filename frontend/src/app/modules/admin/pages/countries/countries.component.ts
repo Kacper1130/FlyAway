@@ -3,19 +3,24 @@ import {AdminNavbarComponent} from "../../components/admin-navbar/admin-navbar.c
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {Router} from "@angular/router";
-import {Country} from "../../../../services/models/country";
 import {CountryService} from "../../../../services/services/country.service";
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
   MatHeaderCell,
-  MatHeaderCellDef, MatHeaderRow, MatHeaderRowDef,
-  MatNoDataRow, MatRow, MatRowDef,
-  MatTable, MatTableDataSource,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatNoDataRow,
+  MatRow,
+  MatRowDef,
+  MatTable,
+  MatTableDataSource,
 } from "@angular/material/table";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {FormsModule} from "@angular/forms";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-countries',
@@ -37,7 +42,8 @@ import {FormsModule} from "@angular/forms";
     MatRowDef,
     MatHeaderRowDef,
     MatSlideToggle,
-    FormsModule
+    FormsModule,
+    MatIcon
   ],
   templateUrl: './countries.component.html',
   styleUrl: './countries.component.scss'
@@ -48,8 +54,8 @@ export class CountriesComponent implements OnInit {
   dataSource = new MatTableDataSource();
 
   constructor(
-    private countryService: CountryService,
-    private router: Router
+    private readonly countryService: CountryService,
+    private readonly router: Router
   ) {
   }
 

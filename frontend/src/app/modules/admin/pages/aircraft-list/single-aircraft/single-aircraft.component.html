@@ -1,18 +1,38 @@
-<div class="aircraft-card m-1">
-  <div class="left-column">
-    <h2>{{ aircraft.model }} <span>({{ aircraft.productionYear }})</span></h2>
-    <p><strong>Registration:</strong> {{ aircraft.registration }}</p>
+<div class="aircraft-card">
+  <div class="aircraft-card__section info-section">
+    <div class="info-header">
+      <h3 class="model-name">{{ aircraft.model }}</h3>
+      <span class="production-year">({{ aircraft.productionYear }})</span>
+    </div>
+    <div class="info-detail">
+      <mat-icon class="detail-icon">flight</mat-icon>
+      <div class="detail-content">
+        <span class="detail-label">Registration</span>
+        <span class="detail-value">{{ aircraft.registration }}</span>
+      </div>
+    </div>
   </div>
-  <div class="middle-column">
-    <p><strong>Total Seats:</strong> {{ aircraft.totalSeats }}</p>
+
+  <div class="aircraft-card__section capacity-section">
+    <div class="info-detail">
+      <mat-icon class="detail-icon">airline_seat_recline_normal</mat-icon>
+      <div class="detail-content">
+        <span class="detail-label">Total Seats</span>
+        <span class="detail-value">{{ aircraft.totalSeats }}</span>
+      </div>
+    </div>
   </div>
-  <div class="right-column" *ngIf="aircraft.seatClassRanges">
-    <h3>Seat Class Ranges:</h3>
-    <ul>
-      <li *ngFor="let seatClass of objectKeys(aircraft.seatClassRanges)">
-        <strong>({{getSeatsInClass(seatClass)}}) {{ seatClass }}:</strong>
-        {{ getSeatsRange(seatClass) }}
-      </li>
-    </ul>
+
+  <div class="aircraft-card__section seats-section" *ngIf="aircraft.seatClassRanges">
+    <h4 class="section-title">Seat Class Ranges</h4>
+    <div class="seat-classes">
+      <div class="seat-class-item" *ngFor="let seatClass of objectKeys(aircraft.seatClassRanges)">
+        <div class="seat-class-header">
+          <span class="class-name">{{ seatClass }}</span>
+          <span class="seat-count">({{getSeatsInClass(seatClass)}})</span>
+        </div>
+        <span class="seat-range">{{ getSeatsRange(seatClass) }}</span>
+      </div>
+    </div>
   </div>
 </div>
