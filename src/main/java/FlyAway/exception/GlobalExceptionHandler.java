@@ -210,4 +210,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
+    @ExceptionHandler(UnsupportedFilterKeyException.class)
+    public ResponseEntity<ErrorMessage> handleUnsupportedFilterKeyException(UnsupportedFilterKeyException exception) {
+        LOGGER.error("Unsupported key exception", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
 }

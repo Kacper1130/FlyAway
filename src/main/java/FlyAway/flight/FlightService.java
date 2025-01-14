@@ -14,20 +14,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FlightService {
 
     private final FlightRepository flightRepository;
 
-    private FlightMapper flightMapper = Mappers.getMapper(FlightMapper.class);
+    private final FlightMapper flightMapper = Mappers.getMapper(FlightMapper.class);
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FlightService.class);
+    private static final Set<String> RESERVED_PARAMS = Set.of("page", "size", "sort");
+
 
     public FlightService(FlightRepository flightRepository) {
         this.flightRepository = flightRepository;
@@ -35,7 +37,7 @@ public class FlightService {
 
     public PageResponse<FlightDto> getFlights(int page, int size) {
         LOGGER.debug("Retrieving {} page with size {} from repository", page, size);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").ascending());
         Page<Flight> flights = flightRepository.findAll(pageable);
         List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
         LOGGER.info("Retrieved {} flights from repository", flightsResponse);
@@ -48,6 +50,34 @@ public class FlightService {
                 flights.isFirst(),
                 flights.isLast()
         );
+    }
+
+    public PageResponse<FlightDto> getFlightsByFilter(Map<String, Object> filters, int page, int size) {
+        Map<String, Object> validFilters = cleanFilters(filters);
+        LOGGER.info("Valid filters {}", validFilters);
+        Specification<Flight> spec = FlightSpecification.filterFlights(validFilters);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").ascending());
+        Page<Flight> flights = flightRepository.findAll(spec, pageable);
+        List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
+        LOGGER.info("Retrieved {} filtered flights from repository", flightsResponse);
+        return new PageResponse<>(
+                flightsResponse,
+                flights.getNumber(),
+                flights.getSize(),
+                flights.getTotalElements(),
+                flights.getTotalPages(),
+                flights.isFirst(),
+                flights.isLast()
+        );
+    }
+
+    private Map<String, Object> cleanFilters(Map<String, Object> params) {
+        return params.entrySet().stream()
+                .filter(entry -> !RESERVED_PARAMS.contains(entry.getKey()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
     }
 
     public FlightDto addFlight(FlightDto createFlightDto) {

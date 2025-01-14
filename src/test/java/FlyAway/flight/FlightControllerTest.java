@@ -67,7 +67,7 @@ class FlightControllerTest {
         flights.add(flightDto2);
 
         //given(flightService.getAll()).willReturn(flights);
-        when(flightService.getAll()).thenReturn(flights);
+        when(flightService.getFlights()).thenReturn(flights);
 
         mockMvc.perform(get("/api/v1/flights")
                         .accept(MediaType.APPLICATION_JSON))
@@ -81,13 +81,13 @@ class FlightControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].arrivalDate")
                         .value(DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(flightDto2.arrivalDate())));
 
-        Mockito.verify(flightService, times(1)).getAll();
+        Mockito.verify(flightService, times(1)).getFlights();
     }
 
     @Test
     void testGetAllWhenNoneExists() throws Exception {
 
-        when(flightService.getAll()).thenReturn(Collections.emptyList());
+        when(flightService.getFlights()).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/api/v1/flights")
                         .accept(MediaType.APPLICATION_JSON))

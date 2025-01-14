@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -30,19 +31,29 @@ public class FlightController {
     @GetMapping
     public ResponseEntity<PageResponse<FlightDto>> getFlights(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
-            @RequestParam(name = "departureCountry", required = false) String departureCountry
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ) {
         LOGGER.debug("Retrieving all flights");
         PageResponse<FlightDto> flights = flightService.getFlights(page, size);
-        LOGGER.info("Retrieved {} flights", flights);
+        LOGGER.info("Retrieved {} flights", flights.getTotalElements());
+        return ResponseEntity.ok(flights);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<FlightDto>> getFlightsByFilter(
+            @RequestParam Map<String, Object> filters,
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size
+    ) {
+        LOGGER.info("Retrieving flights by filter {}", filters);
+        PageResponse<FlightDto> flights = flightService.getFlightsByFilter(filters, page, size);
+        LOGGER.info("Retrieved {} flights", flights.getTotalElements());
         return ResponseEntity.ok(flights);
     }
 
     @PostMapping("/add")
     public ResponseEntity<FlightDto> add(@Valid @RequestBody FlightDto createFlightDto) {
         LOGGER.debug("Adding new flight {} ", createFlightDto);
-        System.out.println(createFlightDto);
         FlightDto flight = flightService.addFlight(createFlightDto);
         LOGGER.info("Created new flight {}", flight);
         return ResponseEntity.status(HttpStatus.CREATED).body(flight);
