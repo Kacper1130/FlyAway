@@ -8,14 +8,19 @@ import { RequestBuilder } from '../../request-builder';
 
 import { PageResponseFlightDto } from '../../models/page-response-flight-dto';
 
-export interface GetFlights$Params {
+export interface GetFlightsByFilter$Params {
+  filters: {
+[key: string]: {
+};
+};
   page?: number;
   size?: number;
 }
 
-export function getFlights(http: HttpClient, rootUrl: string, params?: GetFlights$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseFlightDto>> {
-  const rb = new RequestBuilder(rootUrl, getFlights.PATH, 'get');
+export function getFlightsByFilter(http: HttpClient, rootUrl: string, params: GetFlightsByFilter$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseFlightDto>> {
+  const rb = new RequestBuilder(rootUrl, getFlightsByFilter.PATH, 'get');
   if (params) {
+    rb.query('filters', params.filters, {});
     rb.query('page', params.page, {});
     rb.query('size', params.size, {});
   }
@@ -30,4 +35,4 @@ export function getFlights(http: HttpClient, rootUrl: string, params?: GetFlight
   );
 }
 
-getFlights.PATH = '/api/v1/flights';
+getFlightsByFilter.PATH = '/api/v1/flights/search';

@@ -1,16 +1,64 @@
 <app-new-navbar></app-new-navbar>
-<h2>Available flights</h2>
-<div *ngFor="let flight of flights.content">
-  <app-available-flight [flight]="flight"></app-available-flight>
-</div>
-<div class="paginator-container">
-  <mat-paginator
-    [length]="flights.totalElements"
-    [pageSizeOptions]="[5,10,20]"
-    [pageSize]="size"
-    [pageIndex]="page"
-    [showFirstLastButtons]="true"
-    aria-label="Select page"
-    (page)="onPageChange($event)">
+<div class="container">
+  <mat-expansion-panel class="filter-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Filter Flights
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+      <div class="filter-grid">
+        <mat-form-field appearance="fill">
+          <mat-label>Origin</mat-label>
+          <input matInput formControlName="departureCity" placeholder="From">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Destination</mat-label>
+          <input matInput formControlName="arrivalCity" placeholder="To">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Date Range</mat-label>
+          <mat-date-range-input [rangePicker]="picker" formGroupName="dateRange">
+            <input matStartDate formControlName="departureDate" placeholder="Start date">
+            <input matEndDate formControlName="arrivalDate" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Class</mat-label>
+          <mat-select formControlName="class">
+            <mat-option value="ECONOMY">Economy</mat-option>
+            <mat-option value="BUSINESS">Business</mat-option>
+            <mat-option value="FIRST">First</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="filter-actions">
+        <button mat-button  color="warn" (click)="resetFilters()">Reset</button>
+        <button mat-raised-button color="primary" type="submit">Apply Filters</button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+
+  <div class="flights-container">
+    <div *ngFor="let flight of flights.content">
+      <app-available-flight [flight]="flight"></app-available-flight>
+    </div>
+  </div>
+
+  <mat-paginator class="custom-paginator"
+                 [length]="flights.totalElements"
+                 [pageSizeOptions]="[5,10,20]"
+                 [pageSize]="size"
+                 [pageIndex]="page"
+                 [showFirstLastButtons]="true"
+                 aria-label="Select page"
+                 (page)="onPageChange($event)">
   </mat-paginator>
 </div>

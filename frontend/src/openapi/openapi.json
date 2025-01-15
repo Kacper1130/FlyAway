@@ -463,13 +463,58 @@
               "format": "int32",
               "default": 10
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponseFlightDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/flights/search": {
+      "get": {
+        "tags": [
+          "Flight"
+        ],
+        "operationId": "getFlightsByFilter",
+        "parameters": [
+          {
+            "name": "filters",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
           },
           {
-            "name": "departureCountry",
+            "name": "page",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
             }
           }
         ],
