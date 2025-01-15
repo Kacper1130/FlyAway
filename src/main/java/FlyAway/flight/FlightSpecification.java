@@ -1,9 +1,12 @@
 package FlyAway.flight;
 
 import FlyAway.exception.UnsupportedFilterKeyException;
+import FlyAway.flight.aircraft.CabinClass;
+import jakarta.persistence.criteria.MapJoin;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,28 @@ public class FlightSpecification {
                     case "arrivalCountry":
                         predicates.add(criteriaBuilder.equal(root.get("arrivalAirport").get("country").get("name"), value));
                         break;
+                    case "class":
+                        CabinClass cabinClass = CabinClass.valueOf(((String) value).toUpperCase());
+                        MapJoin<Flight, CabinClass, BigDecimal> pricesJoin = root.joinMap("cabinClassPrices");
+                        predicates.add(criteriaBuilder.equal(pricesJoin.key(), cabinClass));
+                        break ;
+//                        try {
+//                            CabinClass cabinClass;
+//                            if (value instanceof String s) {
+//                                cabinClass = CabinClass.valueOf(s.toUpperCase());
+//                            } else if (value instanceof CabinClass c) {
+//                                cabinClass = c;
+//                            } else {
+//                                throw new IllegalArgumentException("Unsupported cabin class value type: " + value.getClass());
+//                            }
+//                            // Use joinMap for Map collections
+//                            MapJoin<Flight, CabinClass, BigDecimal> pricesJoin = root.joinMap("cabinClassPrices");
+//                            predicates.add(criteriaBuilder.equal(pricesJoin.key(), cabinClass));
+//                        } catch (IllegalArgumentException e) {
+//                            throw new IllegalArgumentException("Invalid cabin class: " + value +
+//                                    ". Supported values are: " + Arrays.toString(CabinClass.values()));
+//                        }
+//                        break;
                     default:
                         throw new UnsupportedFilterKeyException(key);
                 }
