@@ -47,12 +47,20 @@ public class AirportController {
         return airportService.switchAirportStatus(id);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAirport(@PathVariable UUID id) {
-        LOGGER.info("Deleting airport with id {}", id);
-        airportService.deleteAirport(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteAirport(@PathVariable UUID id) {
+//        LOGGER.info("Deleting airport with id {}", id);
+//        airportService.deleteAirport(id);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Airport> updateAirport(@PathVariable UUID id, @RequestBody @Valid CreateAirportDto updatedAirport) {
+        LOGGER.info("Updating airport with id {}", id);
+        Airport udpatedAirport = airportService.updateAirport(id, updatedAirport);
+        return ResponseEntity.ok(udpatedAirport);
     }
+
 
     @GetMapping("/enabled")
     public ResponseEntity<List<AirportDto>> getAllEnabledAirports() {

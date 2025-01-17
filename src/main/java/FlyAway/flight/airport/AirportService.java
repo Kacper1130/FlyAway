@@ -62,11 +62,26 @@ public class AirportService {
         return airport;
     }
 
-    public void deleteAirport(UUID id) {
-        Airport airport = airportRepository.findById(id)
+//    public void deleteAirport(UUID id) {
+//        Airport airport = airportRepository.findById(id)
+//                .orElseThrow(AirportDoesNotExistException::new);
+//        airportRepository.deleteById(id);
+//        LOGGER.info("Deleted airport {} in {}", airport.getName(), airport.getCountry().getName());
+//    }
+
+    public Airport updateAirport(UUID id, CreateAirportDto updatedAirport) {
+        Airport existingAirport = airportRepository.findById(id)
                 .orElseThrow(AirportDoesNotExistException::new);
-        airportRepository.deleteById(id);
-        LOGGER.info("Deleted airport {} in {}", airport.getName(), airport.getCountry().getName());
+        Country country = countryRepository.findByName(updatedAirport.country())
+                .orElseThrow(() -> new CountryDoesNotExistException(updatedAirport.country()));
+        existingAirport.setName(updatedAirport.name());
+        existingAirport.setIATACode(updatedAirport.IATACode());
+        existingAirport.setCity(updatedAirport.city());
+        existingAirport.setCountry(country);
+
+        airportRepository.save(existingAirport);
+        LOGGER.info("Updated airport {} in {}", existingAirport.getName(), existingAirport.getCountry().getName());
+        return existingAirport;
     }
 
     public List<AirportDto> getAllActiveAirports() {
