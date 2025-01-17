@@ -77,6 +77,7 @@ public class AirportService {
         existingAirport.setName(updatedAirport.name());
         existingAirport.setIATACode(updatedAirport.IATACode());
         existingAirport.setCity(updatedAirport.city());
+        existingAirport.setEnabled(updatedAirport.enabled());
         existingAirport.setCountry(country);
 
         airportRepository.save(existingAirport);
