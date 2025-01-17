@@ -74,12 +74,11 @@ export class AirportsComponent implements OnInit {
   private readonly _snackBar = inject(MatSnackBar);
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  errorMsg: Array<string> = [];
 
   constructor(
     private readonly countryService: CountryService,
     private readonly airportService: AirportService,
-    private dialog: MatDialog
+    private readonly dialog: MatDialog
   ) {
   }
 
@@ -95,12 +94,62 @@ export class AirportsComponent implements OnInit {
     this.airportService.switchAirportStatus(airport).subscribe();
   }
 
-  deleteAirport(airport: any, country: any) {
-    this.airportService.deleteAirport(airport).subscribe({
-      next: () => {
-        country.airports = country.airports.filter((a: Airport) => a !== airport);
+  // deleteAirport(airport: any, country: any) {
+  //   this.airportService.deleteAirport(airport).subscribe({
+  //     next: () => {
+  //       country.airports = country.airports.filter((a: Airport) => a !== airport);
+  //     }
+  //   })
+  // }
+
+  editAirport(airport: Airport, country: Country) {
+    const dialogRef = this.dialog.open(AddAirportFormComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '80%',
+      width: '60%',
+      data: {
+        airport: airport,
+        country: country.name
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: CreateAirportDto) => {
+      if(result) {
+        this.airportService.updateAirport({id:airport.id!, body:result}).subscribe({
+          next: (updatedAirport) => {
+            if (country.name !== result.country){
+              this.ngOnInit()
+            } else {
+              const airportIndex = country.airports?.findIndex(a => a.id === airport.id);
+              if (airportIndex !== undefined && airportIndex !== -1 && country.airports) {
+                country.airports[airportIndex] = updatedAirport;
+                country.airports = [...country.airports];
+              }
+            }
+            const message = `Airport has been updated successfully`
+            this._snackBar.open(message, 'close', {
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+              panelClass: ['snackbar-success'],
+              duration: 9000
+            });
+            // this.ngOnInit();
+          },
+          error: (err) => {
+            this._snackBar.open(
+              err.error.message || 'Error updating airport', 'Close', {
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+                panelClass: ['snackbar-error'],
+                duration: 5000
+              }
+            );
+          }
+        })
       }
     })
+
   }
 
   addAirport() {
@@ -123,25 +172,23 @@ export class AirportsComponent implements OnInit {
               // country.airports?.push(createdAirport);
               country.airports = [...(country.airports ?? []), createdAirport];
             }
+            const message = `Airport has been created successfully`
+            this._snackBar.open(message, 'close', {
+              horizontalPosition: this.horizontalPosition,
+              verticalPosition: this.verticalPosition,
+              panelClass: ['snackbar-success'],
+              duration: 9000
+            });
           },
           error: (err) => {
-            if (err.error.errors) {
-              const errorMessages = Object.values(err.error.errors).join('\n');
-              this.errorMsg.push(errorMessages);
-              this._snackBar.open(this.errorMsg.toString(), 'close', {
+            this._snackBar.open(
+              err.error.message || 'Error creating airport', 'Close', {
                 horizontalPosition: this.horizontalPosition,
                 verticalPosition: this.verticalPosition,
                 panelClass: ['snackbar-error'],
                 duration: 5000
-              });
-            } else if (err.error.message) {
-              this._snackBar.open(err.error.message.toString(), 'close', {
-                horizontalPosition: this.horizontalPosition,
-                verticalPosition: this.verticalPosition,
-                panelClass: ['snackbar-error'],
-                duration: 5000
-              });
-            }
+              }
+            );
           }
         })
       }

@@ -4,12 +4,12 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { AirportService } from './services/airport.service';
 import { ReservationService } from './services/reservation.service';
 import { FlightService } from './services/flight.service';
 import { EmployeeService } from './services/employee.service';
 import { ClientService } from './services/client.service';
 import { AuthenticationService } from './services/authentication.service';
-import { AirportService } from './services/airport.service';
 import { AircraftService } from './services/aircraft.service';
 import { CountryService } from './services/country.service';
 import { UserService } from './services/user.service';
@@ -22,12 +22,12 @@ import { UserService } from './services/user.service';
   exports: [],
   declarations: [],
   providers: [
+    AirportService,
     ReservationService,
     FlightService,
     EmployeeService,
     ClientService,
     AuthenticationService,
-    AirportService,
     AircraftService,
     CountryService,
     UserService,

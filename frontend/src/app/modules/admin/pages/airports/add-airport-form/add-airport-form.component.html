@@ -1,5 +1,4 @@
-<h2 mat-dialog-title>Add New Airport</h2>
-<mat-dialog-content>
+<h2 mat-dialog-title>{{ data ? 'Edit Airport' : 'Add New Airport' }}</h2><mat-dialog-content>
   <form [formGroup]="airportForm">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
@@ -41,5 +40,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="airportForm.invalid">Add</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="airportForm.invalid">
+    {{ data ? 'Save Changes' : 'Add' }}
+  </button>
 </mat-dialog-actions>

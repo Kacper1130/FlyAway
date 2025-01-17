@@ -1,5 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
@@ -12,6 +18,7 @@ import {MatAutocomplete, MatAutocompleteTrigger} from "@angular/material/autocom
 import {map} from "rxjs/operators";
 import {CreateAirportDto} from "../../../../../services/models/create-airport-dto";
 import {CountryService} from "../../../../../services/services/country.service";
+import {Airport} from "../../../../../services/models/airport";
 
 @Component({
   selector: 'app-add-airport-form',
@@ -47,16 +54,21 @@ export class AddAirportFormComponent implements OnInit {
   countryList: string[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     public dialogRef: MatDialogRef<AddAirportFormComponent>,
-    private countryService: CountryService
+    private readonly countryService: CountryService,
+    @Inject(MAT_DIALOG_DATA) public data?: { airport: Airport; country: string }
   ) {
+    if (data?.country) {
+      this.country.setValue(data.country);
+      this.checkCountryEnabled(data.country);
+    }
     this.airportForm = this.fb.group({
-      name: ['', Validators.required],
+      name: [data?.airport?.name || '', Validators.required],
       country: this.country,
-      city: ['', Validators.required],
-      IATACode: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
-      enabled: [{value: false, disabled: true}],
+      city: [data?.airport?.city || '', Validators.required],
+      IATACode: [data?.airport?.IATACode || '', [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
+      enabled: [{value: data?.airport?.enabled ?? false, disabled: true}],
     });
   }
 

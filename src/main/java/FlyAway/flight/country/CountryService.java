@@ -41,10 +41,10 @@ public class CountryService {
 
     public List<String> getAllCountriesNames() {
         List<Country> countries = countryRepository.findAll();
-        LOGGER.info("Full countries size: {}", countries.size());
+        LOGGER.debug("Full countries size: {}", countries.size());
         List<String> countriesNames = new ArrayList<>();
         countries.forEach(c -> countriesNames.add(c.getName()));
-        LOGGER.info("Countries names size: {}", countriesNames.size());
+        LOGGER.debug("Countries names size: {}", countriesNames.size());
         return countriesNames;
     }
 
@@ -54,7 +54,7 @@ public class CountryService {
 
     public boolean isCountryEnabled(String countryName) {
         boolean isEnabled = countryRepository.existsByNameAndEnabledTrue(countryName);
-        LOGGER.info("Country {} is {}", countryName, isEnabled);
+        LOGGER.debug("Country {} is {}", countryName, isEnabled);
         return isEnabled;
     }
 

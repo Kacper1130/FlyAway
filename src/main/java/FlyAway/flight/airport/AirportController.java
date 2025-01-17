@@ -37,7 +37,7 @@ public class AirportController {
     public ResponseEntity<Airport> addAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport {}", createAirportDto);
         Airport airport = airportService.addAirport(createAirportDto);
-        LOGGER.info("Created new airport {}", airport);
+        LOGGER.info("Created new airport {}", airport.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(airport);
     }
 

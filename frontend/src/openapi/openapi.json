@@ -12,6 +12,76 @@
     }
   ],
   "paths": {
+    "/api/v1/airports/{id}": {
+      "put": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "updateAirport",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAirportDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "switchAirportStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Airport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/reservations/add": {
       "post": {
         "tags": [
@@ -354,59 +424,6 @@
               "application/json": {
                 "schema": {
                   "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/airports/{id}": {
-      "delete": {
-        "tags": [
-          "Airport"
-        ],
-        "operationId": "deleteAirport",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Airport"
-        ],
-        "operationId": "switchAirportStatus",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Airport"
                 }
               }
             }
@@ -1058,6 +1075,58 @@
   },
   "components": {
     "schemas": {
+      "CreateAirportDto": {
+        "required": [
+          "IATACode",
+          "city",
+          "country",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "IATACode": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Airport": {
+        "required": [
+          "IATACode",
+          "city",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "IATACode": {
+            "type": "string"
+          }
+        }
+      },
       "CreateReservationDto": {
         "required": [
           "clientId",
@@ -1347,58 +1416,6 @@
         "type": "object",
         "properties": {
           "token": {
-            "type": "string"
-          }
-        }
-      },
-      "CreateAirportDto": {
-        "required": [
-          "IATACode",
-          "city",
-          "country",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "IATACode": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean"
-          }
-        }
-      },
-      "Airport": {
-        "required": [
-          "IATACode",
-          "city",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "IATACode": {
             "type": "string"
           }
         }
