@@ -220,4 +220,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
+    @ExceptionHandler(CabinClassDoesNotExistException.class)
+    public ResponseEntity<ErrorMessage> handleCabinClassDoesNotExistException(CabinClassDoesNotExistException exception) {
+        LOGGER.error("Cabin class does not exist", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
 }

@@ -3,7 +3,7 @@ package FlyAway.flight.dto;
 import FlyAway.flight.aircraft.Aircraft;
 import FlyAway.flight.aircraft.CabinClass;
 import FlyAway.flight.airport.dto.AirportDto;
-import FlyAway.reservation.Reservation;
+import FlyAway.reservation.dto.ReservationWithoutFlightDto;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +33,6 @@ public record FlightDetailsDto(
         @NotNull(message = "cabinClassPrices can not be null")
         Map<CabinClass, BigDecimal> cabinClassPrices,
         @OneToMany
-        List<Reservation> reservations
+        List<ReservationWithoutFlightDto> reservations
 ) {
 }

@@ -17,6 +17,8 @@ public class FlyAwayApplication {
 	// historia rezerwacji, anulowane i wykorzystane
 	// uwagi uzytkownikow
 	// employee wysyla maila do wielu uzytkownikow
+	// chat ai
+	// tworzenie lotow autocomplete
 
 
 

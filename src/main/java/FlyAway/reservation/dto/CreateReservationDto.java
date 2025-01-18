@@ -1,5 +1,6 @@
 package FlyAway.reservation.dto;
 
+import FlyAway.flight.aircraft.CabinClass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -8,11 +9,9 @@ import java.util.UUID;
 
 public record CreateReservationDto (
         @NotNull
-        BigDecimal price,
-        @NotNull
         Integer seatNumber,
         @NotNull
-        Long clientId,
+        CabinClass cabinClass,
         @NotNull
         UUID flightId
 ) {

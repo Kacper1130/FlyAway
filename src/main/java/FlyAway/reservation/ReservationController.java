@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,12 +36,14 @@ public class ReservationController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addReservation(@Valid @RequestBody CreateReservationDto createReservationDto) {
-        LOGGER.debug("Adding new reservation " + createReservationDto);
-        ReservationDto reservationDto = reservationService.addReservation(createReservationDto);
-        LOGGER.info("Created new reservation " + reservationDto);
+    public ResponseEntity<ReservationDto> createReservation(
+            @Valid @RequestBody CreateReservationDto createReservationDto,
+            Authentication authentication
+    ) {
+        LOGGER.debug("Adding new reservation {}", createReservationDto);
+        ReservationDto reservationDto = reservationService.createReservation(createReservationDto, authentication);
+        LOGGER.info("Created new reservation {}", reservationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationDto);
-
     }
 
     @DeleteMapping("{id}/cancel")

@@ -120,7 +120,10 @@ public class FlightService {
     }
 
     public FlightDetailsDto getFlightDetails(UUID id) {
-        return flightRepository.findById(id).map(flightMapper::flightToFlightDetailsDto)
+        LOGGER.info("Retrieving details for flight {}", id);
+        Flight flight = flightRepository.findById(id)
                 .orElseThrow(FlightDoesNotExistException::new);
+        LOGGER.info("Retrieved flight {}", flight);
+        return flightMapper.flightToFlightDetailsDto(flight);
     }
 }

@@ -120,7 +120,7 @@ class ReservationServiceTest {
         when(flightRepository.findById(flightId)).thenReturn(Optional.of(flight));
         when(reservationRepository.save(any(Reservation.class))).thenReturn(reservation);
 
-        ReservationDto reservationDto = reservationService.addReservation(createReservationDto);
+        ReservationDto reservationDto = reservationService.createReservation(createReservationDto);
 
         assertEquals(reservation.getSeatNumber(), reservationDto.seatNumber());
         assertEquals(client.getEmail(), reservationDto.userDto().email());
@@ -144,7 +144,7 @@ class ReservationServiceTest {
 
         when(userRepository.findActiveById(userId)).thenReturn(Optional.empty());
 
-        assertThrows(UserDoesNotExistException.class, () -> reservationService.addReservation(createReservationDto));
+        assertThrows(UserDoesNotExistException.class, () -> reservationService.createReservation(createReservationDto));
         verify(userRepository, times(1)).findActiveById(userId);
         verify(flightRepository, times(0)).findById(any(UUID.class));
         verify(reservationRepository, times(0)).save(any(Reservation.class));
@@ -168,7 +168,7 @@ class ReservationServiceTest {
         when(userRepository.findActiveById(userId)).thenReturn(Optional.of(client));
         when(flightRepository.findById(flightId)).thenReturn(Optional.empty());
 
-        assertThrows(FlightDoesNotExistException.class, () -> reservationService.addReservation(createReservationDto));
+        assertThrows(FlightDoesNotExistException.class, () -> reservationService.createReservation(createReservationDto));
         verify(userRepository, times(1)).findActiveById(userId);
         verify(flightRepository, times(1)).findById(flightId);
         verify(reservationRepository, times(0)).save(any(Reservation.class));

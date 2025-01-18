@@ -4,6 +4,7 @@ import FlyAway.client.ClientMapper;
 import FlyAway.flight.FlightMapper;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationWithoutFlightDto;
 import FlyAway.reservation.dto.ReservationWithoutUserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,5 +25,8 @@ public interface ReservationMapper {
 
     @Mapping(source = "flight", target = "flightDto")
     ReservationWithoutUserDto reservationToReservationWithoutUserDto(Reservation reservation);
+
+    @Mapping(source = "client", target = "clientDto")
+    ReservationWithoutFlightDto reservationToReservationWithoutFlightDto(Reservation reservation);
 
 }

@@ -2,11 +2,12 @@ package FlyAway.flight;
 
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
+import FlyAway.reservation.ReservationMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = ReservationMapper.class)
 public interface FlightMapper {
 
     FlightMapper INSTANCE = Mappers.getMapper(FlightMapper.class);

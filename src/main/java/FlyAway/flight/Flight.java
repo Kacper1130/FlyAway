@@ -44,7 +44,7 @@ public class Flight {
     @NotNull(message = "cabinClassPrices can not be null")
     private Map<CabinClass, BigDecimal> cabinClassPrices;
     //@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @OneToMany
+    @OneToMany(mappedBy = "flight")
     private List<Reservation> reservations;
 
 }

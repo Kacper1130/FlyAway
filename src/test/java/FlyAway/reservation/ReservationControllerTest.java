@@ -129,7 +129,7 @@ class ReservationControllerTest {
                 flightDto
         );
 
-        when(reservationService.addReservation(createReservationDto)).thenReturn(reservationDto);
+        when(reservationService.createReservation(createReservationDto)).thenReturn(reservationDto);
 
         mockMvc.perform(post("/api/v1/reservations/add")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -147,7 +147,7 @@ class ReservationControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.flightDto.airline").value(flightDto.airline()));
 
 
-        verify(reservationService, times(1)).addReservation(createReservationDto);
+        verify(reservationService, times(1)).createReservation(createReservationDto);
     }
 
     @Test
@@ -160,7 +160,7 @@ class ReservationControllerTest {
                 UUID.randomUUID()
         );
 
-        when(reservationService.addReservation(createReservationDto)).thenThrow(new UserDoesNotExistException());
+        when(reservationService.createReservation(createReservationDto)).thenThrow(new UserDoesNotExistException());
 
         mockMvc.perform(post("/api/v1/reservations/add")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -180,7 +180,7 @@ class ReservationControllerTest {
                 UUID.randomUUID()
         );
 
-        when(reservationService.addReservation(any(CreateReservationDto.class)))
+        when(reservationService.createReservation(any(CreateReservationDto.class)))
                 .thenThrow(new FlightDoesNotExistException());
 
         mockMvc.perform(post("/api/v1/reservations/add")
