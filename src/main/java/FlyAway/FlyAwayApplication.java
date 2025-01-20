@@ -18,7 +18,6 @@ public class FlyAwayApplication {
 	// uwagi uzytkownikow
 	// employee wysyla maila do wielu uzytkownikow
 	// chat ai
-	// tworzenie lotow autocomplete
 
 
 

@@ -29,6 +29,7 @@ import {AirportDto} from "../../../../services/models/airport-dto";
 import {map} from "rxjs/operators";
 import {FlightDto} from "../../../../services/models/flight-dto";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {Airport} from "../../../../services/models/airport";
 
 @Component({
   selector: 'app-employee-flights-add',
@@ -76,6 +77,8 @@ export class EmployeeFlightsAddComponent implements OnInit {
   arrivalAirports: Observable<Array<AirportDto>> | undefined;
   filteredAircraftList: Observable<Array<Aircraft>> | undefined;
   aircraftList: Aircraft[] = [];
+  filteredAirportsList: Observable<Array<AirportDto>> | undefined;
+  airports: AirportDto[] = [];
 
   constructor(
     private readonly fb: FormBuilder,
@@ -93,16 +96,24 @@ export class EmployeeFlightsAddComponent implements OnInit {
       startWith(''),
       map(value => this.filterAircraft(value || ''))
     );
+    this.departureAirports = this.flightForm.get('departureAirport')!.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterAirports(value || '')),
+    );
+    this.arrivalAirports = this.flightForm.get('arrivalAirport')!.valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterAirports(value || '')),
+    );
     this.setupAircraftSelection();
   }
 
   private setupAircraftSelection() {
     this.flightForm.get('aircraft')!.valueChanges.subscribe(selectedAircraft => {
+      console.log(selectedAircraft);
       if (selectedAircraft && typeof selectedAircraft !== 'string') {
-        // Get seat class ranges
+        console.log(selectedAircraft.seatClassRanges)
         const seatClassRanges = selectedAircraft.seatClassRanges || {};
 
-        // Enable or disable fields based on available seat classes
         const cabinClassPricesGroup = this.flightForm.get('cabinClassPrices');
 
         if (cabinClassPricesGroup) {
@@ -137,6 +148,16 @@ export class EmployeeFlightsAddComponent implements OnInit {
     );
   }
 
+  private filterAirports(value: string | AirportDto): AirportDto[] {
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : '';
+
+    return this.airports.filter(airport =>
+      airport.name.toLowerCase().includes(filterValue) ||
+      airport.country.name?.toLowerCase().includes(filterValue) ||
+      airport.city.toLowerCase().includes(filterValue)
+    );
+  }
+
   private initializeForm() {
     this.flightForm = this.fb.group({
       departureAirport: ['', Validators.required],
@@ -167,6 +188,20 @@ export class EmployeeFlightsAddComponent implements OnInit {
         map(value => this.filterAircraft(value || ''))
       );
     });
+
+    this.airportService.getAllEnabledAirports().subscribe( res => {
+      this.airports = res;
+
+      this.departureAirports = this.flightForm.get('departureAirport')!.valueChanges.pipe(
+        startWith(''),
+        map(value => this.filterAirports(value || ''))
+      )
+
+      this.arrivalAirports = this.flightForm.get('arrivalAirport')!.valueChanges.pipe(
+        startWith(''),
+        map(value => this.filterAirports(value || ''))
+      )
+    })
   }
 
   onSubmit() {
