@@ -1,7 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FlightDto} from "../../../../../services/models/flight-dto";
 import {CurrencyPipe, DatePipe, NgForOf} from "@angular/common";
-import {Flight} from "../../../../../services/models/flight";
 import {FlightDetailsDto} from "../../../../../services/models/flight-details-dto";
 import {MatButton} from "@angular/material/button";
 import {RouterLink, RouterLinkActive} from "@angular/router";

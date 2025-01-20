@@ -1,64 +1,143 @@
+// add-flight.component.scss
 .flight-form-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-.form-title {
-  color: #ffffff;
-  margin-bottom: 24px;
-  text-align: center;
+  min-height: 100vh;
+  background-color: var(--page-bg, #1a1a1a);
+  padding: 2rem 1rem;
 }
 
 .form-content {
-  background: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--surface-color, #2a2a2a);
   border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.form-title {
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .form-section {
-  margin-bottom: 32px;
+  margin-bottom: 2.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .section-title {
-  color: #555;
-  font-size: 18px;
-  margin-bottom: 16px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #eee;
+  color: var(--text-secondary, #e0e0e0);
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color, #404040);
 }
 
-.route-fields, .schedule-fields {
+.route-fields,
+.schedule-fields {
   display: flex;
-  gap: 16px;
+  gap: 1.5rem;
   align-items: center;
-}
+  flex-wrap: wrap;
 
-.route-arrow {
-  color: #000000;
+  mat-form-field {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .mat-icon {
+    color: var(--text-secondary, #e0e0e0);
+  }
 }
 
 .aircraft-field {
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 1.5rem;
 }
 
 .pricing-fields {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
 }
 
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid #eee;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color, #404040);
 }
 
-mat-form-field {
-  width: 100%;
+// Material overrides
+::ng-deep {
+  .mat-form-field {
+    width: 100%;
+
+    .mat-form-field-wrapper {
+      background-color: var(--input-bg, #333);
+      border-radius: 4px;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .mat-form-field-label {
+      color: var(--text-secondary, #e0e0e0);
+    }
+
+    .mat-input-element {
+      color: white;
+    }
+  }
+
+  .mat-autocomplete-panel {
+    background-color: var(--surface-color, #2a2a2a);
+
+    .mat-option {
+      color: white;
+
+      &:hover {
+        background-color: var(--hover-color, #404040);
+      }
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .flight-form-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .form-content {
+    padding: 1.5rem;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .route-fields,
+  .schedule-fields {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    .mat-icon {
+      align-self: center;
+    }
+  }
+
+  .pricing-fields {
+    grid-template-columns: 1fr;
+  }
 }

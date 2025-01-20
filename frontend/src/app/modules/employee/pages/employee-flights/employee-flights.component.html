@@ -1,8 +1,27 @@
-<app-employee-navbar></app-employee-navbar>
-<div class="header-container mt-2">
-  <h2 class="text-white text-center">Flights</h2>
-  <button mat-raised-button color="primary" class="add-global-button mt-2" routerLink="/employee/flights/add">Add Flight</button>
-</div>
-<div *ngFor="let flight of flights">
-    <app-employee-flight-card [flight]="flight"></app-employee-flight-card>
+<!-- employee-flights.component.html -->
+<div class="employee-flights">
+  <app-employee-navbar></app-employee-navbar>
+
+  <div class="employee-flights__container">
+    <div class="employee-flights__header">
+      <div class="header-content">
+        <h2 class="header-title">Flights</h2>
+        <button
+          mat-raised-button
+          color="primary"
+          class="header-action"
+          routerLink="/employee/flights/add"
+        >
+          <mat-icon>add</mat-icon>
+          Add Flight
+        </button>
+      </div>
+    </div>
+
+    <div class="flights-list">
+      <div class="flight-item" *ngFor="let flight of flights">
+        <app-employee-flight-card [flight]="flight"></app-employee-flight-card>
+      </div>
+    </div>
+  </div>
 </div>

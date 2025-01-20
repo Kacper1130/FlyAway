@@ -7,6 +7,7 @@ import {NgForOf} from "@angular/common";
 import {FlightDetailsDto} from "../../../../services/models/flight-details-dto";
 import {MatButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-employee-flights',
@@ -16,7 +17,8 @@ import {MatDialog} from "@angular/material/dialog";
     EmployeeFlightCardComponent,
     NgForOf,
     MatButton,
-    RouterLink
+    RouterLink,
+    MatIcon
   ],
   templateUrl: './employee-flights.component.html',
   styleUrl: './employee-flights.component.scss'
@@ -27,7 +29,7 @@ export class EmployeeFlightsComponent {
   constructor(
     private readonly flightService: FlightService,
     private readonly router: Router,
-    private dialog: MatDialog
+    private readonly dialog: MatDialog
   ) {
   }
 

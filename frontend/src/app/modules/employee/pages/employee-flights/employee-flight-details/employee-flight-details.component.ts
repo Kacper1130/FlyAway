@@ -5,6 +5,8 @@ import {ActivatedRoute} from "@angular/router";
 import {FlightService} from "../../../../../services/services/flight.service";
 import {DatePipe, KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-employee-flight-details',
@@ -15,7 +17,9 @@ import {FormsModule} from "@angular/forms";
     DatePipe,
     NgForOf,
     FormsModule,
-    KeyValuePipe
+    KeyValuePipe,
+    MatProgressSpinner,
+    MatIcon
   ],
   templateUrl: './employee-flight-details.component.html',
   styleUrl: './employee-flight-details.component.scss'
@@ -26,8 +30,8 @@ export class EmployeeFlightDetailsComponent {
   error: string | null = null;
 
   constructor(
-    private route: ActivatedRoute,
-    private flightService: FlightService
+    private readonly route: ActivatedRoute,
+    private readonly flightService: FlightService
   ) {}
 
   ngOnInit(): void {

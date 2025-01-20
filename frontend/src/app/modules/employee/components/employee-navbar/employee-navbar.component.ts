@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatToolbar} from "@angular/material/toolbar";
 import {PaginatorModule} from "primeng/paginator";
@@ -20,7 +20,8 @@ import {MatBadge} from "@angular/material/badge";
     PaginatorModule,
     RouterLink,
     RouterLinkActive,
-    MatBadge
+    MatBadge,
+    MatAnchor
   ],
   templateUrl: './employee-navbar.component.html',
   styleUrl: './employee-navbar.component.scss'
@@ -28,7 +29,7 @@ import {MatBadge} from "@angular/material/badge";
 export class EmployeeNavbarComponent {
 
   constructor(
-    private tokenService: TokenService
+    private readonly tokenService: TokenService
   ) {
   }
 

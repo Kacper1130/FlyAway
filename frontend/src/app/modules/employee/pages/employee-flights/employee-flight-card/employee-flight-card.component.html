@@ -1,34 +1,46 @@
+<!-- employee-flight-card.component.html -->
 <div class="flight-card" [routerLink]="['/employee/flights', flight.id]" routerLinkActive="active">
-  <h2>{{ flight.id }}</h2>
-  <div class="flight-section">
+  <div class="flight-card__header">
+    <h2 class="flight-id">Flight #{{ flight.id }}</h2>
+  </div>
+
+  <div class="flight-card__content">
     <div class="flight-info">
-      <h3>Departure</h3>
-      <p><strong>{{ flight.departureAirportDto.IATACode }} </strong></p>
-      <p>{{ flight.departureAirportDto.name }} </p>
-      <p>{{ flight.departureAirportDto.city }}, {{ flight.departureAirportDto.country.name }}</p>
-      <p>{{ flight.departureDate | date: 'yyyy-MM-dd HH:mm' }}</p>
+      <h3 class="info-title">Departure</h3>
+      <div class="info-content">
+        <span class="iata-code">{{ flight.departureAirportDto.IATACode }}</span>
+        <p class="airport-name">{{ flight.departureAirportDto.name }}</p>
+        <p class="airport-location">{{ flight.departureAirportDto.city }}, {{ flight.departureAirportDto.country.name }}</p>
+        <p class="flight-time">{{ flight.departureDate | date: 'yyyy-MM-dd HH:mm' }}</p>
+      </div>
     </div>
 
     <div class="flight-info">
-      <h3>Arrival</h3>
-      <p><strong>{{ flight.arrivalAirportDto.IATACode }}</strong></p>
-      <p>{{ flight.arrivalAirportDto.name }} </p>
-      <p>{{ flight.arrivalAirportDto.city }}, {{ flight.arrivalAirportDto.country.name }}</p>
-      <p>{{ flight.arrivalDate | date: 'yyyy-MM-dd HH:mm' }}</p>
+      <h3 class="info-title">Arrival</h3>
+      <div class="info-content">
+        <span class="iata-code">{{ flight.arrivalAirportDto.IATACode }}</span>
+        <p class="airport-name">{{ flight.arrivalAirportDto.name }}</p>
+        <p class="airport-location">{{ flight.arrivalAirportDto.city }}, {{ flight.arrivalAirportDto.country.name }}</p>
+        <p class="flight-time">{{ flight.arrivalDate | date: 'yyyy-MM-dd HH:mm' }}</p>
+      </div>
     </div>
 
     <div class="flight-info">
-      <h3>Aircraft</h3>
-      <p>Model: {{ flight.aircraft.model }}</p>
-      <p>Year: {{ flight.aircraft.productionYear }}</p>
-      <p>Reg: {{ flight.aircraft.registration }}</p>
+      <h3 class="info-title">Aircraft</h3>
+      <div class="info-content">
+        <p class="aircraft-detail">Model: {{ flight.aircraft.model }}</p>
+        <p class="aircraft-detail">Year: {{ flight.aircraft.productionYear }}</p>
+        <p class="aircraft-detail">Reg: {{ flight.aircraft.registration }}</p>
+      </div>
     </div>
 
     <div class="flight-info">
-      <h3>Cabin Class Prices</h3>
-      <p>Economy: {{ flight.cabinClassPrices['ECONOMY'] || 'Not available' }}</p>
-      <p>Business: {{ flight.cabinClassPrices['BUSINESS'] || 'Not available' }}</p>
-      <p>First: {{ flight.cabinClassPrices['FIRST'] || 'Not available' }}</p>
+      <h3 class="info-title">Cabin Class Prices</h3>
+      <div class="info-content">
+        <p class="price-detail">Economy: {{ flight.cabinClassPrices['ECONOMY'] || 'Not available' }}</p>
+        <p class="price-detail">Business: {{ flight.cabinClassPrices['BUSINESS'] || 'Not available' }}</p>
+        <p class="price-detail">First: {{ flight.cabinClassPrices['FIRST'] || 'Not available' }}</p>
+      </div>
     </div>
   </div>
 </div>

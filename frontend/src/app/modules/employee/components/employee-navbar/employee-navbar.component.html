@@ -1,20 +1,57 @@
-<mat-toolbar>
-  <a class="navbar-brand" routerLink="/employee">EMPLOYEE PANEL</a>
-  <div class="nav-buttons ms-4">
-    <button mat-button class="large-button" routerLink="/employee/flights" routerLinkActive="active">Flights</button>
-    <button mat-button class="large-button" routerLink="/employee/reservations" routerLinkActive="active">Reservations</button>
-    <button matBadgeColor="warn" matBadge="28" matBadgeSize="large" mat-button class="large-button" routerLink="/employee/issues" routerLinkActive="active">Client Issues</button>
-  </div>
+<mat-toolbar class="employee-navbar">
+  <div class="employee-navbar__container">
+    <div class="employee-navbar__brand">
+      <a routerLink="/employee" class="brand-link">
+        <span class="brand-text">EMPLOYEE PANEL</span>
+      </a>
+    </div>
 
-  <span class="container-fluid"></span>
+    <nav class="employee-navbar__nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a mat-button
+             class="nav-link"
+             routerLink="/employee/flights"
+             routerLinkActive="is-active"
+             aria-label="Manage Flights">
+            <mat-icon class="nav-icon">flight_takeoff</mat-icon>
+            <span class="nav-text">Flights</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a mat-button
+             class="nav-link"
+             routerLink="/employee/reservations"
+             routerLinkActive="is-active"
+             aria-label="Manage Reservations">
+            <mat-icon class="nav-icon">bookmark</mat-icon>
+            <span class="nav-text">Reservations</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a mat-button
+             class="nav-link"
+             routerLink="/employee/issues"
+             routerLinkActive="is-active"
+             aria-label="Client Issues"
+             [matBadge]="28"
+             matBadgeColor="warn"
+             matBadgeSize="small">
+            <mat-icon class="nav-icon">person_alert</mat-icon>
+            <span class="nav-text">Client Issues</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-  <form class="d-flex gap-2 align-items-center">
-    <span>Logged in as: </span>
-    <span >{{ Email }}</span>
-    <div>
-      <button mat-icon-button class="example-icon" (click)="logout()">
+    <div class="employee-navbar__actions">
+      <span class="user-email">{{ Email }}</span>
+      <button mat-icon-button
+              class="action-button"
+              (click)="logout()"
+              aria-label="Logout">
         <mat-icon>logout</mat-icon>
       </button>
     </div>
-  </form>
+  </div>
 </mat-toolbar>
