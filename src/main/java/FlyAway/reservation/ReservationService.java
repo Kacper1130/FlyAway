@@ -1,14 +1,18 @@
 package FlyAway.reservation;
 
-import FlyAway.exception.*;
+import FlyAway.client.Client;
+import FlyAway.client.ClientRepository;
+import FlyAway.email.EmailService;
+import FlyAway.exception.CabinClassDoesNotExistException;
+import FlyAway.exception.FlightDoesNotExistException;
+import FlyAway.exception.ReservationDoesNotExistException;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.client.Client;
-import FlyAway.client.ClientRepository;
 import FlyAway.security.SecurityUser;
+import jakarta.mail.MessagingException;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -27,13 +30,15 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ClientRepository clientRepository;
     private final FlightRepository flightRepository;
+    private final EmailService emailService;
     private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationService.class);
 
-    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository) {
+    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService) {
         this.reservationRepository = reservationRepository;
         this.clientRepository = userRepository;
         this.flightRepository = flightRepository;
+        this.emailService = emailService;
     }
 
     public List<DisplayReservationDto> getAll() {
@@ -45,7 +50,7 @@ public class ReservationService {
         return reservations;
     }
 
-    public ReservationDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) {
+    public ReservationDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) throws MessagingException {
         LOGGER.debug("Creating new reservation");
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = (Client) securityUser.getUser();
@@ -65,6 +70,7 @@ public class ReservationService {
                 .flight(flight)
                 .build();
         reservationRepository.save(reservation);
+        emailService.sendReservationConfirmationEmail(client.getEmail(), client.getFirstname(), client.getLastname(), flight, createReservationDto.cabinClass().toString(), createReservationDto.seatNumber());
         LOGGER.info("Created new reservation for client {} and flight {}",
                 client.getId(),
                 createReservationDto.flightId()

@@ -1,5 +1,6 @@
 package FlyAway.email;
 
+import FlyAway.flight.Flight;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,4 +66,40 @@ public class EmailService {
         LOGGER.info("Confirmation email has been sent to {}", to);
     }
 
+    @Async
+    public void sendReservationConfirmationEmail(
+            String email, String firstname, String lastname, Flight flight, String cabinClass, Integer seatNumber
+    ) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", firstname);
+        properties.put("flightNumber", flight.getId());
+        properties.put("departureDate", flight.getDepartureDate().format(dateFormatter));
+        properties.put("departureTime", flight.getDepartureDate().format(timeFormatter));
+        properties.put("arrivalDate", flight.getArrivalDate().format(dateFormatter));
+        properties.put("arrivalTime", flight.getArrivalDate().format(timeFormatter));
+        properties.put("departureLocation", flight.getDepartureAirport().getName() + "(" + flight.getDepartureAirport().getIATACode() + ")");
+        properties.put("arrivalLocation", flight.getArrivalAirport().getName() + "(" + flight.getArrivalAirport().getIATACode() + ")");
+        properties.put("cabinClass", cabinClass);
+        properties.put("seatNumber", seatNumber);
+        properties.put("passengerNames", firstname + " " + lastname);
+        properties.put("manageBookingLink", "http://localhost:4200/reservations");
+
+        Context context = new Context();
+        context.setVariables(properties);
+
+        String template = templateEngine.process("reservation_confirmation_email", context);
+        helper.setFrom(emailAddress);
+        helper.setTo(email);
+        helper.setSubject("Reservation Confirmation");
+        helper.setText(template, true);
+        javaMailSender.send(mimeMessage);
+        LOGGER.info("Reservation confirmation email has been sent to {}", email);
+
+    }
 }

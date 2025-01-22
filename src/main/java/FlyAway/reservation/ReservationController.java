@@ -4,6 +4,7 @@ import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class ReservationController {
     public ResponseEntity<ReservationDto> createReservation(
             @Valid @RequestBody CreateReservationDto createReservationDto,
             Authentication authentication
-    ) {
+    ) throws MessagingException {
         LOGGER.debug("Adding new reservation {}", createReservationDto);
         ReservationDto reservationDto = reservationService.createReservation(createReservationDto, authentication);
         LOGGER.info("Created new reservation {}", reservationDto);

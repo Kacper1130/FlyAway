@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Confirmation - FlyAway</title>
+</head>
+<body>
+<div style="font-family: Arial, sans-serif; padding: 20px;">
+    <h2>Booking Confirmation</h2>
+    <p>Dear <span th:text="${username}">User</span>,</p>
+
+    <p>Thank you for choosing FlyAway! We are excited to confirm your booking.</p>
+
+    <h3>Booking Details:</h3>
+    <ul>
+        <li><strong>Flight ID:</strong> <span th:text="${flightNumber}">FL123</span></li>
+        <li><strong>Departure:</strong> <span th:text="${departureDate}">January 25, 2025</span> at <span th:text="${departureTime}">10:00 AM</span></li>
+        <li><strong>Arrival:</strong> <span th:text="${arrivalDate}">January 25, 2025</span> at <span th:text="${arrivalTime}">1:30 PM</span></li>
+        <li><strong>From:</strong> <span th:text="${departureLocation}">New York (JFK)</span></li>
+        <li><strong>To:</strong> <span th:text="${arrivalLocation}">Los Angeles (LAX)</span></li>
+        <li><strong>Cabin Class:</strong> <span th:text="${cabinClass}">Economy</span></li>
+        <li><strong>Seat Number:</strong> <span th:text="${seatNumber}">40</span></li>
+        <li><strong>Passenger(s):</strong> <span th:text="${passengerNames}">John Doe</span></li>
+    </ul>
+
+    <p>Please make sure to arrive at the airport at least 2 hours before departure to complete check-in and security procedures.</p>
+
+    <h3>Manage Your Booking:</h3>
+    <p>You can view or modify your booking using the link below:</p>
+
+    <a th:href="${manageBookingLink}" style="display: inline-block; background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+        Manage Your Booking
+    </a>
+
+    <p>We look forward to welcoming you on board!</p>
+
+    <hr>
+    <footer style="text-align: center; font-size: 12px; color: #888;">
+        <p>FlyAway &copy; 2024</p>
+        <p><a href="http://localhost:4200" th:href="@{http://localhost:4200}">Visit our website</a></p>
+    </footer>
+</div>
+</body>
+</html>
