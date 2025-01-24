@@ -1,15 +1,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Aircraft } from '../models/aircraft';
-import { Airport } from '../models/airport';
-export interface Flight {
+import { AirportDto } from '../models/airport-dto';
+export interface CreateFlightDto {
   aircraft: Aircraft;
-  arrivalAirport: Airport;
+  arrivalAirportDto: AirportDto;
   arrivalDate: string;
   cabinClassPrices: {
 [key: string]: number;
 };
-  departureAirport: Airport;
+  departureAirportDto: AirportDto;
   departureDate: string;
-  id: string;
 }

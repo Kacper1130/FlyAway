@@ -1,0 +1,131 @@
+.seat-selection-container {
+  padding: 20px;
+  border-radius: 16px;
+  max-width: 1100px;
+  margin: 20px auto;
+  background: linear-gradient(145deg, #2f3441, #242731);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  color: #e4e6eb;
+}
+
+h2 {
+  font-size: 24px;
+  text-align: center;
+  color: #60a5fa;
+  margin-bottom: 20px;
+}
+
+.seating-chart {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  margin-top: 20px;
+  justify-content: flex-start;
+  overflow-x:  auto;
+}
+
+.seat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #3a3f4b;
+  border-radius: 8px;
+  background: #1a1f2c;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #e4e6eb;
+  transition: all 0.3s ease;
+}
+
+.seat.available:hover {
+  background: #059669;
+  color: #fff;
+}
+
+.seat.selected {
+  background: #60a5fa;
+  border: 2px solid #3b82f6;
+  color: #fff;
+}
+
+.seat.unavailable {
+  background: #374151;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.confirm-seat-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #60a5fa;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.confirm-seat-btn:disabled {
+  background: #4b5563;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.confirm-seat-btn:not(:disabled):hover {
+  background: #3b82f6;
+}
+
+.no-seats {
+  text-align: center;
+  font-size: 16px;
+  color: #9ca3af;
+  margin-top: 20px;
+}
+
+.aisle-gap {
+  margin-bottom: 20px;
+}
+
+.seat.available.economy:hover {
+  background: #34d399;
+  color: #fff;
+}
+
+.seat.available.business:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.seat.available.first:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+.seat.selected.economy {
+  background: #059669;
+  border: 2px solid #047857;
+}
+
+.seat.selected.business {
+  background: #2563eb;
+  border: 2px solid #1d4ed8;
+}
+
+.seat.selected.first {
+  background: #dc2626;
+  border: 2px solid #b91c1c;
+}
+

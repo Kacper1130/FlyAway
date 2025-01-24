@@ -6,10 +6,11 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { CreateFlightDto } from '../../models/create-flight-dto';
 import { FlightDto } from '../../models/flight-dto';
 
 export interface Add$Params {
-      body: FlightDto
+      body: CreateFlightDto
 }
 
 export function add(http: HttpClient, rootUrl: string, params: Add$Params, context?: HttpContext): Observable<StrictHttpResponse<FlightDto>> {

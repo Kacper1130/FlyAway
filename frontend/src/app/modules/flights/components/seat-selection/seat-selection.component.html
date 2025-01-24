@@ -1,0 +1,42 @@
+<div class="seat-selection-container">
+  <h2>Select Your Seat</h2>
+
+  <div
+    *ngIf="seatingChart && seatingChart.length > 0; else noSeatsMessage"
+    class="seating-chart"
+  >
+    <div
+      *ngFor="let row of seatingChart; let rowIndex = index"
+      class="seat-row"
+    >
+      <div
+        *ngFor="let seat of row; let seatIndex = index"
+        class="seat"
+        [ngClass]="{
+    'aisle-gap': seatIndex === 2,
+    'available': seat.available,
+    'unavailable': !seat.available,
+    'selected': seat === selectedSeat,
+    'economy': selectedClass === 'ECONOMY',
+    'business': selectedClass === 'BUSINESS',
+    'first': selectedClass === 'FIRST'
+  }"
+        (click)="selectSeat(rowIndex, seatIndex)"
+      >
+        {{ seat.label }}
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noSeatsMessage>
+    <p class="no-seats">No seats available for this flight class.</p>
+  </ng-template>
+
+  <button
+    class="confirm-seat-btn"
+    [disabled]="!selectedSeat"
+    (click)="confirmSeatSelection()"
+  >
+    Confirm Seat
+  </button>
+</div>

@@ -1,21 +1,26 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {addAirport, AddAirport$Params} from '../fn/airport/add-airport';
-import {Airport} from '../models/airport';
-import {AirportDto} from '../models/airport-dto';
-import {getAllAirports, GetAllAirports$Params} from '../fn/airport/get-all-airports';
-import {getAllEnabledAirports, GetAllEnabledAirports$Params} from '../fn/airport/get-all-enabled-airports';
-import {switchAirportStatus, SwitchAirportStatus$Params} from '../fn/airport/switch-airport-status';
-import {updateAirport, UpdateAirport$Params} from '../fn/airport/update-airport';
+import { addAirport } from '../fn/airport/add-airport';
+import { AddAirport$Params } from '../fn/airport/add-airport';
+import { Airport } from '../models/airport';
+import { AirportDto } from '../models/airport-dto';
+import { getAllAirports } from '../fn/airport/get-all-airports';
+import { GetAllAirports$Params } from '../fn/airport/get-all-airports';
+import { getAllEnabledAirports } from '../fn/airport/get-all-enabled-airports';
+import { GetAllEnabledAirports$Params } from '../fn/airport/get-all-enabled-airports';
+import { switchAirportStatus } from '../fn/airport/switch-airport-status';
+import { SwitchAirportStatus$Params } from '../fn/airport/switch-airport-status';
+import { updateAirport } from '../fn/airport/update-airport';
+import { UpdateAirport$Params } from '../fn/airport/update-airport';
 
 @Injectable({ providedIn: 'root' })
 export class AirportService extends BaseService {

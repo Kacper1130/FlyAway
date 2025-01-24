@@ -87,7 +87,7 @@
         "tags": [
           "Reservation"
         ],
-        "operationId": "addReservation",
+        "operationId": "createReservation",
         "requestBody": {
           "content": {
             "application/json": {
@@ -104,7 +104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "$ref": "#/components/schemas/ReservationDto"
                 }
               }
             }
@@ -122,7 +122,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/FlightDto"
+                "$ref": "#/components/schemas/CreateFlightDto"
               }
             }
           },
@@ -489,6 +489,45 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PageResponseFlightDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/flights/{id}/available-seats/{cabin-class}": {
+      "get": {
+        "tags": [
+          "Flight"
+        ],
+        "operationId": "getAvailableSeats",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "cabin-class",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailableSeatsDto"
                 }
               }
             }
@@ -1129,23 +1168,23 @@
       },
       "CreateReservationDto": {
         "required": [
-          "clientId",
+          "cabinClass",
           "flightId",
-          "price",
           "seatNumber"
         ],
         "type": "object",
         "properties": {
-          "price": {
-            "type": "number"
-          },
           "seatNumber": {
             "type": "integer",
             "format": "int32"
           },
-          "clientId": {
-            "type": "integer",
-            "format": "int64"
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
           },
           "flightId": {
             "type": "string",
@@ -1220,6 +1259,36 @@
           }
         }
       },
+      "ClientDto": {
+        "required": [
+          "dayOfBirth",
+          "firstname",
+          "lastname"
+        ],
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "lastname": {
+            "maxLength": 2147483647,
+            "minLength": 2,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "dayOfBirth": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
       "CountryDto": {
         "type": "object",
         "properties": {
@@ -1236,6 +1305,93 @@
         }
       },
       "FlightDto": {
+        "required": [
+          "aircraft",
+          "arrivalAirportDto",
+          "arrivalDate",
+          "cabinClassPrices",
+          "departureAirportDto",
+          "departureDate",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "departureAirportDto": {
+            "$ref": "#/components/schemas/AirportDto"
+          },
+          "arrivalAirportDto": {
+            "$ref": "#/components/schemas/AirportDto"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "aircraft": {
+            "$ref": "#/components/schemas/Aircraft"
+          },
+          "cabinClassPrices": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "ReservationDto": {
+        "type": "object",
+        "properties": {
+          "reservationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number"
+          },
+          "seatNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
+          },
+          "cancelled": {
+            "type": "boolean"
+          },
+          "clientDto": {
+            "$ref": "#/components/schemas/ClientDto"
+          },
+          "flightDto": {
+            "$ref": "#/components/schemas/FlightDto"
+          }
+        }
+      },
+      "SeatClassRange": {
+        "type": "object",
+        "properties": {
+          "startSeat": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endSeat": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "CreateFlightDto": {
         "required": [
           "aircraft",
           "arrivalAirportDto",
@@ -1268,19 +1424,6 @@
             "additionalProperties": {
               "type": "number"
             }
-          }
-        }
-      },
-      "SeatClassRange": {
-        "type": "object",
-        "properties": {
-          "startSeat": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "endSeat": {
-            "type": "integer",
-            "format": "int32"
           }
         }
       },
@@ -1420,36 +1563,6 @@
           }
         }
       },
-      "ClientDto": {
-        "required": [
-          "dayOfBirth",
-          "firstname",
-          "lastname"
-        ],
-        "type": "object",
-        "properties": {
-          "firstname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "lastname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "dayOfBirth": {
-            "type": "string",
-            "format": "date"
-          }
-        }
-      },
       "ChangePasswordRequest": {
         "type": "object",
         "properties": {
@@ -1477,6 +1590,14 @@
           },
           "price": {
             "type": "number"
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
           },
           "seatNumber": {
             "type": "integer",
@@ -1528,99 +1649,25 @@
           }
         }
       },
-      "Client": {
-        "required": [
-          "dayOfBirth",
-          "firstname",
-          "lastname"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "firstname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "lastname": {
-            "maxLength": 2147483647,
-            "minLength": 2,
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "roles": {
-            "uniqueItems": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Role"
-            }
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "dayOfBirth": {
-            "type": "string",
-            "format": "date"
-          },
-          "reservations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Reservation"
-            }
-          },
-          "deleted": {
-            "type": "boolean"
-          }
-        }
-      },
-      "Flight": {
-        "required": [
-          "aircraft",
-          "arrivalAirport",
-          "arrivalDate",
-          "cabinClassPrices",
-          "departureAirport",
-          "departureDate",
-          "id"
-        ],
+      "AvailableSeatsDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "departureAirport": {
-            "$ref": "#/components/schemas/Airport"
-          },
-          "arrivalAirport": {
-            "$ref": "#/components/schemas/Airport"
-          },
-          "departureDate": {
+          "cabinClass": {
             "type": "string",
-            "format": "date-time"
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
           },
-          "arrivalDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "aircraft": {
-            "$ref": "#/components/schemas/Aircraft"
-          },
-          "cabinClassPrices": {
+          "availableSeats": {
             "type": "object",
             "additionalProperties": {
-              "type": "number"
+              "type": "boolean"
             }
           }
         }
@@ -1667,23 +1714,14 @@
           "reservations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Reservation"
+              "$ref": "#/components/schemas/ReservationWithoutFlightDto"
             }
           }
         }
       },
-      "Reservation": {
-        "required": [
-          "price",
-          "reservationDate",
-          "seatNumber"
-        ],
+      "ReservationWithoutFlightDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
           "reservationDate": {
             "type": "string",
             "format": "date-time"
@@ -1706,23 +1744,8 @@
           "cancelled": {
             "type": "boolean"
           },
-          "client": {
-            "$ref": "#/components/schemas/Client"
-          },
-          "flight": {
-            "$ref": "#/components/schemas/Flight"
-          }
-        }
-      },
-      "Role": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
+          "clientDto": {
+            "$ref": "#/components/schemas/ClientDto"
           }
         }
       },
@@ -1816,33 +1839,16 @@
             "type": "integer",
             "format": "int32"
           },
-          "cancelled": {
-            "type": "boolean"
-          },
-          "flightDto": {
-            "$ref": "#/components/schemas/FlightDto"
-          }
-        }
-      },
-      "ReservationDto": {
-        "type": "object",
-        "properties": {
-          "reservationDate": {
+          "cabinClass": {
             "type": "string",
-            "format": "date-time"
-          },
-          "price": {
-            "type": "number"
-          },
-          "seatNumber": {
-            "type": "integer",
-            "format": "int32"
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
           },
           "cancelled": {
             "type": "boolean"
-          },
-          "clientDto": {
-            "$ref": "#/components/schemas/ClientDto"
           },
           "flightDto": {
             "$ref": "#/components/schemas/FlightDto"

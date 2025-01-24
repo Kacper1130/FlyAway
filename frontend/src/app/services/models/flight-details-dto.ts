@@ -2,7 +2,7 @@
 /* eslint-disable */
 import { Aircraft } from '../models/aircraft';
 import { AirportDto } from '../models/airport-dto';
-import { Reservation } from '../models/reservation';
+import { ReservationWithoutFlightDto } from '../models/reservation-without-flight-dto';
 export interface FlightDetailsDto {
   aircraft: Aircraft;
   arrivalAirportDto: AirportDto;
@@ -13,5 +13,5 @@ export interface FlightDetailsDto {
   departureAirportDto: AirportDto;
   departureDate: string;
   id: string;
-  reservations?: Array<Reservation>;
+  reservations?: Array<ReservationWithoutFlightDto>;
 }

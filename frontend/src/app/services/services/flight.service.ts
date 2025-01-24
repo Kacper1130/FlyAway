@@ -11,10 +11,13 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { add } from '../fn/flight/add';
 import { Add$Params } from '../fn/flight/add';
+import { AvailableSeatsDto } from '../models/available-seats-dto';
 import { FlightDetailsDto } from '../models/flight-details-dto';
 import { FlightDto } from '../models/flight-dto';
 import { getAllFullFlights } from '../fn/flight/get-all-full-flights';
 import { GetAllFullFlights$Params } from '../fn/flight/get-all-full-flights';
+import { getAvailableSeats } from '../fn/flight/get-available-seats';
+import { GetAvailableSeats$Params } from '../fn/flight/get-available-seats';
 import { getFlightDetails } from '../fn/flight/get-flight-details';
 import { GetFlightDetails$Params } from '../fn/flight/get-flight-details';
 import { getFlights } from '../fn/flight/get-flights';
@@ -76,6 +79,31 @@ export class FlightService extends BaseService {
   getFlights(params?: GetFlights$Params, context?: HttpContext): Observable<PageResponseFlightDto> {
     return this.getFlights$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseFlightDto>): PageResponseFlightDto => r.body)
+    );
+  }
+
+  /** Path part for operation `getAvailableSeats()` */
+  static readonly GetAvailableSeatsPath = '/api/v1/flights/{id}/available-seats/{cabin-class}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAvailableSeats()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAvailableSeats$Response(params: GetAvailableSeats$Params, context?: HttpContext): Observable<StrictHttpResponse<AvailableSeatsDto>> {
+    return getAvailableSeats(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAvailableSeats$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAvailableSeats(params: GetAvailableSeats$Params, context?: HttpContext): Observable<AvailableSeatsDto> {
+    return this.getAvailableSeats$Response(params, context).pipe(
+      map((r: StrictHttpResponse<AvailableSeatsDto>): AvailableSeatsDto => r.body)
     );
   }
 

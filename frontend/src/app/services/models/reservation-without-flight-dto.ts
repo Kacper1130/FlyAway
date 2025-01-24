@@ -1,11 +1,10 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface DisplayReservationDto {
+import { ClientDto } from '../models/client-dto';
+export interface ReservationWithoutFlightDto {
   cabinClass?: 'FIRST' | 'BUSINESS' | 'ECONOMY';
   cancelled?: boolean;
-  clientId?: number;
-  flightId?: string;
-  id?: string;
+  clientDto?: ClientDto;
   price?: number;
   reservationDate?: string;
   seatNumber?: number;

@@ -1,8 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface CreateReservationDto {
-  clientId: number;
+  cabinClass: 'FIRST' | 'BUSINESS' | 'ECONOMY';
   flightId: string;
-  price: number;
   seatNumber: number;
 }

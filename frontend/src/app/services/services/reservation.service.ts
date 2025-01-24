@@ -9,13 +9,14 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { addReservation } from '../fn/reservation/add-reservation';
-import { AddReservation$Params } from '../fn/reservation/add-reservation';
 import { cancelReservation } from '../fn/reservation/cancel-reservation';
 import { CancelReservation$Params } from '../fn/reservation/cancel-reservation';
+import { createReservation } from '../fn/reservation/create-reservation';
+import { CreateReservation$Params } from '../fn/reservation/create-reservation';
 import { DisplayReservationDto } from '../models/display-reservation-dto';
 import { getALl } from '../fn/reservation/get-a-ll';
 import { GetALl$Params } from '../fn/reservation/get-a-ll';
+import { ReservationDto } from '../models/reservation-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ReservationService extends BaseService {
@@ -23,32 +24,28 @@ export class ReservationService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `addReservation()` */
-  static readonly AddReservationPath = '/api/v1/reservations/add';
+  /** Path part for operation `createReservation()` */
+  static readonly CreateReservationPath = '/api/v1/reservations/add';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `addReservation()` instead.
+   * To access only the response body, use `createReservation()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addReservation$Response(params: AddReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-    return addReservation(this.http, this.rootUrl, params, context);
+  createReservation$Response(params: CreateReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDto>> {
+    return createReservation(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `addReservation$Response()` instead.
+   * To access the full response (for headers, for example), `createReservation$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  addReservation(params: AddReservation$Params, context?: HttpContext): Observable<{
-}> {
-    return this.addReservation$Response(params, context).pipe(
-      map((r: StrictHttpResponse<{
-}>): {
-} => r.body)
+  createReservation(params: CreateReservation$Params, context?: HttpContext): Observable<ReservationDto> {
+    return this.createReservation$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
     );
   }
 
