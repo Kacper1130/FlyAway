@@ -69,7 +69,8 @@ public class ReservationService {
         }
 
         var availableSeats = flightService.getAvailableSeats(createReservationDto.flightId(), createReservationDto.cabinClass().toString());
-        if (!availableSeats.availableSeats().contains(createReservationDto.seatNumber())) {
+        if (!availableSeats.availableSeats().containsKey(createReservationDto.seatNumber()) ||
+                !availableSeats.availableSeats().get(createReservationDto.seatNumber())) {
             throw new UnavailableSeatNumberException(createReservationDto.seatNumber());
         }
 

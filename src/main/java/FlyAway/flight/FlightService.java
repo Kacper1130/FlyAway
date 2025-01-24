@@ -135,14 +135,14 @@ public class FlightService {
         CabinClass cabinClassEnum = CabinClass.valueOf(cabinClass);
         var seatRange = flight.getAircraft().getSeatClassRanges().get(cabinClassEnum);
 
-        List<Integer> availableSeats = new ArrayList<>();
+        Map<Integer, Boolean> availableSeats = new HashMap<>();
         for (int i = seatRange.startSeat(); i <= seatRange.endSeat(); i++) {
-            availableSeats.add(i);
+            availableSeats.put(i, true);
         }
 
         flight.getReservations().stream()
-                .filter(reservation -> !reservation.isCancelled() && availableSeats.contains(reservation.getSeatNumber()))
-                .forEach(reservation -> availableSeats.remove(reservation.getSeatNumber()));
+                .filter(reservation -> !reservation.isCancelled() && availableSeats.containsKey(reservation.getSeatNumber()))
+                .forEach(reservation -> availableSeats.put(reservation.getSeatNumber(), false));
 
         return new AvailableSeatsDto(id, cabinClassEnum, availableSeats);
     }
