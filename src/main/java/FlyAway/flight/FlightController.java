@@ -2,6 +2,7 @@ package FlyAway.flight;
 
 import FlyAway.common.PageResponse;
 import FlyAway.flight.dto.AvailableSeatsDto;
+import FlyAway.flight.dto.CreateFlightDto;
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -53,7 +54,7 @@ public class FlightController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<FlightDto> add(@Valid @RequestBody FlightDto createFlightDto) {
+    public ResponseEntity<FlightDto> add(@Valid @RequestBody CreateFlightDto createFlightDto) {
         LOGGER.debug("Adding new flight {} ", createFlightDto);
         FlightDto flight = flightService.addFlight(createFlightDto);
         LOGGER.info("Created new flight {}", flight);

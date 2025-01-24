@@ -1,5 +1,6 @@
 package FlyAway.flight;
 
+import FlyAway.flight.dto.CreateFlightDto;
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
 import FlyAway.reservation.ReservationMapper;
@@ -23,5 +24,9 @@ public interface FlightMapper {
     @Mapping(source = "departureAirport", target = "departureAirportDto")
     @Mapping(source = "arrivalAirport", target = "arrivalAirportDto")
     FlightDetailsDto flightToFlightDetailsDto(Flight flight);
+
+    @Mapping(source = "departureAirportDto", target = "departureAirport")
+    @Mapping(source = "arrivalAirportDto", target = "arrivalAirport")
+    Flight createFlightDtoToFlight(CreateFlightDto createFlightDto);
 
 }

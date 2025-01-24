@@ -6,6 +6,7 @@ import FlyAway.exception.FlightDoesNotExistException;
 import FlyAway.exception.MissingCabinClassPriceException;
 import FlyAway.flight.aircraft.CabinClass;
 import FlyAway.flight.dto.AvailableSeatsDto;
+import FlyAway.flight.dto.CreateFlightDto;
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
 import org.mapstruct.factory.Mappers;
@@ -81,7 +82,7 @@ public class FlightService {
                 ));
     }
 
-    public FlightDto addFlight(FlightDto createFlightDto) {
+    public FlightDto addFlight(CreateFlightDto createFlightDto) {
         LOGGER.debug("Adding new flight");
         if (!createFlightDto.arrivalAirportDto().country().enabled() || !createFlightDto.departureAirportDto().country().enabled()) {
             throw new CountryDoesNotExistException();
@@ -99,7 +100,7 @@ public class FlightService {
                 newCabinClassPrices.put(c, null);
             }
         }
-        var updatedFlightDto = new FlightDto(
+        var updatedFlightDto = new CreateFlightDto(
                 createFlightDto.departureAirportDto(),
                 createFlightDto.arrivalAirportDto(),
                 createFlightDto.departureDate(),
@@ -107,7 +108,7 @@ public class FlightService {
                 createFlightDto.aircraft(),
                 newCabinClassPrices
         );
-        Flight createdFlight = flightRepository.save(flightMapper.flightDtoToFlight(updatedFlightDto));
+        Flight createdFlight = flightRepository.save(flightMapper.createFlightDtoToFlight(updatedFlightDto));
         LOGGER.info("Created flight with id {}", createdFlight.getId());
         return flightMapper.flightToFlightDto(createdFlight);
     }

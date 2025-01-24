@@ -9,11 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.UUID;
 
-public record FlightDto(
-        @NotNull
-        UUID id,
+public record CreateFlightDto(
         @NotNull(message = "departureAirportDto can not be null")
         @Valid
         AirportDto departureAirportDto,

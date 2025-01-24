@@ -30,6 +30,7 @@ import {map} from "rxjs/operators";
 import {FlightDto} from "../../../../services/models/flight-dto";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {Airport} from "../../../../services/models/airport";
+import {CreateFlightDto} from "../../../../services/models/create-flight-dto";
 
 @Component({
   selector: 'app-employee-flights-add',
@@ -219,7 +220,7 @@ export class EmployeeFlightsAddComponent implements OnInit {
         formValue.arrivalTime
       );
 
-      const newFlight: FlightDto = {
+      const newFlight: CreateFlightDto = {
         aircraft: formValue.aircraft,
         arrivalAirportDto: formValue.arrivalAirport,
         arrivalDate: arrivalDateTime,

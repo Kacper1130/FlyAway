@@ -11,4 +11,5 @@ export interface FlightDto {
 };
   departureAirportDto: AirportDto;
   departureDate: string;
+  id: string;
 }
