@@ -8,3 +8,4 @@ public enum CabinClass {
     BUSINESS,
     ECONOMY
 }
+

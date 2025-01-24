@@ -7,4 +7,6 @@ public record SeatClassRange(
         Integer startSeat,
         Integer endSeat
 ) {
+
+
 }

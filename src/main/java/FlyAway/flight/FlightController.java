@@ -1,6 +1,7 @@
 package FlyAway.flight;
 
 import FlyAway.common.PageResponse;
+import FlyAway.flight.dto.AvailableSeatsDto;
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -71,5 +72,13 @@ public class FlightController {
     public ResponseEntity<FlightDetailsDto> getFlightDetails(@PathVariable UUID id) {
         FlightDetailsDto flight = flightService.getFlightDetails(id);
         return ResponseEntity.ok(flight);
+    }
+
+    @GetMapping("/{id}/available-seats/{cabin-class}")
+    public ResponseEntity<AvailableSeatsDto> getAvailableSeats(
+            @PathVariable("id") UUID id,
+            @PathVariable("cabin-class") String cabinClass) {
+        AvailableSeatsDto availableSeats = flightService.getAvailableSeats(id, cabinClass);
+        return ResponseEntity.ok(availableSeats);
     }
 }

@@ -5,6 +5,7 @@ import FlyAway.exception.CountryDoesNotExistException;
 import FlyAway.exception.FlightDoesNotExistException;
 import FlyAway.exception.MissingCabinClassPriceException;
 import FlyAway.flight.aircraft.CabinClass;
+import FlyAway.flight.dto.AvailableSeatsDto;
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
 import org.mapstruct.factory.Mappers;
@@ -126,4 +127,24 @@ public class FlightService {
         LOGGER.info("Retrieved flight {}", flight);
         return flightMapper.flightToFlightDetailsDto(flight);
     }
+
+    public AvailableSeatsDto getAvailableSeats(UUID id, String cabinClass) {
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(FlightDoesNotExistException::new);
+
+        CabinClass cabinClassEnum = CabinClass.valueOf(cabinClass);
+        var seatRange = flight.getAircraft().getSeatClassRanges().get(cabinClassEnum);
+
+        List<Integer> availableSeats = new ArrayList<>();
+        for (int i = seatRange.startSeat(); i <= seatRange.endSeat(); i++) {
+            availableSeats.add(i);
+        }
+
+        flight.getReservations().stream()
+                .filter(reservation -> !reservation.isCancelled() && availableSeats.contains(reservation.getSeatNumber()))
+                .forEach(reservation -> availableSeats.remove(reservation.getSeatNumber()));
+
+        return new AvailableSeatsDto(id, cabinClassEnum, availableSeats);
+    }
+
 }

@@ -6,8 +6,11 @@ import FlyAway.email.EmailService;
 import FlyAway.exception.CabinClassDoesNotExistException;
 import FlyAway.exception.FlightDoesNotExistException;
 import FlyAway.exception.ReservationDoesNotExistException;
+import FlyAway.exception.UnavailableSeatNumberException;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
+import FlyAway.flight.FlightService;
+import FlyAway.flight.aircraft.AircraftService;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
@@ -31,14 +34,18 @@ public class ReservationService {
     private final ClientRepository clientRepository;
     private final FlightRepository flightRepository;
     private final EmailService emailService;
+    private final AircraftService aircraftService;
+    private final FlightService flightService;
     private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationService.class);
 
-    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService) {
+    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService, AircraftService aircraftService, FlightService flightService) {
         this.reservationRepository = reservationRepository;
         this.clientRepository = userRepository;
         this.flightRepository = flightRepository;
         this.emailService = emailService;
+        this.aircraftService = aircraftService;
+        this.flightService = flightService;
     }
 
     public List<DisplayReservationDto> getAll() {
@@ -61,11 +68,16 @@ public class ReservationService {
             throw new CabinClassDoesNotExistException(createReservationDto.cabinClass());
         }
 
+        var availableSeats = flightService.getAvailableSeats(createReservationDto.flightId(), createReservationDto.cabinClass().toString());
+        if (!availableSeats.availableSeats().contains(createReservationDto.seatNumber())) {
+            throw new UnavailableSeatNumberException(createReservationDto.seatNumber());
+        }
+
         Reservation reservation = Reservation.builder()
                 .reservationDate(LocalDateTime.now())
                 .price(flight.getCabinClassPrices().get(createReservationDto.cabinClass()))
                 .seatNumber(createReservationDto.seatNumber())
-                .cabinClass(createReservationDto.cabinClass())
+                .cabinClass(aircraftService.getCabinClassBySeatNumber(flight.getAircraft(), createReservationDto.seatNumber()))
                 .client(client)
                 .flight(flight)
                 .build();

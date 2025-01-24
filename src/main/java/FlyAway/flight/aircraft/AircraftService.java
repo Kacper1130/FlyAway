@@ -1,9 +1,6 @@
 package FlyAway.flight.aircraft;
 
-import FlyAway.exception.AircraftAlreadyExistsException;
-import FlyAway.exception.InvalidSeatRangeException;
-import FlyAway.exception.OverlappingSeatException;
-import FlyAway.exception.TotalSeatsMismatchException;
+import FlyAway.exception.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,6 +73,16 @@ public class AircraftService {
             orderedMap.put(cabinClass, range);
         }
         return orderedMap;
+    }
+
+    public CabinClass getCabinClassBySeatNumber(Aircraft aircraft, Integer seatNumber) {
+        for (Map.Entry<CabinClass, SeatClassRange> entry : aircraft.getSeatClassRanges().entrySet()) {
+            SeatClassRange range = entry.getValue();
+            if (seatNumber >= range.startSeat() && seatNumber <= range.endSeat()) {
+                return entry.getKey();
+            }
+        }
+        throw new SeatNumberDoesNotBelongToAnyCabinClassException(seatNumber);
     }
 
 }

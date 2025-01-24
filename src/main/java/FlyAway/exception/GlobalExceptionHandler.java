@@ -230,4 +230,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
+    @ExceptionHandler(SeatNumberDoesNotBelongToAnyCabinClassException.class)
+    public ResponseEntity<ErrorMessage> handleSeatNumberDoesNotBelongToAnyCabinClassException(SeatNumberDoesNotBelongToAnyCabinClassException exception) {
+        LOGGER.error("Seat number does not belong to any cabin class", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
+
+    @ExceptionHandler(UnavailableSeatNumberException.class)
+    public ResponseEntity<ErrorMessage> handleUnavailableSeatNumberException(UnavailableSeatNumberException exception) {
+        LOGGER.error("Seat number is unavailable", exception);
+        ErrorMessage errorMessage = ErrorMessage.builder()
+                .statusCode(HttpStatus.CONFLICT.value())
+                .message(exception.getMessage())
+                .build();
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
 }
