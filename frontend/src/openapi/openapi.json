@@ -1367,8 +1367,15 @@
               "ECONOMY"
             ]
           },
-          "cancelled": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "CANCELLED",
+              "EXPIRED",
+              "COMPLETED"
+            ]
           },
           "clientDto": {
             "$ref": "#/components/schemas/ClientDto"
@@ -1603,8 +1610,15 @@
             "type": "integer",
             "format": "int32"
           },
-          "cancelled": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "CANCELLED",
+              "EXPIRED",
+              "COMPLETED"
+            ]
           },
           "clientId": {
             "type": "integer",
@@ -1741,8 +1755,15 @@
               "ECONOMY"
             ]
           },
-          "cancelled": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "CANCELLED",
+              "EXPIRED",
+              "COMPLETED"
+            ]
           },
           "clientDto": {
             "$ref": "#/components/schemas/ClientDto"
@@ -1847,8 +1868,15 @@
               "ECONOMY"
             ]
           },
-          "cancelled": {
-            "type": "boolean"
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "CANCELLED",
+              "EXPIRED",
+              "COMPLETED"
+            ]
           },
           "flightDto": {
             "$ref": "#/components/schemas/FlightDto"

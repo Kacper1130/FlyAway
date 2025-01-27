@@ -10,6 +10,7 @@ import FlyAway.exception.UserDoesNotMatchReservationUserException;
 import FlyAway.reservation.Reservation;
 import FlyAway.reservation.ReservationMapper;
 import FlyAway.reservation.ReservationRepository;
+import FlyAway.reservation.ReservationStatus;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.role.RoleRepository;
 import FlyAway.security.SecurityUser;
@@ -154,7 +155,7 @@ public class ClientService {
                     throw new UserDoesNotMatchReservationUserException();
                 } else {
                     Reservation reservation = optionalReservation.get();
-                    reservation.setCancelled(true);
+                    reservation.setStatus(ReservationStatus.CANCELLED);
                     reservationRepository.save(reservation);
                     LOGGER.info("Successfully cancelled reservation with id {}", reservation.getId());
                 }
@@ -184,7 +185,7 @@ public class ClientService {
             List<Reservation> reservations = client.getReservations();
             reservations.stream().forEach(
                     reservation -> {
-                        reservation.setCancelled(true);
+                        reservation.setStatus(ReservationStatus.CANCELLED);
                         reservationRepository.save(reservation);
                         LOGGER.info("Successfully cancelled reservation with id {}", reservation.getId());
                     }

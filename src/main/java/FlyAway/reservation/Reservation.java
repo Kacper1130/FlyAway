@@ -29,7 +29,8 @@ public class Reservation {
     @NotNull
     private Integer seatNumber;
     private CabinClass cabinClass;
-    private boolean cancelled = false;
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
     @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
     @ManyToOne(fetch = FetchType.EAGER)

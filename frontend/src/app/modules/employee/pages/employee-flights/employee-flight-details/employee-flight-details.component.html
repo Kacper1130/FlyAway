@@ -119,7 +119,7 @@
                 <td>{{ reservation.cabinClass }}</td>
                 <td>{{ reservation.seatNumber }}</td>
                 <td>{{ reservation.reservationDate | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
-                <td>{{ reservation.cancelled ? 'Canceled' : 'Active' }}</td>
+                <td>{{ reservation.status }}</td>
               </tr>
               </tbody>
             </table>

@@ -9,6 +9,7 @@ import FlyAway.flight.dto.AvailableSeatsDto;
 import FlyAway.flight.dto.CreateFlightDto;
 import FlyAway.flight.dto.FlightDetailsDto;
 import FlyAway.flight.dto.FlightDto;
+import FlyAway.reservation.ReservationStatus;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,6 +126,7 @@ public class FlightService {
         LOGGER.info("Retrieving details for flight {}", id);
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(FlightDoesNotExistException::new);
+        flight.getReservations().forEach(reservation -> System.out.println(reservation.getStatus()));
         LOGGER.info("Retrieved flight {}", flight);
         return flightMapper.flightToFlightDetailsDto(flight);
     }
@@ -142,7 +144,7 @@ public class FlightService {
         }
 
         flight.getReservations().stream()
-                .filter(reservation -> !reservation.isCancelled() && availableSeats.containsKey(reservation.getSeatNumber()))
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE && availableSeats.containsKey(reservation.getSeatNumber()))
                 .forEach(reservation -> availableSeats.put(reservation.getSeatNumber(), false));
 
         return new AvailableSeatsDto(id, cabinClassEnum, availableSeats);

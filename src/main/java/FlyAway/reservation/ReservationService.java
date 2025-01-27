@@ -79,6 +79,7 @@ public class ReservationService {
                 .price(flight.getCabinClassPrices().get(createReservationDto.cabinClass()))
                 .seatNumber(createReservationDto.seatNumber())
                 .cabinClass(aircraftService.getCabinClassBySeatNumber(flight.getAircraft(), createReservationDto.seatNumber()))
+                .status(ReservationStatus.PENDING)
                 .client(client)
                 .flight(flight)
                 .build();
@@ -110,7 +111,7 @@ public class ReservationService {
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
         if (optionalReservation.isPresent()) {
             Reservation reservation = optionalReservation.get();
-            reservation.setCancelled(true);
+            reservation.setStatus(ReservationStatus.CANCELLED);
             reservationRepository.save(reservation);
             LOGGER.info("Successfully cancelled reservation with id {}", id);
         } else {

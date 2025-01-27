@@ -1,6 +1,7 @@
 package FlyAway.reservation.dto;
 
 import FlyAway.flight.aircraft.CabinClass;
+import FlyAway.reservation.ReservationStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ public record DisplayReservationDto(
         BigDecimal price,
         CabinClass cabinClass,
         Integer seatNumber,
-        boolean cancelled,
+        ReservationStatus status,
         Long clientId,
         UUID flightId
 ) {
