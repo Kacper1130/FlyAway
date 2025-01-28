@@ -144,7 +144,9 @@ public class FlightService {
         }
 
         flight.getReservations().stream()
-                .filter(reservation -> reservation.getStatus() == ReservationStatus.ACTIVE && availableSeats.containsKey(reservation.getSeatNumber()))
+                .filter(reservation -> (reservation.getStatus() == ReservationStatus.ACTIVE
+                        || reservation.getStatus() == ReservationStatus.PENDING)
+                        && availableSeats.containsKey(reservation.getSeatNumber()))
                 .forEach(reservation -> availableSeats.put(reservation.getSeatNumber(), false));
 
         return new AvailableSeatsDto(id, cabinClassEnum, availableSeats);

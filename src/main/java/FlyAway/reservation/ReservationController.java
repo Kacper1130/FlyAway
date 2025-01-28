@@ -3,6 +3,7 @@ package FlyAway.reservation;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationPaymentResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -36,13 +37,13 @@ public class ReservationController {
         return ResponseEntity.ok().body(reservations);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<ReservationDto> createReservation(
+    @PostMapping("/create")
+    public ResponseEntity<ReservationPaymentResponseDto> createReservation(
             @Valid @RequestBody CreateReservationDto createReservationDto,
             Authentication authentication
     ) throws MessagingException {
         LOGGER.debug("Adding new reservation {}", createReservationDto);
-        ReservationDto reservationDto = reservationService.createReservation(createReservationDto, authentication);
+        ReservationPaymentResponseDto reservationDto = reservationService.createReservation(createReservationDto, authentication);
         LOGGER.info("Created new reservation {}", reservationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationDto);
     }

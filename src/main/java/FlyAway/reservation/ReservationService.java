@@ -11,10 +11,13 @@ import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
 import FlyAway.flight.FlightService;
 import FlyAway.flight.aircraft.AircraftService;
+import FlyAway.payment.PaymentService;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationPaymentResponseDto;
 import FlyAway.security.SecurityUser;
+import com.stripe.exception.StripeException;
 import jakarta.mail.MessagingException;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -36,16 +39,18 @@ public class ReservationService {
     private final EmailService emailService;
     private final AircraftService aircraftService;
     private final FlightService flightService;
+    private final PaymentService paymentService;
     private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationService.class);
 
-    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService, AircraftService aircraftService, FlightService flightService) {
+    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService, AircraftService aircraftService, FlightService flightService, PaymentService paymentService) {
         this.reservationRepository = reservationRepository;
         this.clientRepository = userRepository;
         this.flightRepository = flightRepository;
         this.emailService = emailService;
         this.aircraftService = aircraftService;
         this.flightService = flightService;
+        this.paymentService = paymentService;
     }
 
     public List<DisplayReservationDto> getAll() {
@@ -57,7 +62,7 @@ public class ReservationService {
         return reservations;
     }
 
-    public ReservationDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) throws MessagingException {
+    public ReservationPaymentResponseDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) throws MessagingException {
         LOGGER.debug("Creating new reservation");
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = (Client) securityUser.getUser();
@@ -83,13 +88,39 @@ public class ReservationService {
                 .client(client)
                 .flight(flight)
                 .build();
+
         reservationRepository.save(reservation);
-        emailService.sendReservationConfirmationEmail(client.getEmail(), client.getFirstname(), client.getLastname(), flight, createReservationDto.cabinClass().toString(), createReservationDto.seatNumber());
-        LOGGER.info("Created new reservation for client {} and flight {}",
+
+        LOGGER.info("Created new pending reservation for client {} and flight {}",
                 client.getId(),
                 createReservationDto.flightId()
         );
-        return reservationMapper.reservationToReservationDto(reservation);
+
+//        String paymentUrl = paymentService.createSession(reservation);
+
+        try {
+            String paymentUrl = paymentService.createSession(reservation);
+
+            // Aktualizuj rezerwację o ID sesji Stripe
+//            reservation.setStripeSessionId(paymentUrl);
+//            reservationRepository.save(reservation);
+//            LOGGER.info("Created reservation {} with Stripe session", reservation.getId());
+            return new ReservationPaymentResponseDto(
+                    reservationMapper.reservationToReservationDto(reservation),
+                    paymentUrl
+            );
+        } catch (StripeException e) {
+            reservation.setStatus(ReservationStatus.FAILED);
+            reservationRepository.save(reservation);
+
+            LOGGER.error("Stripe error for reservation {}: {}", reservation.getId(), e.getMessage());
+//            throw new PaymentProcessingException("Błąd podczas inicjowania płatności");
+            throw new RuntimeException("Błąd podczas inicjowania płatności");
+        }
+
+        //move to webhook emailService.sendReservationConfirmationEmail(client.getEmail(), client.getFirstname(), client.getLastname(), flight, createReservationDto.cabinClass().toString(), createReservationDto.seatNumber());
+
+//        return reservationMapper.reservationToReservationDto(reservation);
     }
 
     public ReservationDto getReservation(UUID id) {
