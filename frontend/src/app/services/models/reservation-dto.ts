@@ -9,5 +9,5 @@ export interface ReservationDto {
   price?: number;
   reservationDate?: string;
   seatNumber?: number;
-  status?: 'PENDING' | 'ACTIVE' | 'CANCELLED' | 'EXPIRED' | 'COMPLETED';
+  status?: 'PENDING' | 'ACTIVE' | 'CANCELLED' | 'EXPIRED' | 'COMPLETED' | 'FAILED';
 }

@@ -1,0 +1,28 @@
+<app-new-navbar></app-new-navbar>
+<div class="payment-status-wrapper">
+  <div class="payment-status-container">
+    <div class="payment-card" *ngIf="status" [@fadeSlideIn]>
+      <div class="status-icon" [ngClass]="status">
+        <i class="material-icons">{{ statusMessages[status].icon }}</i>
+      </div>
+
+      <div class="status-content">
+        <h2>{{ statusMessages[status].title }}</h2>
+        <p>{{ statusMessages[status].message }}</p>
+      </div>
+
+      <div class="action-buttons">
+        <a routerLink="/" class="home-btn">
+          <i class="material-icons">home</i>
+          Back to Home
+        </a>
+        <ng-container *ngIf="status === 'cancel'">
+          <a (click)="retryPayment()" class="retry-btn">
+            <i class="material-icons">refresh</i>
+            Try Again
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

@@ -25,6 +25,7 @@ import {
 import {
   EmployeeFlightsAddComponent
 } from "./modules/employee/pages/employee-flights-add/employee-flights-add.component";
+import {PaymentStatusComponent} from "./components/payment-status/payment-status.component";
 
 export const routes: Routes = [
   {
@@ -57,6 +58,16 @@ export const routes: Routes = [
     path: 'reservations',
     component: ReservationsComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'payment-success',
+    component: PaymentStatusComponent,
+    data: { status: 'success' }
+  },
+  {
+    path: 'payment-cancel',
+    component: PaymentStatusComponent,
+    data: { status: 'cancel' }
   },
   {
     path: 'admin',

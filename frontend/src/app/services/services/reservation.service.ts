@@ -1,22 +1,19 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { cancelReservation } from '../fn/reservation/cancel-reservation';
-import { CancelReservation$Params } from '../fn/reservation/cancel-reservation';
-import { createReservation } from '../fn/reservation/create-reservation';
-import { CreateReservation$Params } from '../fn/reservation/create-reservation';
-import { DisplayReservationDto } from '../models/display-reservation-dto';
-import { getALl } from '../fn/reservation/get-a-ll';
-import { GetALl$Params } from '../fn/reservation/get-a-ll';
-import { ReservationDto } from '../models/reservation-dto';
+import {cancelReservation, CancelReservation$Params} from '../fn/reservation/cancel-reservation';
+import {createReservation, CreateReservation$Params} from '../fn/reservation/create-reservation';
+import {DisplayReservationDto} from '../models/display-reservation-dto';
+import {getALl, GetALl$Params} from '../fn/reservation/get-a-ll';
+import {ReservationPaymentResponseDto} from '../models/reservation-payment-response-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ReservationService extends BaseService {
@@ -25,7 +22,7 @@ export class ReservationService extends BaseService {
   }
 
   /** Path part for operation `createReservation()` */
-  static readonly CreateReservationPath = '/api/v1/reservations/add';
+  static readonly CreateReservationPath = '/api/v1/reservations/create';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -33,7 +30,7 @@ export class ReservationService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createReservation$Response(params: CreateReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDto>> {
+  createReservation$Response(params: CreateReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationPaymentResponseDto>> {
     return createReservation(this.http, this.rootUrl, params, context);
   }
 
@@ -43,9 +40,9 @@ export class ReservationService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createReservation(params: CreateReservation$Params, context?: HttpContext): Observable<ReservationDto> {
+  createReservation(params: CreateReservation$Params, context?: HttpContext): Observable<ReservationPaymentResponseDto> {
     return this.createReservation$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
+      map((r: StrictHttpResponse<ReservationPaymentResponseDto>): ReservationPaymentResponseDto => r.body)
     );
   }
 

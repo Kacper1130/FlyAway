@@ -82,7 +82,7 @@
         }
       }
     },
-    "/api/v1/reservations/add": {
+    "/api/v1/reservations/create": {
       "post": {
         "tags": [
           "Reservation"
@@ -104,7 +104,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReservationDto"
+                  "$ref": "#/components/schemas/ReservationPaymentResponseDto"
                 }
               }
             }
@@ -1374,7 +1374,8 @@
               "ACTIVE",
               "CANCELLED",
               "EXPIRED",
-              "COMPLETED"
+              "COMPLETED",
+              "FAILED"
             ]
           },
           "clientDto": {
@@ -1382,6 +1383,17 @@
           },
           "flightDto": {
             "$ref": "#/components/schemas/FlightDto"
+          }
+        }
+      },
+      "ReservationPaymentResponseDto": {
+        "type": "object",
+        "properties": {
+          "reservation": {
+            "$ref": "#/components/schemas/ReservationDto"
+          },
+          "paymentUrl": {
+            "type": "string"
           }
         }
       },
@@ -1617,7 +1629,8 @@
               "ACTIVE",
               "CANCELLED",
               "EXPIRED",
-              "COMPLETED"
+              "COMPLETED",
+              "FAILED"
             ]
           },
           "clientId": {
@@ -1762,7 +1775,8 @@
               "ACTIVE",
               "CANCELLED",
               "EXPIRED",
-              "COMPLETED"
+              "COMPLETED",
+              "FAILED"
             ]
           },
           "clientDto": {
@@ -1875,7 +1889,8 @@
               "ACTIVE",
               "CANCELLED",
               "EXPIRED",
-              "COMPLETED"
+              "COMPLETED",
+              "FAILED"
             ]
           },
           "flightDto": {

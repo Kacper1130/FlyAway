@@ -24,6 +24,7 @@ export { FlightDto } from './models/flight-dto';
 export { PageResponseFlightDto } from './models/page-response-flight-dto';
 export { RegistrationRequest } from './models/registration-request';
 export { ReservationDto } from './models/reservation-dto';
+export { ReservationPaymentResponseDto } from './models/reservation-payment-response-dto';
 export { ReservationWithoutFlightDto } from './models/reservation-without-flight-dto';
 export { ReservationWithoutUserDto } from './models/reservation-without-user-dto';
 export { SeatClassRange } from './models/seat-class-range';

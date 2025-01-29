@@ -3,7 +3,6 @@ import {FlightDto} from "../../../../services/models/flight-dto";
 import {DatePipe, NgClass, NgIf} from "@angular/common";
 import {SeatSelectionComponent} from "../seat-selection/seat-selection.component";
 import {ReservationService} from "../../../../services/services/reservation.service";
-import {CreateReservation$Params} from "../../../../services/fn/reservation/create-reservation";
 import {CreateReservationDto} from "../../../../services/models/create-reservation-dto";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
@@ -56,14 +55,15 @@ export class AvailableFlightComponent {
       seatNumber: parseInt(seatLabel),
     };
     this.reservationService.createReservation({ body: params }).subscribe({
-      next: (response) => {
-        const message = `Reservation created successfully`
-        this._snackBar.open(message, 'close', {
-          horizontalPosition: this.horizontalPosition,
-          verticalPosition: this.verticalPosition,
-          panelClass: ['snackbar-success'],
-          duration: 5000
-        });
+      next: (response ) => {
+        window.location.href = response.paymentUrl!;
+        // const message = `Reservation created successfully`
+        // this._snackBar.open(message, 'close', {
+        //   horizontalPosition: this.horizontalPosition,
+        //   verticalPosition: this.verticalPosition,
+        //   panelClass: ['snackbar-success'],
+        //   duration: 5000
+        // });
         this.selectedClass = null;
       },
 
