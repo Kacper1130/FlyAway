@@ -62,7 +62,7 @@ public class ReservationService {
         return reservations;
     }
 
-    public ReservationPaymentResponseDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) throws MessagingException {
+    public ReservationPaymentResponseDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) {
         LOGGER.debug("Creating new reservation");
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = (Client) securityUser.getUser();
@@ -96,15 +96,8 @@ public class ReservationService {
                 createReservationDto.flightId()
         );
 
-//        String paymentUrl = paymentService.createSession(reservation);
-
         try {
             String paymentUrl = paymentService.createSession(reservation);
-
-            // Aktualizuj rezerwację o ID sesji Stripe
-//            reservation.setStripeSessionId(paymentUrl);
-//            reservationRepository.save(reservation);
-//            LOGGER.info("Created reservation {} with Stripe session", reservation.getId());
             return new ReservationPaymentResponseDto(
                     reservationMapper.reservationToReservationDto(reservation),
                     paymentUrl
@@ -112,15 +105,9 @@ public class ReservationService {
         } catch (StripeException e) {
             reservation.setStatus(ReservationStatus.FAILED);
             reservationRepository.save(reservation);
-
             LOGGER.error("Stripe error for reservation {}: {}", reservation.getId(), e.getMessage());
-//            throw new PaymentProcessingException("Błąd podczas inicjowania płatności");
             throw new RuntimeException("Błąd podczas inicjowania płatności");
         }
-
-        //move to webhook emailService.sendReservationConfirmationEmail(client.getEmail(), client.getFirstname(), client.getLastname(), flight, createReservationDto.cabinClass().toString(), createReservationDto.seatNumber());
-
-//        return reservationMapper.reservationToReservationDto(reservation);
     }
 
     public ReservationDto getReservation(UUID id) {
@@ -152,4 +139,27 @@ public class ReservationService {
     }
 
 
+    public void handlePaymentCompleted(String reservationId) throws MessagingException {
+        Reservation reservation = reservationRepository.findById(UUID.fromString(reservationId))
+                .orElseThrow(ReservationDoesNotExistException::new);
+        reservation.setStatus(ReservationStatus.ACTIVE);
+        reservationRepository.save(reservation);
+        LOGGER.info("Reservation {} status: ACTIVE", reservation.getId());
+        emailService.sendReservationConfirmationEmail(
+                reservation.getClient().getEmail(),
+                reservation.getClient().getFirstname(),
+                reservation.getClient().getLastname(),
+                reservation.getFlight(),
+                reservation.getCabinClass().toString(),
+                reservation.getSeatNumber()
+        );
+    }
+
+    public void handlePaymentExpired(String reservationId) {
+        Reservation reservation = reservationRepository.findById(UUID.fromString(reservationId))
+                .orElseThrow(ReservationDoesNotExistException::new);
+        reservation.setStatus(ReservationStatus.EXPIRED);
+        reservationRepository.save(reservation);
+        LOGGER.info("Reservation {} status: EXPIRED", reservation.getId());
+    }
 }

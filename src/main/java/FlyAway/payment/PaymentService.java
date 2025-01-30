@@ -9,6 +9,8 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+
 @Service
 public class PaymentService {
 
@@ -45,6 +47,9 @@ public class PaymentService {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
+                .setExpiresAt(Instant.now().getEpochSecond() + 30*60)
+//                .setClientReferenceId(reservation.getId().toString())
+                .putMetadata("reservation_id", reservation.getId().toString())
                 .setSuccessUrl(successUrl)
                 .setCancelUrl(cancelUrl)
                 .addLineItem(lineItem)
