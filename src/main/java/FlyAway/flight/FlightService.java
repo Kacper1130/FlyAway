@@ -43,7 +43,7 @@ public class FlightService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").ascending());
         Page<Flight> flights = flightRepository.findAll(pageable);
         List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
-        LOGGER.info("Retrieved {} flights from repository", flightsResponse);
+        LOGGER.info("Retrieved {} flights from repository", flightsResponse.size());
         return new PageResponse<>(
                 flightsResponse,
                 flights.getNumber(),
@@ -62,7 +62,7 @@ public class FlightService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").ascending());
         Page<Flight> flights = flightRepository.findAll(spec, pageable);
         List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
-        LOGGER.info("Retrieved {} filtered flights from repository", flightsResponse);
+        LOGGER.info("Retrieved {} filtered flights from repository", flightsResponse.size());
         return new PageResponse<>(
                 flightsResponse,
                 flights.getNumber(),
