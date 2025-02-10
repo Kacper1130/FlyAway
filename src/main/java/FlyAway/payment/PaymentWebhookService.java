@@ -55,28 +55,23 @@ public class PaymentWebhookService {
         StripeObject stripeObject = optionalObject.get();
         String reservationId = null;
 
-        if ("checkout.session.completed".equals(eventType)) {
-            if (stripeObject instanceof Session session) {
-                reservationId = session.getMetadata().get("reservation_id");
+        if (stripeObject instanceof Session session) {
+            if (session.getMetadata() == null || !session.getMetadata().containsKey("reservation_id")) {
+                LOGGER.warn("{} event received with missing reservation_id. Session ID: {}", eventType, session.getId());
+                return;
+            }
+
+            reservationId = session.getMetadata().get("reservation_id");
+
+            if ("checkout.session.completed".equals(eventType)) {
                 LOGGER.info("Payment successful for reservation ID: {}", reservationId);
                 reservationService.handlePaymentCompleted(reservationId);
-            } else {
-                LOGGER.error("Expected a Session object for checkout.session.completed event, but got {}", stripeObject.getClass().getSimpleName());
-            }
-        } else if ("payment_intent.expired".equals(eventType)) {
-            if (stripeObject instanceof PaymentIntent paymentIntent) {
-                reservationId = paymentIntent.getMetadata().get("reservation_id");
-                LOGGER.info("Payment expired for reservation ID: {}", reservationId);
+            } else if ("checkout.session.expired".equals(eventType)) {
+                LOGGER.info("Payment session expired for reservation ID: {}", reservationId);
                 reservationService.handlePaymentExpired(reservationId);
-            } else {
-                LOGGER.error("Expected a PaymentIntent object for payment_intent.expired event, but got {}", stripeObject.getClass().getSimpleName());
             }
         } else {
-            LOGGER.warn("Received unsupported event type: {}", eventType);
-        }
-
-        if (reservationId == null) {
-            LOGGER.warn("Received {} event with missing reservation_id", eventType);
+            LOGGER.error("Unexpected object type for event {}: {}", eventType, stripeObject.getClass().getSimpleName());
         }
     }
 }
