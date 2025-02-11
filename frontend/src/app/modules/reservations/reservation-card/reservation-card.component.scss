@@ -87,8 +87,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  min-height: 120px;
+  gap: 24px;
+  min-height: 140px;
 }
 
 .airport-info {
@@ -98,31 +98,43 @@
   align-items: center;
   text-align: center;
   gap: 12px;
+}
 
-  .airport-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-  }
+.airport-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
 
-  .code {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #e5e7eb;
-    letter-spacing: 0.025em;
-  }
+.code {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #e5e7eb;
+  letter-spacing: 0.025em;
+}
 
-  .city {
-    font-size: 0.875rem;
-    color: #9ca3af;
-  }
+.city {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
 
-  .time {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #60a5fa;
-  }
+.datetime {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.date {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.time {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #60a5fa;
 }
 
 .flight-duration {
@@ -132,44 +144,46 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   padding: 0 24px;
-
-  .duration-text {
-    font-size: 0.875rem;
-    color: #9ca3af;
-    margin-bottom: 12px;
-  }
-
-  .flight-path {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 8px;
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      background: #60a5fa;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .dashed-line {
-      flex: 1;
-      height: 2px;
-      background-image: linear-gradient(to right, #4b5563 50%, transparent 50%);
-      background-size: 8px 1px;
-      background-repeat: repeat-x;
-    }
-
-    .fa-plane {
-      color: #60a5fa;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-  }
 }
+
+.duration-text {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
+
+.flight-path {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: #60a5fa;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dashed-line {
+  flex: 1;
+  height: 2px;
+  background-image: linear-gradient(to right, #4b5563 50%, transparent 50%);
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+}
+
+.fa-plane {
+  color: #60a5fa;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
 
 .bottom-section {
   display: flex;
