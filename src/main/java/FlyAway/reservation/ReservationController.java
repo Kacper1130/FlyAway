@@ -2,6 +2,7 @@ package FlyAway.reservation;
 
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.DisplayReservationDto;
+import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.reservation.dto.ReservationPaymentResponseDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -27,8 +28,14 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<DisplayReservationDto>> getALl() {
+    @GetMapping("")
+    public ResponseEntity<List<ReservationDto>> getReservations(Authentication authentication) {
+        List<ReservationDto> reservations = reservationService.getReservations(authentication);
+        return ResponseEntity.ok(reservations);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<DisplayReservationDto>> getAllReservations() {
         LOGGER.debug("Retrieving all reservations");
         List<DisplayReservationDto> reservations = reservationService.getAll();
         LOGGER.info("Retrieved {} reservations", reservations.size());
@@ -52,6 +59,7 @@ public class ReservationController {
         reservationService.cancelReservation(id);
         LOGGER.info("Successfully cancelled reservation");
         return ResponseEntity.ok("Cancelled reservation");
-
     }
+
+
 }

@@ -3,10 +3,7 @@ package FlyAway.reservation;
 import FlyAway.client.Client;
 import FlyAway.client.ClientRepository;
 import FlyAway.email.EmailService;
-import FlyAway.exception.CabinClassDoesNotExistException;
-import FlyAway.exception.FlightDoesNotExistException;
-import FlyAway.exception.ReservationDoesNotExistException;
-import FlyAway.exception.UnavailableSeatNumberException;
+import FlyAway.exception.*;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
 import FlyAway.flight.FlightService;
@@ -106,7 +103,7 @@ public class ReservationService {
             reservation.setStatus(ReservationStatus.FAILED);
             reservationRepository.save(reservation);
             LOGGER.error("Stripe error for reservation {}: {}", reservation.getId(), e.getMessage());
-            throw new RuntimeException("Błąd podczas inicjowania płatności");
+            throw new RuntimeException("Payment error");
         }
     }
 
@@ -161,5 +158,18 @@ public class ReservationService {
         reservation.setStatus(ReservationStatus.EXPIRED);
         reservationRepository.save(reservation);
         LOGGER.info("Reservation {} status: EXPIRED", reservation.getId());
+    }
+
+    public List<ReservationDto> getReservations(Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Client client = clientRepository.findByIdWithReservations(securityUser.getUser().getId())
+                .orElseThrow(UserDoesNotExistException::new);
+        var reservations = client
+                .getReservations()
+                .stream()
+                .map(reservationMapper::reservationToReservationDto)
+                .toList();
+        LOGGER.info("Retrieved {} reservation of user {}", reservations.size(), client.getEmail());
+        return reservations;
     }
 }

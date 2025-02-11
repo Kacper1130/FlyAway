@@ -7,9 +7,11 @@ import FlyAway.reservation.ReservationStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 public record ReservationDto(
+        UUID id,
         LocalDateTime reservationDate,
         BigDecimal price,
         Integer seatNumber,

@@ -22,7 +22,7 @@ public class Client extends User {
     @NotNull
     @Past(message = "Date of brith should be a past date")
     private LocalDate dayOfBirth;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
     private List<Reservation> reservations;
     //@Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted;
