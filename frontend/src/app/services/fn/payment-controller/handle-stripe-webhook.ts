@@ -6,14 +6,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { DisplayReservationDto } from '../../models/display-reservation-dto';
 
-export interface GetALl$Params {
+export interface HandleStripeWebhook$Params {
+  'Stripe-Signature': string;
+      body: string
 }
 
-export function getALl(http: HttpClient, rootUrl: string, params?: GetALl$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DisplayReservationDto>>> {
-  const rb = new RequestBuilder(rootUrl, getALl.PATH, 'get');
+export function handleStripeWebhook(http: HttpClient, rootUrl: string, params: HandleStripeWebhook$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, handleStripeWebhook.PATH, 'post');
   if (params) {
+    rb.header('Stripe-Signature', params['Stripe-Signature'], {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -21,9 +24,9 @@ export function getALl(http: HttpClient, rootUrl: string, params?: GetALl$Params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<DisplayReservationDto>>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }
 
-getALl.PATH = '/api/v1/reservations';
+handleStripeWebhook.PATH = '/api/v1/payment/webhook';

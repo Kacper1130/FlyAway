@@ -1,0 +1,249 @@
+.reservation-card {
+  background: #1a1d24;
+  border-radius: 16px;
+  margin: 16px auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  max-width: 1200px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.status-strip {
+  height: 4px;
+  width: 100%;
+
+  &.active { background: linear-gradient(90deg, #00d934, #00ff40); }
+  &.completed { background: linear-gradient(90deg, #00ad2d, #00d934); }
+  &.pending { background: linear-gradient(90deg, #d97706, #fbbf24); }
+  &.cancelled, &.expired, &.failed { background: linear-gradient(90deg, #dc2626, #ef4444); }
+}
+
+.card-content {
+  padding: 24px;
+}
+
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.reservation-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+  }
+
+  .reservation-id {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #e5e7eb;
+    letter-spacing: 0.025em;
+  }
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &.active {
+    background: rgba(0, 217, 52, 0.1);
+    color: #00d934;
+  }
+  &.completed {
+    background: rgba(0, 173, 45, 0.1);
+    color: #00ad2d;
+  }
+  &.pending {
+    background: rgba(217, 119, 6, 0.1);
+    color: #fbbf24;
+  }
+  &.cancelled, &.expired, &.failed {
+    background: rgba(220, 38, 38, 0.1);
+    color: #ef4444;
+  }
+}
+
+.flight-info {
+  background: #242936;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  min-height: 120px;
+}
+
+.airport-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+
+  .airport-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .code {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #e5e7eb;
+    letter-spacing: 0.025em;
+  }
+
+  .city {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  .time {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #60a5fa;
+  }
+}
+
+.flight-duration {
+  flex: 1;
+  max-width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+
+  .duration-text {
+    font-size: 0.875rem;
+    color: #9ca3af;
+    margin-bottom: 12px;
+  }
+
+  .flight-path {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 8px;
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #60a5fa;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dashed-line {
+      flex: 1;
+      height: 2px;
+      background-image: linear-gradient(to right, #4b5563 50%, transparent 50%);
+      background-size: 8px 1px;
+      background-repeat: repeat-x;
+    }
+
+    .fa-plane {
+      color: #60a5fa;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.bottom-section {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cabin-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+  }
+}
+
+.cabin-class {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &.economy {
+    background: rgba(5, 150, 105, 0.1);
+    color: #34d399;
+  }
+
+  &.business {
+    background: rgba(37, 99, 235, 0.1);
+    color: #297dff;
+  }
+
+  &.first {
+    background: rgba(220, 38, 38, 0.1);
+    color: #f87171;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-content {
+    padding: 16px;
+  }
+
+  .flight-info {
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .airport-info {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+
+    .airport-details {
+      align-items: flex-start;
+    }
+  }
+
+  .flight-duration {
+    width: 100%;
+    max-width: none;
+    padding: 16px 0;
+    border-top: 1px solid rgba(156, 163, 175, 0.1);
+    border-bottom: 1px solid rgba(156, 163, 175, 0.1);
+
+    .flight-path {
+      max-width: 200px;
+      margin: 0 auto;
+    }
+  }
+}

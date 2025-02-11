@@ -6,6 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { AirportService } from './services/airport.service';
 import { ReservationService } from './services/reservation.service';
+import { PaymentControllerService } from './services/payment-controller.service';
 import { FlightService } from './services/flight.service';
 import { EmployeeService } from './services/employee.service';
 import { ClientService } from './services/client.service';
@@ -24,6 +25,7 @@ import { UserService } from './services/user.service';
   providers: [
     AirportService,
     ReservationService,
+    PaymentControllerService,
     FlightService,
     EmployeeService,
     ClientService,

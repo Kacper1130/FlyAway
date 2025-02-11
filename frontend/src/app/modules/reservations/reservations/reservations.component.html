@@ -1,2 +1,31 @@
 <app-new-navbar></app-new-navbar>
-<h1>Reservations</h1>
+<div class="reservations-container">
+  <div class="list-header">
+    <h1>My Reservations</h1>
+<!--    <button *ngIf="showDetailView"-->
+<!--            class="back-button"-->
+<!--            (click)="onBackToList()">-->
+<!--      ← Back to List-->
+<!--    </button>-->
+  </div>
+
+  <div class="content-area">
+    <div class="reservations-grid" *ngIf="!showDetailView">
+      <app-reservation-card
+        *ngFor="let reservation of reservations"
+        [reservation]="reservation"
+        (cardClick)="onCardClick($event)">
+      </app-reservation-card>
+
+      <div *ngIf="reservations.length === 0" class="empty-state">
+        <p>No reservations found</p>
+      </div>
+    </div>
+
+<!--    <div class="detail-view" *ngIf="showDetailView && selectedReservation">-->
+<!--      <app-reservation-details-->
+<!--        [reservation]="selectedReservation">-->
+<!--      </app-reservation-details>-->
+<!--    </div>-->
+  </div>
+</div>

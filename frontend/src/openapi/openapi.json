@@ -112,6 +112,46 @@
         }
       }
     },
+    "/api/v1/payment/webhook": {
+      "post": {
+        "tags": [
+          "payment-controller"
+        ],
+        "operationId": "handleStripeWebhook",
+        "parameters": [
+          {
+            "name": "Stripe-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/flights/add": {
       "post": {
         "tags": [
@@ -436,7 +476,30 @@
         "tags": [
           "Reservation"
         ],
-        "operationId": "getALl",
+        "operationId": "getReservations",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReservationDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reservations/all": {
+      "get": {
+        "tags": [
+          "Reservation"
+        ],
+        "operationId": "getAllReservations",
         "responses": {
           "200": {
             "description": "OK",
@@ -1348,6 +1411,10 @@
       "ReservationDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "reservationDate": {
             "type": "string",
             "format": "date-time"

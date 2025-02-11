@@ -1,5 +1,6 @@
 export { AirportService } from './services/airport.service';
 export { ReservationService } from './services/reservation.service';
+export { PaymentControllerService } from './services/payment-controller.service';
 export { FlightService } from './services/flight.service';
 export { EmployeeService } from './services/employee.service';
 export { ClientService } from './services/client.service';

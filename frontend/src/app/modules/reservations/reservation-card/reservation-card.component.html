@@ -1,0 +1,57 @@
+<div class="reservation-card" (click)="onCardClick()">
+  <!-- Status Strip -->
+  <div class="status-strip" [ngClass]="reservation.status!.toLowerCase()"></div>
+
+  <div class="card-content">
+    <!-- Top Section -->
+    <div class="top-section">
+      <div class="reservation-details">
+        <span class="label">Reservation</span>
+        <span class="reservation-id">#{{reservation.id!}}</span>
+      </div>
+      <div class="status-badge" [ngClass]="reservation.status!.toLowerCase()">
+        {{reservation.status}}
+      </div>
+    </div>
+
+    <!-- Flight Information -->
+    <div class="flight-info">
+      <div class="airport-info departure">
+        <div class="airport-details">
+          <span class="code">{{reservation.flightDto!.departureAirportDto.IATACode}}</span>
+          <span class="city">{{reservation.flightDto!.departureAirportDto.city}}</span>
+        </div>
+        <div class="time">{{reservation.flightDto!.departureDate | date:'HH:mm'}}</div>
+      </div>
+
+      <div class="flight-duration">
+        <div class="duration-text">{{duration}}</div>
+        <div class="flight-path">
+          <div class="dot"></div>
+          <div class="dashed-line"></div>
+          <i class="fa-solid fa-plane"></i>
+          <div class="dashed-line"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+
+      <div class="airport-info arrival">
+        <div class="airport-details">
+          <span class="code">{{reservation.flightDto!.arrivalAirportDto.IATACode}}</span>
+          <span class="city">{{reservation.flightDto!.arrivalAirportDto.city}}</span>
+        </div>
+        <div class="time">{{reservation.flightDto!.arrivalDate | date:'HH:mm'}}</div>
+      </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+      <div class="cabin-info">
+        <span class="label">Class</span>
+        <div class="cabin-class" [ngClass]="reservation.cabinClass!.toLowerCase()">
+          {{reservation.cabinClass}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

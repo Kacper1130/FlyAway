@@ -6,6 +6,7 @@ export interface ReservationDto {
   cabinClass?: 'FIRST' | 'BUSINESS' | 'ECONOMY';
   clientDto?: ClientDto;
   flightDto?: FlightDto;
+  id?: string;
   price?: number;
   reservationDate?: string;
   seatNumber?: number;
