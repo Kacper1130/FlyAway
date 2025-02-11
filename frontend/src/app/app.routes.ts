@@ -26,6 +26,7 @@ import {
   EmployeeFlightsAddComponent
 } from "./modules/employee/pages/employee-flights-add/employee-flights-add.component";
 import {PaymentStatusComponent} from "./components/payment-status/payment-status.component";
+import {ReservationDetailsComponent} from "./modules/reservations/reservation-details/reservation-details.component";
 
 export const routes: Routes = [
   {
@@ -57,6 +58,11 @@ export const routes: Routes = [
   {
     path: 'reservations',
     component: ReservationsComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'reservations/:id',
+    component: ReservationDetailsComponent,
     canActivate: [authGuard]
   },
   {

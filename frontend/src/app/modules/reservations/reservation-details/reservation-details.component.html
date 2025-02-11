@@ -1,0 +1,70 @@
+<app-new-navbar></app-new-navbar>
+<div class="detail-container">
+  <div class="detail-header">
+    <h2>Flight Reservation Details</h2>
+    <div class="reservation-info">
+      <span class="reservation-id">Reservation #{{reservation?.id!.slice(-8)}}</span>
+      <span class="status-badge" [ngClass]="reservation?.status!.toLowerCase()">
+        {{reservation?.status}}
+      </span>
+    </div>
+  </div>
+
+  <div class="flight-section">
+    <div class="route-info">
+      <div class="airport departure">
+        <h3>Departure</h3>
+        <div class="time">{{reservation?.flightDto!.departureDate | date:'HH:mm'}}</div>
+        <div class="date">{{reservation?.flightDto!.departureDate | date:'MMM d, y'}}</div>
+        <div class="code">{{reservation?.flightDto!.departureAirportDto.IATACode}}</div>
+        <div class="city">{{reservation?.flightDto!.departureAirportDto.city}}</div>
+      </div>
+
+      <div class="flight-duration">
+        <div class="duration-line">
+          <div class="line"></div>
+          <i class="plane-icon">✈</i>
+        </div>
+        <div class="duration-text">{{duration}}</div>
+      </div>
+
+      <div class="airport arrival">
+        <h3>Arrival</h3>
+        <div class="time">{{reservation?.flightDto!.arrivalDate | date:'HH:mm'}}</div>
+        <div class="date">{{reservation?.flightDto!.arrivalDate | date:'MMM d, y'}}</div>
+        <div class="code">{{reservation?.flightDto!.arrivalAirportDto.IATACode}}</div>
+        <div class="city">{{reservation?.flightDto!.arrivalAirportDto.city}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-section">
+    <div class="detail-group">
+      <h3>Booking Details</h3>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="label">Cabin Class</span>
+          <span class="cabin-class" [ngClass]="reservation?.cabinClass!.toLowerCase()">
+            {{reservation?.cabinClass}}
+          </span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Seat Number</span>
+          <span class="value">{{reservation?.seatNumber}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Price</span>
+          <span class="value">{{reservation?.price | currency}}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Aircraft</span>
+          <span class="value">{{reservation?.flightDto!.aircraft.model}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="booking-date">
+    Booked on: {{reservation?.reservationDate | date:'medium'}}
+  </div>
+</div>

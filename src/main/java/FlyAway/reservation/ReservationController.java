@@ -34,6 +34,12 @@ public class ReservationController {
         return ResponseEntity.ok(reservations);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservationDto> getReservationDetails(@PathVariable UUID id, Authentication authentication) {
+        ReservationDto reservation = reservationService.getReservationDetails(id, authentication);
+        return ResponseEntity.ok(reservation);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<DisplayReservationDto>> getAllReservations() {
         LOGGER.debug("Retrieving all reservations");
@@ -60,6 +66,5 @@ public class ReservationController {
         LOGGER.info("Successfully cancelled reservation");
         return ResponseEntity.ok("Cancelled reservation");
     }
-
 
 }

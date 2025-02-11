@@ -1,4 +1,4 @@
-<div class="reservation-card" (click)="onCardClick()">
+<div class="reservation-card" [routerLink]="['/reservations', reservation.id]" routerLinkActive="active">
   <!-- Status Strip -->
   <div class="status-strip" [ngClass]="reservation.status!.toLowerCase()"></div>
 

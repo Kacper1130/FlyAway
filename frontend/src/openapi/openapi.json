@@ -494,6 +494,37 @@
         }
       }
     },
+    "/api/v1/reservations/{id}": {
+      "get": {
+        "tags": [
+          "Reservation"
+        ],
+        "operationId": "getReservationDetails",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/reservations/all": {
       "get": {
         "tags": [

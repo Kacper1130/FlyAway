@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CurrencyPipe, DatePipe, NgClass} from "@angular/common";
 import {ReservationDto} from "../../../services/models/reservation-dto";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-reservation-card',
@@ -8,7 +9,9 @@ import {ReservationDto} from "../../../services/models/reservation-dto";
   imports: [
     NgClass,
     DatePipe,
-    CurrencyPipe
+    CurrencyPipe,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './reservation-card.component.html',
   styleUrl: './reservation-card.component.scss'

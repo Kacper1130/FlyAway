@@ -19,11 +19,13 @@ import jakarta.mail.MessagingException;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -171,5 +173,20 @@ public class ReservationService {
                 .toList();
         LOGGER.info("Retrieved {} reservation of user {}", reservations.size(), client.getEmail());
         return reservations;
+    }
+
+    public ReservationDto getReservationDetails(UUID id, Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Client client = (Client) securityUser.getUser();
+
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(ReservationDoesNotExistException::new);
+
+        if (!Objects.equals(reservation.getClient().getEmail(), client.getEmail())) {
+            throw new AccessDeniedException("You do not have access to this reservation");
+        }
+
+        LOGGER.info("{} retrieved details of reservation {}", client.getEmail(), reservation.getId());
+        return reservationMapper.reservationToReservationDto(reservation);
     }
 }

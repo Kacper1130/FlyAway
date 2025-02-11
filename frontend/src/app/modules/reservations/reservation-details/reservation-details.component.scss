@@ -1,0 +1,237 @@
+// reservation-detail.component.scss
+.detail-container {
+  background: linear-gradient(145deg, #242936, #1f242d);
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.detail-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #3a3f4b;
+
+  h2 {
+    color: #e4e6eb;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+}
+
+.reservation-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .reservation-id {
+    color: #b0b3b8;
+    font-size: 0.875rem;
+  }
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+
+  &.confirmed { background-color: #059669; }
+  &.pending { background-color: #d97706; }
+  &.cancelled { background-color: #dc2626; }
+}
+
+.flight-section {
+  background: #2f3441;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.route-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.airport {
+  text-align: center;
+  flex: 1;
+
+  h3 {
+    color: #b0b3b8;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .time {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e4e6eb;
+  }
+
+  .date {
+    color: #b0b3b8;
+    margin: 5px 0;
+  }
+
+  .code {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e4e6eb;
+    margin: 5px 0;
+  }
+
+  .city {
+    color: #b0b3b8;
+  }
+}
+
+.flight-duration {
+  flex: 1;
+  text-align: center;
+
+  .duration-line {
+    position: relative;
+    height: 2px;
+    margin: 40px 0;
+
+    .line {
+      height: 2px;
+      background: linear-gradient(90deg, #3a3f4b 0%, #4a5568 50%, #3a3f4b 100%);
+    }
+
+    .plane-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #60a5fa;
+      font-size: 1.5rem;
+    }
+  }
+
+  .duration-text {
+    color: #b0b3b8;
+    font-size: 1rem;
+  }
+}
+
+.details-section {
+  background: #2f3441;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+
+  h3 {
+    color: #e4e6eb;
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.detail-item {
+  .label {
+    display: block;
+    color: #b0b3b8;
+    font-size: 0.875rem;
+    margin-bottom: 5px;
+  }
+
+  .value {
+    color: #e4e6eb;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .cabin-class {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    color: white;
+
+    &.economy {
+      background: linear-gradient(145deg, #059669, #047857);
+    }
+
+    &.business {
+      background: linear-gradient(145deg, #2563eb, #1d4ed8);
+    }
+
+    &.first {
+      background: linear-gradient(145deg, #dc2626, #b91c1c);
+    }
+  }
+}
+
+.booking-date {
+  color: #b0b3b8;
+  font-size: 0.875rem;
+  text-align: right;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #3a3f4b;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .detail-container {
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .route-info {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flight-duration {
+    .duration-line {
+      margin: 20px 0;
+    }
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .airport {
+    .time {
+      font-size: 1.5rem;
+    }
+
+    .code {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-container {
+    padding: 15px;
+  }
+
+  .flight-section,
+  .details-section {
+    padding: 20px;
+  }
+
+  .detail-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .reservation-info {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}

@@ -16,6 +16,8 @@ import { CreateReservation$Params } from '../fn/reservation/create-reservation';
 import { DisplayReservationDto } from '../models/display-reservation-dto';
 import { getAllReservations } from '../fn/reservation/get-all-reservations';
 import { GetAllReservations$Params } from '../fn/reservation/get-all-reservations';
+import { getReservationDetails } from '../fn/reservation/get-reservation-details';
+import { GetReservationDetails$Params } from '../fn/reservation/get-reservation-details';
 import { getReservations } from '../fn/reservation/get-reservations';
 import { GetReservations$Params } from '../fn/reservation/get-reservations';
 import { ReservationDto } from '../models/reservation-dto';
@@ -74,6 +76,31 @@ export class ReservationService extends BaseService {
   getReservations(params?: GetReservations$Params, context?: HttpContext): Observable<Array<ReservationDto>> {
     return this.getReservations$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ReservationDto>>): Array<ReservationDto> => r.body)
+    );
+  }
+
+  /** Path part for operation `getReservationDetails()` */
+  static readonly GetReservationDetailsPath = '/api/v1/reservations/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getReservationDetails()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReservationDetails$Response(params: GetReservationDetails$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDto>> {
+    return getReservationDetails(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getReservationDetails$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReservationDetails(params: GetReservationDetails$Params, context?: HttpContext): Observable<ReservationDto> {
+    return this.getReservationDetails$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
     );
   }
 
