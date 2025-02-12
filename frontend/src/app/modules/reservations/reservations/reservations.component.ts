@@ -33,7 +33,7 @@ export class ReservationsComponent {
   }
 
   private getReservations() {
-    this.reservationService.getReservations().subscribe({
+    this.reservationService.getOwnReservations().subscribe({
       next: (reservations) => {
         this.reservations = reservations;
       }

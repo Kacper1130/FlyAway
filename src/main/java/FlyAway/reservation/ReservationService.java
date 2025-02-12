@@ -137,7 +137,6 @@ public class ReservationService {
         }
     }
 
-
     public void handlePaymentCompleted(String reservationId) throws MessagingException {
         Reservation reservation = reservationRepository.findById(UUID.fromString(reservationId))
                 .orElseThrow(ReservationDoesNotExistException::new);
@@ -162,7 +161,7 @@ public class ReservationService {
         LOGGER.info("Reservation {} status: EXPIRED", reservation.getId());
     }
 
-    public List<ReservationDto> getReservations(Authentication authentication) {
+    public List<ReservationDto> getOwnReservations(Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = clientRepository.findByIdWithReservations(securityUser.getUser().getId())
                 .orElseThrow(UserDoesNotExistException::new);
@@ -188,5 +187,21 @@ public class ReservationService {
 
         LOGGER.info("{} retrieved details of reservation {}", client.getEmail(), reservation.getId());
         return reservationMapper.reservationToReservationDto(reservation);
+    }
+
+    public void cancelOwnReservation(UUID id, Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Client client = (Client) securityUser.getUser();
+
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(ReservationDoesNotExistException::new);
+
+        if (!Objects.equals(reservation.getClient().getEmail(), client.getEmail())) {
+            throw new AccessDeniedException("You do not have access to this reservation");
+        }
+
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservationRepository.save(reservation);
+        LOGGER.info("{} cancelled reservation {}", client.getEmail(), reservation.getId());
     }
 }

@@ -14,7 +14,34 @@
   .header-content {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;  /* Changed from center to allow proper alignment with title */
+  }
+
+  .cancel-button {
+    display: flex;
     align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #b91c1c;
+    }
+
+    &:active {
+      background-color: #991b1b;
+    }
+
+    i {
+      font-size: 1rem;
+    }
   }
 
   h2 {
@@ -282,7 +309,7 @@
       font-weight: 500;
 
       &.price {
-        color: #10b981;
+        color: #e4e6eb;
         font-size: 1.25rem;
         font-weight: 600;
       }
@@ -310,7 +337,7 @@
 
   &.business {
     background: rgba(37, 99, 235, 0.1);
-    color: #60a5fa;
+    color: #297dff;
   }
 
   &.first {
@@ -321,6 +348,16 @@
 
 // Responsive design
 @media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cancel-button {
+    width: 100%;
+    justify-content: center;
+  }
+
   .detail-container {
     padding: 20px;
     margin: 10px;

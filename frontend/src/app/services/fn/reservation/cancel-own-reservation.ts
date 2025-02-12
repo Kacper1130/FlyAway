@@ -7,12 +7,12 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface CancelReservation$Params {
+export interface CancelOwnReservation$Params {
   id: string;
 }
 
-export function cancelReservation(http: HttpClient, rootUrl: string, params: CancelReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-  const rb = new RequestBuilder(rootUrl, cancelReservation.PATH, 'delete');
+export function cancelOwnReservation(http: HttpClient, rootUrl: string, params: CancelOwnReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  const rb = new RequestBuilder(rootUrl, cancelOwnReservation.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
   }
@@ -27,4 +27,4 @@ export function cancelReservation(http: HttpClient, rootUrl: string, params: Can
   );
 }
 
-cancelReservation.PATH = '/api/v1/reservations/{id}/cancel';
+cancelOwnReservation.PATH = '/api/v1/reservations/{id}';

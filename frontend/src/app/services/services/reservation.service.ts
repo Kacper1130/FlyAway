@@ -1,27 +1,23 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { cancelReservation } from '../fn/reservation/cancel-reservation';
-import { CancelReservation$Params } from '../fn/reservation/cancel-reservation';
-import { createReservation } from '../fn/reservation/create-reservation';
-import { CreateReservation$Params } from '../fn/reservation/create-reservation';
-import { DisplayReservationDto } from '../models/display-reservation-dto';
-import { getAllReservations } from '../fn/reservation/get-all-reservations';
-import { GetAllReservations$Params } from '../fn/reservation/get-all-reservations';
-import { getReservationDetails } from '../fn/reservation/get-reservation-details';
-import { GetReservationDetails$Params } from '../fn/reservation/get-reservation-details';
-import { getReservations } from '../fn/reservation/get-reservations';
-import { GetReservations$Params } from '../fn/reservation/get-reservations';
-import { ReservationDto } from '../models/reservation-dto';
-import { ReservationPaymentResponseDto } from '../models/reservation-payment-response-dto';
+import {cancelOwnReservation, CancelOwnReservation$Params} from '../fn/reservation/cancel-own-reservation';
+import {cancelReservation, CancelReservation$Params} from '../fn/reservation/cancel-reservation';
+import {createReservation, CreateReservation$Params} from '../fn/reservation/create-reservation';
+import {DisplayReservationDto} from '../models/display-reservation-dto';
+import {getAllReservations, GetAllReservations$Params} from '../fn/reservation/get-all-reservations';
+import {getOwnReservations, GetOwnReservations$Params} from '../fn/reservation/get-own-reservations';
+import {getReservationDetails, GetReservationDetails$Params} from '../fn/reservation/get-reservation-details';
+import {ReservationDto} from '../models/reservation-dto';
+import {ReservationPaymentResponseDto} from '../models/reservation-payment-response-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ReservationService extends BaseService {
@@ -54,27 +50,27 @@ export class ReservationService extends BaseService {
     );
   }
 
-  /** Path part for operation `getReservations()` */
-  static readonly GetReservationsPath = '/api/v1/reservations';
+  /** Path part for operation `getOwnReservations()` */
+  static readonly GetOwnReservationsPath = '/api/v1/reservations';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getReservations()` instead.
+   * To access only the response body, use `getOwnReservations()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getReservations$Response(params?: GetReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationDto>>> {
-    return getReservations(this.http, this.rootUrl, params, context);
+  getOwnReservations$Response(params?: GetOwnReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationDto>>> {
+    return getOwnReservations(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getReservations$Response()` instead.
+   * To access the full response (for headers, for example), `getOwnReservations$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getReservations(params?: GetReservations$Params, context?: HttpContext): Observable<Array<ReservationDto>> {
-    return this.getReservations$Response(params, context).pipe(
+  getOwnReservations(params?: GetOwnReservations$Params, context?: HttpContext): Observable<Array<ReservationDto>> {
+    return this.getOwnReservations$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ReservationDto>>): Array<ReservationDto> => r.body)
     );
   }
@@ -101,6 +97,31 @@ export class ReservationService extends BaseService {
   getReservationDetails(params: GetReservationDetails$Params, context?: HttpContext): Observable<ReservationDto> {
     return this.getReservationDetails$Response(params, context).pipe(
       map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
+    );
+  }
+
+  /** Path part for operation `cancelOwnReservation()` */
+  static readonly CancelOwnReservationPath = '/api/v1/reservations/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `cancelOwnReservation()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  cancelOwnReservation$Response(params: CancelOwnReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return cancelOwnReservation(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `cancelOwnReservation$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  cancelOwnReservation(params: CancelOwnReservation$Params, context?: HttpContext): Observable<string> {
+    return this.cancelOwnReservation$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 
@@ -138,8 +159,7 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  cancelReservation$Response(params: CancelReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
+  cancelReservation$Response(params: CancelReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
     return cancelReservation(this.http, this.rootUrl, params, context);
   }
 
@@ -149,12 +169,9 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  cancelReservation(params: CancelReservation$Params, context?: HttpContext): Observable<{
-}> {
+  cancelReservation(params: CancelReservation$Params, context?: HttpContext): Observable<string> {
     return this.cancelReservation$Response(params, context).pipe(
-      map((r: StrictHttpResponse<{
-}>): {
-} => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

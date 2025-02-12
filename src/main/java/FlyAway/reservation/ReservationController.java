@@ -10,10 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -29,8 +32,8 @@ public class ReservationController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ReservationDto>> getReservations(Authentication authentication) {
-        List<ReservationDto> reservations = reservationService.getReservations(authentication);
+    public ResponseEntity<List<ReservationDto>> getOwnReservations(Authentication authentication) {
+        List<ReservationDto> reservations = reservationService.getOwnReservations(authentication);
         return ResponseEntity.ok(reservations);
     }
 
@@ -40,7 +43,16 @@ public class ReservationController {
         return ResponseEntity.ok(reservation);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String, String>> cancelOwnReservation(@PathVariable UUID id, Authentication authentication) {
+        reservationService.cancelOwnReservation(id, authentication);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Reservation has been successfully cancelled");
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/all")
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<List<DisplayReservationDto>> getAllReservations() {
         LOGGER.debug("Retrieving all reservations");
         List<DisplayReservationDto> reservations = reservationService.getAll();
@@ -60,7 +72,8 @@ public class ReservationController {
     }
 
     @DeleteMapping("{id}/cancel")
-    public ResponseEntity<?> cancelReservation(@PathVariable UUID id) {
+    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
+    public ResponseEntity<String> cancelReservation(@PathVariable UUID id) {
         LOGGER.debug("Cancelling reservation with id {} ", id);
         reservationService.cancelReservation(id);
         LOGGER.info("Successfully cancelled reservation");

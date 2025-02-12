@@ -1,8 +1,7 @@
-import {Component, Input} from '@angular/core';
-import {CurrencyPipe, DatePipe, NgClass} from "@angular/common";
+import {Component} from '@angular/core';
+import {CurrencyPipe, DatePipe, NgClass, NgIf} from "@angular/common";
 import {ReservationDto} from "../../../services/models/reservation-dto";
 import {ActivatedRoute} from "@angular/router";
-import {FlightService} from "../../../services/services/flight.service";
 import {ReservationService} from "../../../services/services/reservation.service";
 import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.component";
 
@@ -13,7 +12,8 @@ import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.comp
     NgClass,
     DatePipe,
     CurrencyPipe,
-    NewNavbarComponent
+    NewNavbarComponent,
+    NgIf
   ],
   templateUrl: './reservation-details.component.html',
   styleUrl: './reservation-details.component.scss'
@@ -21,6 +21,7 @@ import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.comp
 export class ReservationDetailsComponent {
   reservation: ReservationDto | null = null;
   error: string | null = null;
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly reservationService: ReservationService
@@ -49,11 +50,26 @@ export class ReservationDetailsComponent {
   }
 
   get duration(): string {
-    const departure = new Date(this.reservation!.flightDto!.departureDate);
-    const arrival = new Date(this.reservation!.flightDto!.arrivalDate);
+    if (!this.reservation?.flightDto?.departureDate || !this.reservation?.flightDto?.arrivalDate) {
+      return 'N/A';
+    }
+
+    const departure = new Date(this.reservation.flightDto.departureDate);
+    const arrival = new Date(this.reservation.flightDto.arrivalDate);
     const diff = arrival.getTime() - departure.getTime();
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
     return `${hours}h ${minutes}m`;
   }
+
+  cancelReservation() {
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.reservationService.cancelOwnReservation({id: id}).subscribe({
+      next: () => {
+        window.location.reload();
+      }
+    })
+  }
+
 }

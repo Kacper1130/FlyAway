@@ -476,7 +476,7 @@
         "tags": [
           "Reservation"
         ],
-        "operationId": "getReservations",
+        "operationId": "getOwnReservations",
         "responses": {
           "200": {
             "description": "OK",
@@ -518,6 +518,35 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ReservationDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Reservation"
+        ],
+        "operationId": "cancelOwnReservation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -1157,7 +1186,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "string"
                 }
               }
             }

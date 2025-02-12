@@ -7,12 +7,19 @@
         <h2>Flight Reservation</h2>
         <div class="reservation-meta">
           <span class="status-strip" [ngClass]="reservation?.status!.toLowerCase()"></span>
-          <span class="reservation-id">#{{reservation!.id}}</span>
+          <span class="reservation-id">#{{ reservation?.id }}</span>
           <span class="status-badge" [ngClass]="reservation?.status!.toLowerCase()">
-            {{reservation?.status}}
-          </span>
+          {{ reservation?.status }}
+        </span>
         </div>
       </div>
+      <button
+        class="cancel-button"
+        *ngIf="reservation?.status === 'ACTIVE' || reservation?.status === 'PENDING'"
+        (click)="cancelReservation()">
+        <i class="fa-solid fa-times"></i>
+        Cancel Reservation
+      </button>
     </div>
   </div>
 
@@ -25,28 +32,14 @@
         <div class="airport-content">
           <!-- Time Section -->
           <div class="time-group">
-            <div class="time">
-              {{reservation?.flightDto?.departureDate | date:'HH:mm'}}
-            </div>
-            <div class="date">
-              {{reservation?.flightDto?.departureDate | date:'EEE, MMM d'}}
-            </div>
+            <div class="time">{{ reservation?.flightDto?.departureDate | date:'HH:mm' }}</div>
+            <div class="date">{{ reservation?.flightDto?.departureDate | date:'EEE, MMM d' }}</div>
           </div>
-
-          <!-- Location Section -->
           <div class="location-group">
-            <div class="code">
-              {{reservation?.flightDto?.departureAirportDto?.IATACode}}
-            </div>
-            <div class="name">
-              {{reservation?.flightDto?.departureAirportDto?.name}}
-            </div>
-            <div class="city">
-              {{reservation?.flightDto?.departureAirportDto?.city}}
-            </div>
-            <div class="country">
-              {{reservation?.flightDto?.departureAirportDto?.country?.name}}
-            </div>
+            <div class="code">{{ reservation?.flightDto?.departureAirportDto?.IATACode }}</div>
+            <div class="name">{{ reservation?.flightDto?.departureAirportDto?.name }}</div>
+            <div class="city">{{ reservation?.flightDto?.departureAirportDto?.city }}</div>
+            <div class="country">{{ reservation?.flightDto?.departureAirportDto?.country?.name }}</div>
           </div>
         </div>
       </div>
@@ -61,7 +54,7 @@
           <div class="dot arrival-dot"></div>
         </div>
         <div class="duration-info">
-          <span class="duration-text">{{duration}}</span>
+          <span class="duration-text">{{ duration }}</span>
         </div>
       </div>
 
@@ -70,14 +63,14 @@
         <div class="airport-header">Arrival</div>
         <div class="airport-content">
           <div class="time-group">
-            <div class="time">{{reservation?.flightDto!.arrivalDate | date:'HH:mm'}}</div>
-            <div class="date">{{reservation?.flightDto!.arrivalDate | date:'EEE, MMM d'}}</div>
+            <div class="time">{{ reservation?.flightDto!.arrivalDate | date:'HH:mm' }}</div>
+            <div class="date">{{ reservation?.flightDto!.arrivalDate | date:'EEE, MMM d' }}</div>
           </div>
           <div class="location-group">
-            <div class="code">{{reservation?.flightDto!.arrivalAirportDto.IATACode}}</div>
-            <div class="name">{{reservation?.flightDto!.arrivalAirportDto.name}}</div>
-            <div class="city">{{reservation?.flightDto!.arrivalAirportDto.city}}</div>
-            <div class="country">{{reservation?.flightDto!.arrivalAirportDto.country.name}}</div>
+            <div class="code">{{ reservation?.flightDto!.arrivalAirportDto.IATACode }}</div>
+            <div class="name">{{ reservation?.flightDto!.arrivalAirportDto.name }}</div>
+            <div class="city">{{ reservation?.flightDto!.arrivalAirportDto.city }}</div>
+            <div class="country">{{ reservation?.flightDto!.arrivalAirportDto.country.name }}</div>
           </div>
         </div>
       </div>
@@ -94,22 +87,22 @@
           <div class="detail-item">
             <span class="label">Cabin Class</span>
             <span class="cabin-class" [ngClass]="reservation?.cabinClass!.toLowerCase()">
-              {{reservation?.cabinClass}}
+              {{ reservation?.cabinClass }}
             </span>
           </div>
           <div class="detail-item">
             <span class="label">Seat</span>
-            <span class="value seat-number">{{reservation?.seatNumber}}</span>
+            <span class="value seat-number">{{ reservation?.seatNumber }}</span>
           </div>
         </div>
         <div class="detail-row">
           <div class="detail-item">
             <span class="label">Price</span>
-            <span class="value price">{{reservation?.price | currency}}</span>
+            <span class="value price">{{ reservation?.price | currency }}</span>
           </div>
           <div class="detail-item">
             <span class="label">Booking Date</span>
-            <span class="value">{{reservation?.reservationDate | date:'medium'}}</span>
+            <span class="value">{{ reservation?.reservationDate | date:'medium' }}</span>
           </div>
         </div>
       </div>
@@ -122,21 +115,21 @@
         <div class="detail-row">
           <div class="detail-item">
             <span class="label">Model</span>
-            <span class="value">{{reservation?.flightDto!.aircraft.model}}</span>
+            <span class="value">{{ reservation?.flightDto!.aircraft.model }}</span>
           </div>
           <div class="detail-item">
             <span class="label">Registration</span>
-            <span class="value">{{reservation?.flightDto!.aircraft.registration}}</span>
+            <span class="value">{{ reservation?.flightDto!.aircraft.registration }}</span>
           </div>
         </div>
         <div class="detail-row">
           <div class="detail-item">
             <span class="label">Production Year</span>
-            <span class="value">{{reservation?.flightDto!.aircraft.productionYear}}</span>
+            <span class="value">{{ reservation?.flightDto!.aircraft.productionYear }}</span>
           </div>
           <div class="detail-item">
             <span class="label">Total Seats</span>
-            <span class="value">{{reservation?.flightDto!.aircraft.totalSeats}}</span>
+            <span class="value">{{ reservation?.flightDto!.aircraft.totalSeats }}</span>
           </div>
         </div>
       </div>
