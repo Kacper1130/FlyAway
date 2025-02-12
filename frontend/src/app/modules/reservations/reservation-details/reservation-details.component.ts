@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {CurrencyPipe, DatePipe, NgClass, NgIf} from "@angular/common";
-import {ReservationDto} from "../../../services/models/reservation-dto";
 import {ActivatedRoute} from "@angular/router";
 import {ReservationService} from "../../../services/services/reservation.service";
 import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.component";
+import {ReservationDetailsClientDto} from "../../../services/models/reservation-details-client-dto";
 
 @Component({
   selector: 'app-reservation-details',
@@ -19,7 +19,7 @@ import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.comp
   styleUrl: './reservation-details.component.scss'
 })
 export class ReservationDetailsComponent {
-  reservation: ReservationDto | null = null;
+  reservation: ReservationDetailsClientDto | null = null;
   error: string | null = null;
 
   constructor(

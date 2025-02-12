@@ -1,9 +1,6 @@
 package FlyAway.reservation;
 
-import FlyAway.reservation.dto.CreateReservationDto;
-import FlyAway.reservation.dto.DisplayReservationDto;
-import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.reservation.dto.ReservationPaymentResponseDto;
+import FlyAway.reservation.dto.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -32,14 +29,14 @@ public class ReservationController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ReservationDto>> getOwnReservations(Authentication authentication) {
-        List<ReservationDto> reservations = reservationService.getOwnReservations(authentication);
+    public ResponseEntity<List<ReservationSummaryClientDto>> getOwnReservations(Authentication authentication) {
+        List<ReservationSummaryClientDto> reservations = reservationService.getOwnReservations(authentication);
         return ResponseEntity.ok(reservations);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReservationDto> getReservationDetails(@PathVariable UUID id, Authentication authentication) {
-        ReservationDto reservation = reservationService.getReservationDetails(id, authentication);
+    public ResponseEntity<ReservationDetailsClientDto> getReservationDetails(@PathVariable UUID id, Authentication authentication) {
+        ReservationDetailsClientDto reservation = reservationService.getReservationDetails(id, authentication);
         return ResponseEntity.ok(reservation);
     }
 

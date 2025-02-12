@@ -11,7 +11,9 @@ export interface CancelOwnReservation$Params {
   id: string;
 }
 
-export function cancelOwnReservation(http: HttpClient, rootUrl: string, params: CancelOwnReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+export function cancelOwnReservation(http: HttpClient, rootUrl: string, params: CancelOwnReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+[key: string]: string;
+}>> {
   const rb = new RequestBuilder(rootUrl, cancelOwnReservation.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
@@ -22,7 +24,9 @@ export function cancelOwnReservation(http: HttpClient, rootUrl: string, params: 
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<string>;
+      return r as StrictHttpResponse<{
+      [key: string]: string;
+      }>;
     })
   );
 }

@@ -6,12 +6,12 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ReservationDto } from '../../models/reservation-dto';
+import { ReservationSummaryClientDto } from '../../models/reservation-summary-client-dto';
 
 export interface GetOwnReservations$Params {
 }
 
-export function getOwnReservations(http: HttpClient, rootUrl: string, params?: GetOwnReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationDto>>> {
+export function getOwnReservations(http: HttpClient, rootUrl: string, params?: GetOwnReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationSummaryClientDto>>> {
   const rb = new RequestBuilder(rootUrl, getOwnReservations.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function getOwnReservations(http: HttpClient, rootUrl: string, params?: G
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ReservationDto>>;
+      return r as StrictHttpResponse<Array<ReservationSummaryClientDto>>;
     })
   );
 }

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CurrencyPipe, DatePipe, NgClass} from "@angular/common";
-import {ReservationDto} from "../../../services/models/reservation-dto";
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {ReservationSummaryClientDto} from "../../../services/models/reservation-summary-client-dto";
 
 @Component({
   selector: 'app-reservation-card',
@@ -17,12 +17,12 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   styleUrl: './reservation-card.component.scss'
 })
 export class ReservationCardComponent {
-  @Input() reservation!: ReservationDto;
-  @Output() cardClick = new EventEmitter<ReservationDto>();
+  @Input() reservation!: ReservationSummaryClientDto;
+  @Output() cardClick = new EventEmitter<ReservationSummaryClientDto>();
 
   get duration(): string {
-    const departure = new Date(this.reservation.flightDto!.departureDate);
-    const arrival = new Date(this.reservation.flightDto!.arrivalDate);
+    const departure = new Date(this.reservation.flightDto!.departureDate!);
+    const arrival = new Date(this.reservation.flightDto!.arrivalDate!);
     const diff = arrival.getTime() - departure.getTime();
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));

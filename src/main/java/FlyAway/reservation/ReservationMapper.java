@@ -2,10 +2,7 @@ package FlyAway.reservation;
 
 import FlyAway.client.ClientMapper;
 import FlyAway.flight.FlightMapper;
-import FlyAway.reservation.dto.DisplayReservationDto;
-import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.reservation.dto.ReservationWithoutFlightDto;
-import FlyAway.reservation.dto.ReservationWithoutUserDto;
+import FlyAway.reservation.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -28,5 +25,11 @@ public interface ReservationMapper {
 
     @Mapping(source = "client", target = "clientDto")
     ReservationWithoutFlightDto reservationToReservationWithoutFlightDto(Reservation reservation);
+
+    @Mapping(source = "flight", target = "flightDto")
+    ReservationSummaryClientDto reservationToReservationSummaryClientDto(Reservation reservation);
+
+    @Mapping(source = "flight", target = "flightDto")
+    ReservationDetailsClientDto reservationToReservationDetailsClientDto(Reservation reservation);
 
 }

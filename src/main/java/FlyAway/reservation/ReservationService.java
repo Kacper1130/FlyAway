@@ -9,10 +9,7 @@ import FlyAway.flight.FlightRepository;
 import FlyAway.flight.FlightService;
 import FlyAway.flight.aircraft.AircraftService;
 import FlyAway.payment.PaymentService;
-import FlyAway.reservation.dto.CreateReservationDto;
-import FlyAway.reservation.dto.DisplayReservationDto;
-import FlyAway.reservation.dto.ReservationDto;
-import FlyAway.reservation.dto.ReservationPaymentResponseDto;
+import FlyAway.reservation.dto.*;
 import FlyAway.security.SecurityUser;
 import com.stripe.exception.StripeException;
 import jakarta.mail.MessagingException;
@@ -161,20 +158,20 @@ public class ReservationService {
         LOGGER.info("Reservation {} status: EXPIRED", reservation.getId());
     }
 
-    public List<ReservationDto> getOwnReservations(Authentication authentication) {
+    public List<ReservationSummaryClientDto> getOwnReservations(Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = clientRepository.findByIdWithReservations(securityUser.getUser().getId())
                 .orElseThrow(UserDoesNotExistException::new);
         var reservations = client
                 .getReservations()
                 .stream()
-                .map(reservationMapper::reservationToReservationDto)
+                .map(reservationMapper::reservationToReservationSummaryClientDto)
                 .toList();
         LOGGER.info("Retrieved {} reservation of user {}", reservations.size(), client.getEmail());
         return reservations;
     }
 
-    public ReservationDto getReservationDetails(UUID id, Authentication authentication) {
+    public ReservationDetailsClientDto getReservationDetails(UUID id, Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = (Client) securityUser.getUser();
 
@@ -186,7 +183,7 @@ public class ReservationService {
         }
 
         LOGGER.info("{} retrieved details of reservation {}", client.getEmail(), reservation.getId());
-        return reservationMapper.reservationToReservationDto(reservation);
+        return reservationMapper.reservationToReservationDetailsClientDto(reservation);
     }
 
     public void cancelOwnReservation(UUID id, Authentication authentication) {

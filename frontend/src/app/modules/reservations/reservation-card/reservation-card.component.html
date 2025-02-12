@@ -18,7 +18,7 @@
     <div class="flight-info">
       <div class="airport-info departure">
         <div class="airport-details">
-          <span class="code">{{ reservation.flightDto!.departureAirportDto.city }}</span>
+          <span class="code">{{ reservation.flightDto?.departureCity }}</span>
         </div>
         <div class="datetime">
           <span class="date">{{ reservation.flightDto!.departureDate | date:'MMM d, y' }}</span>
@@ -39,11 +39,11 @@
 
       <div class="airport-info arrival">
         <div class="airport-details">
-          <span class="code">{{ reservation.flightDto!.arrivalAirportDto.city }}</span>
+          <span class="code">{{ reservation.flightDto?.arrivalCity }}</span>
         </div>
         <div class="datetime">
-          <span class="date">{{ reservation.flightDto!.arrivalDate | date:'MMM d, y' }}</span>
-          <span class="time">{{ reservation.flightDto!.arrivalDate | date:'HH:mm' }}</span>
+          <span class="date">{{ reservation.flightDto?.arrivalDate | date:'MMM d, y' }}</span>
+          <span class="time">{{ reservation.flightDto?.arrivalDate | date:'HH:mm' }}</span>
         </div>
       </div>
     </div>

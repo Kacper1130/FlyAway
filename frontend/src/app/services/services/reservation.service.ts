@@ -16,8 +16,9 @@ import {DisplayReservationDto} from '../models/display-reservation-dto';
 import {getAllReservations, GetAllReservations$Params} from '../fn/reservation/get-all-reservations';
 import {getOwnReservations, GetOwnReservations$Params} from '../fn/reservation/get-own-reservations';
 import {getReservationDetails, GetReservationDetails$Params} from '../fn/reservation/get-reservation-details';
-import {ReservationDto} from '../models/reservation-dto';
+import {ReservationDetailsClientDto} from '../models/reservation-details-client-dto';
 import {ReservationPaymentResponseDto} from '../models/reservation-payment-response-dto';
+import {ReservationSummaryClientDto} from '../models/reservation-summary-client-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ReservationService extends BaseService {
@@ -59,7 +60,7 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getOwnReservations$Response(params?: GetOwnReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationDto>>> {
+  getOwnReservations$Response(params?: GetOwnReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationSummaryClientDto>>> {
     return getOwnReservations(this.http, this.rootUrl, params, context);
   }
 
@@ -69,9 +70,9 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getOwnReservations(params?: GetOwnReservations$Params, context?: HttpContext): Observable<Array<ReservationDto>> {
+  getOwnReservations(params?: GetOwnReservations$Params, context?: HttpContext): Observable<Array<ReservationSummaryClientDto>> {
     return this.getOwnReservations$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ReservationDto>>): Array<ReservationDto> => r.body)
+      map((r: StrictHttpResponse<Array<ReservationSummaryClientDto>>): Array<ReservationSummaryClientDto> => r.body)
     );
   }
 
@@ -84,7 +85,7 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getReservationDetails$Response(params: GetReservationDetails$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDto>> {
+  getReservationDetails$Response(params: GetReservationDetails$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDetailsClientDto>> {
     return getReservationDetails(this.http, this.rootUrl, params, context);
   }
 
@@ -94,9 +95,9 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getReservationDetails(params: GetReservationDetails$Params, context?: HttpContext): Observable<ReservationDto> {
+  getReservationDetails(params: GetReservationDetails$Params, context?: HttpContext): Observable<ReservationDetailsClientDto> {
     return this.getReservationDetails$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
+      map((r: StrictHttpResponse<ReservationDetailsClientDto>): ReservationDetailsClientDto => r.body)
     );
   }
 
@@ -109,7 +110,9 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  cancelOwnReservation$Response(params: CancelOwnReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  cancelOwnReservation$Response(params: CancelOwnReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+[key: string]: string;
+}>> {
     return cancelOwnReservation(this.http, this.rootUrl, params, context);
   }
 
@@ -119,9 +122,15 @@ export class ReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  cancelOwnReservation(params: CancelOwnReservation$Params, context?: HttpContext): Observable<string> {
+  cancelOwnReservation(params: CancelOwnReservation$Params, context?: HttpContext): Observable<{
+[key: string]: string;
+}> {
     return this.cancelOwnReservation$Response(params, context).pipe(
-      map((r: StrictHttpResponse<string>): string => r.body)
+      map((r: StrictHttpResponse<{
+[key: string]: string;
+}>): {
+[key: string]: string;
+} => r.body)
     );
   }
 
