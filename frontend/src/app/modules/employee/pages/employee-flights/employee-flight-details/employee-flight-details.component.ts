@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {EmployeeNavbarComponent} from "../../../components/employee-navbar/employee-navbar.component";
 import {FlightDetailsDto} from "../../../../../services/models/flight-details-dto";
 import {ActivatedRoute} from "@angular/router";
@@ -32,7 +32,8 @@ export class EmployeeFlightDetailsComponent {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly flightService: FlightService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -58,9 +59,11 @@ export class EmployeeFlightDetailsComponent {
   }
 
   getTotalAvailableSeats(): number {
-    if (!this.flight?.aircraft) return 0;
-    return this.flight.aircraft.totalSeats -
-      (this.flight.reservations?.length || 0);
+    if (!this.flight?.aircraft?.totalSeats) return 0;
+    const totalSeats = this.flight.aircraft.totalSeats;
+    const reservedSeats = this.flight.reservations!.filter(r => r.status !== 'CANCELLED' && r.status !== 'EXPIRED' && r.status !== 'FAILED').length;
+    return totalSeats - reservedSeats;
   }
+
 
 }
