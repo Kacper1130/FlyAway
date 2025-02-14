@@ -1,6 +1,7 @@
 package FlyAway.reservation;
 
 
+import FlyAway.common.PageResponse;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,10 +26,13 @@ public class EmployeeReservationController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<DisplayReservationDto>> getReservations() {
+    public ResponseEntity<PageResponse<DisplayReservationDto>> getReservations(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size
+    ) {
         LOGGER.debug("Retrieving all reservations");
-        List<DisplayReservationDto> reservations = employeeReservationService.getReservations();
-        LOGGER.info("Retrieved {} reservations", reservations.size());
+        PageResponse<DisplayReservationDto> reservations = employeeReservationService.getReservations(page, size);
+        LOGGER.info("Retrieved {} reservations", reservations.getTotalElements());
         return ResponseEntity.ok().body(reservations);
     }
 

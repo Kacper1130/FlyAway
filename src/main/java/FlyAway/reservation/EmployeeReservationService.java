@@ -1,10 +1,15 @@
 package FlyAway.reservation;
 
+import FlyAway.common.PageResponse;
 import FlyAway.exception.ReservationDoesNotExistException;
 import FlyAway.reservation.dto.DisplayReservationDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,13 +27,24 @@ public class EmployeeReservationService {
         this.reservationRepository = reservationRepository;
     }
 
-    public List<DisplayReservationDto> getAll() {
-        LOGGER.debug("Retrieving all reservations from repository");
-        List<DisplayReservationDto> reservations = reservationRepository.findAll()
-                .stream().map(reservationMapper::reservationToDisplayReservationDto)
+    public PageResponse<DisplayReservationDto> getReservations(int page, int size) {
+        LOGGER.debug("Retrieving page {} with size {} from reservation repository", page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("reservationDate").descending());
+        Page<Reservation> reservations = reservationRepository.findAll(pageable);
+        List<DisplayReservationDto> reservationsResponse = reservations
+                .stream()
+                .map(reservationMapper::reservationToDisplayReservationDto)
                 .toList();
-        LOGGER.info("Retrieved {} reservations", reservations.size());
-        return reservations;
+        LOGGER.info("Retrieved {} reservations", reservationsResponse.size());
+        return new PageResponse<>(
+                reservationsResponse,
+                reservations.getNumber(),
+                reservations.getSize(),
+                reservations.getTotalElements(),
+                reservations.getTotalPages(),
+                reservations.isFirst(),
+                reservations.isLast()
+        );
     }
 
     public void cancelReservation(UUID id) {
