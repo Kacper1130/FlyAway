@@ -3,6 +3,7 @@ package FlyAway.reservation;
 import FlyAway.common.PageResponse;
 import FlyAway.exception.ReservationDoesNotExistException;
 import FlyAway.reservation.dto.DisplayReservationDto;
+import FlyAway.reservation.dto.ReservationDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,13 @@ public class EmployeeReservationService {
         );
     }
 
+    public DisplayReservationDto getReservationSummary(UUID id) {
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(ReservationDoesNotExistException::new);
+        LOGGER.info("Found reservation with id {}", id);
+        return reservationMapper.reservationToDisplayReservationDto(reservation);
+    }
+
     public void cancelReservation(UUID id) {
         LOGGER.debug("Cancelling reservation with id {}", id);
         Optional<Reservation> optionalReservation = reservationRepository.findById(id);
@@ -59,6 +67,14 @@ public class EmployeeReservationService {
             LOGGER.error("Reservation with id {} does not exist", id);
             throw new ReservationDoesNotExistException(id);
         }
+    }
+
+    public ReservationDto getReservationDetails(UUID id) {
+        LOGGER.debug("Retrieving reservation with id {}", id);
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(ReservationDoesNotExistException::new);
+        LOGGER.info("Successfully retrieved reservation with id {}", id);
+        return reservationMapper.reservationToReservationDto(reservation);
     }
 
 }

@@ -3,6 +3,7 @@ package FlyAway.reservation;
 
 import FlyAway.common.PageResponse;
 import FlyAway.reservation.dto.DisplayReservationDto;
+import FlyAway.reservation.dto.ReservationDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,22 @@ public class EmployeeReservationController {
         PageResponse<DisplayReservationDto> reservations = employeeReservationService.getReservations(page, size);
         LOGGER.info("Retrieved {} reservations", reservations.getTotalElements());
         return ResponseEntity.ok().body(reservations);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<DisplayReservationDto> searchReservationById(@RequestParam UUID id) {
+        LOGGER.debug("Searching reservation with id {}", id);
+        DisplayReservationDto reservation = employeeReservationService.getReservationSummary(id);
+        LOGGER.info("Found reservation with id {}", id);
+        return ResponseEntity.ok().body(reservation);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservationDto> getReservationDetails(@PathVariable UUID id) {
+        LOGGER.debug("Fetching reservation with id {} ", id);
+        ReservationDto reservationDetails = employeeReservationService.getReservationDetails(id);
+        LOGGER.info("Successfully fetched reservation");
+        return ResponseEntity.ok().body(reservationDetails);
     }
 
     @DeleteMapping("{id}")
