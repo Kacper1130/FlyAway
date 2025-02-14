@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/employee/reservations")
-@Tag(name = "EmployeeReservationController")
+@Tag(name = "EmployeeReservation")
 @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class EmployeeReservationController {
 

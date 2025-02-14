@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
-@Tag(name = "ClientReservationController")
+@Tag(name = "ClientReservation")
 public class ClientReservationController {
 
     private final ClientReservationService reservationService;
