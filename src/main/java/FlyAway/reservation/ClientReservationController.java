@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +17,13 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
-@Tag(name = "Reservation")
-public class ReservationController {
+@Tag(name = "ClientReservationController")
+public class ClientReservationController {
 
-    private final ReservationService reservationService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReservationController.class);
+    private final ClientReservationService reservationService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientReservationController.class);
 
-    public ReservationController(ReservationService reservationService) {
+    public ClientReservationController(ClientReservationService reservationService) {
         this.reservationService = reservationService;
     }
 
@@ -48,15 +47,6 @@ public class ReservationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public ResponseEntity<List<DisplayReservationDto>> getAllReservations() {
-        LOGGER.debug("Retrieving all reservations");
-        List<DisplayReservationDto> reservations = reservationService.getAll();
-        LOGGER.info("Retrieved {} reservations", reservations.size());
-        return ResponseEntity.ok().body(reservations);
-    }
-
     @PostMapping("/create")
     public ResponseEntity<ReservationPaymentResponseDto> createReservation(
             @Valid @RequestBody CreateReservationDto createReservationDto,
@@ -66,15 +56,6 @@ public class ReservationController {
         ReservationPaymentResponseDto reservationDto = reservationService.createReservation(createReservationDto, authentication);
         LOGGER.info("Pending reservation created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationDto);
-    }
-
-    @DeleteMapping("{id}/cancel")
-    @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
-    public ResponseEntity<String> cancelReservation(@PathVariable UUID id) {
-        LOGGER.debug("Cancelling reservation with id {} ", id);
-        reservationService.cancelReservation(id);
-        LOGGER.info("Successfully cancelled reservation");
-        return ResponseEntity.ok("Cancelled reservation");
     }
 
 }

@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class ReservationService {
+public class ClientReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ClientRepository clientRepository;
@@ -37,9 +37,9 @@ public class ReservationService {
     private final FlightService flightService;
     private final PaymentService paymentService;
     private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReservationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientReservationService.class);
 
-    public ReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService, AircraftService aircraftService, FlightService flightService, PaymentService paymentService) {
+    public ClientReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService, AircraftService aircraftService, FlightService flightService, PaymentService paymentService) {
         this.reservationRepository = reservationRepository;
         this.clientRepository = userRepository;
         this.flightRepository = flightRepository;
@@ -47,15 +47,6 @@ public class ReservationService {
         this.aircraftService = aircraftService;
         this.flightService = flightService;
         this.paymentService = paymentService;
-    }
-
-    public List<DisplayReservationDto> getAll() {
-        LOGGER.debug("Retrieving all reservations from repository");
-        List<DisplayReservationDto> reservations = reservationRepository.findAll()
-                .stream().map(reservationMapper::reservationToDisplayReservationDto)
-                .toList();
-        LOGGER.info("Retrieved {} reservations", reservations.size());
-        return reservations;
     }
 
     public ReservationPaymentResponseDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) {
@@ -118,20 +109,6 @@ public class ReservationService {
             LOGGER.error("Reservation with id {} does not exist", id);
             throw new ReservationDoesNotExistException(id);
         });
-    }
-
-    public void cancelReservation(UUID id) {
-        LOGGER.debug("Cancelling reservation with id {}", id);
-        Optional<Reservation> optionalReservation = reservationRepository.findById(id);
-        if (optionalReservation.isPresent()) {
-            Reservation reservation = optionalReservation.get();
-            reservation.setStatus(ReservationStatus.CANCELLED);
-            reservationRepository.save(reservation);
-            LOGGER.info("Successfully cancelled reservation with id {}", id);
-        } else {
-            LOGGER.error("Reservation with id {} does not exist", id);
-            throw new ReservationDoesNotExistException(id);
-        }
     }
 
     public void handlePaymentCompleted(String reservationId) throws MessagingException {

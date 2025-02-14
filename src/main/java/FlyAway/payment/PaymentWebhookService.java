@@ -1,10 +1,9 @@
 package FlyAway.payment;
 
-import FlyAway.reservation.ReservationService;
+import FlyAway.reservation.ClientReservationService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
 import com.stripe.model.EventDataObjectDeserializer;
-import com.stripe.model.PaymentIntent;
 import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
@@ -24,9 +23,9 @@ public class PaymentWebhookService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentWebhookService.class);
 
-    private final ReservationService reservationService;
+    private final ClientReservationService reservationService;
 
-    public PaymentWebhookService(ReservationService reservationService) {
+    public PaymentWebhookService(ClientReservationService reservationService) {
         this.reservationService = reservationService;
     }
 

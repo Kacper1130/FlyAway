@@ -31,7 +31,7 @@ import static org.mockito.Mockito.verify;
 class ReservationServiceTest {
 
     @InjectMocks
-    ReservationService reservationService;
+    ClientReservationService reservationService;
 
     @Mock
     ReservationRepository reservationRepository;

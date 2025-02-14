@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(ReservationController.class)
+@WebMvcTest(ClientReservationController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class ReservationControllerTest {
 
@@ -42,7 +42,7 @@ class ReservationControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    ReservationService reservationService;
+    ClientReservationService reservationService;
 
     @Test
     void testGetAll() throws Exception {
