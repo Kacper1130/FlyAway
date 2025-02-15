@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 import {NavbarComponent} from "../../../components/navbar/navbar.component";
 import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.component";
 import {ReservationCardComponent} from "../reservation-card/reservation-card.component";
-import {ReservationService} from "../../../services/services/reservation.service";
 import {ReservationDetailsComponent} from "../reservation-details/reservation-details.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {ReservationSummaryClientDto} from "../../../services/models/reservation-summary-client-dto";
+import {ClientReservationService} from "../../../services/services/client-reservation.service";
 
 @Component({
   selector: 'app-reservations',
@@ -24,7 +24,7 @@ import {ReservationSummaryClientDto} from "../../../services/models/reservation-
 export class ReservationsComponent {
   reservations: ReservationSummaryClientDto[] = [];
 
-  constructor(private readonly reservationService: ReservationService) {}
+  constructor(private readonly reservationService: ClientReservationService) {}
 
   ngOnInit() {
     this.getReservations();

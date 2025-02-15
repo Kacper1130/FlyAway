@@ -1,4 +1,40 @@
-<app-employee-navbar></app-employee-navbar>
-<p>employee-reservations works!</p>
+<div class="employee-reservations">
+  <app-employee-navbar></app-employee-navbar>
 
+  <div class="employee-reservations__container">
+    <div class="employee-reservations__header">
+      <div class="header-content">
+        <h2 class="header-title">Reservations</h2>
+      </div>
+    </div>
 
+    <div class="reservations-table-container">
+      <mat-form-field class="search-field">
+        <mat-label>Search by id</mat-label>
+        <input
+          matInput
+          [(ngModel)]="searchId"
+          (keyup)="applyFilter()"
+          #input
+        >
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div class="reservations-container">
+      <div *ngFor="let reservation of reservations.content">
+        <app-employee-reservation-card [reservation] = "reservation"></app-employee-reservation-card>
+      </div>
+    </div>
+
+    <mat-paginator class="custom-paginator"
+                   [length]="reservations.totalElements"
+                   [pageSizeOptions]="[10,20,50]"
+                   [pageSize]="size"
+                   [pageIndex]="page"
+                   [showFirstLastButtons]="true"
+                   aria-label="Select page"
+                   (page)="onPageChange($event)">
+    </mat-paginator>
+  </div>
+</div>

@@ -9,19 +9,16 @@ import {BaseService} from '../base-service';
 import {ApiConfiguration} from '../api-configuration';
 import {StrictHttpResponse} from '../strict-http-response';
 
-import {cancelOwnReservation, CancelOwnReservation$Params} from '../fn/reservation/cancel-own-reservation';
-import {cancelReservation, CancelReservation$Params} from '../fn/reservation/cancel-reservation';
-import {createReservation, CreateReservation$Params} from '../fn/reservation/create-reservation';
-import {DisplayReservationDto} from '../models/display-reservation-dto';
-import {getAllReservations, GetAllReservations$Params} from '../fn/reservation/get-all-reservations';
-import {getOwnReservations, GetOwnReservations$Params} from '../fn/reservation/get-own-reservations';
-import {getReservationDetails, GetReservationDetails$Params} from '../fn/reservation/get-reservation-details';
+import {cancelOwnReservation, CancelOwnReservation$Params} from '../fn/client-reservation/cancel-own-reservation';
+import {createReservation, CreateReservation$Params} from '../fn/client-reservation/create-reservation';
+import {getOwnReservations, GetOwnReservations$Params} from '../fn/client-reservation/get-own-reservations';
+import {getReservationDetails, GetReservationDetails$Params} from '../fn/client-reservation/get-reservation-details';
 import {ReservationDetailsClientDto} from '../models/reservation-details-client-dto';
 import {ReservationPaymentResponseDto} from '../models/reservation-payment-response-dto';
 import {ReservationSummaryClientDto} from '../models/reservation-summary-client-dto';
 
 @Injectable({ providedIn: 'root' })
-export class ReservationService extends BaseService {
+export class ClientReservationService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }
@@ -131,56 +128,6 @@ export class ReservationService extends BaseService {
 }>): {
 [key: string]: string;
 } => r.body)
-    );
-  }
-
-  /** Path part for operation `getAllReservations()` */
-  static readonly GetAllReservationsPath = '/api/v1/reservations/all';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAllReservations()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getAllReservations$Response(params?: GetAllReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<DisplayReservationDto>>> {
-    return getAllReservations(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getAllReservations$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getAllReservations(params?: GetAllReservations$Params, context?: HttpContext): Observable<Array<DisplayReservationDto>> {
-    return this.getAllReservations$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<DisplayReservationDto>>): Array<DisplayReservationDto> => r.body)
-    );
-  }
-
-  /** Path part for operation `cancelReservation()` */
-  static readonly CancelReservationPath = '/api/v1/reservations/{id}/cancel';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `cancelReservation()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  cancelReservation$Response(params: CancelReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-    return cancelReservation(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `cancelReservation$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  cancelReservation(params: CancelReservation$Params, context?: HttpContext): Observable<string> {
-    return this.cancelReservation$Response(params, context).pipe(
-      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

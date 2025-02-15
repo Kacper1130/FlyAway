@@ -1,5 +1,5 @@
 export { AirportService } from './services/airport.service';
-export { ReservationService } from './services/reservation.service';
+export { ClientReservationService } from './services/client-reservation.service';
 export { PaymentControllerService } from './services/payment-controller.service';
 export { FlightService } from './services/flight.service';
 export { EmployeeService } from './services/employee.service';
@@ -8,3 +8,4 @@ export { AuthenticationService } from './services/authentication.service';
 export { AircraftService } from './services/aircraft.service';
 export { CountryService } from './services/country.service';
 export { UserService } from './services/user.service';
+export { EmployeeReservationService } from './services/employee-reservation.service';

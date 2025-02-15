@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {CurrencyPipe, DatePipe, NgClass, NgIf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
-import {ReservationService} from "../../../services/services/reservation.service";
 import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.component";
 import {ReservationDetailsClientDto} from "../../../services/models/reservation-details-client-dto";
+import {ClientReservationService} from "../../../services/services/client-reservation.service";
 
 @Component({
   selector: 'app-reservation-details',
@@ -24,7 +24,7 @@ export class ReservationDetailsComponent {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly reservationService: ReservationService
+    private readonly reservationService: ClientReservationService
   ) {}
 
   ngOnInit(): void {

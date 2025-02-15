@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { AirportService } from './services/airport.service';
-import { ReservationService } from './services/reservation.service';
+import { ClientReservationService } from './services/client-reservation.service';
 import { PaymentControllerService } from './services/payment-controller.service';
 import { FlightService } from './services/flight.service';
 import { EmployeeService } from './services/employee.service';
@@ -14,6 +14,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { AircraftService } from './services/aircraft.service';
 import { CountryService } from './services/country.service';
 import { UserService } from './services/user.service';
+import { EmployeeReservationService } from './services/employee-reservation.service';
 
 /**
  * Module that provides all services and configuration.
@@ -24,7 +25,7 @@ import { UserService } from './services/user.service';
   declarations: [],
   providers: [
     AirportService,
-    ReservationService,
+    ClientReservationService,
     PaymentControllerService,
     FlightService,
     EmployeeService,
@@ -33,6 +34,7 @@ import { UserService } from './services/user.service';
     AircraftService,
     CountryService,
     UserService,
+    EmployeeReservationService,
     ApiConfiguration
   ],
 })

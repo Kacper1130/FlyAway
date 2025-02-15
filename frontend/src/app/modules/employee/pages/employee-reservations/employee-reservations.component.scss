@@ -1,0 +1,91 @@
+.employee-reservations {
+  min-height: 100vh;
+  background-color: var(--page-bg, #1a1a1a);
+}
+
+.employee-reservations__container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.employee-reservations__header {
+  margin-bottom: 2rem;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: var(--surface-color, #2a2a2a);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-title {
+    color: white;
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+.reservations-table-container {
+  margin-bottom: 1rem;
+
+  .search-field {
+    width: 100%;
+
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+
+    input {
+      color: white;
+    }
+
+    mat-icon {
+      color: rgba(255, 255, 255, 0.7);
+      margin-right: 8px;
+    }
+  }
+}
+
+.custom-paginator {
+  background-color: var(--surface-color, #2a2a2a);
+  border-radius: 8px;
+
+  ::ng-deep {
+    .mat-paginator-container {
+      color: white;
+    }
+
+    .mat-paginator-icon {
+      color: white;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .employee-reservations__container {
+    padding: 1rem 0.5rem;
+  }
+
+  .employee-reservations__header {
+    .header-content {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .header-title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .reservations-table-container {
+    .search-field {
+      max-width: 100%;
+    }
+  }
+}

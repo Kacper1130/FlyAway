@@ -25,6 +25,7 @@ export { FlightBasicDto } from './models/flight-basic-dto';
 export { FlightDetailsClientDto } from './models/flight-details-client-dto';
 export { FlightDetailsDto } from './models/flight-details-dto';
 export { FlightDto } from './models/flight-dto';
+export { PageResponseDisplayReservationDto } from './models/page-response-display-reservation-dto';
 export { PageResponseFlightDto } from './models/page-response-flight-dto';
 export { RegistrationRequest } from './models/registration-request';
 export { ReservationDetailsClientDto } from './models/reservation-details-client-dto';

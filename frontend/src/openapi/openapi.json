@@ -85,7 +85,7 @@
     "/api/v1/reservations/create": {
       "post": {
         "tags": [
-          "Reservation"
+          "ClientReservation"
         ],
         "operationId": "createReservation",
         "requestBody": {
@@ -474,7 +474,7 @@
     "/api/v1/reservations": {
       "get": {
         "tags": [
-          "Reservation"
+          "ClientReservation"
         ],
         "operationId": "getOwnReservations",
         "responses": {
@@ -497,7 +497,7 @@
     "/api/v1/reservations/{id}": {
       "get": {
         "tags": [
-          "Reservation"
+          "ClientReservation"
         ],
         "operationId": "getReservationDetails",
         "parameters": [
@@ -526,7 +526,7 @@
       },
       "delete": {
         "tags": [
-          "Reservation"
+          "ClientReservation"
         ],
         "operationId": "cancelOwnReservation",
         "parameters": [
@@ -549,29 +549,6 @@
                   "type": "object",
                   "additionalProperties": {
                     "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/reservations/all": {
-      "get": {
-        "tags": [
-          "Reservation"
-        ],
-        "operationId": "getAllReservations",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DisplayReservationDto"
                   }
                 }
               }
@@ -784,6 +761,139 @@
                   "items": {
                     "$ref": "#/components/schemas/DisplayEmployeeDto"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee/reservations": {
+      "get": {
+        "tags": [
+          "EmployeeReservation"
+        ],
+        "operationId": "getReservations",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResponseDisplayReservationDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee/reservations/{id}": {
+      "get": {
+        "tags": [
+          "EmployeeReservation"
+        ],
+        "operationId": "getReservationDetails_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReservationDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "EmployeeReservation"
+        ],
+        "operationId": "cancelReservation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee/reservations/search": {
+      "get": {
+        "tags": [
+          "EmployeeReservation"
+        ],
+        "operationId": "searchReservationById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisplayReservationDto"
                 }
               }
             }
@@ -1159,37 +1269,6 @@
                   "items": {
                     "$ref": "#/components/schemas/Aircraft"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/reservations/{id}/cancel": {
-      "delete": {
-        "tags": [
-          "Reservation"
-        ],
-        "operationId": "cancelReservation",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
                 }
               }
             }
@@ -1876,53 +1955,6 @@
           }
         }
       },
-      "DisplayReservationDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "reservationDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "price": {
-            "type": "number"
-          },
-          "cabinClass": {
-            "type": "string",
-            "enum": [
-              "FIRST",
-              "BUSINESS",
-              "ECONOMY"
-            ]
-          },
-          "seatNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "PENDING",
-              "ACTIVE",
-              "CANCELLED",
-              "EXPIRED",
-              "COMPLETED",
-              "FAILED"
-            ]
-          },
-          "clientId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "flightId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        }
-      },
       "PageResponseFlightDto": {
         "type": "object",
         "properties": {
@@ -2086,6 +2118,86 @@
           "lastLogin": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "DisplayReservationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "reservationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "price": {
+            "type": "number"
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
+          },
+          "seatNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "CANCELLED",
+              "EXPIRED",
+              "COMPLETED",
+              "FAILED"
+            ]
+          },
+          "clientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "flightId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "PageResponseDisplayReservationDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DisplayReservationDto"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
           }
         }
       },

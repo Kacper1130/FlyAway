@@ -2,9 +2,9 @@ import {Component, inject, Input} from '@angular/core';
 import {FlightDto} from "../../../../services/models/flight-dto";
 import {DatePipe, NgClass, NgIf} from "@angular/common";
 import {SeatSelectionComponent} from "../seat-selection/seat-selection.component";
-import {ReservationService} from "../../../../services/services/reservation.service";
 import {CreateReservationDto} from "../../../../services/models/create-reservation-dto";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {ClientReservationService} from "../../../../services/services/client-reservation.service";
 
 @Component({
   selector: 'app-available-flight',
@@ -24,7 +24,7 @@ export class AvailableFlightComponent {
   private readonly _snackBar = inject(MatSnackBar);
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
-  constructor(private readonly reservationService: ReservationService) {
+  constructor(private readonly reservationService: ClientReservationService) {
   }
 
   get flightDuration(): string {

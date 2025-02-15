@@ -1,0 +1,39 @@
+<!-- employee-reservation-card.component.html -->
+<div class="reservation-card" [routerLink]="['/employee/reservations', reservation.id]" routerLinkActive="active">
+  <div class="reservation-card__header">
+    <div class="reservation-info">
+      <span class="reservation-id">Reservation #{{reservation.id}}</span>
+      <span class="status-badge" [style.background-color]="getStatusColor(reservation.status!.toString())">
+        {{reservation.status}}
+      </span>
+    </div>
+    <span class="reservation-date">{{reservation.reservationDate | date:'MM/dd/yyyy HH:mm'}}</span>
+  </div>
+
+  <div class="reservation-card__content">
+    <div class="passenger-info">
+      <mat-icon class="info-icon">person</mat-icon>
+      <span>{{reservation.clientDto?.firstname}} {{reservation.clientDto?.lastname}}</span>
+    </div>
+
+    <div class="flight-info">
+      <div class="route">
+        <div class="airport-info">
+          <span class="city">{{reservation.flightDto!.departureAirportDto.city}}</span>
+          <div class="time">
+            <mat-icon class="info-icon">schedule</mat-icon>
+            <span>{{reservation.flightDto?.departureDate | date:'MM/dd/yyyy HH:mm'}}</span>
+          </div>
+        </div>
+        <mat-icon class="flight-icon">arrow_forward</mat-icon>
+        <div class="airport-info">
+          <span class="city">{{reservation.flightDto!.arrivalAirportDto.city}}</span>
+          <div class="time">
+            <mat-icon class="info-icon">schedule</mat-icon>
+            <span>{{reservation.flightDto?.arrivalDate | date:'MM/dd/yyyy HH:mm'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
