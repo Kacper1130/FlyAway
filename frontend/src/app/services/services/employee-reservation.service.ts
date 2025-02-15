@@ -1,24 +1,25 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {cancelReservation, CancelReservation$Params} from '../fn/employee-reservation/cancel-reservation';
-import {DisplayReservationDto} from '../models/display-reservation-dto';
-import {
-  getReservationDetails1,
-  GetReservationDetails1$Params
-} from '../fn/employee-reservation/get-reservation-details-1';
-import {getReservations, GetReservations$Params} from '../fn/employee-reservation/get-reservations';
-import {PageResponseDisplayReservationDto} from '../models/page-response-display-reservation-dto';
-import {ReservationDto} from '../models/reservation-dto';
-import {searchReservationById, SearchReservationById$Params} from '../fn/employee-reservation/search-reservation-by-id';
+import { cancelReservation } from '../fn/employee-reservation/cancel-reservation';
+import { CancelReservation$Params } from '../fn/employee-reservation/cancel-reservation';
+import { getReservationDetails1 } from '../fn/employee-reservation/get-reservation-details-1';
+import { GetReservationDetails1$Params } from '../fn/employee-reservation/get-reservation-details-1';
+import { getReservations } from '../fn/employee-reservation/get-reservations';
+import { GetReservations$Params } from '../fn/employee-reservation/get-reservations';
+import { PageResponseReservationSummaryEmployeeDto } from '../models/page-response-reservation-summary-employee-dto';
+import { ReservationDto } from '../models/reservation-dto';
+import { ReservationSummaryEmployeeDto } from '../models/reservation-summary-employee-dto';
+import { searchReservationById } from '../fn/employee-reservation/search-reservation-by-id';
+import { SearchReservationById$Params } from '../fn/employee-reservation/search-reservation-by-id';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeReservationService extends BaseService {
@@ -35,7 +36,7 @@ export class EmployeeReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getReservations$Response(params?: GetReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseDisplayReservationDto>> {
+  getReservations$Response(params?: GetReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseReservationSummaryEmployeeDto>> {
     return getReservations(this.http, this.rootUrl, params, context);
   }
 
@@ -45,9 +46,9 @@ export class EmployeeReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getReservations(params?: GetReservations$Params, context?: HttpContext): Observable<PageResponseDisplayReservationDto> {
+  getReservations(params?: GetReservations$Params, context?: HttpContext): Observable<PageResponseReservationSummaryEmployeeDto> {
     return this.getReservations$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PageResponseDisplayReservationDto>): PageResponseDisplayReservationDto => r.body)
+      map((r: StrictHttpResponse<PageResponseReservationSummaryEmployeeDto>): PageResponseReservationSummaryEmployeeDto => r.body)
     );
   }
 
@@ -110,7 +111,7 @@ export class EmployeeReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  searchReservationById$Response(params: SearchReservationById$Params, context?: HttpContext): Observable<StrictHttpResponse<DisplayReservationDto>> {
+  searchReservationById$Response(params: SearchReservationById$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationSummaryEmployeeDto>> {
     return searchReservationById(this.http, this.rootUrl, params, context);
   }
 
@@ -120,9 +121,9 @@ export class EmployeeReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  searchReservationById(params: SearchReservationById$Params, context?: HttpContext): Observable<DisplayReservationDto> {
+  searchReservationById(params: SearchReservationById$Params, context?: HttpContext): Observable<ReservationSummaryEmployeeDto> {
     return this.searchReservationById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<DisplayReservationDto>): DisplayReservationDto => r.body)
+      map((r: StrictHttpResponse<ReservationSummaryEmployeeDto>): ReservationSummaryEmployeeDto => r.body)
     );
   }
 

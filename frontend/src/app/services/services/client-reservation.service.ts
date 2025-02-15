@@ -1,21 +1,25 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {cancelOwnReservation, CancelOwnReservation$Params} from '../fn/client-reservation/cancel-own-reservation';
-import {createReservation, CreateReservation$Params} from '../fn/client-reservation/create-reservation';
-import {getOwnReservations, GetOwnReservations$Params} from '../fn/client-reservation/get-own-reservations';
-import {getReservationDetails, GetReservationDetails$Params} from '../fn/client-reservation/get-reservation-details';
-import {ReservationDetailsClientDto} from '../models/reservation-details-client-dto';
-import {ReservationPaymentResponseDto} from '../models/reservation-payment-response-dto';
-import {ReservationSummaryClientDto} from '../models/reservation-summary-client-dto';
+import { cancelOwnReservation } from '../fn/client-reservation/cancel-own-reservation';
+import { CancelOwnReservation$Params } from '../fn/client-reservation/cancel-own-reservation';
+import { createReservation } from '../fn/client-reservation/create-reservation';
+import { CreateReservation$Params } from '../fn/client-reservation/create-reservation';
+import { getOwnReservations } from '../fn/client-reservation/get-own-reservations';
+import { GetOwnReservations$Params } from '../fn/client-reservation/get-own-reservations';
+import { getReservationDetails } from '../fn/client-reservation/get-reservation-details';
+import { GetReservationDetails$Params } from '../fn/client-reservation/get-reservation-details';
+import { ReservationDetailsClientDto } from '../models/reservation-details-client-dto';
+import { ReservationPaymentResponseDto } from '../models/reservation-payment-response-dto';
+import { ReservationSummaryClientDto } from '../models/reservation-summary-client-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ClientReservationService extends BaseService {

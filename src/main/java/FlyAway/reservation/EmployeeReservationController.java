@@ -3,6 +3,7 @@ package FlyAway.reservation;
 
 import FlyAway.common.PageResponse;
 import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationSummaryEmployeeDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,20 +27,20 @@ public class EmployeeReservationController {
     }
 
     @GetMapping("")
-    public ResponseEntity<PageResponse<ReservationDto>> getReservations(
+    public ResponseEntity<PageResponse<ReservationSummaryEmployeeDto>> getReservations(
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size
     ) {
         LOGGER.debug("Retrieving all reservations");
-        PageResponse<ReservationDto> reservations = employeeReservationService.getReservations(page, size);
+        PageResponse<ReservationSummaryEmployeeDto> reservations = employeeReservationService.getReservations(page, size);
         LOGGER.info("Retrieved {} reservations", reservations.getTotalElements());
         return ResponseEntity.ok().body(reservations);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ReservationDto> searchReservationById(@RequestParam UUID id) {
+    public ResponseEntity<ReservationSummaryEmployeeDto> searchReservationById(@RequestParam UUID id) {
         LOGGER.debug("Searching reservation with id {}", id);
-        ReservationDto reservation = employeeReservationService.getReservationSummary(id);
+        ReservationSummaryEmployeeDto reservation = employeeReservationService.getReservationSummary(id);
         LOGGER.info("Found reservation with id {}", id);
         return ResponseEntity.ok().body(reservation);
     }

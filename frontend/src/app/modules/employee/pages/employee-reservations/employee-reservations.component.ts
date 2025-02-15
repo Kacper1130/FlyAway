@@ -11,9 +11,11 @@ import {MatInput} from "@angular/material/input";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {AvailableFlightComponent} from "../../../flights/components/available-flight/available-flight.component";
 import {FormsModule} from "@angular/forms";
-import {PageResponseDisplayReservationDto} from "../../../../services/models/page-response-display-reservation-dto";
 import {EmployeeReservationService} from "../../../../services/services/employee-reservation.service";
 import {EmployeeReservationCardComponent} from "./employee-reservation-card/employee-reservation-card.component";
+import {
+  PageResponseReservationSummaryEmployeeDto
+} from "../../../../services/models/page-response-reservation-summary-employee-dto";
 
 @Component({
   selector: 'app-employee-reservations',
@@ -39,7 +41,7 @@ import {EmployeeReservationCardComponent} from "./employee-reservation-card/empl
 })
 export class EmployeeReservationsComponent implements OnInit{
 
-  reservations: PageResponseDisplayReservationDto = {};
+  reservations: PageResponseReservationSummaryEmployeeDto = {};
   page: number = 0;
   size: number = 20;
 

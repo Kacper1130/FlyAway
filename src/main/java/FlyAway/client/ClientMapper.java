@@ -1,6 +1,7 @@
 package FlyAway.client;
 
 import FlyAway.client.dto.ClientDto;
+import FlyAway.client.dto.ClientNameDto;
 import FlyAway.client.dto.ClientRegistrationDto;
 import FlyAway.client.dto.ClientReservationDto;
 import FlyAway.reservation.ReservationMapper;
@@ -17,4 +18,5 @@ public interface ClientMapper {
 
     ClientReservationDto clientToClientReservationDto(Client client);
 
+    ClientNameDto clientToClientNameDto(Client client);
 }

@@ -27,6 +27,9 @@ import {
 } from "./modules/employee/pages/employee-flights-add/employee-flights-add.component";
 import {PaymentStatusComponent} from "./components/payment-status/payment-status.component";
 import {ReservationDetailsComponent} from "./modules/reservations/reservation-details/reservation-details.component";
+import {
+  EmployeeReservationDetailsComponent
+} from "./modules/employee/pages/employee-reservations/employee-reservation-details/employee-reservation-details.component";
 
 export const routes: Routes = [
   {
@@ -143,7 +146,16 @@ export const routes: Routes = [
       },
       {
         path: 'reservations',
-        component: EmployeeReservationsComponent
+        children: [
+          {
+            path: '',
+            component: EmployeeReservationsComponent
+          },
+          {
+            path: ":id",
+            component: EmployeeReservationDetailsComponent
+          }
+        ]
       },
       {
         path: 'issues',

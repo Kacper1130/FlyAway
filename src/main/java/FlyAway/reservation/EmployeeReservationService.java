@@ -3,6 +3,7 @@ package FlyAway.reservation;
 import FlyAway.common.PageResponse;
 import FlyAway.exception.ReservationDoesNotExistException;
 import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationSummaryEmployeeDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,13 +28,13 @@ public class EmployeeReservationService {
         this.reservationRepository = reservationRepository;
     }
 
-    public PageResponse<ReservationDto> getReservations(int page, int size) {
+    public PageResponse<ReservationSummaryEmployeeDto> getReservations(int page, int size) {
         LOGGER.debug("Retrieving page {} with size {} from reservation repository", page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by("reservationDate").descending());
         Page<Reservation> reservations = reservationRepository.findAll(pageable);
-        List<ReservationDto> reservationsResponse = reservations
+        List<ReservationSummaryEmployeeDto> reservationsResponse = reservations
                 .stream()
-                .map(reservationMapper::reservationToReservationDto)
+                .map(reservationMapper::reservationToReservationSummaryEmployeeDto)
                 .toList();
         LOGGER.info("Retrieved {} reservations", reservationsResponse.size());
         return new PageResponse<>(
@@ -47,11 +48,11 @@ public class EmployeeReservationService {
         );
     }
 
-    public ReservationDto getReservationSummary(UUID id) {
+    public ReservationSummaryEmployeeDto getReservationSummary(UUID id) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(ReservationDoesNotExistException::new);
         LOGGER.info("Found reservation with id {}", id);
-        return reservationMapper.reservationToReservationDto(reservation);
+        return reservationMapper.reservationToReservationSummaryEmployeeDto(reservation);
     }
 
     public void cancelReservation(UUID id) {

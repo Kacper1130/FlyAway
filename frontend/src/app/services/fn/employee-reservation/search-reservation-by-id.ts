@@ -6,13 +6,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { DisplayReservationDto } from '../../models/display-reservation-dto';
+import { ReservationSummaryEmployeeDto } from '../../models/reservation-summary-employee-dto';
 
 export interface SearchReservationById$Params {
   id: string;
 }
 
-export function searchReservationById(http: HttpClient, rootUrl: string, params: SearchReservationById$Params, context?: HttpContext): Observable<StrictHttpResponse<DisplayReservationDto>> {
+export function searchReservationById(http: HttpClient, rootUrl: string, params: SearchReservationById$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationSummaryEmployeeDto>> {
   const rb = new RequestBuilder(rootUrl, searchReservationById.PATH, 'get');
   if (params) {
     rb.query('id', params.id, {});
@@ -23,7 +23,7 @@ export function searchReservationById(http: HttpClient, rootUrl: string, params:
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<DisplayReservationDto>;
+      return r as StrictHttpResponse<ReservationSummaryEmployeeDto>;
     })
   );
 }

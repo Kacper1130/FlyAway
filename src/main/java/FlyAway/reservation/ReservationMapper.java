@@ -32,4 +32,8 @@ public interface ReservationMapper {
     @Mapping(source = "flight", target = "flightDto")
     ReservationDetailsClientDto reservationToReservationDetailsClientDto(Reservation reservation);
 
+    @Mapping(source = "flight", target = "flightDto")
+    @Mapping(source = "client", target = "clientDto")
+    ReservationSummaryEmployeeDto reservationToReservationSummaryEmployeeDto(Reservation reservation);
+
 }

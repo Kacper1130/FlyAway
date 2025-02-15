@@ -802,7 +802,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageResponseDisplayReservationDto"
+                  "$ref": "#/components/schemas/PageResponseReservationSummaryEmployeeDto"
                 }
               }
             }
@@ -893,7 +893,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DisplayReservationDto"
+                  "$ref": "#/components/schemas/ReservationSummaryEmployeeDto"
                 }
               }
             }
@@ -2121,60 +2121,24 @@
           }
         }
       },
-      "DisplayReservationDto": {
+      "ClientNameDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
+          "firstname": {
+            "type": "string"
           },
-          "reservationDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "price": {
-            "type": "number"
-          },
-          "cabinClass": {
-            "type": "string",
-            "enum": [
-              "FIRST",
-              "BUSINESS",
-              "ECONOMY"
-            ]
-          },
-          "seatNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "PENDING",
-              "ACTIVE",
-              "CANCELLED",
-              "EXPIRED",
-              "COMPLETED",
-              "FAILED"
-            ]
-          },
-          "clientId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "flightId": {
-            "type": "string",
-            "format": "uuid"
+          "lastname": {
+            "type": "string"
           }
         }
       },
-      "PageResponseDisplayReservationDto": {
+      "PageResponseReservationSummaryEmployeeDto": {
         "type": "object",
         "properties": {
           "content": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DisplayReservationDto"
+              "$ref": "#/components/schemas/ReservationSummaryEmployeeDto"
             }
           },
           "number": {
@@ -2198,6 +2162,36 @@
           },
           "last": {
             "type": "boolean"
+          }
+        }
+      },
+      "ReservationSummaryEmployeeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "CANCELLED",
+              "EXPIRED",
+              "COMPLETED",
+              "FAILED"
+            ]
+          },
+          "reservationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "clientDto": {
+            "$ref": "#/components/schemas/ClientNameDto"
+          },
+          "flightDto": {
+            "$ref": "#/components/schemas/FlightBasicDto"
           }
         }
       },
