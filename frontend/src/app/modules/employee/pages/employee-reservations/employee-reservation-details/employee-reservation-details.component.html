@@ -1,0 +1,113 @@
+<app-employee-navbar></app-employee-navbar>
+<div class="reservation-details" *ngIf="reservation">
+  <div class="details-header">
+    <div class="header-left">
+      <h1>Reservation #{{reservation.id}}</h1>
+      <span class="status-badge" [style.background-color]="getStatusColor(reservation.status!.toString())">
+        {{reservation.status}}
+      </span>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="warn" *ngIf="reservation.status == 'ACTIVE'" (click)="cancelReservation()">
+        <mat-icon>cancel</mat-icon>
+        Cancel Reservation
+      </button>
+    </div>
+  </div>
+
+  <div class="details-card passenger-section">
+    <div class="card-header">
+      <mat-icon>person</mat-icon>
+      <h2>Passenger Information</h2>
+    </div>
+    <div class="card-content">
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Full Name</span>
+          <span class="value">{{reservation.clientDto?.firstname}} {{reservation.clientDto?.lastname}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Email</span>
+          <span class="value">{{reservation.clientDto?.email}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Phone</span>
+          <span class="value">{{reservation.clientDto?.phoneNumber}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-card flight-section">
+    <div class="card-header">
+      <mat-icon>flight</mat-icon>
+      <h2>Flight Details</h2>
+    </div>
+    <div class="card-content">
+      <div class="flight-route">
+        <div class="airport-details">
+          <div class="airport-code">{{reservation!.flightDto!.departureAirportDto.IATACode}}</div>
+          <div class="airport-info">
+            <div class="airport-city">{{reservation!.flightDto!.departureAirportDto.city}}</div>
+            <div class="airport-name">{{reservation!.flightDto!.departureAirportDto.name}}</div>
+            <div class="airport-country">{{reservation!.flightDto!.departureAirportDto.country.name}}</div>
+          </div>
+          <div class="datetime">
+            <mat-icon>schedule</mat-icon>
+            {{reservation.flightDto?.departureDate | date:'MMM dd, yyyy HH:mm'}}
+          </div>
+        </div>
+
+        <div class="flight-info-center">
+          <mat-icon class="flight-icon">arrow_forward</mat-icon>
+          <div class="flight-duration">
+            2h 30m
+          </div>
+          <div class="flight-number">
+            Flight #{{reservation.flightDto?.id }}
+          </div>
+        </div>
+
+        <div class="airport-details">
+          <div class="airport-code">{{reservation!.flightDto!.arrivalAirportDto.IATACode}}</div>
+          <div class="airport-info">
+            <div class="airport-city">{{reservation!.flightDto!.arrivalAirportDto.city}}</div>
+            <div class="airport-name">{{reservation!.flightDto!.arrivalAirportDto.name}}</div>
+            <div class="airport-country">{{reservation!.flightDto!.arrivalAirportDto.country.name}}</div>
+          </div>
+          <div class="datetime">
+            <mat-icon>schedule</mat-icon>
+            {{reservation.flightDto?.arrivalDate | date:'MMM dd, yyyy HH:mm'}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="details-card booking-section">
+    <div class="card-header">
+      <mat-icon>receipt</mat-icon>
+      <h2>Booking Details</h2>
+    </div>
+    <div class="card-content">
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="label">Booking Date</span>
+          <span class="value">{{reservation.reservationDate | date:'MMM dd, yyyy HH:mm'}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Seat Number</span>
+          <span class="value">{{reservation.seatNumber}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Fare Class</span>
+          <span class="value">{{reservation.cabinClass}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Price</span>
+          <span class="value">{{reservation.price | currency}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
