@@ -14,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -57,16 +56,12 @@ public class EmployeeReservationService {
 
     public void cancelReservation(UUID id) {
         LOGGER.debug("Cancelling reservation with id {}", id);
-        Optional<Reservation> optionalReservation = reservationRepository.findById(id);
-        if (optionalReservation.isPresent()) {
-            Reservation reservation = optionalReservation.get();
-            reservation.setStatus(ReservationStatus.CANCELLED);
-            reservationRepository.save(reservation);
-            LOGGER.info("Successfully cancelled reservation with id {}", id);
-        } else {
-            LOGGER.error("Reservation with id {} does not exist", id);
-            throw new ReservationDoesNotExistException(id);
-        }
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(ReservationDoesNotExistException::new);
+
+        reservation.setStatus(ReservationStatus.CANCELLED);
+        reservationRepository.save(reservation);
+        LOGGER.info("Successfully cancelled reservation with id {}", id);
     }
 
     public ReservationDto getReservationDetails(UUID id) {

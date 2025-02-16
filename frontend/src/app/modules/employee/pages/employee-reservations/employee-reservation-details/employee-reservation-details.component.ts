@@ -57,7 +57,12 @@ export class EmployeeReservationDetailsComponent implements OnInit {
   }
 
   cancelReservation() {
-    return null;
+    const id = this.route.snapshot.paramMap.get('id')!;
+    this.reservationService.cancelReservation({id: id}).subscribe({
+      next: () => {
+        window.location.reload();
+      }
+    })
   }
 
 }

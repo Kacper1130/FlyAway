@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -54,11 +56,13 @@ public class EmployeeReservationController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> cancelReservation(@PathVariable UUID id) {
+    public ResponseEntity<Map<String, String>> cancelReservation(@PathVariable UUID id) {
         LOGGER.debug("Cancelling reservation with id {} ", id);
         employeeReservationService.cancelReservation(id);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Reservation has been successfully cancelled");
         LOGGER.info("Successfully cancelled reservation");
-        return ResponseEntity.ok("Cancelled reservation");
+        return ResponseEntity.ok(response);
     }
 
 }
