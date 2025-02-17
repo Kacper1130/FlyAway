@@ -4,14 +4,20 @@
     <div class="header-left">
       <h1>Reservation #{{reservation.id}}</h1>
       <span class="status-badge" [style.background-color]="getStatusColor(reservation.status!.toString())">
-        {{reservation.status}}
-      </span>
+      {{reservation.status}}
+    </span>
     </div>
-    <div class="header-actions">
-      <button mat-raised-button color="warn" *ngIf="reservation.status == 'ACTIVE'" (click)="cancelReservation()">
-        <mat-icon>cancel</mat-icon>
-        Cancel Reservation
-      </button>
+    <div class="header-right">
+      <div class="reservation-date">
+        <mat-icon>event</mat-icon>
+        {{reservation.reservationDate | date:'MMM dd, yyyy HH:mm'}}
+      </div>
+      <div class="header-actions">
+        <button mat-raised-button color="warn" *ngIf="reservation.status == 'ACTIVE'" (click)="cancelReservation()">
+          <mat-icon>cancel</mat-icon>
+          Cancel Reservation
+        </button>
+      </div>
     </div>
   </div>
 
@@ -33,6 +39,10 @@
         <div class="info-item">
           <span class="label">Phone</span>
           <span class="value">{{reservation.clientDto?.phoneNumber}}</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Day Of Birth</span>
+          <span class="value">{{reservation.clientDto?.dayOfBirth}}</span>
         </div>
       </div>
     </div>
