@@ -2,7 +2,7 @@ package FlyAway.reservation;
 
 
 import FlyAway.common.PageResponse;
-import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationDetailsEmployeeDto;
 import FlyAway.reservation.dto.ReservationSummaryEmployeeDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
@@ -48,9 +48,9 @@ public class EmployeeReservationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReservationDto> getReservationDetails(@PathVariable UUID id) {
+    public ResponseEntity<ReservationDetailsEmployeeDto> getReservationDetails(@PathVariable UUID id) {
         LOGGER.debug("Fetching reservation with id {} ", id);
-        ReservationDto reservationDetails = employeeReservationService.getReservationDetails(id);
+        ReservationDetailsEmployeeDto reservationDetails = employeeReservationService.getReservationDetails(id);
         LOGGER.info("Successfully fetched reservation");
         return ResponseEntity.ok().body(reservationDetails);
     }

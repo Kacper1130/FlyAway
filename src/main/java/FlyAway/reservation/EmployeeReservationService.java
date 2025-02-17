@@ -2,7 +2,7 @@ package FlyAway.reservation;
 
 import FlyAway.common.PageResponse;
 import FlyAway.exception.ReservationDoesNotExistException;
-import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationDetailsEmployeeDto;
 import FlyAway.reservation.dto.ReservationSummaryEmployeeDto;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -64,12 +64,12 @@ public class EmployeeReservationService {
         LOGGER.info("Successfully cancelled reservation with id {}", id);
     }
 
-    public ReservationDto getReservationDetails(UUID id) {
+    public ReservationDetailsEmployeeDto getReservationDetails(UUID id) {
         LOGGER.debug("Retrieving reservation with id {}", id);
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(ReservationDoesNotExistException::new);
         LOGGER.info("Successfully retrieved reservation with id {}", id);
-        return reservationMapper.reservationToReservationDto(reservation);
+        return reservationMapper.reservationToReservationDetailsEmployeeDto(reservation);
     }
 
 }
