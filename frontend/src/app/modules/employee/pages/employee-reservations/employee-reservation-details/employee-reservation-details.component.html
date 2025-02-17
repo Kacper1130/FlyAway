@@ -48,10 +48,11 @@
     </div>
   </div>
 
-  <div class="details-card flight-section">
+  <div class="details-card flight-section" (click)="navigateToFlight()" [class.clickable]="true">
     <div class="card-header">
       <mat-icon>flight</mat-icon>
       <h2>Flight Details</h2>
+      <mat-icon class="navigate-icon">chevron_right</mat-icon>
     </div>
     <div class="card-content">
       <div class="flight-route">

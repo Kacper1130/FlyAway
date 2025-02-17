@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ReservationDto} from "../../../../../services/models/reservation-dto";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {EmployeeReservationService} from "../../../../../services/services/employee-reservation.service";
 import {CurrencyPipe, DatePipe, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
@@ -26,7 +26,8 @@ export class EmployeeReservationDetailsComponent implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly reservationService: EmployeeReservationService
+    private readonly reservationService: EmployeeReservationService,
+    private readonly router: Router
   ) {
   }
 
@@ -65,4 +66,9 @@ export class EmployeeReservationDetailsComponent implements OnInit {
     })
   }
 
+  navigateToFlight() {
+    if (this.reservation?.flightDto?.id) {
+      this.router.navigate(['/employee/flights', this.reservation.flightDto.id]);
+    }
+  }
 }
