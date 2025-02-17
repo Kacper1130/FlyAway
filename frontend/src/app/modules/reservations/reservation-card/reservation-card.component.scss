@@ -19,10 +19,10 @@
   height: 4px;
   width: 100%;
 
-  &.active { background: linear-gradient(90deg, #00d934, #00ff40); }
-  &.completed { background: linear-gradient(90deg, #00ad2d, #00d934); }
-  &.pending { background: linear-gradient(90deg, #d97706, #fbbf24); }
-  &.cancelled, &.expired, &.failed { background: linear-gradient(90deg, #dc2626, #ef4444); }
+  &.active { background: #00d733; }
+  &.completed { background: #006817; }
+  &.pending { background: #d97706; }
+  &.cancelled, &.expired, &.failed { background: #dc2626; }
 }
 
 .card-content {
@@ -63,20 +63,20 @@
   font-weight: 500;
 
   &.active {
-    background: rgba(0, 217, 52, 0.1);
-    color: #00d934;
+    background: #00d733;
+    color: #e5e7eb;
   }
   &.completed {
-    background: rgba(0, 173, 45, 0.1);
-    color: #00ad2d;
+    background: #006817;
+    color: #e5e7eb;
   }
   &.pending {
-    background: rgba(217, 119, 6, 0.1);
-    color: #fbbf24;
+    background: #d97706;
+    color: #e5e7eb;
   }
   &.cancelled, &.expired, &.failed {
-    background: rgba(220, 38, 38, 0.1);
-    color: #ef4444;
+    background: #dc2626;
+    color: #e5e7eb;
   }
 }
 

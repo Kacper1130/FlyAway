@@ -27,7 +27,7 @@ export class EmployeeReservationCardComponent {
   getStatusColor(status: string): string {
     switch (status) {
       case 'ACTIVE': return '#00d733';
-      case 'COMPLETED': return '#00ad2d'
+      case 'COMPLETED': return '#006817'
       case 'PENDING': return '#d97706';
       default: return '#dc2626';
     }

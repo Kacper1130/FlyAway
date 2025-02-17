@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CurrencyPipe, DatePipe, NgClass} from "@angular/common";
+import {DatePipe, NgClass} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {ReservationSummaryClientDto} from "../../../services/models/reservation-summary-client-dto";
 
@@ -9,7 +9,6 @@ import {ReservationSummaryClientDto} from "../../../services/models/reservation-
   imports: [
     NgClass,
     DatePipe,
-    CurrencyPipe,
     RouterLink,
     RouterLinkActive
   ],
@@ -29,7 +28,4 @@ export class ReservationCardComponent {
     return `${hours}h ${minutes}m`;
   }
 
-  onCardClick(): void {
-    this.cardClick.emit(this.reservation);
-  }
 }

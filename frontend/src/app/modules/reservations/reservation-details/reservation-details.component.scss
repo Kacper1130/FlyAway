@@ -63,10 +63,10 @@
   height: 24px;
   border-radius: 2px;
 
-  &.active { background: linear-gradient(180deg, #00d934, #00ff40); }
-  &.completed { background: linear-gradient(180deg, #00ad2d, #00d934); }
-  &.pending { background: linear-gradient(180deg, #d97706, #fbbf24); }
-  &.cancelled, &.expired, &.failed { background: linear-gradient(180deg, #dc2626, #ef4444); }
+  &.active { background: #00d733; }
+  &.completed { background: #006817; }
+  &.pending { background: #d97706; }
+    &.cancelled, &.expired, &.failed { background: #dc2626; }
 }
 
 .reservation-id {
