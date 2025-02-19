@@ -31,6 +31,7 @@ import {
   EmployeeReservationDetailsComponent
 } from "./modules/employee/pages/employee-reservations/employee-reservation-details/employee-reservation-details.component";
 import {SupportComponent} from "./modules/support/support.component";
+import {CreateTicketComponent} from "./modules/support/components/create-ticket/create-ticket.component";
 
 export const routes: Routes = [
   {
@@ -67,6 +68,11 @@ export const routes: Routes = [
   {
     path: 'support',
     component: SupportComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'support/create-ticket',
+    component: CreateTicketComponent,
     canActivate: [authGuard]
   },
   {

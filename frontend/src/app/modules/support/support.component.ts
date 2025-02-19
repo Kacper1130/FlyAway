@@ -4,6 +4,8 @@ import {NgForOf, NgIf} from "@angular/common";
 import {SupportTicket} from "../../services/models/support-ticket";
 import {ClientSupportTicketService} from "../../services/services/client-support-ticket.service";
 import {SupportTicketCardComponent} from "./components/support-ticket-card/support-ticket-card.component";
+import {MatButton} from "@angular/material/button";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-support',
@@ -12,7 +14,9 @@ import {SupportTicketCardComponent} from "./components/support-ticket-card/suppo
     NewNavbarComponent,
     NgForOf,
     NgIf,
-    SupportTicketCardComponent
+    SupportTicketCardComponent,
+    MatButton,
+    RouterLink
   ],
   templateUrl: './support.component.html',
   styleUrl: './support.component.scss'
@@ -34,6 +38,11 @@ export class SupportComponent {
         this.supportTickets = respone;
       }
     })
+  }
+
+  createNewTicket() {
+    // Implement your ticket creation logic here
+    // This could open a modal or navigate to a new ticket form
   }
 
 }
