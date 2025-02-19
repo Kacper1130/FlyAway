@@ -1,2 +1,17 @@
-<app-employee-navbar></app-employee-navbar>
-<p>employee-issues works!</p>
+<div class="employee-tickets">
+  <app-employee-navbar></app-employee-navbar>
+
+  <div class="employee-tickets__container">
+    <div class="employee-tickets__header">
+      <div class="header-content">
+        <h2 class="header-title">Support Tickets</h2>
+      </div>
+    </div>
+
+    <div class="tickets-list">
+      <div class="ticket-item" *ngFor="let ticket of tickets">
+        <app-employee-support-ticket-card [ticket]="ticket"></app-employee-support-ticket-card>
+      </div>
+    </div>
+  </div>
+</div>

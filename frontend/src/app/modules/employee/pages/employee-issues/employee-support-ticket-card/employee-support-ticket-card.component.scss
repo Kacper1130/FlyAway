@@ -1,0 +1,59 @@
+.ticket-card {
+  background-color: var(--surface-color, #2a2a2a);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 1400px;
+  transition: transform 0.2s ease-in-out;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.ticket-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status.open {
+  background-color: #ffeb3b;
+  color: #333;
+}
+
+.status.in_progress {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.status.closed {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+//.date {
+//  font-size: 0.9rem;
+//  color: rgba(255, 255, 255, 0.7);
+//}
+//
+//.info {
+//  font-size: 0.9rem;
+//  color: rgba(255, 255, 255, 0.9);
+//}

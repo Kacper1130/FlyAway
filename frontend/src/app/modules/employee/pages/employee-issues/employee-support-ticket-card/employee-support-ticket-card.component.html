@@ -1,0 +1,9 @@
+<div class="ticket-card">
+  <div class="header">
+    <h3>{{ ticket.title }}</h3>
+    <span class="status" [ngClass]="ticket.status?.toLowerCase()">{{ ticket.status }}</span>
+  </div>
+  <p class="date">Created At: {{ ticket.createdAt | date:'medium' }}</p>
+<!--  <p class="info">Client ID: {{ ticket.clientId }}</p>-->
+<!--  <p class="info">Employee ID: {{ ticket.employeeId }}</p>-->
+</div>
