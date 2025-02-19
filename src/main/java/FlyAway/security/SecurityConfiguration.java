@@ -41,14 +41,15 @@ public class SecurityConfiguration {
                                         "/webjars/**",
                                         "/swagger-ui.html",
                                         "/api/v1/auth/**",
-                                        "/api/v1/payment/webhook"
-                                ).permitAll()
+                                        "/api/v1/payment/webhook",
+                                        "/ws"
+                                        ).permitAll()
                                 .requestMatchers(
                                         "/api/v1/admin/**"
                                 ).hasAuthority("ROLE_ADMIN")
-    //                                .requestMatchers(
-    //                                        "/api/v1/employee/**"
-    //                                ).hasAuthority("ROLE_EMPLOYEE")
+                                //                                .requestMatchers(
+                                //                                        "/api/v1/employee/**"
+                                //                                ).hasAuthority("ROLE_EMPLOYEE")
                                 .requestMatchers(
                                         "/api/v1/flights/add"
                                 ).hasAnyAuthority("ROLE_ADMIN", "ROLE_EMPLOYEE")
