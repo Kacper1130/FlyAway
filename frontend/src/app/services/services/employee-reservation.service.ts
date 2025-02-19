@@ -1,24 +1,25 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {cancelReservation, CancelReservation$Params} from '../fn/employee-reservation/cancel-reservation';
-import {
-  getReservationDetails1,
-  GetReservationDetails1$Params
-} from '../fn/employee-reservation/get-reservation-details-1';
-import {getReservations, GetReservations$Params} from '../fn/employee-reservation/get-reservations';
-import {PageResponseReservationSummaryEmployeeDto} from '../models/page-response-reservation-summary-employee-dto';
-import {ReservationDto} from '../models/reservation-dto';
-import {ReservationSummaryEmployeeDto} from '../models/reservation-summary-employee-dto';
-import {searchReservationById, SearchReservationById$Params} from '../fn/employee-reservation/search-reservation-by-id';
+import { cancelReservation } from '../fn/employee-reservation/cancel-reservation';
+import { CancelReservation$Params } from '../fn/employee-reservation/cancel-reservation';
+import { getReservationDetails1 } from '../fn/employee-reservation/get-reservation-details-1';
+import { GetReservationDetails1$Params } from '../fn/employee-reservation/get-reservation-details-1';
+import { getReservations } from '../fn/employee-reservation/get-reservations';
+import { GetReservations$Params } from '../fn/employee-reservation/get-reservations';
+import { PageResponseReservationSummaryEmployeeDto } from '../models/page-response-reservation-summary-employee-dto';
+import { ReservationDetailsEmployeeDto } from '../models/reservation-details-employee-dto';
+import { ReservationSummaryEmployeeDto } from '../models/reservation-summary-employee-dto';
+import { searchReservationById } from '../fn/employee-reservation/search-reservation-by-id';
+import { SearchReservationById$Params } from '../fn/employee-reservation/search-reservation-by-id';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeReservationService extends BaseService {
@@ -60,7 +61,7 @@ export class EmployeeReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getReservationDetails1$Response(params: GetReservationDetails1$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDto>> {
+  getReservationDetails1$Response(params: GetReservationDetails1$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDetailsEmployeeDto>> {
     return getReservationDetails1(this.http, this.rootUrl, params, context);
   }
 
@@ -70,9 +71,9 @@ export class EmployeeReservationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getReservationDetails1(params: GetReservationDetails1$Params, context?: HttpContext): Observable<ReservationDto> {
+  getReservationDetails1(params: GetReservationDetails1$Params, context?: HttpContext): Observable<ReservationDetailsEmployeeDto> {
     return this.getReservationDetails1$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
+      map((r: StrictHttpResponse<ReservationDetailsEmployeeDto>): ReservationDetailsEmployeeDto => r.body)
     );
   }
 

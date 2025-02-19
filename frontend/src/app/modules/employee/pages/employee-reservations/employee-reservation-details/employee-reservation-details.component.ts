@@ -6,6 +6,7 @@ import {CurrencyPipe, DatePipe, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
 import {EmployeeNavbarComponent} from "../../../components/employee-navbar/employee-navbar.component";
+import {ReservationDetailsEmployeeDto} from "../../../../../services/models/reservation-details-employee-dto";
 
 @Component({
   selector: 'app-employee-reservation-details',
@@ -22,7 +23,7 @@ import {EmployeeNavbarComponent} from "../../../components/employee-navbar/emplo
   styleUrl: './employee-reservation-details.component.scss'
 })
 export class EmployeeReservationDetailsComponent implements OnInit {
-  reservation: ReservationDto | null = null
+  reservation: ReservationDetailsEmployeeDto | null = null
 
   constructor(
     private readonly route: ActivatedRoute,

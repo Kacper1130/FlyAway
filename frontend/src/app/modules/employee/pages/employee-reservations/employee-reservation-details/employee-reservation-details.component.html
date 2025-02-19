@@ -57,11 +57,11 @@
     <div class="card-content">
       <div class="flight-route">
         <div class="airport-details">
-          <div class="airport-code">{{reservation!.flightDto!.departureAirportDto.IATACode}}</div>
+          <div class="airport-code">{{reservation!.flightDto!.departureAirportDto?.IATACode}}</div>
           <div class="airport-info">
-            <div class="airport-city">{{reservation!.flightDto!.departureAirportDto.city}}</div>
-            <div class="airport-name">{{reservation!.flightDto!.departureAirportDto.name}}</div>
-            <div class="airport-country">{{reservation!.flightDto!.departureAirportDto.country.name}}</div>
+            <div class="airport-city">{{reservation!.flightDto!.departureAirportDto?.city}}</div>
+            <div class="airport-name">{{reservation!.flightDto!.departureAirportDto?.name}}</div>
+            <div class="airport-country">{{reservation!.flightDto!.departureAirportDto?.country}}</div>
           </div>
           <div class="datetime">
             <mat-icon>schedule</mat-icon>
@@ -80,11 +80,11 @@
         </div>
 
         <div class="airport-details">
-          <div class="airport-code">{{reservation!.flightDto!.arrivalAirportDto.IATACode}}</div>
+          <div class="airport-code">{{reservation!.flightDto!.arrivalAirportDto?.IATACode}}</div>
           <div class="airport-info">
-            <div class="airport-city">{{reservation!.flightDto!.arrivalAirportDto.city}}</div>
-            <div class="airport-name">{{reservation!.flightDto!.arrivalAirportDto.name}}</div>
-            <div class="airport-country">{{reservation!.flightDto!.arrivalAirportDto.country.name}}</div>
+            <div class="airport-city">{{reservation!.flightDto!.arrivalAirportDto?.city}}</div>
+            <div class="airport-name">{{reservation!.flightDto!.arrivalAirportDto?.name}}</div>
+            <div class="airport-country">{{reservation!.flightDto!.arrivalAirportDto?.country}}</div>
           </div>
           <div class="datetime">
             <mat-icon>schedule</mat-icon>
