@@ -1,0 +1,9 @@
+<div class="ticket-card" (click)="goToChatHistory()">
+  <div class="ticket-header">
+    <div class="topic">{{ ticket.title }}</div>
+    <div class="status-badge" [ngClass]="{'open': ticket.status === 'OPEN', 'in-progress': ticket.status === 'IN_PROGRESS', 'closed': ticket.status === 'CLOSED'}">
+      {{ ticket.status }}
+    </div>
+  </div>
+  <div class="date">Created: {{ ticket.createdAt | date:'medium' }}</div>
+</div>

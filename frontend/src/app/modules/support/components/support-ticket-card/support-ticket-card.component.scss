@@ -1,0 +1,52 @@
+.ticket-card {
+  background: #1a1d24;
+  border-radius: 8px;
+  margin: 8px 0;
+  padding: 16px;
+  color: #e5e7eb;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #242936;
+  }
+}
+
+.ticket-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Aligns items between the ends of the container */
+  margin-bottom: 8px;
+}
+
+.topic {
+  font-size: 1.1rem;
+  font-weight: 600;
+  /* Removed margin-left since we want it on the left now */
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  &.open {
+    background: #00d733;
+    color: #e5e7eb;
+  }
+  &.in-progress {
+    background: #d97706;
+    color: #e5e7eb;
+  }
+  &.closed {
+    background: #dc2626;
+    color: #e5e7eb;
+  }
+}
+
+.date {
+  color: #9ca3af;
+  font-size: 0.9rem;
+}

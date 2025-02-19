@@ -82,6 +82,57 @@
         }
       }
     },
+    "/api/v1/tickets": {
+      "get": {
+        "tags": [
+          "ClientSupportTicket"
+        ],
+        "operationId": "getOwnTickets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SupportTicket"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ClientSupportTicket"
+        ],
+        "operationId": "createTicket",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSupportTicketDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportTicket"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/reservations/create": {
       "post": {
         "tags": [
@@ -471,6 +522,39 @@
         }
       }
     },
+    "/api/v1/tickets/{ticketId}": {
+      "get": {
+        "tags": [
+          "ClientSupportTicket"
+        ],
+        "operationId": "getChatMessages",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChatMessage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/reservations": {
       "get": {
         "tags": [
@@ -768,6 +852,29 @@
         }
       }
     },
+    "/api/v1/employee/tickets": {
+      "get": {
+        "tags": [
+          "EmployeeSupportTicket"
+        ],
+        "operationId": "getTickets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SupportTicket"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employee/reservations": {
       "get": {
         "tags": [
@@ -833,7 +940,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReservationDto"
+                  "$ref": "#/components/schemas/ReservationDetailsEmployeeDto"
                 }
               }
             }
@@ -1374,6 +1481,48 @@
           }
         }
       },
+      "CreateSupportTicketDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "SupportTicket": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "employeeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "IN_PROGRESS",
+              "CLOSED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "CreateReservationDto": {
         "required": [
           "cabinClass",
@@ -1808,6 +1957,28 @@
           }
         }
       },
+      "ChatMessage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ticketId": {
+            "type": "string"
+          },
+          "senderId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "FlightBasicDto": {
         "type": "object",
         "properties": {
@@ -2195,6 +2366,74 @@
           },
           "flightDto": {
             "$ref": "#/components/schemas/FlightBasicDto"
+          }
+        }
+      },
+      "FlightDetailsEmployeeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "departureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "departureAirportDto": {
+            "$ref": "#/components/schemas/AirportBasicDto"
+          },
+          "arrivalAirportDto": {
+            "$ref": "#/components/schemas/AirportBasicDto"
+          }
+        }
+      },
+      "ReservationDetailsEmployeeDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ACTIVE",
+              "CANCELLED",
+              "EXPIRED",
+              "COMPLETED",
+              "FAILED"
+            ]
+          },
+          "clientDto": {
+            "$ref": "#/components/schemas/ClientDto"
+          },
+          "cabinClass": {
+            "type": "string",
+            "enum": [
+              "FIRST",
+              "BUSINESS",
+              "ECONOMY"
+            ]
+          },
+          "seatNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number"
+          },
+          "reservationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "flightDto": {
+            "$ref": "#/components/schemas/FlightDetailsEmployeeDto"
           }
         }
       },

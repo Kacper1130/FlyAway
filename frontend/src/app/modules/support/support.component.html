@@ -1,0 +1,19 @@
+<app-new-navbar></app-new-navbar>
+<div class="tickets-container">
+  <div class="list-header">
+    <h1>My Tickets</h1>
+  </div>
+
+  <div class="content-area">
+    <div class="tickets-grid">
+      <app-support-ticket-card
+        *ngFor="let ticket of supportTickets"
+        [ticket]="ticket">
+      </app-support-ticket-card>
+
+      <div *ngIf="supportTickets.length === 0" class="empty-state">
+        <p>No tickets found</p>
+      </div>
+    </div>
+  </div>
+</div>
