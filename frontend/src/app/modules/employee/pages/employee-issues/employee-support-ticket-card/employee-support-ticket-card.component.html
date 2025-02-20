@@ -1,4 +1,4 @@
-<div class="ticket-card">
+<div class="ticket-card" (click)="onClick()">
   <div class="header">
     <h3>{{ ticket.title }}</h3>
     <span class="status" [ngClass]="ticket.status?.toLowerCase()">{{ ticket.status }}</span>

@@ -12,17 +12,24 @@ public class EmployeeSupportTicketService {
 
     private final SupportTicketRepository ticketRepository;
     private final ChatMessageService chatMessageService;
-    private final ClientRepository clientRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(EmployeeSupportTicketService.class);
 
-    public EmployeeSupportTicketService(SupportTicketRepository ticketRepository, ChatMessageService chatMessageService, ClientRepository clientRepository) {
+    public EmployeeSupportTicketService(SupportTicketRepository ticketRepository, ChatMessageService chatMessageService) {
         this.ticketRepository = ticketRepository;
         this.chatMessageService = chatMessageService;
-        this.clientRepository = clientRepository;
     }
 
     public List<SupportTicket> getTickets() {
         return ticketRepository.findAll();
+    }
+
+    public List<ChatMessage> getChatMessages(String ticketId) {
+        SupportTicket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
+
+        List<ChatMessage> chatMessages = chatMessageService.getChatMessages(ticketId);
+        LOGGER.info("Retrieved {} messages", chatMessages.size());
+        return chatMessages;
     }
 
 }

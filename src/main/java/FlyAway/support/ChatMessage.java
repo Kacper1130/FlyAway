@@ -20,6 +20,7 @@ public class ChatMessage {
     private String id;
     private String ticketId;
     private Long senderId;
+    private SenderType senderType;
     private String content;
     private LocalDateTime timestamp;
 

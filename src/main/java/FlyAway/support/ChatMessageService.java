@@ -17,10 +17,11 @@ public class ChatMessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void addMessageToTicket(String content, SupportTicket supportTicket) {
+    public void addFirstMessageToTicket(String content, SupportTicket supportTicket) {
         ChatMessage message = ChatMessage.builder()
                 .ticketId(supportTicket.getId())
                 .senderId(supportTicket.getClientId())
+                .senderType(SenderType.CLIENT)
                 .content(content)
                 .timestamp(LocalDateTime.now())
                 .build();

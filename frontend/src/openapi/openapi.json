@@ -875,6 +875,39 @@
         }
       }
     },
+    "/api/v1/employee/tickets/{ticketId}": {
+      "get": {
+        "tags": [
+          "EmployeeSupportTicket"
+        ],
+        "operationId": "getChatMessages_1",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ChatMessage"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employee/reservations": {
       "get": {
         "tags": [
@@ -1969,6 +2002,13 @@
           "senderId": {
             "type": "integer",
             "format": "int64"
+          },
+          "senderType": {
+            "type": "string",
+            "enum": [
+              "CLIENT",
+              "EMPLOYEE"
+            ]
           },
           "content": {
             "type": "string"

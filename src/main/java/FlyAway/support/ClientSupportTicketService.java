@@ -16,13 +16,11 @@ public class ClientSupportTicketService {
 
     private final SupportTicketRepository ticketRepository;
     private final ChatMessageService chatMessageService;
-    private final ClientRepository clientRepository;
     private final Logger LOGGER = LoggerFactory.getLogger(ClientSupportTicketService.class);
 
-    public ClientSupportTicketService(SupportTicketRepository ticketRepository, ChatMessageRepository messageRepository, ChatMessageService messageService, ClientRepository clientRepository) {
+    public ClientSupportTicketService(SupportTicketRepository ticketRepository, ChatMessageService messageService, ClientRepository clientRepository) {
         this.ticketRepository = ticketRepository;
         this.chatMessageService = messageService;
-        this.clientRepository = clientRepository;
     }
 
     public SupportTicket createTicket(CreateSupportTicketDto createSupportTicketDto, Authentication authentication) {
@@ -38,7 +36,7 @@ public class ClientSupportTicketService {
 
         ticketRepository.save(supportTicket);
         LOGGER.info("Client {} created ticket {}",client.getEmail(), supportTicket);
-        chatMessageService.addMessageToTicket(createSupportTicketDto.message(), supportTicket);
+        chatMessageService.addFirstMessageToTicket(createSupportTicketDto.message(), supportTicket);
         return supportTicket;
     }
 
