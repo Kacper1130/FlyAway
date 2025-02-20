@@ -1,12 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChatMessage } from '../../../../../services/models/chat-message';
-import { DatePipe, NgClass, NgForOf } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Client } from '@stomp/stompjs';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChatMessage} from '../../../../../services/models/chat-message';
+import {DatePipe, NgClass, NgForOf} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {Client} from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import {EmployeeSupportTicketService} from "../../../../../services/services/employee-support-ticket.service";
 import {EmployeeNavbarComponent} from "../../../components/employee-navbar/employee-navbar.component";
+import {SupportTicketSummaryDto} from "../../../../../services/models/support-ticket-summary-dto";
 
 @Component({
   selector: 'app-employee-support-chat',
@@ -25,17 +26,25 @@ import {EmployeeNavbarComponent} from "../../../components/employee-navbar/emplo
 export class EmployeeSupportChatComponent implements OnInit {
   @ViewChild('messageContainer') messageContainer!: ElementRef;
 
+  ticketInfo!: SupportTicketSummaryDto;
   ticketId: string;
   messages: ChatMessage[] = [];
   newMessage: string = '';
   private stompClient!: Client;
 
-  constructor(private route: ActivatedRoute, private ticketService: EmployeeSupportTicketService) {
+  isTicketActive: boolean = true;
+
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly ticketService: EmployeeSupportTicketService
+  ) {
     this.ticketId = this.route.snapshot.paramMap.get('id')!;
   }
 
   ngOnInit(): void {
+    this.loadTicketInfo();
     this.loadChatHistory();
+    this.scrollToBottom();
     this.connectWebSocket();
   }
 
@@ -61,6 +70,15 @@ export class EmployeeSupportChatComponent implements OnInit {
     this.stompClient.activate();
   }
 
+  loadTicketInfo() {
+    this.ticketService.getTicketSummary({ticketId: this.ticketId}).subscribe({
+      next: (res) => {
+        this.ticketInfo = res;
+        this.isTicketActive = this.ticketInfo.status !== 'CLOSED';
+      }
+    })
+  }
+
   loadChatHistory() {
     this.ticketService.getChatMessages1({ticketId: this.ticketId}).subscribe({
       next: (res) => {
@@ -73,7 +91,6 @@ export class EmployeeSupportChatComponent implements OnInit {
     if (this.newMessage.trim() && this.stompClient.connected) {
       const message: ChatMessage = {
         ticketId: this.ticketId,
-        senderId: 1,
         senderType: 'EMPLOYEE',
         content: this.newMessage,
         timestamp: new Date().toISOString()
@@ -86,9 +103,15 @@ export class EmployeeSupportChatComponent implements OnInit {
     }
   }
 
-  scrollToBottom() {
-    const container = this.messageContainer.nativeElement;
-    container.scrollTop = container.scrollHeight;
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      const element = this.messageContainer.nativeElement;
+      element.scrollTop = element.scrollHeight;
+    }, 100);
+  }
+
+  closeTicket(): void {
+    //todo
   }
 
 }

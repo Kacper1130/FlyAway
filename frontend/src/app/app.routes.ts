@@ -33,9 +33,6 @@ import {
 import {SupportComponent} from "./modules/support/support.component";
 import {CreateTicketComponent} from "./modules/support/components/create-ticket/create-ticket.component";
 import {
-  EmployeeSuuportChatComponent
-} from "./modules/employee/pages/employee-issues/employee-suuport-chat/employee-suuport-chat.component";
-import {
   EmployeeSupportChatComponent
 } from "./modules/employee/pages/employee-issues/employee-support-chat/employee-support-chat.component";
 import {SupportChatComponent} from "./modules/support/components/support-chat/support-chat.component";

@@ -1,6 +1,5 @@
 package FlyAway.support;
 
-import FlyAway.client.ClientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -32,4 +31,10 @@ public class EmployeeSupportTicketService {
         return chatMessages;
     }
 
+    public SupportTicketSummaryDto getTicketSummary(String ticketId) {
+        SupportTicket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
+
+        return new SupportTicketSummaryDto(ticket.getTitle(), ticket.getStatus());
+    }
 }

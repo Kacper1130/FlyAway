@@ -1,29 +1,44 @@
 <app-new-navbar></app-new-navbar>
 <div class="chat-container">
-  <!-- Nagłówek -->
   <div class="chat-header">
-    <h2>Czat - Ticket #{{ ticketId }}</h2>
-  </div>
-
-  <!-- Lista wiadomości -->
-  <div class="messages-container" #messageContainer>
-    <div *ngFor="let message of messages" class="message"
-         [ngClass]="{'sent': message.senderType === 'CLIENT', 'received': message.senderType !== 'CLIENT'}">
-      <div class="message-content">
-        <p>{{ message.content }}</p>
-        <span class="timestamp">{{ message.timestamp | date:'HH:mm' }}</span>
+    <div class="header-left">
+      <h2>{{ ticketInfo.title }}</h2>
+      <div class="ticket-info">
+            <span class="status" [class.active]="isTicketActive">
+              <i class="fas fa-circle"></i>
+              {{ isTicketActive ? 'Active' : 'Closed' }}
+            </span>
       </div>
     </div>
   </div>
 
-  <!-- Formularz wysyłania wiadomości -->
-  <form class="message-form" (ngSubmit)="sendMessage()">
-    <textarea
-      [(ngModel)]="newMessage"
-      name="message"
-      placeholder="Wpisz wiadomość..."
-      rows="2"
-      required></textarea>
-    <button type="submit" [disabled]="!newMessage.trim()">Wyślij</button>
-  </form>
+  <div class="messages-container" #messageContainer>
+    <div *ngFor="let message of messages; let i = index"
+         class="message"
+         [ngClass]="{
+               'sent': message.senderType === 'CLIENT',
+               'received': message.senderType !== 'CLIENT'
+             }">
+      <div class="message-content">
+        <p>{{ message.content }}</p>
+        <div class="message-meta">
+          <span class="timestamp">{{ message.timestamp | date:'HH:mm' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="message-form-container">
+    <form class="message-form" (ngSubmit)="sendMessage()">
+          <textarea
+            [(ngModel)]="newMessage"
+            name="message"
+            placeholder="Type a message..."
+            rows="1"
+            required></textarea>
+      <button type="submit" [disabled]="!newMessage.trim()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
 </div>

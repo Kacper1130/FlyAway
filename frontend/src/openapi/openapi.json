@@ -908,6 +908,36 @@
         }
       }
     },
+    "/api/v1/employee/tickets/{ticketId}/summary": {
+      "get": {
+        "tags": [
+          "EmployeeSupportTicket"
+        ],
+        "operationId": "getTicketSummary",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportTicketSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employee/reservations": {
       "get": {
         "tags": [
@@ -2332,6 +2362,22 @@
           "lastLogin": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "SupportTicketSummaryDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "IN_PROGRESS",
+              "CLOSED"
+            ]
           }
         }
       },

@@ -41,3 +41,4 @@ export { ReservationWithoutFlightDto } from './models/reservation-without-flight
 export { ReservationWithoutUserDto } from './models/reservation-without-user-dto';
 export { SeatClassRange } from './models/seat-class-range';
 export { SupportTicket } from './models/support-ticket';
+export { SupportTicketSummaryDto } from './models/support-ticket-summary-dto';

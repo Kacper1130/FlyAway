@@ -22,7 +22,7 @@ public class EmployeeSupportTicketController {
     private final ChatMessageService chatMessageService;
     private final Logger LOGGER = LoggerFactory.getLogger(EmployeeSupportTicketController.class);
 
-    public EmployeeSupportTicketController(SupportTicketRepository ticketRepository, EmployeeSupportTicketService supportTicketService, ChatMessageService chatMessageService) {
+    public EmployeeSupportTicketController(EmployeeSupportTicketService supportTicketService, ChatMessageService chatMessageService) {
         this.supportTicketService = supportTicketService;
         this.chatMessageService = chatMessageService;
     }
@@ -35,6 +35,11 @@ public class EmployeeSupportTicketController {
     @GetMapping("/{ticketId}")
     public ResponseEntity<List<ChatMessage>> getChatMessages(@PathVariable String ticketId) {
         return ResponseEntity.ok(chatMessageService.getChatMessages(ticketId));
+    }
+
+    @GetMapping("/{ticketId}/summary")
+    ResponseEntity<SupportTicketSummaryDto> getTicketSummary(@PathVariable String ticketId) {
+        return ResponseEntity.ok(supportTicketService.getTicketSummary(ticketId));
     }
 
 }
