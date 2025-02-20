@@ -22,9 +22,5 @@ export class SupportTicketCardComponent {
   goToChatHistory() {
     this.router.navigate(['/support', this.ticket.id]);
   }
-  createNewTicket() {
-    // Implement your ticket creation logic here
-    // This could open a modal or navigate to a new ticket form
-  }
 
 }

@@ -1,0 +1,29 @@
+<app-employee-navbar></app-employee-navbar>
+<div class="chat-container">
+  <!-- Nagłówek -->
+  <div class="chat-header">
+    <h2>Czat - Ticket #{{ ticketId }}</h2>
+  </div>
+
+  <!-- Lista wiadomości -->
+  <div class="messages-container" #messageContainer>
+    <div *ngFor="let message of messages" class="message"
+         [ngClass]="{'sent': message.senderType === 'EMPLOYEE', 'received': message.senderType !== 'EMPLOYEE'}">
+      <div class="message-content">
+        <p>{{ message.content }}</p>
+        <span class="timestamp">{{ message.timestamp | date:'HH:mm' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formularz wysyłania wiadomości -->
+  <form class="message-form" (ngSubmit)="sendMessage()">
+    <textarea
+      [(ngModel)]="newMessage"
+      name="message"
+      placeholder="Wpisz wiadomość..."
+      rows="2"
+      required></textarea>
+    <button type="submit" [disabled]="!newMessage.trim()">Wyślij</button>
+  </form>
+</div>

@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                                         "/swagger-ui.html",
                                         "/api/v1/auth/**",
                                         "/api/v1/payment/webhook",
-                                        "/ws"
+                                        "/ws/**"
                                         ).permitAll()
                                 .requestMatchers(
                                         "/api/v1/admin/**"

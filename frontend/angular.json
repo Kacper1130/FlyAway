@@ -17,6 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "sockjs-client"
+            ],
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
