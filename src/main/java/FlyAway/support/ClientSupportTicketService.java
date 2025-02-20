@@ -63,4 +63,17 @@ public class ClientSupportTicketService {
         return chatMessages;
     }
 
+    public SupportTicketSummaryDto getTicketSummary(String ticketId, Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Client client = (Client) securityUser.getUser();
+
+        SupportTicket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
+
+        if (ticket.getClientId() != client.getId()) {
+            throw new RuntimeException("Unaauthorize"); //todo
+        }
+
+        return new SupportTicketSummaryDto(ticket.getTitle(), ticket.getStatus());
+    }
 }

@@ -12,7 +12,7 @@ import {StrictHttpResponse} from '../strict-http-response';
 import {ChatMessage} from '../models/chat-message';
 import {getChatMessages1, GetChatMessages1$Params} from '../fn/employee-support-ticket/get-chat-messages-1';
 import {getTickets, GetTickets$Params} from '../fn/employee-support-ticket/get-tickets';
-import {getTicketSummary, GetTicketSummary$Params} from '../fn/employee-support-ticket/get-ticket-summary';
+import {getTicketSummary1, GetTicketSummary1$Params} from '../fn/employee-support-ticket/get-ticket-summary-1';
 import {SupportTicket} from '../models/support-ticket';
 import {SupportTicketSummaryDto} from '../models/support-ticket-summary-dto';
 
@@ -72,27 +72,27 @@ export class EmployeeSupportTicketService extends BaseService {
     );
   }
 
-  /** Path part for operation `getTicketSummary()` */
-  static readonly GetTicketSummaryPath = '/api/v1/employee/tickets/{ticketId}/summary';
+  /** Path part for operation `getTicketSummary1()` */
+  static readonly GetTicketSummary1Path = '/api/v1/employee/tickets/{ticketId}/summary';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getTicketSummary()` instead.
+   * To access only the response body, use `getTicketSummary1()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getTicketSummary$Response(params: GetTicketSummary$Params, context?: HttpContext): Observable<StrictHttpResponse<SupportTicketSummaryDto>> {
-    return getTicketSummary(this.http, this.rootUrl, params, context);
+  getTicketSummary1$Response(params: GetTicketSummary1$Params, context?: HttpContext): Observable<StrictHttpResponse<SupportTicketSummaryDto>> {
+    return getTicketSummary1(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getTicketSummary$Response()` instead.
+   * To access the full response (for headers, for example), `getTicketSummary1$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getTicketSummary(params: GetTicketSummary$Params, context?: HttpContext): Observable<SupportTicketSummaryDto> {
-    return this.getTicketSummary$Response(params, context).pipe(
+  getTicketSummary1(params: GetTicketSummary1$Params, context?: HttpContext): Observable<SupportTicketSummaryDto> {
+    return this.getTicketSummary1$Response(params, context).pipe(
       map((r: StrictHttpResponse<SupportTicketSummaryDto>): SupportTicketSummaryDto => r.body)
     );
   }

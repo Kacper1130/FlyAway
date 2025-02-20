@@ -37,4 +37,9 @@ public class ClientSupportTicketController {
         return ResponseEntity.ok(supportTicketService.getChatMessages(ticketId, authentication));
     }
 
+    @GetMapping("/{ticketId}/summary")
+    ResponseEntity<SupportTicketSummaryDto> getTicketSummary(@PathVariable String ticketId, Authentication authentication) {
+        return ResponseEntity.ok(supportTicketService.getTicketSummary(ticketId, authentication));
+    }
+
 }

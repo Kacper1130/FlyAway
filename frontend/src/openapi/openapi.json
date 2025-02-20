@@ -555,6 +555,36 @@
         }
       }
     },
+    "/api/v1/tickets/{ticketId}/summary": {
+      "get": {
+        "tags": [
+          "ClientSupportTicket"
+        ],
+        "operationId": "getTicketSummary",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportTicketSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/reservations": {
       "get": {
         "tags": [
@@ -913,7 +943,7 @@
         "tags": [
           "EmployeeSupportTicket"
         ],
-        "operationId": "getTicketSummary",
+        "operationId": "getTicketSummary_1",
         "parameters": [
           {
             "name": "ticketId",
@@ -2049,6 +2079,22 @@
           }
         }
       },
+      "SupportTicketSummaryDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "OPEN",
+              "IN_PROGRESS",
+              "CLOSED"
+            ]
+          }
+        }
+      },
       "FlightBasicDto": {
         "type": "object",
         "properties": {
@@ -2362,22 +2408,6 @@
           "lastLogin": {
             "type": "string",
             "format": "date-time"
-          }
-        }
-      },
-      "SupportTicketSummaryDto": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "OPEN",
-              "IN_PROGRESS",
-              "CLOSED"
-            ]
           }
         }
       },

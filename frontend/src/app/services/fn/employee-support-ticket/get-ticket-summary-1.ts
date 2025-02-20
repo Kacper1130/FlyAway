@@ -8,12 +8,12 @@ import { RequestBuilder } from '../../request-builder';
 
 import { SupportTicketSummaryDto } from '../../models/support-ticket-summary-dto';
 
-export interface GetTicketSummary$Params {
+export interface GetTicketSummary1$Params {
   ticketId: string;
 }
 
-export function getTicketSummary(http: HttpClient, rootUrl: string, params: GetTicketSummary$Params, context?: HttpContext): Observable<StrictHttpResponse<SupportTicketSummaryDto>> {
-  const rb = new RequestBuilder(rootUrl, getTicketSummary.PATH, 'get');
+export function getTicketSummary1(http: HttpClient, rootUrl: string, params: GetTicketSummary1$Params, context?: HttpContext): Observable<StrictHttpResponse<SupportTicketSummaryDto>> {
+  const rb = new RequestBuilder(rootUrl, getTicketSummary1.PATH, 'get');
   if (params) {
     rb.path('ticketId', params.ticketId, {});
   }
@@ -28,4 +28,4 @@ export function getTicketSummary(http: HttpClient, rootUrl: string, params: GetT
   );
 }
 
-getTicketSummary.PATH = '/api/v1/employee/tickets/{ticketId}/summary';
+getTicketSummary1.PATH = '/api/v1/employee/tickets/{ticketId}/summary';

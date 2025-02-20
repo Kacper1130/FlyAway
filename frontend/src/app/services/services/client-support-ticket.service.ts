@@ -13,7 +13,9 @@ import {ChatMessage} from '../models/chat-message';
 import {createTicket, CreateTicket$Params} from '../fn/client-support-ticket/create-ticket';
 import {getChatMessages, GetChatMessages$Params} from '../fn/client-support-ticket/get-chat-messages';
 import {getOwnTickets, GetOwnTickets$Params} from '../fn/client-support-ticket/get-own-tickets';
+import {getTicketSummary, GetTicketSummary$Params} from '../fn/client-support-ticket/get-ticket-summary';
 import {SupportTicket} from '../models/support-ticket';
+import {SupportTicketSummaryDto} from '../models/support-ticket-summary-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ClientSupportTicketService extends BaseService {
@@ -93,6 +95,31 @@ export class ClientSupportTicketService extends BaseService {
   getChatMessages(params: GetChatMessages$Params, context?: HttpContext): Observable<Array<ChatMessage>> {
     return this.getChatMessages$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ChatMessage>>): Array<ChatMessage> => r.body)
+    );
+  }
+
+  /** Path part for operation `getTicketSummary()` */
+  static readonly GetTicketSummaryPath = '/api/v1/tickets/{ticketId}/summary';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getTicketSummary()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getTicketSummary$Response(params: GetTicketSummary$Params, context?: HttpContext): Observable<StrictHttpResponse<SupportTicketSummaryDto>> {
+    return getTicketSummary(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getTicketSummary$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getTicketSummary(params: GetTicketSummary$Params, context?: HttpContext): Observable<SupportTicketSummaryDto> {
+    return this.getTicketSummary$Response(params, context).pipe(
+      map((r: StrictHttpResponse<SupportTicketSummaryDto>): SupportTicketSummaryDto => r.body)
     );
   }
 

@@ -71,7 +71,7 @@ export class EmployeeSupportChatComponent implements OnInit {
   }
 
   loadTicketInfo() {
-    this.ticketService.getTicketSummary({ticketId: this.ticketId}).subscribe({
+    this.ticketService.getTicketSummary1({ticketId: this.ticketId}).subscribe({
       next: (res) => {
         this.ticketInfo = res;
         this.isTicketActive = this.ticketInfo.status !== 'CLOSED';

@@ -5,10 +5,9 @@ import {NewNavbarComponent} from "../../../../components/new-navbar/new-navbar.c
 import {ChatMessage} from "../../../../services/models/chat-message";
 import {Client} from "@stomp/stompjs";
 import {ActivatedRoute} from "@angular/router";
-import {EmployeeSupportTicketService} from "../../../../services/services/employee-support-ticket.service";
 import SockJS from "sockjs-client";
-import {EmployeeNavbarComponent} from "../../../employee/components/employee-navbar/employee-navbar.component";
 import {SupportTicketSummaryDto} from "../../../../services/models/support-ticket-summary-dto";
+import {ClientSupportTicketService} from "../../../../services/services/client-support-ticket.service";
 
 @Component({
   selector: 'app-support-chat',
@@ -19,8 +18,7 @@ import {SupportTicketSummaryDto} from "../../../../services/models/support-ticke
     FormsModule,
     NgForOf,
     NewNavbarComponent,
-    NgClass,
-    EmployeeNavbarComponent
+    NgClass
   ],
   templateUrl: './support-chat.component.html',
   styleUrl: './support-chat.component.scss'
@@ -38,7 +36,7 @@ export class SupportChatComponent implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly ticketService: EmployeeSupportTicketService
+    private readonly ticketService: ClientSupportTicketService
   ) {
     this.ticketId = this.route.snapshot.paramMap.get('id')!;
   }
@@ -82,7 +80,7 @@ export class SupportChatComponent implements OnInit {
   }
 
   loadChatHistory() {
-    this.ticketService.getChatMessages1({ticketId: this.ticketId}).subscribe({
+    this.ticketService.getChatMessages({ticketId: this.ticketId}).subscribe({
       next: (res) => {
         this.messages = res;
       }
