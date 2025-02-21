@@ -34,26 +34,16 @@ h3 {
 }
 
 .status.open {
-  background-color: #ffeb3b;
-  color: #333;
+  background: #00d733;
+  color: #010203;
 }
 
 .status.in_progress {
-  background-color: #2196f3;
-  color: #fff;
+  background: #fcbe06;
+  color: #010203;
 }
 
 .status.closed {
-  background-color: #4caf50;
-  color: #fff;
+  background: #dc2626;
+  color: #010203;
 }
-
-//.date {
-//  font-size: 0.9rem;
-//  color: rgba(255, 255, 255, 0.7);
-//}
-//
-//.info {
-//  font-size: 0.9rem;
-//  color: rgba(255, 255, 255, 0.9);
-//}

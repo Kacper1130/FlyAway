@@ -1,5 +1,5 @@
 .ticket-card {
-  background: #26282f; /* Changed from #1a1d24 to a slightly lighter shade */
+  background: #26282f;
   border-radius: 8px;
   margin: 8px 0;
   padding: 16px;
@@ -9,7 +9,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: #343946; /* Adjusted hover color to match the lighter base */
+    background-color: #343946;
   }
 }
 
@@ -33,15 +33,15 @@
 
   &.open {
     background: #00d733;
-    color: #e5e7eb;
+    color: #010203;
   }
   &.in-progress {
-    background: #d97706;
-    color: #e5e7eb;
+    background: #fcbe06;
+    color: #010203;
   }
   &.closed {
     background: #dc2626;
-    color: #e5e7eb;
+    color: #010203;
   }
 }
 

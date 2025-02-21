@@ -11,11 +11,15 @@
       </div>
     </div>
     <div class="header-actions">
-      <button *ngIf="ticketInfo.status === 'OPEN'" class="action-btn" (click)="takeTicket()">
+      <button *ngIf="ticketInfo.status === 'OPEN'"
+              class="action-btn action-btn--take"
+              (click)="takeTicket()">
         <i class="fas fa-check"></i>
         <span>Take ticket</span>
       </button>
-      <button *ngIf="ticketInfo.status === 'IN_PROGRESS'" class="action-btn" (click)="closeTicket()">
+      <button *ngIf="ticketInfo.status === 'IN_PROGRESS'"
+              class="action-btn action-btn--close"
+              (click)="closeTicket()">
         <i class="fas fa-check"></i>
         <span>Close ticket</span>
       </button>
