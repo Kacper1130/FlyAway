@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,12 @@ public class EmployeeSupportTicketController {
     @PatchMapping("/{ticketId}/close")
     public ResponseEntity<Void> closeTicket(@PathVariable String ticketId) {
         supportTicketService.closeTicket(ticketId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{ticketId}/assign")
+    public ResponseEntity<Void> assignTicket(@PathVariable String ticketId, Authentication authentication) {
+        supportTicketService.assignTicket(ticketId, authentication);
         return ResponseEntity.noContent().build();
     }
 

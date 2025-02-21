@@ -1,21 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {ChatMessage} from '../models/chat-message';
-import {closeTicket, CloseTicket$Params} from '../fn/employee-support-ticket/close-ticket';
-import {getChatMessages1, GetChatMessages1$Params} from '../fn/employee-support-ticket/get-chat-messages-1';
-import {getTickets, GetTickets$Params} from '../fn/employee-support-ticket/get-tickets';
-import {getTicketSummary1, GetTicketSummary1$Params} from '../fn/employee-support-ticket/get-ticket-summary-1';
-import {SupportTicket} from '../models/support-ticket';
-import {SupportTicketSummaryDto} from '../models/support-ticket-summary-dto';
+import { assignTicket } from '../fn/employee-support-ticket/assign-ticket';
+import { AssignTicket$Params } from '../fn/employee-support-ticket/assign-ticket';
+import { ChatMessage } from '../models/chat-message';
+import { closeTicket } from '../fn/employee-support-ticket/close-ticket';
+import { CloseTicket$Params } from '../fn/employee-support-ticket/close-ticket';
+import { getChatMessages1 } from '../fn/employee-support-ticket/get-chat-messages-1';
+import { GetChatMessages1$Params } from '../fn/employee-support-ticket/get-chat-messages-1';
+import { getTickets } from '../fn/employee-support-ticket/get-tickets';
+import { GetTickets$Params } from '../fn/employee-support-ticket/get-tickets';
+import { getTicketSummary1 } from '../fn/employee-support-ticket/get-ticket-summary-1';
+import { GetTicketSummary1$Params } from '../fn/employee-support-ticket/get-ticket-summary-1';
+import { SupportTicket } from '../models/support-ticket';
+import { SupportTicketSummaryDto } from '../models/support-ticket-summary-dto';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeSupportTicketService extends BaseService {
@@ -44,6 +50,31 @@ export class EmployeeSupportTicketService extends BaseService {
    */
   closeTicket(params: CloseTicket$Params, context?: HttpContext): Observable<void> {
     return this.closeTicket$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `assignTicket()` */
+  static readonly AssignTicketPath = '/api/v1/employee/tickets/{ticketId}/assign';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `assignTicket()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  assignTicket$Response(params: AssignTicket$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return assignTicket(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `assignTicket$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  assignTicket(params: AssignTicket$Params, context?: HttpContext): Observable<void> {
+    return this.assignTicket$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }

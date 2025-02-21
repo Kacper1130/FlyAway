@@ -33,7 +33,7 @@ export class EmployeeSupportChatComponent implements OnInit {
   newMessage: string = '';
   private stompClient!: Client;
 
-  isTicketActive: boolean = true;
+  // isTicketOpen: boolean = true;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -75,7 +75,7 @@ export class EmployeeSupportChatComponent implements OnInit {
     this.ticketService.getTicketSummary1({ticketId: this.ticketId}).subscribe({
       next: (res) => {
         this.ticketInfo = res;
-        this.isTicketActive = this.ticketInfo.status !== 'CLOSED';
+        // this.isTicketOpen = this.ticketInfo.status !== 'CLOSED';
       }
     })
   }
@@ -112,7 +112,18 @@ export class EmployeeSupportChatComponent implements OnInit {
   }
 
   closeTicket(): void {
-    this.ticketService.closeTicket({ticketId: this.ticketId}).subscribe();
+    this.ticketService.closeTicket({ticketId: this.ticketId}).subscribe({
+      next: () => {
+        this.ticketInfo.status = 'CLOSED';
+      }
+    });
   }
 
+  takeTicket() {
+    this.ticketService.assignTicket({ticketId: this.ticketId}).subscribe({
+      next: () => {
+        this.ticketInfo.status = 'IN_PROGRESS';
+      }
+    });
+  }
 }

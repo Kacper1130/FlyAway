@@ -436,6 +436,29 @@
         }
       }
     },
+    "/api/v1/employee/tickets/{ticketId}/assign": {
+      "patch": {
+        "tags": [
+          "EmployeeSupportTicket"
+        ],
+        "operationId": "assignTicket",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/countries/{id}": {
       "patch": {
         "tags": [
