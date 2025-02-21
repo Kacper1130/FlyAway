@@ -1,5 +1,8 @@
 package FlyAway.support;
 
+import FlyAway.support.chat.ChatMessage;
+import FlyAway.support.dto.CreateSupportTicketDto;
+import FlyAway.support.dto.SupportTicketSummaryDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

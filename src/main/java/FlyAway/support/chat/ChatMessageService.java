@@ -1,5 +1,6 @@
-package FlyAway.support;
+package FlyAway.support.chat;
 
+import FlyAway.support.SupportTicket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

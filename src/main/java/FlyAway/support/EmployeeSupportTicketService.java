@@ -1,7 +1,12 @@
 package FlyAway.support;
 
 import FlyAway.employee.Employee;
+import FlyAway.exception.SupportTicketDoesNotExistException;
+import FlyAway.exception.TicketOperationException;
 import FlyAway.security.SecurityUser;
+import FlyAway.support.chat.ChatMessage;
+import FlyAway.support.chat.ChatMessageService;
+import FlyAway.support.dto.SupportTicketSummaryDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -44,7 +49,7 @@ public class EmployeeSupportTicketService {
 
                     throw new RuntimeException("Comparing error");
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private int getPriority(SupportTicket ticket, Long employeeId) {
@@ -59,39 +64,54 @@ public class EmployeeSupportTicketService {
     }
 
     public List<ChatMessage> getChatMessages(String ticketId) {
-        SupportTicket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
+        if (!ticketRepository.existsById(ticketId)) {
+            LOGGER.error("Attempted to access chat messages for non-existent ticket with ID {}", ticketId);
+            throw new SupportTicketDoesNotExistException(ticketId);
+        }
 
         List<ChatMessage> chatMessages = chatMessageService.getChatMessages(ticketId);
-        LOGGER.info("Retrieved {} messages", chatMessages.size());
+        LOGGER.info("Retrieved {} messages for ticket with ID {}", chatMessages.size(), ticketId);
         return chatMessages;
     }
 
     public SupportTicketSummaryDto getTicketSummary(String ticketId) {
         SupportTicket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
+                .orElseThrow(() -> {
+                    LOGGER.error("Attempted to fetch summary for non-existent ticket with ID {}", ticketId);
+                    return new SupportTicketDoesNotExistException(ticketId);
+                });
 
+        LOGGER.info("Successfully retrieved summary for ticket with ID {}", ticketId);
         return new SupportTicketSummaryDto(ticket.getTitle(), ticket.getStatus());
     }
 
     public void closeTicket(String ticketId) {
         SupportTicket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
+                .orElseThrow(() -> {
+                    LOGGER.error("Attempted to close non-existent ticket with ID {}", ticketId);
+                    return new SupportTicketDoesNotExistException(ticketId);
+                });
 
         if (ticket.getStatus() != TicketStatus.IN_PROGRESS) {
-            throw new RuntimeException("Can not close ticket");
+            LOGGER.error("Cannot close ticket with ID {}. Current status: {}", ticketId, ticket.getStatus());
+            throw new TicketOperationException("Cannot close ticket. Ticket status must be IN_PROGRESS");
         }
+
         ticket.setStatus(TicketStatus.CLOSED);
         ticketRepository.save(ticket);
-        LOGGER.info("Closed ticket with id {}", ticketId);
+        LOGGER.info("Closed ticket with ID {}", ticketId);
     }
 
     public void assignTicket(String ticketId, Authentication authentication) {
         SupportTicket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
-        LOGGER.info("ticket before assigning     {}", ticket);
+                .orElseThrow(() -> {
+                    LOGGER.error("Attempted to assign non-existent ticket with ID {}", ticketId);
+                    return new SupportTicketDoesNotExistException(ticketId);
+                });
+
         if (ticket.getStatus() != TicketStatus.OPEN) {
-            throw new RuntimeException("Can not assign ticket");
+            LOGGER.error("Cannot assign ticket with ID {}. Current status: {}", ticketId, ticket.getStatus());
+            throw new TicketOperationException("Cannot assign ticket. Ticket status must be OPEN");
         }
 
         var securityUser = (SecurityUser) authentication.getPrincipal();
@@ -100,6 +120,6 @@ public class EmployeeSupportTicketService {
         ticket.setEmployeeId(employee.getId());
         ticket.setStatus(TicketStatus.IN_PROGRESS);
         ticketRepository.save(ticket);
-        LOGGER.info("saved ticket {}", ticket);
+        LOGGER.info("Successfully assigned ticket with ID {} to employee {}", ticketId, employee.getId());
     }
 }

@@ -1,5 +1,8 @@
 package FlyAway.support;
 
+import FlyAway.support.chat.ChatMessage;
+import FlyAway.support.chat.ChatMessageService;
+import FlyAway.support.dto.SupportTicketSummaryDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +22,7 @@ public class EmployeeSupportTicketController {
     private final EmployeeSupportTicketService supportTicketService;
     private final Logger LOGGER = LoggerFactory.getLogger(EmployeeSupportTicketController.class);
 
-    public EmployeeSupportTicketController(EmployeeSupportTicketService supportTicketService, ChatMessageService chatMessageService) {
+    public EmployeeSupportTicketController(EmployeeSupportTicketService supportTicketService) {
         this.supportTicketService = supportTicketService;
     }
 

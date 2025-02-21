@@ -1,4 +1,4 @@
-package FlyAway.support;
+package FlyAway.support.chat;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 

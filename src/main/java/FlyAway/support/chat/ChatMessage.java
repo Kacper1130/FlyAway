@@ -1,4 +1,4 @@
-package FlyAway.support;
+package FlyAway.support.chat;
 
 import jakarta.persistence.Id;
 import lombok.Builder;

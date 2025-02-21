@@ -1,4 +1,4 @@
-package FlyAway.support;
+package FlyAway.support.dto;
 
 public record CreateSupportTicketDto(
         String title,
