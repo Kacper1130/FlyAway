@@ -34,7 +34,7 @@ public class ChatMessageService {
         return messageRepository.findByTicketId(ticketId);
     }
 
-    public void saveMessage(String ticketId, ChatMessage chatMessage) {
+    public void saveMessage(ChatMessage chatMessage) {
         messageRepository.save(chatMessage);
         LOGGER.info("saved message {}", chatMessage);
     }

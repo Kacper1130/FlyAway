@@ -23,15 +23,12 @@ public class ChatController {
     }
 
     @MessageMapping("/ticket/{ticketId}/send")
-//    @SendTo("/topic/ticket/{ticketId}")
     public ChatMessage sendMessage(@DestinationVariable String ticketId, @Payload ChatMessage chatMessage) {
         LOGGER.info("message: {}, ticketId: {}", chatMessage, ticketId);
         chatMessage.setTimestamp(LocalDateTime.now());
 
-        // Zapisanie wiadomości do bazy
-        chatMessageService.saveMessage(ticketId, chatMessage);
+        chatMessageService.saveMessage(chatMessage);
 
-        // Wysłanie wiadomości do klientów subskrybujących dany ticket
         messagingTemplate.convertAndSend("/topic/ticket/" + ticketId, chatMessage);
         return chatMessage;
     }
