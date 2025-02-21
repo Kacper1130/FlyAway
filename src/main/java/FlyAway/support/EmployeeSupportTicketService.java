@@ -1,6 +1,5 @@
 package FlyAway.support;
 
-import FlyAway.client.Client;
 import FlyAway.employee.Employee;
 import FlyAway.security.SecurityUser;
 import org.slf4j.Logger;
@@ -9,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeSupportTicketService {
@@ -22,8 +22,40 @@ public class EmployeeSupportTicketService {
         this.chatMessageService = chatMessageService;
     }
 
-    public List<SupportTicket> getTickets() {
-        return ticketRepository.findAll();
+    public List<SupportTicket> getTickets(Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Long employeeId = securityUser.getUser().getId();
+        return ticketRepository.findAll().stream()
+                .sorted((t1, t2) -> {
+                    int priority1 = getPriority(t1, employeeId);
+                    int priority2 = getPriority(t2, employeeId);
+
+                    if (priority1 != priority2) {
+                        return Integer.compare(priority1, priority2);
+                    }
+
+                    if (t1.getStatus() == TicketStatus.IN_PROGRESS) {
+                        return t1.getCreatedAt().compareTo(t2.getCreatedAt());
+                    } else if (t1.getStatus() == TicketStatus.OPEN) {
+                        return t1.getCreatedAt().compareTo(t2.getCreatedAt());
+                    } else if (t1.getStatus() == TicketStatus.CLOSED) {
+                        return t2.getCreatedAt().compareTo(t1.getCreatedAt());
+                    }
+
+                    throw new RuntimeException("Comparing error");
+                })
+                .collect(Collectors.toList());
+    }
+
+    private int getPriority(SupportTicket ticket, Long employeeId) {
+        if (ticket.getStatus() == TicketStatus.IN_PROGRESS && ticket.getEmployeeId().equals(employeeId)) {
+            return 1;
+        } else if (ticket.getStatus() == TicketStatus.OPEN) {
+            return 2;
+        } else if (ticket.getStatus() == TicketStatus.CLOSED && ticket.getEmployeeId().equals(employeeId)) {
+            return 3;
+        }
+        return 0;
     }
 
     public List<ChatMessage> getChatMessages(String ticketId) {

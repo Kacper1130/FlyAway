@@ -17,22 +17,20 @@ import java.util.List;
 public class EmployeeSupportTicketController {
 
     private final EmployeeSupportTicketService supportTicketService;
-    private final ChatMessageService chatMessageService;
     private final Logger LOGGER = LoggerFactory.getLogger(EmployeeSupportTicketController.class);
 
     public EmployeeSupportTicketController(EmployeeSupportTicketService supportTicketService, ChatMessageService chatMessageService) {
         this.supportTicketService = supportTicketService;
-        this.chatMessageService = chatMessageService;
     }
 
     @GetMapping()
-    public ResponseEntity<List<SupportTicket>> getTickets() {
-        return ResponseEntity.ok(supportTicketService.getTickets());
+    public ResponseEntity<List<SupportTicket>> getTickets(Authentication authentication) {
+        return ResponseEntity.ok(supportTicketService.getTickets(authentication));
     }
 
     @GetMapping("/{ticketId}/messages")
     public ResponseEntity<List<ChatMessage>> getChatMessages(@PathVariable String ticketId) {
-        return ResponseEntity.ok(chatMessageService.getChatMessages(ticketId));
+        return ResponseEntity.ok(supportTicketService.getChatMessages(ticketId));
     }
 
     @GetMapping("/{ticketId}/summary")

@@ -43,7 +43,7 @@ public class ClientSupportTicketService {
     public List<SupportTicket> getOwnTickets(Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = (Client) securityUser.getUser();
-        List<SupportTicket> tickets = ticketRepository.findByClientId(client.getId());
+        List<SupportTicket> tickets = ticketRepository.findByClientIdOrderByCreatedAtDesc(client.getId());
         LOGGER.info("Client {} retrieved {} tickets", client.getEmail(), tickets.size());
         return tickets;
     }

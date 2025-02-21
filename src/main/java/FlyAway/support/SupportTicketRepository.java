@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SupportTicketRepository extends MongoRepository<SupportTicket, String> {
 
-    List<SupportTicket> findByClientId(Long id);
+    List<SupportTicket> findByClientIdOrderByCreatedAtDesc(Long id);
 
 }
