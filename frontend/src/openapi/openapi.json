@@ -413,6 +413,29 @@
         }
       }
     },
+    "/api/v1/employee/tickets/{ticketId}/close": {
+      "patch": {
+        "tags": [
+          "EmployeeSupportTicket"
+        ],
+        "operationId": "closeTicket",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/countries/{id}": {
       "patch": {
         "tags": [
@@ -905,7 +928,37 @@
         }
       }
     },
-    "/api/v1/employee/tickets/{ticketId}": {
+    "/api/v1/employee/tickets/{ticketId}/summary": {
+      "get": {
+        "tags": [
+          "EmployeeSupportTicket"
+        ],
+        "operationId": "getTicketSummary_1",
+        "parameters": [
+          {
+            "name": "ticketId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SupportTicketSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee/tickets/{ticketId}/messages": {
       "get": {
         "tags": [
           "EmployeeSupportTicket"
@@ -931,36 +984,6 @@
                   "items": {
                     "$ref": "#/components/schemas/ChatMessage"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/employee/tickets/{ticketId}/summary": {
-      "get": {
-        "tags": [
-          "EmployeeSupportTicket"
-        ],
-        "operationId": "getTicketSummary_1",
-        "parameters": [
-          {
-            "name": "ticketId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SupportTicketSummaryDto"
                 }
               }
             }

@@ -6,26 +6,25 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ChatMessage } from '../../models/chat-message';
 
-export interface GetChatMessages1$Params {
+export interface CloseTicket$Params {
   ticketId: string;
 }
 
-export function getChatMessages1(http: HttpClient, rootUrl: string, params: GetChatMessages1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ChatMessage>>> {
-  const rb = new RequestBuilder(rootUrl, getChatMessages1.PATH, 'get');
+export function closeTicket(http: HttpClient, rootUrl: string, params: CloseTicket$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, closeTicket.PATH, 'patch');
   if (params) {
     rb.path('ticketId', params.ticketId, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ChatMessage>>;
+      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
     })
   );
 }
 
-getChatMessages1.PATH = '/api/v1/employee/tickets/{ticketId}/messages';
+closeTicket.PATH = '/api/v1/employee/tickets/{ticketId}/close';

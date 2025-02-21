@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ChatMessage} from '../../../../../services/models/chat-message';
-import {DatePipe, NgClass, NgForOf} from '@angular/common';
+import {DatePipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {Client} from '@stomp/stompjs';
@@ -18,7 +18,8 @@ import {SupportTicketSummaryDto} from "../../../../../services/models/support-ti
     FormsModule,
     NgForOf,
     ReactiveFormsModule,
-    EmployeeNavbarComponent
+    EmployeeNavbarComponent,
+    NgIf
   ],
   templateUrl: './employee-support-chat.component.html',
   styleUrls: ['./employee-support-chat.component.scss']
@@ -111,7 +112,7 @@ export class EmployeeSupportChatComponent implements OnInit {
   }
 
   closeTicket(): void {
-    //todo
+    this.ticketService.closeTicket({ticketId: this.ticketId}).subscribe();
   }
 
 }

@@ -4,15 +4,16 @@
     <div class="header-left">
       <h2>{{ ticketInfo.title }}</h2>
       <div class="ticket-info">
-            <span class="status" [class.active]="isTicketActive">
-              <i class="fas fa-circle"></i>
-              {{ isTicketActive ? 'Active' : 'Closed' }}
-            </span>
+      <span class="status" [class.active]="isTicketActive">
+        <i class="fas fa-circle"></i>
+        {{ isTicketActive ? 'Active' : 'Closed' }}
+      </span>
       </div>
     </div>
     <div class="header-actions">
-      <button class="action-btn" [class.resolved]="!isTicketActive" (click)="closeTicket()">
+      <button *ngIf="isTicketActive" class="action-btn" (click)="closeTicket()">
         <i class="fas fa-check"></i>
+        <span>Close ticket</span>
       </button>
     </div>
   </div>

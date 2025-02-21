@@ -7,7 +7,7 @@ export { EmployeeService } from './services/employee.service';
 export { ClientService } from './services/client.service';
 export { AuthenticationService } from './services/authentication.service';
 export { AircraftService } from './services/aircraft.service';
+export { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 export { CountryService } from './services/country.service';
 export { UserService } from './services/user.service';
-export { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 export { EmployeeReservationService } from './services/employee-reservation.service';

@@ -37,4 +37,16 @@ public class EmployeeSupportTicketService {
 
         return new SupportTicketSummaryDto(ticket.getTitle(), ticket.getStatus());
     }
+
+    public void closeTicket(String ticketId) {
+        SupportTicket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("ticket does not exist")); //todo custom exception
+
+        if (ticket.getStatus() == TicketStatus.CLOSED) {
+            throw new RuntimeException("Ticket is already closed");
+        }
+        ticket.setStatus(TicketStatus.CLOSED);
+        ticketRepository.save(ticket);
+        LOGGER.info("Closed ticket with id {}", ticketId);
+    }
 }

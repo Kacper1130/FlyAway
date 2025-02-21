@@ -36,7 +36,7 @@
 
         i {
           font-size: 0.625rem;
-          color: #6b7280;
+          color: #dc0000;
         }
 
         &.active i {
@@ -51,20 +51,25 @@
       background: none;
       border: none;
       color: #9ca3af;
-      width: 36px;
+      padding: 0 12px;
       height: 36px;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+
+      i {
+        font-size: 0.875rem;
+      }
 
       &:hover {
         background: #374151;
         color: #e5e7eb;
       }
 
-      &.resolved {
-        color: #00d733;
-      }
     }
   }
 }

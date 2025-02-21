@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class EmployeeSupportTicketController {
         return ResponseEntity.ok(supportTicketService.getTickets());
     }
 
-    @GetMapping("/{ticketId}")
+    @GetMapping("/{ticketId}/messages")
     public ResponseEntity<List<ChatMessage>> getChatMessages(@PathVariable String ticketId) {
         return ResponseEntity.ok(chatMessageService.getChatMessages(ticketId));
     }
@@ -40,6 +37,12 @@ public class EmployeeSupportTicketController {
     @GetMapping("/{ticketId}/summary")
     ResponseEntity<SupportTicketSummaryDto> getTicketSummary(@PathVariable String ticketId) {
         return ResponseEntity.ok(supportTicketService.getTicketSummary(ticketId));
+    }
+
+    @PatchMapping("/{ticketId}/close")
+    public ResponseEntity<Void> closeTicket(@PathVariable String ticketId) {
+        supportTicketService.closeTicket(ticketId);
+        return ResponseEntity.noContent().build();
     }
 
 }
