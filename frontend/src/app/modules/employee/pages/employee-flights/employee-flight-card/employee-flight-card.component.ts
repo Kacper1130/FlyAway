@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {CurrencyPipe, DatePipe, NgForOf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgIf} from "@angular/common";
 import {FlightDetailsDto} from "../../../../../services/models/flight-details-dto";
-import {MatButton} from "@angular/material/button";
-import {RouterLink, RouterLinkActive} from "@angular/router";
+import {RouterLink} from "@angular/router";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-employee-flight-card',
@@ -10,31 +10,15 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   imports: [
     DatePipe,
     CurrencyPipe,
-    NgForOf,
-    MatButton,
     RouterLink,
-    RouterLinkActive
+    MatIcon,
+    NgIf
   ],
   templateUrl: './employee-flight-card.component.html',
   styleUrl: './employee-flight-card.component.scss'
 })
 export class EmployeeFlightCardComponent {
   @Input() flight!: FlightDetailsDto;
-
-  get flightDuration(): string {
-    if (!this.flight) {
-      return '';
-    }
-
-    const departure = new Date(this.flight.departureDate);
-    const arrival = new Date(this.flight.arrivalDate);
-
-    const durationMs = arrival.getTime() - departure.getTime();
-    const hours = Math.floor(durationMs / (1000 * 60 * 60));
-    const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
-
-    return `${hours}h ${minutes}m`;
-  }
 
   get cabinClassPrices() {
     return Object.keys(this.flight.cabinClassPrices).map(key => ({

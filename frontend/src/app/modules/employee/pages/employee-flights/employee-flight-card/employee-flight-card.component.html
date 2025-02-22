@@ -1,46 +1,42 @@
-<!-- employee-flight-card.component.html -->
-<div class="flight-card" [routerLink]="['/employee/flights', flight.id]" routerLinkActive="active">
-  <div class="flight-card__header">
-    <h2 class="flight-id">Flight #{{ flight.id }}</h2>
+<div class="flight-card" [routerLink]="['/employee/flights', flight.id]">
+  <div class="main-section">
+    <div class="flight-header">
+      <span class="flight-number">Flight #{{ flight.id }}</span>
+    </div>
+
+    <div class="route-display">
+      <div class="airport departure">
+        <span class="date">{{ flight.departureDate | date: 'MMM d, yyyy' }}</span>
+        <span class="time">{{ flight.departureDate | date: 'HH:mm' }}</span>
+        <span class="iata">{{ flight.departureAirportDto.IATACode }}</span>
+        <span class="city">{{ flight.departureAirportDto.city }}</span>
+      </div>
+
+      <div class="flight-line">
+        <mat-icon>flight</mat-icon>
+      </div>
+
+      <div class="airport arrival">
+        <span class="date">{{ flight.arrivalDate | date: 'MMM d, yyyy' }}</span>
+        <span class="time">{{ flight.arrivalDate | date: 'HH:mm' }}</span>
+        <span class="iata">{{ flight.arrivalAirportDto.IATACode }}</span>
+        <span class="city">{{ flight.arrivalAirportDto.city }}</span>
+      </div>
+    </div>
   </div>
 
-  <div class="flight-card__content">
-    <div class="flight-info">
-      <h3 class="info-title">Departure</h3>
-      <div class="info-content">
-        <span class="iata-code">{{ flight.departureAirportDto.IATACode }}</span>
-        <p class="airport-name">{{ flight.departureAirportDto.name }}</p>
-        <p class="airport-location">{{ flight.departureAirportDto.city }}, {{ flight.departureAirportDto.country.name }}</p>
-        <p class="flight-time">{{ flight.departureDate | date: 'yyyy-MM-dd HH:mm' }}</p>
-      </div>
+  <div class="price-overview">
+    <div class="price-item" *ngIf="flight.cabinClassPrices['ECONOMY']">
+      <span class="label">Economy</span>
+      <span class="value">{{ flight.cabinClassPrices['ECONOMY'] | currency }}</span>
     </div>
-
-    <div class="flight-info">
-      <h3 class="info-title">Arrival</h3>
-      <div class="info-content">
-        <span class="iata-code">{{ flight.arrivalAirportDto.IATACode }}</span>
-        <p class="airport-name">{{ flight.arrivalAirportDto.name }}</p>
-        <p class="airport-location">{{ flight.arrivalAirportDto.city }}, {{ flight.arrivalAirportDto.country.name }}</p>
-        <p class="flight-time">{{ flight.arrivalDate | date: 'yyyy-MM-dd HH:mm' }}</p>
-      </div>
+    <div class="price-item" *ngIf="flight.cabinClassPrices['BUSINESS']">
+      <span class="label">Business</span>
+      <span class="value">{{ flight.cabinClassPrices['BUSINESS'] | currency }}</span>
     </div>
-
-    <div class="flight-info">
-      <h3 class="info-title">Aircraft</h3>
-      <div class="info-content">
-        <p class="aircraft-detail">Model: {{ flight.aircraft.model }}</p>
-        <p class="aircraft-detail">Year: {{ flight.aircraft.productionYear }}</p>
-        <p class="aircraft-detail">Reg: {{ flight.aircraft.registration }}</p>
-      </div>
-    </div>
-
-    <div class="flight-info">
-      <h3 class="info-title">Cabin Class Prices</h3>
-      <div class="info-content">
-        <p class="price-detail">Economy: {{ flight.cabinClassPrices['ECONOMY'] || 'Not available' }}</p>
-        <p class="price-detail">Business: {{ flight.cabinClassPrices['BUSINESS'] || 'Not available' }}</p>
-        <p class="price-detail">First: {{ flight.cabinClassPrices['FIRST'] || 'Not available' }}</p>
-      </div>
+    <div class="price-item" *ngIf="flight.cabinClassPrices['FIRST']">
+      <span class="label">First</span>
+      <span class="value">{{ flight.cabinClassPrices['FIRST'] | currency }}</span>
     </div>
   </div>
 </div>
