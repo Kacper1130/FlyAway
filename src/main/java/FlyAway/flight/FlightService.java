@@ -5,10 +5,7 @@ import FlyAway.exception.CountryDoesNotExistException;
 import FlyAway.exception.FlightDoesNotExistException;
 import FlyAway.exception.MissingCabinClassPriceException;
 import FlyAway.flight.aircraft.CabinClass;
-import FlyAway.flight.dto.AvailableSeatsDto;
-import FlyAway.flight.dto.CreateFlightDto;
-import FlyAway.flight.dto.FlightDetailsDto;
-import FlyAway.flight.dto.FlightDto;
+import FlyAway.flight.dto.*;
 import FlyAway.reservation.ReservationStatus;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -114,10 +111,10 @@ public class FlightService {
         return flightMapper.flightToFlightDto(createdFlight);
     }
 
-    public List<FlightDetailsDto> getAllFlightsWithId() {
+    public List<FlightSummaryEmployeeDto> getAllFlightsWithId() {
         LOGGER.debug("Retrieving all flights from repository");
-        List<FlightDetailsDto> flights = flightRepository.findAll()
-                .stream().map(flightMapper::flightToFlightDetailsDto).toList();
+        List<FlightSummaryEmployeeDto> flights = flightRepository.findAll()
+                .stream().map(flightMapper::flightToFlightSummaryEmployeeDto).toList();
         LOGGER.info("Retrieved {} flights from repository", flights.size());
         return flights;
     }

@@ -14,6 +14,7 @@ import { Add$Params } from '../fn/flight/add';
 import { AvailableSeatsDto } from '../models/available-seats-dto';
 import { FlightDetailsDto } from '../models/flight-details-dto';
 import { FlightDto } from '../models/flight-dto';
+import { FlightSummaryEmployeeDto } from '../models/flight-summary-employee-dto';
 import { getAllFullFlights } from '../fn/flight/get-all-full-flights';
 import { GetAllFullFlights$Params } from '../fn/flight/get-all-full-flights';
 import { getAvailableSeats } from '../fn/flight/get-available-seats';
@@ -141,7 +142,7 @@ export class FlightService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllFullFlights$Response(params?: GetAllFullFlights$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FlightDetailsDto>>> {
+  getAllFullFlights$Response(params?: GetAllFullFlights$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FlightSummaryEmployeeDto>>> {
     return getAllFullFlights(this.http, this.rootUrl, params, context);
   }
 
@@ -151,9 +152,9 @@ export class FlightService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getAllFullFlights(params?: GetAllFullFlights$Params, context?: HttpContext): Observable<Array<FlightDetailsDto>> {
+  getAllFullFlights(params?: GetAllFullFlights$Params, context?: HttpContext): Observable<Array<FlightSummaryEmployeeDto>> {
     return this.getAllFullFlights$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<FlightDetailsDto>>): Array<FlightDetailsDto> => r.body)
+      map((r: StrictHttpResponse<Array<FlightSummaryEmployeeDto>>): Array<FlightSummaryEmployeeDto> => r.body)
     );
   }
 

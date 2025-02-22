@@ -1,21 +1,25 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {ChatMessage} from '../models/chat-message';
-import {createTicket, CreateTicket$Params} from '../fn/client-support-ticket/create-ticket';
-import {getChatMessages, GetChatMessages$Params} from '../fn/client-support-ticket/get-chat-messages';
-import {getOwnTickets, GetOwnTickets$Params} from '../fn/client-support-ticket/get-own-tickets';
-import {getTicketSummary, GetTicketSummary$Params} from '../fn/client-support-ticket/get-ticket-summary';
-import {SupportTicket} from '../models/support-ticket';
-import {SupportTicketSummaryDto} from '../models/support-ticket-summary-dto';
+import { ChatMessage } from '../models/chat-message';
+import { createTicket } from '../fn/client-support-ticket/create-ticket';
+import { CreateTicket$Params } from '../fn/client-support-ticket/create-ticket';
+import { getChatMessages } from '../fn/client-support-ticket/get-chat-messages';
+import { GetChatMessages$Params } from '../fn/client-support-ticket/get-chat-messages';
+import { getOwnTickets } from '../fn/client-support-ticket/get-own-tickets';
+import { GetOwnTickets$Params } from '../fn/client-support-ticket/get-own-tickets';
+import { getTicketSummary } from '../fn/client-support-ticket/get-ticket-summary';
+import { GetTicketSummary$Params } from '../fn/client-support-ticket/get-ticket-summary';
+import { SupportTicket } from '../models/support-ticket';
+import { SupportTicketSummaryDto } from '../models/support-ticket-summary-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ClientSupportTicketService extends BaseService {

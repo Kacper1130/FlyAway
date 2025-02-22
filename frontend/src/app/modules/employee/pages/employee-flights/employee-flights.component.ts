@@ -1,13 +1,12 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EmployeeNavbarComponent} from "../../components/employee-navbar/employee-navbar.component";
 import {EmployeeFlightCardComponent} from "./employee-flight-card/employee-flight-card.component";
 import {FlightService} from "../../../../services/services/flight.service";
-import {Router, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {NgForOf} from "@angular/common";
-import {FlightDetailsDto} from "../../../../services/models/flight-details-dto";
 import {MatButton} from "@angular/material/button";
-import {MatDialog} from "@angular/material/dialog";
 import {MatIcon} from "@angular/material/icon";
+import {FlightSummaryEmployeeDto} from "../../../../services/models/flight-summary-employee-dto";
 
 @Component({
   selector: 'app-employee-flights',
@@ -23,13 +22,11 @@ import {MatIcon} from "@angular/material/icon";
   templateUrl: './employee-flights.component.html',
   styleUrl: './employee-flights.component.scss'
 })
-export class EmployeeFlightsComponent {
-  flights: FlightDetailsDto[] = [];
+export class EmployeeFlightsComponent implements OnInit{
+  flights: FlightSummaryEmployeeDto[] = [];
 
   constructor(
     private readonly flightService: FlightService,
-    private readonly router: Router,
-    private readonly dialog: MatDialog
   ) {
   }
 
@@ -41,7 +38,6 @@ export class EmployeeFlightsComponent {
     this.flightService.getAllFullFlights().subscribe({
       next: (flights) => {
         this.flights = flights;
-        // flights.forEach(value => console.log(value.cabinClassPrices));
       }
     });
   }

@@ -42,4 +42,8 @@ public interface FlightMapper {
     @Mapping(source = "arrivalAirport", target = "arrivalAirportDto")
     FlightDetailsEmployeeDto flightToFlightDetailsEmployeeDto(Flight flight);
 
+    @Mapping(source = "departureAirport", target = "departureAirportDto")
+    @Mapping(source = "arrivalAirport", target = "arrivalAirportDto")
+    FlightSummaryEmployeeDto flightToFlightSummaryEmployeeDto(Flight flight);
+
 }

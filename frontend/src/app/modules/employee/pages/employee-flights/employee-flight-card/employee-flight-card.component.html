@@ -8,8 +8,8 @@
       <div class="airport departure">
         <span class="date">{{ flight.departureDate | date: 'MMM d, yyyy' }}</span>
         <span class="time">{{ flight.departureDate | date: 'HH:mm' }}</span>
-        <span class="iata">{{ flight.departureAirportDto.IATACode }}</span>
-        <span class="city">{{ flight.departureAirportDto.city }}</span>
+        <span class="iata">{{ flight.departureAirportDto?.IATACode }}</span>
+        <span class="city">{{ flight.departureAirportDto?.city }}</span>
       </div>
 
       <div class="flight-line">
@@ -19,24 +19,24 @@
       <div class="airport arrival">
         <span class="date">{{ flight.arrivalDate | date: 'MMM d, yyyy' }}</span>
         <span class="time">{{ flight.arrivalDate | date: 'HH:mm' }}</span>
-        <span class="iata">{{ flight.arrivalAirportDto.IATACode }}</span>
-        <span class="city">{{ flight.arrivalAirportDto.city }}</span>
+        <span class="iata">{{ flight.arrivalAirportDto?.IATACode }}</span>
+        <span class="city">{{ flight.arrivalAirportDto?.city }}</span>
       </div>
     </div>
   </div>
 
   <div class="price-overview">
-    <div class="price-item" *ngIf="flight.cabinClassPrices['ECONOMY']">
+    <div class="price-item" *ngIf="flight.cabinClassPrices!['ECONOMY']">
       <span class="label">Economy</span>
-      <span class="value">{{ flight.cabinClassPrices['ECONOMY'] | currency }}</span>
+      <span class="value">{{ flight.cabinClassPrices!['ECONOMY'] | currency }}</span>
     </div>
-    <div class="price-item" *ngIf="flight.cabinClassPrices['BUSINESS']">
+    <div class="price-item" *ngIf="flight.cabinClassPrices!['BUSINESS']">
       <span class="label">Business</span>
-      <span class="value">{{ flight.cabinClassPrices['BUSINESS'] | currency }}</span>
+      <span class="value">{{ flight.cabinClassPrices!['BUSINESS'] | currency }}</span>
     </div>
-    <div class="price-item" *ngIf="flight.cabinClassPrices['FIRST']">
+    <div class="price-item" *ngIf="flight.cabinClassPrices!['FIRST']">
       <span class="label">First</span>
-      <span class="value">{{ flight.cabinClassPrices['FIRST'] | currency }}</span>
+      <span class="value">{{ flight.cabinClassPrices!['FIRST'] | currency }}</span>
     </div>
   </div>
 </div>

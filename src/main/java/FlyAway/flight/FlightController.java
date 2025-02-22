@@ -1,10 +1,7 @@
 package FlyAway.flight;
 
 import FlyAway.common.PageResponse;
-import FlyAway.flight.dto.AvailableSeatsDto;
-import FlyAway.flight.dto.CreateFlightDto;
-import FlyAway.flight.dto.FlightDetailsDto;
-import FlyAway.flight.dto.FlightDto;
+import FlyAway.flight.dto.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -62,9 +59,9 @@ public class FlightController {
     }
 
     @GetMapping("/full")
-    public ResponseEntity<List<FlightDetailsDto>> getAllFullFlights() {
+    public ResponseEntity<List<FlightSummaryEmployeeDto>> getAllFullFlights() {
         LOGGER.debug("Retrieving all full flight entities for employees");
-        List<FlightDetailsDto> flights = flightService.getAllFlightsWithId();
+        List<FlightSummaryEmployeeDto> flights = flightService.getAllFlightsWithId();
         LOGGER.info("Retrieved {} full flight entities", flights.size());
         return ResponseEntity.ok(flights);
     }

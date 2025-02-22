@@ -6,12 +6,12 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { FlightDetailsDto } from '../../models/flight-details-dto';
+import { FlightSummaryEmployeeDto } from '../../models/flight-summary-employee-dto';
 
 export interface GetAllFullFlights$Params {
 }
 
-export function getAllFullFlights(http: HttpClient, rootUrl: string, params?: GetAllFullFlights$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FlightDetailsDto>>> {
+export function getAllFullFlights(http: HttpClient, rootUrl: string, params?: GetAllFullFlights$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FlightSummaryEmployeeDto>>> {
   const rb = new RequestBuilder(rootUrl, getAllFullFlights.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function getAllFullFlights(http: HttpClient, rootUrl: string, params?: Ge
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<FlightDetailsDto>>;
+      return r as StrictHttpResponse<Array<FlightSummaryEmployeeDto>>;
     })
   );
 }
