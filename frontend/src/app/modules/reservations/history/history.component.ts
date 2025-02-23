@@ -1,34 +1,34 @@
 import {Component, OnInit} from '@angular/core';
 import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.component";
-import {ReservationCardComponent} from "../reservation-card/reservation-card.component";
 import {NgForOf, NgIf} from "@angular/common";
+import {ReservationCardComponent} from "../reservation-card/reservation-card.component";
 import {ReservationSummaryClientDto} from "../../../services/models/reservation-summary-client-dto";
 import {ClientReservationService} from "../../../services/services/client-reservation.service";
 
 @Component({
-  selector: 'app-reservations',
+  selector: 'app-history',
   standalone: true,
   imports: [
     NewNavbarComponent,
-    ReservationCardComponent,
+    NgForOf,
     NgIf,
-    NgForOf
+    ReservationCardComponent
   ],
-  templateUrl: './reservations.component.html',
-  styleUrl: './reservations.component.scss'
+  templateUrl: './history.component.html',
+  styleUrl: './history.component.scss'
 })
-export class ReservationsComponent implements OnInit {
+export class HistoryComponent implements OnInit {
+
   reservations: ReservationSummaryClientDto[] = [];
 
-  constructor(private readonly reservationService: ClientReservationService) {
-  }
+  constructor(private readonly reservationService: ClientReservationService) {}
 
   ngOnInit() {
-    this.getActiveReservations();
+    this.getReservationHistory();
   }
 
-  private getActiveReservations() {
-    this.reservationService.getOwnReservations().subscribe({
+  private getReservationHistory() {
+    this.reservationService.getReservationHistory().subscribe({
       next: (reservations) => {
         this.reservations = reservations;
       }

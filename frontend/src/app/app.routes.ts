@@ -36,6 +36,7 @@ import {
   EmployeeSupportChatComponent
 } from "./modules/employee/pages/employee-issues/employee-support-chat/employee-support-chat.component";
 import {SupportChatComponent} from "./modules/support/components/support-chat/support-chat.component";
+import {HistoryComponent} from "./modules/reservations/history/history.component";
 
 export const routes: Routes = [
   {
@@ -67,6 +68,11 @@ export const routes: Routes = [
   {
     path: 'reservations',
     component: ReservationsComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'history',
+    component: HistoryComponent,
     canActivate: [authGuard]
   },
   {
