@@ -28,7 +28,7 @@ export class ReservationsComponent implements OnInit {
   }
 
   private getActiveReservations() {
-    this.reservationService.getOwnReservations().subscribe({
+    this.reservationService.getActiveReservations().subscribe({
       next: (reservations) => {
         this.reservations = reservations;
       }

@@ -18,4 +18,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
     @Query("SELECT r FROM Reservation r WHERE r.client.id = :clientId AND r.status = 'ACTIVE'")
     List<Reservation> findByClientIdActive(Long clientId);
 
+    List<Reservation> findByClientId(Long clientId);
+
 }

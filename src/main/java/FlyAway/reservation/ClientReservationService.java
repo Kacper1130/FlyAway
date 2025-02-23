@@ -152,6 +152,24 @@ public class ClientReservationService {
         return reservations;
     }
 
+    public List<ReservationSummaryClientDto> getReservationHistory(Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Client client = (Client) securityUser.getUser();
+
+        if (!clientRepository.existsById(client.getId())) {
+            throw new UserDoesNotExistException();
+        }
+
+        var reservations = reservationRepository.findByClientId(client.getId())
+                .stream()
+                .filter(reservation -> reservation.getStatus() != ReservationStatus.ACTIVE)
+                .map(reservationMapper::reservationToReservationSummaryClientDto)
+                .toList();
+
+        LOGGER.info("Retrieved reservation history for client {}", client.getEmail());
+        return reservations;
+    }
+
     public ReservationDetailsClientDto getReservationDetails(UUID id, Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = (Client) securityUser.getUser();

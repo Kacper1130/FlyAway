@@ -8,11 +8,11 @@ import { RequestBuilder } from '../../request-builder';
 
 import { ReservationSummaryClientDto } from '../../models/reservation-summary-client-dto';
 
-export interface GetOwnReservations$Params {
+export interface GetActiveReservations$Params {
 }
 
-export function getOwnReservations(http: HttpClient, rootUrl: string, params?: GetOwnReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationSummaryClientDto>>> {
-  const rb = new RequestBuilder(rootUrl, getOwnReservations.PATH, 'get');
+export function getActiveReservations(http: HttpClient, rootUrl: string, params?: GetActiveReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationSummaryClientDto>>> {
+  const rb = new RequestBuilder(rootUrl, getActiveReservations.PATH, 'get');
   if (params) {
   }
 
@@ -26,4 +26,4 @@ export function getOwnReservations(http: HttpClient, rootUrl: string, params?: G
   );
 }
 
-getOwnReservations.PATH = '/api/v1/reservations';
+getActiveReservations.PATH = '/api/v1/reservations';

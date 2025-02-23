@@ -33,6 +33,12 @@ public class ClientReservationController {
         return ResponseEntity.ok(reservations);
     }
 
+    @GetMapping("/history")
+    public ResponseEntity<List<ReservationSummaryClientDto>> getReservationHistory(Authentication authentication) {
+        List<ReservationSummaryClientDto> reservations = reservationService.getReservationHistory(authentication);
+        return ResponseEntity.ok(reservations);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ReservationDetailsClientDto> getReservationDetails(@PathVariable UUID id, Authentication authentication) {
         ReservationDetailsClientDto reservation = reservationService.getReservationDetails(id, authentication);

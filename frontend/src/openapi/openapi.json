@@ -636,7 +636,7 @@
         "tags": [
           "ClientReservation"
         ],
-        "operationId": "getOwnReservations",
+        "operationId": "getActiveReservations",
         "responses": {
           "200": {
             "description": "OK",
@@ -709,6 +709,29 @@
                   "type": "object",
                   "additionalProperties": {
                     "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reservations/history": {
+      "get": {
+        "tags": [
+          "ClientReservation"
+        ],
+        "operationId": "getReservationHistory",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReservationSummaryClientDto"
                   }
                 }
               }

@@ -1,25 +1,22 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { cancelOwnReservation } from '../fn/client-reservation/cancel-own-reservation';
-import { CancelOwnReservation$Params } from '../fn/client-reservation/cancel-own-reservation';
-import { createReservation } from '../fn/client-reservation/create-reservation';
-import { CreateReservation$Params } from '../fn/client-reservation/create-reservation';
-import { getOwnReservations } from '../fn/client-reservation/get-own-reservations';
-import { GetOwnReservations$Params } from '../fn/client-reservation/get-own-reservations';
-import { getReservationDetails } from '../fn/client-reservation/get-reservation-details';
-import { GetReservationDetails$Params } from '../fn/client-reservation/get-reservation-details';
-import { ReservationDetailsClientDto } from '../models/reservation-details-client-dto';
-import { ReservationPaymentResponseDto } from '../models/reservation-payment-response-dto';
-import { ReservationSummaryClientDto } from '../models/reservation-summary-client-dto';
+import {cancelOwnReservation, CancelOwnReservation$Params} from '../fn/client-reservation/cancel-own-reservation';
+import {createReservation, CreateReservation$Params} from '../fn/client-reservation/create-reservation';
+import {getActiveReservations, GetActiveReservations$Params} from '../fn/client-reservation/get-active-reservations';
+import {getReservationDetails, GetReservationDetails$Params} from '../fn/client-reservation/get-reservation-details';
+import {getReservationHistory, GetReservationHistory$Params} from '../fn/client-reservation/get-reservation-history';
+import {ReservationDetailsClientDto} from '../models/reservation-details-client-dto';
+import {ReservationPaymentResponseDto} from '../models/reservation-payment-response-dto';
+import {ReservationSummaryClientDto} from '../models/reservation-summary-client-dto';
 
 @Injectable({ providedIn: 'root' })
 export class ClientReservationService extends BaseService {
@@ -52,27 +49,27 @@ export class ClientReservationService extends BaseService {
     );
   }
 
-  /** Path part for operation `getOwnReservations()` */
-  static readonly GetOwnReservationsPath = '/api/v1/reservations';
+  /** Path part for operation `getActiveReservations()` */
+  static readonly GetActiveReservationsPath = '/api/v1/reservations';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getOwnReservations()` instead.
+   * To access only the response body, use `getActiveReservations()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getOwnReservations$Response(params?: GetOwnReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationSummaryClientDto>>> {
-    return getOwnReservations(this.http, this.rootUrl, params, context);
+  getActiveReservations$Response(params?: GetActiveReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationSummaryClientDto>>> {
+    return getActiveReservations(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getOwnReservations$Response()` instead.
+   * To access the full response (for headers, for example), `getActiveReservations$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getOwnReservations(params?: GetOwnReservations$Params, context?: HttpContext): Observable<Array<ReservationSummaryClientDto>> {
-    return this.getOwnReservations$Response(params, context).pipe(
+  getActiveReservations(params?: GetActiveReservations$Params, context?: HttpContext): Observable<Array<ReservationSummaryClientDto>> {
+    return this.getActiveReservations$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ReservationSummaryClientDto>>): Array<ReservationSummaryClientDto> => r.body)
     );
   }
@@ -132,6 +129,31 @@ export class ClientReservationService extends BaseService {
 }>): {
 [key: string]: string;
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `getReservationHistory()` */
+  static readonly GetReservationHistoryPath = '/api/v1/reservations/history';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getReservationHistory()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReservationHistory$Response(params?: GetReservationHistory$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReservationSummaryClientDto>>> {
+    return getReservationHistory(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getReservationHistory$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getReservationHistory(params?: GetReservationHistory$Params, context?: HttpContext): Observable<Array<ReservationSummaryClientDto>> {
+    return this.getReservationHistory$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ReservationSummaryClientDto>>): Array<ReservationSummaryClientDto> => r.body)
     );
   }
 
