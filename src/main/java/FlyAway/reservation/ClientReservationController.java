@@ -28,8 +28,8 @@ public class ClientReservationController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ReservationSummaryClientDto>> getOwnReservations(Authentication authentication) {
-        List<ReservationSummaryClientDto> reservations = reservationService.getOwnReservations(authentication);
+    public ResponseEntity<List<ReservationSummaryClientDto>> getActiveReservations(Authentication authentication) {
+        List<ReservationSummaryClientDto> reservations = reservationService.getActiveReservations(authentication);
         return ResponseEntity.ok(reservations);
     }
 

@@ -21,6 +21,4 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("SELECT u FROM Client u WHERE u.id = :id AND u.deleted = false")
     Optional<Client> findActiveById(@Param("id") Long id);
 
-    @Query("SELECT c FROM Client c LEFT JOIN FETCH c.reservations WHERE c.id = :clientId")
-    Optional<Client> findByIdWithReservations(@Param("clientId") Long clientId);
 }

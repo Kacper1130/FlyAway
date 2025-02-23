@@ -135,16 +135,20 @@ public class ClientReservationService {
         LOGGER.info("Reservation {} status: EXPIRED", reservation.getId());
     }
 
-    public List<ReservationSummaryClientDto> getOwnReservations(Authentication authentication) {
+    public List<ReservationSummaryClientDto> getActiveReservations(Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
-        Client client = clientRepository.findByIdWithReservations(securityUser.getUser().getId())
-                .orElseThrow(UserDoesNotExistException::new);
-        var reservations = client
-                .getReservations()
+        Client client = (Client) securityUser.getUser();
+
+        if (!clientRepository.existsById(client.getId())) {
+            throw new UserDoesNotExistException();
+        }
+
+        var reservations = reservationRepository.findByClientIdActive(client.getId())
                 .stream()
                 .map(reservationMapper::reservationToReservationSummaryClientDto)
                 .toList();
-        LOGGER.info("Retrieved {} reservation of user {}", reservations.size(), client.getEmail());
+
+        LOGGER.info("Retrieved {} active reservations of user {}", reservations.size(), client.getEmail());
         return reservations;
     }
 

@@ -15,4 +15,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
     @Query("SELECT r FROM Reservation r WHERE r.status = 'ACTIVE' AND r.flight.arrivalDate < :now")
     List<Reservation> findExpiredReservations(@Param("now") LocalDateTime now);
 
+    @Query("SELECT r FROM Reservation r WHERE r.client.id = :clientId AND r.status = 'ACTIVE'")
+    List<Reservation> findByClientIdActive(Long clientId);
+
 }
