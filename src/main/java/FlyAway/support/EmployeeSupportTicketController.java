@@ -1,7 +1,6 @@
 package FlyAway.support;
 
 import FlyAway.support.chat.ChatMessage;
-import FlyAway.support.chat.ChatMessageService;
 import FlyAway.support.dto.SupportTicketSummaryDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
@@ -53,4 +52,8 @@ public class EmployeeSupportTicketController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/active-tickets-count")
+    public ResponseEntity<Integer> getActiveTicketsCount(Authentication authentication) {
+        return ResponseEntity.ok(supportTicketService.getActiveTicketsCount(authentication));
+    }
 }

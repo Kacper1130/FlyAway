@@ -1,27 +1,26 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { assignTicket } from '../fn/employee-support-ticket/assign-ticket';
-import { AssignTicket$Params } from '../fn/employee-support-ticket/assign-ticket';
-import { ChatMessage } from '../models/chat-message';
-import { closeTicket } from '../fn/employee-support-ticket/close-ticket';
-import { CloseTicket$Params } from '../fn/employee-support-ticket/close-ticket';
-import { getChatMessages1 } from '../fn/employee-support-ticket/get-chat-messages-1';
-import { GetChatMessages1$Params } from '../fn/employee-support-ticket/get-chat-messages-1';
-import { getTickets } from '../fn/employee-support-ticket/get-tickets';
-import { GetTickets$Params } from '../fn/employee-support-ticket/get-tickets';
-import { getTicketSummary1 } from '../fn/employee-support-ticket/get-ticket-summary-1';
-import { GetTicketSummary1$Params } from '../fn/employee-support-ticket/get-ticket-summary-1';
-import { SupportTicket } from '../models/support-ticket';
-import { SupportTicketSummaryDto } from '../models/support-ticket-summary-dto';
+import {assignTicket, AssignTicket$Params} from '../fn/employee-support-ticket/assign-ticket';
+import {ChatMessage} from '../models/chat-message';
+import {closeTicket, CloseTicket$Params} from '../fn/employee-support-ticket/close-ticket';
+import {
+  getActiveTicketsCount,
+  GetActiveTicketsCount$Params
+} from '../fn/employee-support-ticket/get-active-tickets-count';
+import {getChatMessages1, GetChatMessages1$Params} from '../fn/employee-support-ticket/get-chat-messages-1';
+import {getTickets, GetTickets$Params} from '../fn/employee-support-ticket/get-tickets';
+import {getTicketSummary1, GetTicketSummary1$Params} from '../fn/employee-support-ticket/get-ticket-summary-1';
+import {SupportTicket} from '../models/support-ticket';
+import {SupportTicketSummaryDto} from '../models/support-ticket-summary-dto';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeSupportTicketService extends BaseService {
@@ -151,6 +150,31 @@ export class EmployeeSupportTicketService extends BaseService {
   getChatMessages1(params: GetChatMessages1$Params, context?: HttpContext): Observable<Array<ChatMessage>> {
     return this.getChatMessages1$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ChatMessage>>): Array<ChatMessage> => r.body)
+    );
+  }
+
+  /** Path part for operation `getActiveTicketsCount()` */
+  static readonly GetActiveTicketsCountPath = '/api/v1/employee/tickets/active-tickets-count';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getActiveTicketsCount()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getActiveTicketsCount$Response(params?: GetActiveTicketsCount$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+    return getActiveTicketsCount(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getActiveTicketsCount$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getActiveTicketsCount(params?: GetActiveTicketsCount$Params, context?: HttpContext): Observable<number> {
+    return this.getActiveTicketsCount$Response(params, context).pipe(
+      map((r: StrictHttpResponse<number>): number => r.body)
     );
   }
 

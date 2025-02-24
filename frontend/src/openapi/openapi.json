@@ -1037,6 +1037,27 @@
         }
       }
     },
+    "/api/v1/employee/tickets/active-tickets-count": {
+      "get": {
+        "tags": [
+          "EmployeeSupportTicket"
+        ],
+        "operationId": "getActiveTicketsCount",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employee/reservations": {
       "get": {
         "tags": [

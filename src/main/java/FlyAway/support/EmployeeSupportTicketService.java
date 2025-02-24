@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeSupportTicketService {
@@ -122,4 +121,16 @@ public class EmployeeSupportTicketService {
         ticketRepository.save(ticket);
         LOGGER.info("Successfully assigned ticket with ID {} to employee {}", ticketId, employee.getId());
     }
+
+    public Integer getActiveTicketsCount(Authentication authentication) {
+        var securityUser = (SecurityUser) authentication.getPrincipal();
+        Long employeeId = securityUser.getUser().getId();
+
+        Integer inProgressTickets = ticketRepository.countByEmployeeIdAndStatus(employeeId, TicketStatus.IN_PROGRESS);
+        Integer openTickets = ticketRepository.countByStatus(TicketStatus.OPEN);
+        var activeTickets = inProgressTickets + openTickets;
+        LOGGER.info("Retrieved count of {} active tickets for employee Id {}", activeTickets, employeeId);
+        return activeTickets;
+    }
+
 }

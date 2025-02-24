@@ -10,4 +10,7 @@ public interface SupportTicketRepository extends MongoRepository<SupportTicket, 
 
     List<SupportTicket> findByEmployeeIdOrStatus(Long id, TicketStatus status );
 
+    Integer countByEmployeeIdAndStatus(Long employeeId, TicketStatus status);
+    Integer countByStatus(TicketStatus status);
+
 }
