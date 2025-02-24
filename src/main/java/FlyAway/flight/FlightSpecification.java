@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class FlightSpecification {
     public static Specification<Flight> filterFlights(Map<String, Object> filters) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.greaterThan(root.get("departureDate"), LocalDateTime.now()));
             filters.forEach((key, value) -> {
                 switch (key) {
                     case "departureCity":

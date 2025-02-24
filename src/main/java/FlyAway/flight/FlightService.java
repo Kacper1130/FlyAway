@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,7 +39,7 @@ public class FlightService {
     public PageResponse<FlightDto> getFlights(int page, int size) {
         LOGGER.debug("Retrieving {} page with size {} from repository", page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").ascending());
-        Page<Flight> flights = flightRepository.findAll(pageable);
+        Page<Flight> flights = flightRepository.findByDepartureDateAfter(pageable, LocalDateTime.now());
         List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
         LOGGER.info("Retrieved {} flights from repository", flightsResponse.size());
         return new PageResponse<>(
