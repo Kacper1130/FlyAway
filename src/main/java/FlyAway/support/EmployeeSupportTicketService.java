@@ -30,10 +30,10 @@ public class EmployeeSupportTicketService {
     public List<SupportTicket> getTickets(Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Long employeeId = securityUser.getUser().getId();
-        return ticketRepository.findAll().stream()
+        return ticketRepository.findByEmployeeIdOrStatus(employeeId, TicketStatus.OPEN).stream()
                 .sorted((t1, t2) -> {
-                    int priority1 = getPriority(t1, employeeId);
-                    int priority2 = getPriority(t2, employeeId);
+                    int priority1 = getPriority(t1);
+                    int priority2 = getPriority(t2);
 
                     if (priority1 != priority2) {
                         return Integer.compare(priority1, priority2);
@@ -52,15 +52,15 @@ public class EmployeeSupportTicketService {
                 .toList();
     }
 
-    private int getPriority(SupportTicket ticket, Long employeeId) {
-        if (ticket.getStatus() == TicketStatus.IN_PROGRESS && ticket.getEmployeeId().equals(employeeId)) {
+    private int getPriority(SupportTicket ticket) {
+        if (ticket.getStatus() == TicketStatus.IN_PROGRESS) {
             return 1;
         } else if (ticket.getStatus() == TicketStatus.OPEN) {
             return 2;
-        } else if (ticket.getStatus() == TicketStatus.CLOSED && ticket.getEmployeeId().equals(employeeId)) {
+        } else if (ticket.getStatus() == TicketStatus.CLOSED) {
             return 3;
         }
-        return 0;
+        return 4;
     }
 
     public List<ChatMessage> getChatMessages(String ticketId) {

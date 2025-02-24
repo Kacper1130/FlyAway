@@ -8,4 +8,6 @@ public interface SupportTicketRepository extends MongoRepository<SupportTicket, 
 
     List<SupportTicket> findByClientIdOrderByCreatedAtDesc(Long id);
 
+    List<SupportTicket> findByEmployeeIdOrStatus(Long id, TicketStatus status );
+
 }
