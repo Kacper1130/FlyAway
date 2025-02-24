@@ -110,4 +110,11 @@ export class SupportChatComponent implements OnInit {
     }, 100);
   }
 
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
 }

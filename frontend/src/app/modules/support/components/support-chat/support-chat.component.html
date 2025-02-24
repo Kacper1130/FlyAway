@@ -35,7 +35,8 @@
             name="message"
             placeholder="Type a message..."
             rows="1"
-            required></textarea>
+            required
+            (keydown)="onKeydown($event)"></textarea>
       <button type="submit" [disabled]="!newMessage.trim()">
         <i class="fas fa-paper-plane"></i>
       </button>

@@ -6,7 +6,7 @@
       <div class="ticket-info">
       <span class="status" [class.active]="ticketInfo.status === 'OPEN' || ticketInfo.status === 'IN_PROGRESS'">
         <i class="fas fa-circle"></i>
-        {{ ticketInfo.status === 'OPEN' || ticketInfo.status === 'IN_PROGRESS'  ? 'Active' : 'Closed' }}
+        {{ ticketInfo.status === 'OPEN' || ticketInfo.status === 'IN_PROGRESS' ? 'Active' : 'Closed' }}
       </span>
       </div>
     </div>
@@ -49,7 +49,8 @@
             name="message"
             placeholder="Type a message..."
             rows="1"
-            required></textarea>
+            required
+            (keydown)="onKeydown($event)"></textarea>
       <button type="submit" [disabled]="!newMessage.trim()">
         <i class="fas fa-paper-plane"></i>
       </button>

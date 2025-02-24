@@ -126,4 +126,12 @@ export class EmployeeSupportChatComponent implements OnInit {
       }
     });
   }
+
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
 }
