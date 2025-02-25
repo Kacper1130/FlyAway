@@ -3,8 +3,8 @@ package FlyAway.auth.dto;
 import FlyAway.validation.Password;
 
 public record ChangePasswordRequest(
-        String oldPassword,
-        @Password String newPassword1,
-        @Password String newPassword2
+        String currentPassword,
+        @Password String newPassword,
+        @Password String confirmPassword
 ) {
 }

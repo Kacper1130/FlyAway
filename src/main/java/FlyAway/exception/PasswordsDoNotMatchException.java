@@ -2,6 +2,6 @@ package FlyAway.exception;
 
 public class PasswordsDoNotMatchException extends RuntimeException {
     public PasswordsDoNotMatchException() {
-        super("New passwords are not the same");
+        super("New password and confirmation password do not match");
     }
 }

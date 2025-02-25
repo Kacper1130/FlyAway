@@ -52,12 +52,12 @@ public class AuthenticationController {
     }
 
     @PatchMapping("/change-password")
-    public ResponseEntity<?> changePassword(
+    public ResponseEntity<String> changePassword(
             @Valid @RequestBody ChangePasswordRequest changePasswordRequest,
             Authentication authentication
     ) {
         authenticationService.changePassword(changePasswordRequest, authentication);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Password changed successfully");
     }
 
 }

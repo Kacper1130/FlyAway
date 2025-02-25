@@ -140,17 +140,17 @@ public class AuthenticationService {
     public void changePassword(ChangePasswordRequest changePasswordRequest, Authentication authentication) {
         var user = ((SecurityUser) authentication.getPrincipal()).getUser();
 
-        if (!passwordEncoder.matches(changePasswordRequest.oldPassword(), user.getPassword())) {
-            LOGGER.error("Old password does not match with user password");
+        if (!passwordEncoder.matches(changePasswordRequest.currentPassword(), user.getPassword())) {
+            LOGGER.error("Incorrect current password provided for user: {}", user.getEmail());
             throw new IncorrectOldPasswordException();
         }
 
-        if (!changePasswordRequest.newPassword1().equals(changePasswordRequest.newPassword2())) {
-            LOGGER.error("Passwords are not the same");
+        if (!changePasswordRequest.newPassword().equals(changePasswordRequest.confirmPassword())) {
+            LOGGER.error("New password and confirmation do not match for user: {}", user.getEmail());
             throw new PasswordsDoNotMatchException();
         }
 
-        user.setPassword(passwordEncoder.encode(changePasswordRequest.newPassword1()));
+        user.setPassword(passwordEncoder.encode(changePasswordRequest.newPassword()));
         userRepository.save(user);
         LOGGER.info("{} has changed password successfully", user.getEmail());
     }
