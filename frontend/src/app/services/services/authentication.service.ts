@@ -1,21 +1,19 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { authenticate } from '../fn/authentication/authenticate';
-import { Authenticate$Params } from '../fn/authentication/authenticate';
-import { AuthenticationResponse } from '../models/authentication-response';
-import { confirmUserAccount } from '../fn/authentication/confirm-user-account';
-import { ConfirmUserAccount$Params } from '../fn/authentication/confirm-user-account';
-import { register } from '../fn/authentication/register';
-import { Register$Params } from '../fn/authentication/register';
+import {authenticate, Authenticate$Params} from '../fn/authentication/authenticate';
+import {AuthenticationResponse} from '../models/authentication-response';
+import {changePassword, ChangePassword$Params} from '../fn/authentication/change-password';
+import {confirmUserAccount, ConfirmUserAccount$Params} from '../fn/authentication/confirm-user-account';
+import {register, Register$Params} from '../fn/authentication/register';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService extends BaseService {
@@ -74,6 +72,35 @@ export class AuthenticationService extends BaseService {
   authenticate(params: Authenticate$Params, context?: HttpContext): Observable<AuthenticationResponse> {
     return this.authenticate$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `changePassword()` */
+  static readonly ChangePasswordPath = '/api/v1/auth/change-password';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `changePassword()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  changePassword$Response(params: ChangePassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return changePassword(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `changePassword$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  changePassword(params: ChangePassword$Params, context?: HttpContext): Observable<{
+}> {
+    return this.changePassword$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
     );
   }
 

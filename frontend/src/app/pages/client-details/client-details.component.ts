@@ -2,14 +2,15 @@ import {Component, inject, OnInit} from '@angular/core';
 import {NewNavbarComponent} from "../../components/new-navbar/new-navbar.component";
 import {ClientDto} from "../../services/models/client-dto";
 import {FormsModule} from "@angular/forms";
-import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
+import {MatButton} from "@angular/material/button";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {MatFormField, MatHint, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatInput} from "@angular/material/input";
 import {ClientService} from "../../services/services/client.service";
-import {Router} from "@angular/router";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {ChangePasswordComponent} from "./change-password/change-password.component";
 
 @Component({
   selector: 'app-client-details',
@@ -17,14 +18,12 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
   imports: [
     NewNavbarComponent,
     FormsModule,
-    MatAnchor,
     MatButton,
     MatDatepicker,
     MatDatepickerInput,
     MatDatepickerToggle,
     MatFormField,
     MatIcon,
-    MatIconButton,
     MatInput,
     MatLabel,
     MatSuffix,
@@ -50,6 +49,7 @@ export class ClientDetailsComponent implements OnInit {
 
   constructor(
     private readonly clientService: ClientService,
+    private readonly dialog: MatDialog,
   ) {
   }
 
@@ -100,4 +100,12 @@ export class ClientDetailsComponent implements OnInit {
       }
     })
   }
+
+  openChangePasswordDialog(): void {
+    this.dialog.open(ChangePasswordComponent, {
+      width: '800px',
+      disableClose: true
+    });
+  }
+
 }

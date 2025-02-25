@@ -9,5 +9,4 @@ export { AuthenticationService } from './services/authentication.service';
 export { AircraftService } from './services/aircraft.service';
 export { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 export { CountryService } from './services/country.service';
-export { UserService } from './services/user.service';
 export { EmployeeReservationService } from './services/employee-reservation.service';

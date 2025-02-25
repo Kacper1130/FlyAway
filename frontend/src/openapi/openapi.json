@@ -538,10 +538,10 @@
         }
       }
     },
-    "/api/v1/change-password": {
+    "/api/v1/auth/change-password": {
       "patch": {
         "tags": [
-          "User"
+          "Authentication"
         ],
         "operationId": "changePassword",
         "requestBody": {

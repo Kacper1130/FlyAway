@@ -15,7 +15,6 @@ import { AuthenticationService } from './services/authentication.service';
 import { AircraftService } from './services/aircraft.service';
 import { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 import { CountryService } from './services/country.service';
-import { UserService } from './services/user.service';
 import { EmployeeReservationService } from './services/employee-reservation.service';
 
 /**
@@ -37,7 +36,6 @@ import { EmployeeReservationService } from './services/employee-reservation.serv
     AircraftService,
     EmployeeSupportTicketService,
     CountryService,
-    UserService,
     EmployeeReservationService,
     ApiConfiguration
   ],
