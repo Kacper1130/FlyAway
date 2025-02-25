@@ -4,14 +4,12 @@ import FlyAway.auth.confrimationToken.ConfirmationToken;
 import FlyAway.auth.confrimationToken.ConfirmationTokenService;
 import FlyAway.auth.dto.AuthenticationRequest;
 import FlyAway.auth.dto.AuthenticationResponse;
+import FlyAway.auth.dto.ChangePasswordRequest;
 import FlyAway.auth.dto.RegistrationRequest;
 import FlyAway.client.Client;
 import FlyAway.email.EmailService;
 import FlyAway.employee.Employee;
-import FlyAway.exception.AccountNotActivatedException;
-import FlyAway.exception.EmailExistsException;
-import FlyAway.exception.ExpiredConfirmationTokenException;
-import FlyAway.exception.UserDoesNotExistException;
+import FlyAway.exception.*;
 import FlyAway.role.RoleRepository;
 import FlyAway.security.JwtService;
 import FlyAway.security.SecurityUser;
@@ -23,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -136,6 +135,24 @@ public class AuthenticationService {
         user.setEnabled(true);
         userRepository.save(user);
         LOGGER.info("{} verified successfully", user.getEmail());
+    }
+
+    public void changePassword(ChangePasswordRequest changePasswordRequest, Authentication authentication) {
+        var user = ((SecurityUser) authentication.getPrincipal()).getUser();
+
+        if (!passwordEncoder.matches(changePasswordRequest.oldPassword(), user.getPassword())) {
+            LOGGER.error("Old password does not match with user password");
+            throw new IncorrectOldPasswordException();
+        }
+
+        if (!changePasswordRequest.newPassword1().equals(changePasswordRequest.newPassword2())) {
+            LOGGER.error("Passwords are not the same");
+            throw new PasswordsDoNotMatchException();
+        }
+
+        user.setPassword(passwordEncoder.encode(changePasswordRequest.newPassword1()));
+        userRepository.save(user);
+        LOGGER.info("{} has changed password successfully", user.getEmail());
     }
 
 }

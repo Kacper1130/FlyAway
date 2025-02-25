@@ -1,4 +1,4 @@
-package FlyAway.user.dto;
+package FlyAway.auth.dto;
 
 import FlyAway.validation.Password;
 

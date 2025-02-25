@@ -2,6 +2,7 @@ package FlyAway.auth;
 
 import FlyAway.auth.dto.AuthenticationRequest;
 import FlyAway.auth.dto.AuthenticationResponse;
+import FlyAway.auth.dto.ChangePasswordRequest;
 import FlyAway.auth.dto.RegistrationRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,6 +48,15 @@ public class AuthenticationController {
     @GetMapping("/confirm-account")
     public ResponseEntity<?> confirmUserAccount(@RequestParam("token")String confirmationToken) throws MessagingException {
         authenticationService.verifyUser(confirmationToken);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<?> changePassword(
+            @Valid @RequestBody ChangePasswordRequest changePasswordRequest,
+            Authentication authentication
+    ) {
+        authenticationService.changePassword(changePasswordRequest, authentication);
         return ResponseEntity.ok().build();
     }
 
