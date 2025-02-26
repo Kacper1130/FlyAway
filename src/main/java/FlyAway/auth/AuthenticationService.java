@@ -18,7 +18,6 @@ import FlyAway.user.UserRepository;
 import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,8 +31,6 @@ import java.util.Set;
 @Service
 public class AuthenticationService {
 
-    @Value("${application.baseUrl}")
-    private String baseUrl;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -58,10 +55,18 @@ public class AuthenticationService {
             throw new EmailExistsException(request.email());
         }
 
+        var client = createClientFromRegistrationRequest(request);
+
+        userRepository.save(client);
+        sendConfirmationEmail(client);
+        LOGGER.info("Created new client: {}", client.getEmail());
+    }
+
+    private Client createClientFromRegistrationRequest(RegistrationRequest request) {
         var userRole = roleRepository.findByName("ROLE_CLIENT")
                 .orElseThrow(() -> new IllegalStateException("ROLE CLIENT was not initialized"));
 
-        var client = Client.builder()
+        return Client.builder()
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .email(request.email())
@@ -71,9 +76,7 @@ public class AuthenticationService {
                 .roles(Set.of(userRole))
                 .enabled(false)
                 .build();
-        userRepository.save(client);
-        sendConfirmationEmail(client);
-        LOGGER.info("Created new client: {}", client.getEmail());
+
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -130,7 +133,7 @@ public class AuthenticationService {
         var user = userRepository.findById(savedToken.getUser().getId())
                 .orElseThrow(() -> {
                     LOGGER.error("User with id {} does not exist", savedToken.getUser().getId());
-                    throw new UserDoesNotExistException();
+                    return new UserDoesNotExistException();
                 });
         user.setEnabled(true);
         userRepository.save(user);
