@@ -124,17 +124,18 @@ public class AuthenticationService {
     public void verifyUser(String token) throws MessagingException {
         ConfirmationToken savedToken = confirmationTokenService.findByToken(token);
 
+        var user = userRepository.findById(savedToken.getUser().getId())
+                .orElseThrow(() -> {
+                    LOGGER.error("User with id {} does not exist", savedToken.getUser().getId());
+                    return new UserDoesNotExistException();
+                });
+
         if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             LOGGER.error("Confirmation token for {} has expired", savedToken.getUser().getEmail());
             sendConfirmationEmail(savedToken.getUser());
             throw new ExpiredConfirmationTokenException();
         }
 
-        var user = userRepository.findById(savedToken.getUser().getId())
-                .orElseThrow(() -> {
-                    LOGGER.error("User with id {} does not exist", savedToken.getUser().getId());
-                    return new UserDoesNotExistException();
-                });
         user.setEnabled(true);
         userRepository.save(user);
         LOGGER.info("{} verified successfully", user.getEmail());
