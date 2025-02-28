@@ -5,6 +5,7 @@ import FlyAway.employee.dto.AddEmployeeDto;
 import FlyAway.employee.dto.DisplayEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
 import FlyAway.exception.EmailExistsException;
+import FlyAway.exception.RoleNotInitializedException;
 import FlyAway.security.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javafaker.Faker;
@@ -15,14 +16,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AdminEmployeeController.class)
 @WithMockAdmin
@@ -176,5 +178,28 @@ class AdminEmployeeControllerTest {
         verify(employeeService, times(1)).createEmployee(any());
     }
 
+    @Test
+    void createEmployee_WhenEmployeeRoleNotInitialized_ShouldReturnInternalServerError() throws Exception {
+        Faker faker = new Faker();
+        var firstname = faker.name().firstName();
+        var lastname = faker.name().lastName();
+
+        AddEmployeeDto addEmployeeDto = new AddEmployeeDto(
+                firstname,
+                lastname,
+                "existing@flyaway.com",
+                "123456789"
+        );
+
+        when(employeeService.createEmployee(addEmployeeDto)).thenThrow(new RoleNotInitializedException("ROLE_EMPLOYEE"));
+
+        mockMvc.perform(post("/api/v1/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(addEmployeeDto))
+                        .with(csrf()))
+                .andExpect(status().isInternalServerError());
+
+        verify(employeeService, times(1)).createEmployee(any());
+    }
 
 }
