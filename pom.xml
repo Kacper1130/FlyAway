@@ -114,6 +114,11 @@
 			<artifactId>stripe-java</artifactId>
 			<version>28.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>0.15</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
