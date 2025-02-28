@@ -4,6 +4,7 @@ import FlyAway.employee.dto.AddEmployeeDto;
 import FlyAway.employee.dto.DisplayEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
 import FlyAway.exception.EmailExistsException;
+import FlyAway.exception.RoleNotInitializedException;
 import FlyAway.role.RoleRepository;
 import FlyAway.security.PasswordService;
 import FlyAway.user.UserRepository;
@@ -46,7 +47,7 @@ public class EmployeeService {
         }
 
         var employeeRole = roleRepository.findByName("ROLE_EMPLOYEE")
-                .orElseThrow(() -> new IllegalStateException("ROLE EMPLOYEE was not initialized"));
+                .orElseThrow(() -> new RoleNotInitializedException("ROLE_EMPLOYEE"));
 
         String generatedPassword = passwordService.generatePassword();
         Employee employee = new Employee();
