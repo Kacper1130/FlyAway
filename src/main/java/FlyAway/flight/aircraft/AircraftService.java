@@ -30,42 +30,6 @@ public class AircraftService {
         return aircraftList;
     }
 
-    public Aircraft addAircraft(Aircraft aircraft) {
-        LOGGER.debug("Adding new aircraft");
-        aircraft.getSeatClassRanges().forEach((cabinClass, seatClassRange) -> {
-            if (seatClassRange.startSeat() > seatClassRange.endSeat()) {
-                LOGGER.error("Invalid seat class range for cabin class {}: start seat ({}) is greater than end seat ({})",
-                        cabinClass, seatClassRange.startSeat(), seatClassRange.endSeat());
-                throw new InvalidSeatRangeException(cabinClass);
-            }
-        });
-        Integer totalSeatsInClasses = aircraft.getSeatClassRanges().values().stream()
-                .mapToInt(seatClassRange -> seatClassRange.endSeat() - seatClassRange.startSeat() + 1)
-                .sum();
-        if (!totalSeatsInClasses.equals(aircraft.getTotalSeats())) {
-            LOGGER.error("Total seats in seat classes ({}) does not match total seats on the aircraft ({})",
-                    totalSeatsInClasses, aircraft.getTotalSeats());
-            throw new TotalSeatsMismatchException();
-        }
-        Set<Integer> usedSeats = new HashSet<>();
-        aircraft.getSeatClassRanges().forEach((cabinClass, seatClassRange) -> {
-            for (int s = seatClassRange.startSeat(); s <= seatClassRange.endSeat(); s++) {
-                if (!usedSeats.add(s)) {
-                    LOGGER.error("Overlapping seat range detected for seat {}", s);
-                    throw new OverlappingSeatException(s);
-                }
-            }
-        });
-        if (aircraftRepository.existsByRegistration(aircraft.getRegistration())) {
-            LOGGER.error("Aircraft with registration {} already exists", aircraft.getRegistration());
-            throw new AircraftAlreadyExistsException(aircraft.getRegistration());
-        }
-        aircraft.setModel(StringUtils.capitalize(aircraft.getModel()));
-        Aircraft createdAircraft = aircraftRepository.save(aircraft);
-        LOGGER.info("Created aircraft with id {}", createdAircraft.getId());
-        return createdAircraft;
-    }
-
     private Map<CabinClass, SeatClassRange> getOrderedSeatClassRanges(Map<CabinClass, SeatClassRange> originalRanges) {
         Map<CabinClass, SeatClassRange> orderedMap = new LinkedHashMap<>();
         for (CabinClass cabinClass : ORDERED_CABIN_CLASSES) {
@@ -73,6 +37,57 @@ public class AircraftService {
             orderedMap.put(cabinClass, range);
         }
         return orderedMap;
+    }
+
+    public Aircraft createAircraft(Aircraft aircraft) {
+        LOGGER.debug("Adding new aircraft");
+
+        validateSeatClassRanges(aircraft.getSeatClassRanges());
+        validateTotalSeats(aircraft);
+        validateNoOverlappingSeats(aircraft.getSeatClassRanges());
+        if (aircraftRepository.existsByRegistration(aircraft.getRegistration())) {
+            LOGGER.error("Aircraft with registration {} already exists", aircraft.getRegistration());
+            throw new AircraftAlreadyExistsException(aircraft.getRegistration());
+        }
+        aircraft.setModel(StringUtils.capitalize(aircraft.getModel()));
+
+        Aircraft createdAircraft = aircraftRepository.save(aircraft);
+        LOGGER.info("Created aircraft with id {}", createdAircraft.getId());
+        return createdAircraft;
+    }
+
+    private void validateSeatClassRanges(Map<CabinClass, SeatClassRange> seatClassRanges) {
+        seatClassRanges.forEach((cabinClass, seatClassRange) -> {
+            if (seatClassRange.startSeat() > seatClassRange.endSeat()) {
+                LOGGER.error("Invalid seat class range for cabin class {}: start seat ({}) is greater than end seat ({})",
+                        cabinClass, seatClassRange.startSeat(), seatClassRange.endSeat());
+                throw new InvalidSeatRangeException(cabinClass);
+            }
+        });
+    }
+
+    private void validateTotalSeats(Aircraft aircraft) {
+        Integer totalSeatsInClasses = aircraft.getSeatClassRanges().values().stream()
+                .mapToInt(seatClassRange -> seatClassRange.endSeat() - seatClassRange.startSeat() + 1)
+                .sum();
+
+        if (!totalSeatsInClasses.equals(aircraft.getTotalSeats())) {
+            LOGGER.error("Total seats in seat classes ({}) does not match total seats on the aircraft ({})",
+                    totalSeatsInClasses, aircraft.getTotalSeats());
+            throw new TotalSeatsMismatchException();
+        }
+    }
+
+    private void validateNoOverlappingSeats(Map<CabinClass, SeatClassRange> seatClassRanges) {
+        Set<Integer> usedSeats = new HashSet<>();
+        seatClassRanges.forEach((cabinClass, seatClassRange) -> {
+            for (int s = seatClassRange.startSeat(); s <= seatClassRange.endSeat(); s++) {
+                if (!usedSeats.add(s)) {
+                    LOGGER.error("Overlapping seat range detected for seat {}", s);
+                    throw new OverlappingSeatException(s);
+                }
+            }
+        });
     }
 
     public CabinClass getCabinClassBySeatNumber(Aircraft aircraft, Integer seatNumber) {

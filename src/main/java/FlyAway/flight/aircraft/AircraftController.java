@@ -35,7 +35,7 @@ public class AircraftController {
     @PostMapping
     public ResponseEntity<Aircraft> createAircraft(@Valid @RequestBody Aircraft aircraft) {
         LOGGER.debug("Adding new aircraft {}", aircraft);
-        Aircraft createdAircraft = aircraftService.addAircraft(aircraft);
+        Aircraft createdAircraft = aircraftService.createAircraft(aircraft);
         LOGGER.info("Created new aircraft {}", createdAircraft);
         return ResponseEntity.status(HttpStatus.CREATED).body(aircraft);
     }
