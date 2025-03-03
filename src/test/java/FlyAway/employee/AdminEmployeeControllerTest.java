@@ -173,7 +173,9 @@ class AdminEmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(addEmployeeDto))
                         .with(csrf()))
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message")
+                        .value("There is already an account with email: " + addEmployeeDto.email()));
 
         verify(employeeService, times(1)).createEmployee(any());
     }
@@ -197,7 +199,10 @@ class AdminEmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(addEmployeeDto))
                         .with(csrf()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message")
+                        .value("Role ROLE_EMPLOYEE is not initialized"));
+
 
         verify(employeeService, times(1)).createEmployee(any());
     }

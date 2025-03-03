@@ -3,7 +3,7 @@ package FlyAway.exception;
 public class OverlappingSeatException extends RuntimeException {
 
     public OverlappingSeatException() {
-        super();
+        super("Seat ranges overlap between cabin classes");
     }
 
     public OverlappingSeatException(Integer s) {
