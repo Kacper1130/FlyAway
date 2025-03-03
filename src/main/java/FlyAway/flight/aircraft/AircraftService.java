@@ -33,6 +33,7 @@ public class AircraftService {
     private Map<CabinClass, SeatClassRange> getOrderedSeatClassRanges(Map<CabinClass, SeatClassRange> originalRanges) {
         Map<CabinClass, SeatClassRange> orderedMap = new LinkedHashMap<>();
         for (CabinClass cabinClass : ORDERED_CABIN_CLASSES) {
+            if(!originalRanges.containsKey(cabinClass)) continue;
             SeatClassRange range = originalRanges.get(cabinClass);
             orderedMap.put(cabinClass, range);
         }
