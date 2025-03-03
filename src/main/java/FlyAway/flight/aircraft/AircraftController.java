@@ -37,7 +37,7 @@ public class AircraftController {
         LOGGER.debug("Adding new aircraft {}", aircraft);
         Aircraft createdAircraft = aircraftService.createAircraft(aircraft);
         LOGGER.info("Created new aircraft {}", createdAircraft);
-        return ResponseEntity.status(HttpStatus.CREATED).body(aircraft);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAircraft);
     }
 
 }
