@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/airports")
 @Tag(name = "Airport")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AirportController {
 
     private final AirportService airportService;
@@ -33,8 +35,8 @@ public class AirportController {
         return ResponseEntity.ok(airports);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Airport> addAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
+    @PostMapping
+    public ResponseEntity<Airport> createAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport {}", createAirportDto);
         Airport airport = airportService.addAirport(createAirportDto);
         LOGGER.info("Created new airport {}", airport.getName());
@@ -42,17 +44,11 @@ public class AirportController {
     }
 
     @PatchMapping("/{id}")
-    public Airport switchAirportStatus(@PathVariable UUID id) {
+    public ResponseEntity<Airport> switchAirportStatus(@PathVariable UUID id) {
         LOGGER.info("Switching status of airport id {}", id);
-        return airportService.switchAirportStatus(id);
+        Airport airport = airportService.switchAirportStatus(id);
+        return ResponseEntity.ok(airport);
     }
-
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteAirport(@PathVariable UUID id) {
-//        LOGGER.info("Deleting airport with id {}", id);
-//        airportService.deleteAirport(id);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Airport> updateAirport(@PathVariable UUID id, @RequestBody @Valid CreateAirportDto updatedAirport) {
@@ -61,11 +57,10 @@ public class AirportController {
         return ResponseEntity.ok(udpatedAirport);
     }
 
-
     @GetMapping("/enabled")
     public ResponseEntity<List<AirportDto>> getAllEnabledAirports() {
         List<AirportDto> activeAirports = airportService.getAllActiveAirports();
-        LOGGER.info("Retrieved {} active airports", activeAirports.size());
+        LOGGER.info("Retrieved {} enabled airports", activeAirports.size());
         return ResponseEntity.ok(activeAirports);
     }
 }
