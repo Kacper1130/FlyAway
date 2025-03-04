@@ -62,13 +62,6 @@ public class AirportService {
         return airport;
     }
 
-//    public void deleteAirport(UUID id) {
-//        Airport airport = airportRepository.findById(id)
-//                .orElseThrow(AirportDoesNotExistException::new);
-//        airportRepository.deleteById(id);
-//        LOGGER.info("Deleted airport {} in {}", airport.getName(), airport.getCountry().getName());
-//    }
-
     public Airport updateAirport(UUID id, CreateAirportDto updatedAirport) {
         Airport existingAirport = airportRepository.findById(id)
                 .orElseThrow(AirportDoesNotExistException::new);
