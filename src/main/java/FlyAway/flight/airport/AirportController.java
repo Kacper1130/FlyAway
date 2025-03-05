@@ -17,7 +17,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/airports")
 @Tag(name = "Airport")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AirportController {
 
     private final AirportService airportService;
@@ -35,6 +34,7 @@ public class AirportController {
         return ResponseEntity.ok(airports);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Airport> createAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport {}", createAirportDto);
@@ -43,6 +43,7 @@ public class AirportController {
         return ResponseEntity.status(HttpStatus.CREATED).body(airport);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<Airport> switchAirportStatus(@PathVariable UUID id) {
         LOGGER.info("Switching status of airport id {}", id);
@@ -50,6 +51,7 @@ public class AirportController {
         return ResponseEntity.ok(airport);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Airport> updateAirport(@PathVariable UUID id, @RequestBody @Valid CreateAirportDto updatedAirport) {
         LOGGER.info("Updating airport with id {}", id);
