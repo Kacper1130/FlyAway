@@ -256,7 +256,7 @@ class AirportServiceTest {
     }
 
     @Test
-    void getAllActiveAirports_WhenActiveAirportsActive_ShouldReturnOnlyEnabledAirports() {
+    void getAllActiveAirports_WhenActiveAirportsActive_ShouldReturnEnabledAirports() {
         when(airportRepository.findAllByEnabledTrue()).thenReturn(Arrays.asList(JFK_AIRPORT, LAX_AIRPORT));
 
         List<AirportDto> activeAirports = airportService.getAllActiveAirports();
@@ -267,7 +267,7 @@ class AirportServiceTest {
     }
 
     @Test
-    void getAllActiveAirports_WhenNoActiveAirportExist_ShouldReturnAllAirports() {
+    void getAllActiveAirports_WhenNoActiveAirportExist_ShouldReturnEmptyList() {
         when(airportRepository.findAllByEnabledTrue()).thenReturn(List.of());
 
         List<AirportDto> activeAirports = airportService.getAllActiveAirports();
