@@ -28,7 +28,7 @@ public class AirportService {
         this.countryRepository = countryRepository;
     }
 
-    public List<AirportDto> getAll() {
+    public List<AirportDto> getAllAirports() {
         LOGGER.debug("Retrieving all airports from repository");
         List<AirportDto> airports = airportRepository.findAll()
                         .stream().map(airportMapper::airportToAirportDto).toList();
@@ -36,7 +36,7 @@ public class AirportService {
         return airports;
     }
 
-    public Airport addAirport(CreateAirportDto createAirportDto) {
+    public Airport createAirport(CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport");
         Country country = countryRepository.findByName(createAirportDto.country())
                 .orElseThrow(() -> new CountryDoesNotExistException(createAirportDto.country()));

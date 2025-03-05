@@ -30,7 +30,7 @@ public class AirportController {
     @GetMapping
     public ResponseEntity<List<AirportDto>> getAllAirports() {
         LOGGER.debug("Retrieving all airports");
-        List<AirportDto> airports = airportService.getAll();
+        List<AirportDto> airports = airportService.getAllAirports();
         LOGGER.info("Retrieved {} airports", airports.size());
         return ResponseEntity.ok(airports);
     }
@@ -38,7 +38,7 @@ public class AirportController {
     @PostMapping
     public ResponseEntity<Airport> createAirport(@Valid @RequestBody CreateAirportDto createAirportDto) {
         LOGGER.debug("Adding new airport {}", createAirportDto);
-        Airport airport = airportService.addAirport(createAirportDto);
+        Airport airport = airportService.createAirport(createAirportDto);
         LOGGER.info("Created new airport {}", airport.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(airport);
     }
