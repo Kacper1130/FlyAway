@@ -4,6 +4,7 @@ import FlyAway.flight.country.dto.CountryDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class CountryController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public CountryDto switchCountryStatus(@PathVariable Integer id) {
         LOGGER.info("Switching status of country id {}", id);
         return countryService.switchCountryStatus(id);
