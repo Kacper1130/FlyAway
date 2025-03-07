@@ -2,6 +2,7 @@ package FlyAway.flight.airport;
 
 import FlyAway.WithMockAdmin;
 import FlyAway.WithMockClient;
+import FlyAway.WithMockEmployee;
 import FlyAway.exception.AirportDoesNotExistException;
 import FlyAway.exception.CountryDoesNotExistException;
 import FlyAway.flight.airport.dto.AirportDto;
@@ -63,7 +64,7 @@ class AirportControllerTest {
 
 
     @Test
-    @WithMockClient
+    @WithMockAdmin
     void getAllAirports_WhenAirportsExist_ShouldReturnAirportList() throws Exception {
         List<AirportDto> airports = List.of(JFK_AIRPORT, LAX_AIRPORT);
 
@@ -96,7 +97,7 @@ class AirportControllerTest {
     }
 
     @Test
-    @WithMockClient
+    @WithMockAdmin
     void getAllAirports_WhenNoAirportsExist_ShouldReturnEmptyList() throws Exception {
         when(airportService.getAllAirports()).thenReturn(List.of());
 
@@ -330,7 +331,7 @@ class AirportControllerTest {
     }
 
     @Test
-    @WithMockClient
+    @WithMockEmployee
     void getAllEnabledAirports_WhenActiveAirportsExists_ShouldReturnOnlyActiveAirports() throws Exception {
         List<AirportDto> activeAirports = List.of(JFK_AIRPORT, LAX_AIRPORT);
 
@@ -363,7 +364,7 @@ class AirportControllerTest {
     }
 
     @Test
-    @WithMockClient
+    @WithMockEmployee
     void getAllEnabledAirports_WhenNoActiveAirportsExist_ShouldReturnOnlyActiveAirports() throws Exception {
         when(airportService.getAllActiveAirports()).thenReturn(List.of());
 
