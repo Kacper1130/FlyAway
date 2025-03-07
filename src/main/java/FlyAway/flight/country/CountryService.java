@@ -20,23 +20,29 @@ public class CountryService {
     }
 
     public List<CountryDto> getAllCountries() {
-        return countryRepository.findAllWithoutAirports();
+        List<CountryDto> countries = countryRepository.findAllWithoutAirports();
+        LOGGER.info("Retrieved {} countries", countries.size());
+        return countries;
     }
 
     public CountryDto switchCountryStatus(Integer id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(CountryDoesNotExistException::new);
         LOGGER.info("Current status of {} - {}", country.getName(), country.isEnabled());
+        disableAllAirportsFromCountry(country);
+        country.setEnabled(!country.isEnabled());
+        LOGGER.info("Changed status of {} to {}", country.getName(), country.isEnabled());
+        countryRepository.save(country);
+        return new CountryDto(country.getId(), country.getName(), country.isEnabled());
+    }
+
+    private void disableAllAirportsFromCountry(Country country) {
         country.getAirports().forEach(airport -> {
             if (airport.isEnabled()) {
                 airport.setEnabled(false);
                 LOGGER.info("Disabled {}", airport.getName());
             }
         });
-        country.setEnabled(!country.isEnabled());
-        LOGGER.info("Changed status of {} to {}", country.getName(), country.isEnabled());
-        countryRepository.save(country);
-        return new CountryDto(country.getId(), country.getName(), country.isEnabled());
     }
 
     public List<String> getAllCountriesNames() {
@@ -49,7 +55,9 @@ public class CountryService {
     }
 
     public List<Country> getAllEnabledCountries() {
-        return countryRepository.findAllByEnabledTrue();
+        List<Country> enabledCountries = countryRepository.findAllByEnabledTrue();
+        LOGGER.info("Retrieved {} enabled Countries", enabledCountries.size());
+        return enabledCountries;
     }
 
     public boolean isCountryEnabled(String countryName) {
@@ -57,6 +65,5 @@ public class CountryService {
         LOGGER.debug("Country {} is {}", countryName, isEnabled);
         return isEnabled;
     }
-
 
 }
