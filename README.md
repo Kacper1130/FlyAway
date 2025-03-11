@@ -66,14 +66,20 @@ cd FlyAway
 ```
 
 ### Backend Setup
-1. Navigate to backend directory
+1. Navigate to the backend directory
+```bash
+cd backend
+```
 2. Build the project
 ```bash
 ./mvnw clean install
 ```
 
 ### Frontend Setup
-1. Navigate to frontend directory
+1. Navigate to the frontend directory
+```bash
+cd frontend
+```
 2. Install dependencies
 ```bash
 npm install
@@ -84,3 +90,40 @@ Start all services using Docker Compose:
 ```bash
 docker-compose up -d
 ```
+
+## ▶️ How to Run the Project
+
+### Running the Backend
+1. Navigate to the backend directory:
+```bash
+cd backend
+```
+2. Start the Spring Boot application:
+```bash
+./mvnw spring-boot:run
+```
+
+### Running the Frontend
+1. Navigate to the frontend directory:
+```bash
+cd frontend
+```
+2. Start the Angular development server:
+```bash
+ng serve
+```
+3. The frontend will be available at:
+```bash
+http://localhost:4200
+```
+
+### Running with Docker (Recommended)
+To start both backend and frontend along with the databases using Docker, simply run:
+```bash
+docker-compose up --build
+```
+This will launch all required services automatically.
+
+---
+You are now ready to use the FlyAway Airline Management System! 🎉
+
