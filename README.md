@@ -116,14 +116,3 @@ ng serve
 ```bash
 http://localhost:4200
 ```
-
-### Running with Docker (Recommended)
-To start both backend and frontend along with the databases using Docker, simply run:
-```bash
-docker-compose up --build
-```
-This will launch all required services automatically.
-
----
-You are now ready to use the FlyAway Airline Management System! 🎉
-
