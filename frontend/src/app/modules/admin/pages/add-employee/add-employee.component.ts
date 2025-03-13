@@ -75,7 +75,7 @@ export class AddEmployeeComponent {
     if (!this.addEmployeeDto.email?.endsWith("@flyaway.com")) {
       this.addEmployeeDto.email += '@flyaway.com';
     }
-    this.employeeService.addEmployee({
+    this.employeeService.createEmployee({
       body: this.addEmployeeDto
     }).subscribe({
         next: (res) => {

@@ -233,12 +233,33 @@
         }
       }
     },
-    "/api/v1/employees/add": {
+    "/api/v1/employees": {
+      "get": {
+        "tags": [
+          "Employee"
+        ],
+        "operationId": "getAllEmployees",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DisplayEmployeeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Employee"
         ],
-        "operationId": "addEmployee",
+        "operationId": "createEmployee",
         "requestBody": {
           "content": {
             "application/json": {
@@ -353,12 +374,33 @@
         }
       }
     },
-    "/api/v1/airports/add": {
+    "/api/v1/airports": {
+      "get": {
+        "tags": [
+          "Airport"
+        ],
+        "operationId": "getAllAirports",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AirportDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Airport"
         ],
-        "operationId": "addAirport",
+        "operationId": "createAirport",
         "requestBody": {
           "content": {
             "application/json": {
@@ -383,12 +425,33 @@
         }
       }
     },
-    "/api/v1/aircraft/add": {
+    "/api/v1/aircraft": {
+      "get": {
+        "tags": [
+          "Aircraft"
+        ],
+        "operationId": "getAllAircraft",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aircraft"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Aircraft"
         ],
-        "operationId": "addAircraft",
+        "operationId": "createAircraft",
         "requestBody": {
           "content": {
             "application/json": {
@@ -560,7 +623,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "string"
                 }
               }
             }
@@ -921,29 +984,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FlightDetailsDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/employees": {
-      "get": {
-        "tags": [
-          "Employee"
-        ],
-        "operationId": "getAllEmployees",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/DisplayEmployeeDto"
-                  }
                 }
               }
             }
@@ -1500,29 +1540,6 @@
         }
       }
     },
-    "/api/v1/airports": {
-      "get": {
-        "tags": [
-          "Airport"
-        ],
-        "operationId": "getAllAirports",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AirportDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/airports/enabled": {
       "get": {
         "tags": [
@@ -1538,29 +1555,6 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/AirportDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/aircraft": {
-      "get": {
-        "tags": [
-          "Aircraft"
-        ],
-        "operationId": "getAllAircraft",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Aircraft"
                   }
                 }
               }
@@ -2129,13 +2123,13 @@
       "ChangePasswordRequest": {
         "type": "object",
         "properties": {
-          "oldPassword": {
+          "currentPassword": {
             "type": "string"
           },
-          "newPassword1": {
+          "newPassword": {
             "type": "string"
           },
-          "newPassword2": {
+          "confirmPassword": {
             "type": "string"
           }
         }

@@ -18,7 +18,7 @@ import {
   MatRowDef,
   MatTable
 } from "@angular/material/table";
-import {MatButton, MatFabButton, MatIconButton, MatMiniFabButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {NgForOf} from "@angular/common";
 import {Country} from "../../../../services/models/country";
 import {CountryService} from "../../../../services/services/country.service";
@@ -30,7 +30,6 @@ import {Airport} from "../../../../services/models/airport";
 import {AddAirportFormComponent} from "./add-airport-form/add-airport-form.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatTooltip} from "@angular/material/tooltip";
-import {RouterLink} from "@angular/router";
 import {CreateAirportDto} from "../../../../services/models/create-airport-dto";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
@@ -60,10 +59,7 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
     FormsModule,
     MatIcon,
     MatIconButton,
-    MatTooltip,
-    MatMiniFabButton,
-    MatFabButton,
-    RouterLink
+    MatTooltip
   ],
   templateUrl: './airports.component.html',
   styleUrl: './airports.component.scss'
@@ -162,7 +158,7 @@ export class AirportsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: CreateAirportDto) => {
       if(result) {
-        this.airportService.addAirport({body: result}).subscribe({
+        this.airportService.createAirport({body: result}).subscribe({
           next: (createdAirport: Airport) => {
             const country = this.countries.find(c => c.name === result.country);
             console.log("found {}", country)

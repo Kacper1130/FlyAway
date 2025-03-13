@@ -1,19 +1,23 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {authenticate, Authenticate$Params} from '../fn/authentication/authenticate';
-import {AuthenticationResponse} from '../models/authentication-response';
-import {changePassword, ChangePassword$Params} from '../fn/authentication/change-password';
-import {confirmUserAccount, ConfirmUserAccount$Params} from '../fn/authentication/confirm-user-account';
-import {register, Register$Params} from '../fn/authentication/register';
+import { authenticate } from '../fn/authentication/authenticate';
+import { Authenticate$Params } from '../fn/authentication/authenticate';
+import { AuthenticationResponse } from '../models/authentication-response';
+import { changePassword } from '../fn/authentication/change-password';
+import { ChangePassword$Params } from '../fn/authentication/change-password';
+import { confirmUserAccount } from '../fn/authentication/confirm-user-account';
+import { ConfirmUserAccount$Params } from '../fn/authentication/confirm-user-account';
+import { register } from '../fn/authentication/register';
+import { Register$Params } from '../fn/authentication/register';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService extends BaseService {
@@ -84,8 +88,7 @@ export class AuthenticationService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  changePassword$Response(params: ChangePassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
+  changePassword$Response(params: ChangePassword$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
     return changePassword(this.http, this.rootUrl, params, context);
   }
 
@@ -95,12 +98,9 @@ export class AuthenticationService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  changePassword(params: ChangePassword$Params, context?: HttpContext): Observable<{
-}> {
+  changePassword(params: ChangePassword$Params, context?: HttpContext): Observable<string> {
     return this.changePassword$Response(params, context).pipe(
-      map((r: StrictHttpResponse<{
-}>): {
-} => r.body)
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 

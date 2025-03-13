@@ -6,14 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Aircraft } from '../../models/aircraft';
+import { Airport } from '../../models/airport';
+import { CreateAirportDto } from '../../models/create-airport-dto';
 
-export interface AddAircraft$Params {
-      body: Aircraft
+export interface CreateAirport$Params {
+      body: CreateAirportDto
 }
 
-export function addAircraft(http: HttpClient, rootUrl: string, params: AddAircraft$Params, context?: HttpContext): Observable<StrictHttpResponse<Aircraft>> {
-  const rb = new RequestBuilder(rootUrl, addAircraft.PATH, 'post');
+export function createAirport(http: HttpClient, rootUrl: string, params: CreateAirport$Params, context?: HttpContext): Observable<StrictHttpResponse<Airport>> {
+  const rb = new RequestBuilder(rootUrl, createAirport.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -23,9 +24,9 @@ export function addAircraft(http: HttpClient, rootUrl: string, params: AddAircra
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Aircraft>;
+      return r as StrictHttpResponse<Airport>;
     })
   );
 }
 
-addAircraft.PATH = '/api/v1/aircraft/add';
+createAirport.PATH = '/api/v1/airports';

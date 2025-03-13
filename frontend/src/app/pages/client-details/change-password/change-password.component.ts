@@ -82,9 +82,9 @@ export class ChangePasswordComponent {
 
     this.isLoading = true;
     const changePasswordRequest: ChangePasswordRequest = {
-      oldPassword: this.passwordForm.value.currentPassword,
-      newPassword1: this.passwordForm.value.newPassword,
-      newPassword2: this.passwordForm.value.confirmPassword,
+      currentPassword: this.passwordForm.value.currentPassword,
+      newPassword: this.passwordForm.value.newPassword,
+      confirmPassword: this.passwordForm.value.confirmPassword,
     }
 
     this.authService.changePassword({body: changePasswordRequest}).subscribe({
