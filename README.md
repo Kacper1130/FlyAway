@@ -1,6 +1,6 @@
 # FlyAway - Airline Management System
 
-## 👋 Project Overview
+## 📋 Project Overview
 
 FlyAway is a comprehensive airline management system that provides seamless interactions for clients, employees, and administrators. The application is built with a robust backend using Spring Boot and a dynamic frontend using Angular, offering a full-featured airline booking and management platform.
 
