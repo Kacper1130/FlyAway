@@ -1,7 +1,3 @@
-CREATE DATABASE flyaway;
-
-\c flyaway;
-
 CREATE TABLE IF NOT EXISTS countries (
                                          id SERIAL PRIMARY KEY,
                                          name TEXT NOT NULL,
