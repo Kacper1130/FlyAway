@@ -2,13 +2,12 @@ import {Component, inject, OnInit} from '@angular/core';
 import {AdminNavbarComponent} from "../../components/admin-navbar/admin-navbar.component";
 import {AircraftService} from "../../../../services/services/aircraft.service";
 import {Aircraft} from "../../../../services/models/aircraft";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgForOf} from "@angular/common";
 import {SingleAircraftComponent} from "./single-aircraft/single-aircraft.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {MatDatepicker} from "@angular/material/datepicker";
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatOption, MatSelect} from "@angular/material/select";
@@ -20,7 +19,6 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
   imports: [
     AdminNavbarComponent,
     NgForOf,
-    NgIf,
     SingleAircraftComponent,
     MatAccordion,
     MatExpansionModule,
@@ -28,7 +26,6 @@ import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition}
     MatFormField,
     MatInput,
     MatButton,
-    MatDatepicker,
     MatAccordion,
     MatLabel,
     ReactiveFormsModule,
@@ -109,7 +106,7 @@ export class AircraftListComponent implements OnInit {
       }, {})
     };
 
-    this.aircraftService.addAircraft({body: newAircraft}).subscribe({
+    this.aircraftService.createAircraft({body: newAircraft}).subscribe({
       next: () => {
         const message = `Successfully added ${newAircraft.model}(${newAircraft.registration})`
         this._snackBar.open(message, 'close', {

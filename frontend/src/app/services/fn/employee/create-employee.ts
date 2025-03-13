@@ -6,15 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Airport } from '../../models/airport';
-import { CreateAirportDto } from '../../models/create-airport-dto';
+import { AddEmployeeDto } from '../../models/add-employee-dto';
+import { EmployeeCredentialsDto } from '../../models/employee-credentials-dto';
 
-export interface AddAirport$Params {
-      body: CreateAirportDto
+export interface CreateEmployee$Params {
+      body: AddEmployeeDto
 }
 
-export function addAirport(http: HttpClient, rootUrl: string, params: AddAirport$Params, context?: HttpContext): Observable<StrictHttpResponse<Airport>> {
-  const rb = new RequestBuilder(rootUrl, addAirport.PATH, 'post');
+export function createEmployee(http: HttpClient, rootUrl: string, params: CreateEmployee$Params, context?: HttpContext): Observable<StrictHttpResponse<EmployeeCredentialsDto>> {
+  const rb = new RequestBuilder(rootUrl, createEmployee.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -24,9 +24,9 @@ export function addAirport(http: HttpClient, rootUrl: string, params: AddAirport
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Airport>;
+      return r as StrictHttpResponse<EmployeeCredentialsDto>;
     })
   );
 }
 
-addAirport.PATH = '/api/v1/airports/add';
+createEmployee.PATH = '/api/v1/employees';

@@ -12,8 +12,7 @@ export interface ChangePassword$Params {
       body: ChangePasswordRequest
 }
 
-export function changePassword(http: HttpClient, rootUrl: string, params: ChangePassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
+export function changePassword(http: HttpClient, rootUrl: string, params: ChangePassword$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
   const rb = new RequestBuilder(rootUrl, changePassword.PATH, 'patch');
   if (params) {
     rb.body(params.body, 'application/json');
@@ -24,8 +23,7 @@ export function changePassword(http: HttpClient, rootUrl: string, params: Change
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<string>;
     })
   );
 }

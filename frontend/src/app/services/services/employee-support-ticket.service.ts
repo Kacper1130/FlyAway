@@ -1,26 +1,29 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {assignTicket, AssignTicket$Params} from '../fn/employee-support-ticket/assign-ticket';
-import {ChatMessage} from '../models/chat-message';
-import {closeTicket, CloseTicket$Params} from '../fn/employee-support-ticket/close-ticket';
-import {
-  getActiveTicketsCount,
-  GetActiveTicketsCount$Params
-} from '../fn/employee-support-ticket/get-active-tickets-count';
-import {getChatMessages1, GetChatMessages1$Params} from '../fn/employee-support-ticket/get-chat-messages-1';
-import {getTickets, GetTickets$Params} from '../fn/employee-support-ticket/get-tickets';
-import {getTicketSummary1, GetTicketSummary1$Params} from '../fn/employee-support-ticket/get-ticket-summary-1';
-import {SupportTicket} from '../models/support-ticket';
-import {SupportTicketSummaryDto} from '../models/support-ticket-summary-dto';
+import { assignTicket } from '../fn/employee-support-ticket/assign-ticket';
+import { AssignTicket$Params } from '../fn/employee-support-ticket/assign-ticket';
+import { ChatMessage } from '../models/chat-message';
+import { closeTicket } from '../fn/employee-support-ticket/close-ticket';
+import { CloseTicket$Params } from '../fn/employee-support-ticket/close-ticket';
+import { getActiveTicketsCount } from '../fn/employee-support-ticket/get-active-tickets-count';
+import { GetActiveTicketsCount$Params } from '../fn/employee-support-ticket/get-active-tickets-count';
+import { getChatMessages1 } from '../fn/employee-support-ticket/get-chat-messages-1';
+import { GetChatMessages1$Params } from '../fn/employee-support-ticket/get-chat-messages-1';
+import { getTickets } from '../fn/employee-support-ticket/get-tickets';
+import { GetTickets$Params } from '../fn/employee-support-ticket/get-tickets';
+import { getTicketSummary1 } from '../fn/employee-support-ticket/get-ticket-summary-1';
+import { GetTicketSummary1$Params } from '../fn/employee-support-ticket/get-ticket-summary-1';
+import { SupportTicket } from '../models/support-ticket';
+import { SupportTicketSummaryDto } from '../models/support-ticket-summary-dto';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeSupportTicketService extends BaseService {
