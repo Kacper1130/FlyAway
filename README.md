@@ -66,14 +66,20 @@ cd FlyAway
 ```
 
 ### Backend Setup
-1. Navigate to backend directory
+1. Navigate to the backend directory
+```bash
+cd backend
+```
 2. Build the project
 ```bash
 ./mvnw clean install
 ```
 
 ### Frontend Setup
-1. Navigate to frontend directory
+1. Navigate to the frontend directory
+```bash
+cd frontend
+```
 2. Install dependencies
 ```bash
 npm install
@@ -83,4 +89,42 @@ npm install
 Start all services using Docker Compose:
 ```bash
 docker-compose up -d
+```
+
+## ⚙️ Configuration Setup
+
+### Setting Up Environment Variables
+Before running the project, you need to configure environment variables.
+
+1. Copy the example configuration file:
+```bash
+cp application-example.properties application.properties
+```
+2. Modify `application.properties` with your own credentials and settings if needed.
+
+
+## ▶️ How to Run the Project
+
+### Running the Backend
+1. Navigate to the backend directory:
+```bash
+cd backend
+```
+2. Start the Spring Boot application:
+```bash
+./mvnw spring-boot:run
+```
+
+### Running the Frontend
+1. Navigate to the frontend directory:
+```bash
+cd frontend
+```
+2. Start the Angular development server:
+```bash
+ng serve
+```
+3. The frontend will be available at:
+```bash
+http://localhost:4200
 ```
