@@ -64,7 +64,7 @@ cd FlyAway
 Before running the project, ensure that you configure the necessary properties.
 
 1. **Config Properties**
-   - Edit the existing `config.properties` file in the root directory and add the following environment variables:
+   - Edit the existing `config.properties` file located in `src/main/resources/` and add the following environment variables:
 
 ```properties
 POSTGRES_USERNAME=your_postgres_username
