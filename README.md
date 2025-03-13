@@ -1,6 +1,6 @@
 # FlyAway - Airline Management System
 
-## 📋 Project Overview
+## 👋 Project Overview
 
 FlyAway is a comprehensive airline management system that provides seamless interactions for clients, employees, and administrators. The application is built with a robust backend using Spring Boot and a dynamic frontend using Angular, offering a full-featured airline booking and management platform.
 
@@ -83,7 +83,7 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
   - `POSTGRES_USERNAME` and `POSTGRES_PASSWORD`: Your PostgreSQL database credentials.
   - `MONGO_USERNAME` and `MONGO_PASSWORD`: Your MongoDB database credentials.
   - `JWT_SECRET_KEY`: A strong secret key for JWT authentication. You can generate one at [jwtsecret.com](https://jwtsecret.com/generate).
-  - `STRIPE_SECRET_KEY`: Your Stripe API secret key. You can find it in the Stripe dashboard under **Developers > API Keys**.
+  - `STRIPE_SECRET_KEY`: Your Stripe API secret key. You can obtain it by registering on the [Stripe Dashboard](https://dashboard.stripe.com/register) under **Developers > API Keys**.
   - Leave `STRIPE_WEBHOOK_SECRET` empty for now, it will be obtained later.
 
 - **Note:** Do **not** commit this file to version control as it contains sensitive information.
@@ -147,4 +147,11 @@ ng serve
 ```bash
 http://localhost:4200
 ```
+
+### Default Admin Credentials
+
+By default, the application provides an admin account:
+
+- **Login:** `admin@flyaway.com`
+- **Password:** `password`
 
