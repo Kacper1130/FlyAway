@@ -8,8 +8,8 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./src/main/resources/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=flyaway
 
   mongo:
@@ -20,8 +20,8 @@ services:
     volumes:
       - mongo_data:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=user
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
       - MONGO_INITDB_DATABASE=flyaway
 
   mongo-express:
@@ -38,14 +38,14 @@ services:
 
   mailhog:
     image: mailhog/mailhog
-    container_name: mailhog
+    container_name: flyaway_mailhog
     ports:
       - 1026:1025
       - 8026:8025
 
   stripe-cli:
     image: stripe/stripe-cli
-    container_name: stripe-cli
+    container_name: flyaway_stripe-cli
     command: listen --forward-to http://host.docker.internal:8080/api/v1/payment/webhook
     environment:
       - STRIPE_API_KEY=${STRIPE_SECRET_KEY}
