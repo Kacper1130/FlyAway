@@ -1,3 +1,13 @@
+CREATE DATABASE flyaway;
+
+\c flyaway;
+
+CREATE TABLE IF NOT EXISTS countries (
+                                         id SERIAL PRIMARY KEY,
+                                         name TEXT NOT NULL,
+                                         enabled BOOLEAN NOT NULL DEFAULT FALSE
+);
+
 INSERT INTO countries (name, enabled) VALUES ('Afghanistan', false);
 INSERT INTO countries (name, enabled) VALUES ('Albania', false);
 INSERT INTO countries (name, enabled) VALUES ('Algeria', false);
