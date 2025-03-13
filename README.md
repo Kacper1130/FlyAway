@@ -91,6 +91,18 @@ Start all services using Docker Compose:
 docker-compose up -d
 ```
 
+## ⚙️ Configuration Setup
+
+### Setting Up Environment Variables
+Before running the project, you need to configure environment variables.
+
+1. Copy the example configuration file:
+```bash
+cp application-example.properties application.properties
+```
+2. Modify `application.properties` with your own credentials and settings if needed.
+
+
 ## ▶️ How to Run the Project
 
 ### Running the Backend
