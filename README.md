@@ -95,7 +95,7 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 Start all services using Docker Compose:
 
 ```bash
-docker-compose up -d
+docker compose --env-file src/main/resources/config.env up -d
 ```
 
 ### Obtaining STRIPE\_WEBHOOK\_SECRET
