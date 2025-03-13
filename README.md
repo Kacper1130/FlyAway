@@ -7,6 +7,7 @@ FlyAway is a comprehensive airline management system that provides seamless inte
 ## 🚀 Key Features
 
 ### Client Features
+
 - User Registration with Email Verification
 - Flight Search and Filtering
 - Flight Booking
@@ -15,19 +16,22 @@ FlyAway is a comprehensive airline management system that provides seamless inte
 - Support Ticket Creation
 
 ### Employee Features
+
 - Flight Creation
 - Customer Reservation Management
 - Customer Support Ticket Handling
 - Real-time Customer Support Chat
 
 ### Admin Features
+
 - Employee Management
 - Country and Destination Management
 - Airport and Aircraft Administration
 
-## 🛠 Tech Stack
+## 🔧 Tech Stack
 
 ### Backend
+
 - Java Spring Boot
 - JWT Authentication
 - WebSocket Support
@@ -35,13 +39,8 @@ FlyAway is a comprehensive airline management system that provides seamless inte
 - MongoDB (Support Chat Storage)
 
 ### Frontend
-- Angular
 
-### DevOps
-- Docker
-- Docker Compose
-- Stripe Webhook Integration
-- MailHog (Email Testing)
+- Angular
 
 ## 🔧 Prerequisites
 
@@ -51,80 +50,101 @@ FlyAway is a comprehensive airline management system that provides seamless inte
 - Docker
 - Docker Compose
 
-## 🛢 Database Setup
-
-The project uses Docker to manage databases:
-- PostgreSQL for primary data storage
-- MongoDB for support chat functionality
-
 ## 📦 Installation and Setup
 
 ### Clone the Repository
+
 ```bash
 git clone https://github.com/Kacper1130/FlyAway.git
 cd FlyAway
 ```
 
-### Backend Setup
-1. Navigate to the backend directory
-```bash
-cd backend
-```
-2. Build the project
-```bash
-./mvnw clean install
+### Configuration Setup
+
+Before running the project, ensure that you configure the necessary properties.
+
+1. **Config Properties**
+   - Edit the existing `config.properties` file in the root directory and add the following environment variables:
+
+```properties
+POSTGRES_USERNAME=your_postgres_username
+POSTGRES_PASSWORD=your_postgres_password
+
+MONGO_USERNAME=your_mongo_username
+MONGO_PASSWORD=your_mongo_password
+
+JWT_SECRET_KEY=your_jwt_secret_key
+
+STRIPE_SECRET_KEY=your_stripe_secret_key
 ```
 
-### Frontend Setup
-1. Navigate to the frontend directory
-```bash
-cd frontend
-```
-2. Install dependencies
-```bash
-npm install
-```
+- Replace the placeholders with your actual configuration details:
+
+  - `POSTGRES_USERNAME` and `POSTGRES_PASSWORD`: Your PostgreSQL database credentials.
+  - `MONGO_USERNAME` and `MONGO_PASSWORD`: Your MongoDB database credentials.
+  - `JWT_SECRET_KEY`: A strong secret key for JWT authentication. You can generate one at [jwtsecret.com](https://jwtsecret.com/generate).
+  - `STRIPE_SECRET_KEY`: Your Stripe API secret key. You can find it in the Stripe dashboard under **Developers > API Keys**.
+  - Leave `STRIPE_WEBHOOK_SECRET` empty for now, it will be obtained later.
+
+- **Note:** Do **not** commit this file to version control as it contains sensitive information.
+
+> ⚠️ **Important:** Ensure that `spring.config.import=optional:config.properties` is included in `application.properties` to import the configuration correctly.
 
 ### Docker Configuration
+
 Start all services using Docker Compose:
+
 ```bash
 docker-compose up -d
 ```
 
-## ⚙️ Configuration Setup
+### Obtaining STRIPE\_WEBHOOK\_SECRET
 
-### Setting Up Environment Variables
-Before running the project, you need to configure environment variables.
+After running Docker, obtain the `STRIPE_WEBHOOK_SECRET` by checking the logs of the Stripe CLI container:
 
-1. Copy the example configuration file:
 ```bash
-cp application-example.properties application.properties
+docker logs flyaway_stripe-cli | grep "whsec_"
 ```
-2. Modify `application.properties` with your own credentials and settings if needed.
 
+- Add the obtained `STRIPE_WEBHOOK_SECRET` to the `config.properties` file.
 
-## ▶️ How to Run the Project
+### Backend Setup
 
-### Running the Backend
-1. Navigate to the backend directory:
+1. Build the project:
+
 ```bash
-cd backend
+./mvnw clean install
 ```
+
 2. Start the Spring Boot application:
+
 ```bash
 ./mvnw spring-boot:run
 ```
 
-### Running the Frontend
+### Frontend Setup
+
 1. Navigate to the frontend directory:
+
 ```bash
 cd frontend
 ```
-2. Start the Angular development server:
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the Angular development server:
+
 ```bash
 ng serve
 ```
-3. The frontend will be available at:
+
+4. The frontend will be available at:
+
 ```bash
 http://localhost:4200
 ```
+
