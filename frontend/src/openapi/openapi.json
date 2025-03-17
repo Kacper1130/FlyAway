@@ -1563,6 +1563,36 @@
         }
       }
     },
+    "/api/v1/ai": {
+      "get": {
+        "tags": [
+          "AiChat"
+        ],
+        "operationId": "useChat",
+        "parameters": [
+          {
+            "name": "prompt",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/clients/{userId}/reservations/{reservationId}/cancel": {
       "delete": {
         "tags": [

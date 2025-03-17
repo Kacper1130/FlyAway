@@ -16,6 +16,7 @@ import { AircraftService } from './services/aircraft.service';
 import { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 import { CountryService } from './services/country.service';
 import { EmployeeReservationService } from './services/employee-reservation.service';
+import { AiChatService } from './services/ai-chat.service';
 
 /**
  * Module that provides all services and configuration.
@@ -37,6 +38,7 @@ import { EmployeeReservationService } from './services/employee-reservation.serv
     EmployeeSupportTicketService,
     CountryService,
     EmployeeReservationService,
+    AiChatService,
     ApiConfiguration
   ],
 })
