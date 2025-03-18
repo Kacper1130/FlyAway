@@ -12,6 +12,6 @@ export class AppComponent implements OnInit{
   title = 'frontend';
 
   ngOnInit(): void {
-    localStorage.clear();
+    localStorage.removeItem('chatHistory');
   }
 }

@@ -41,7 +41,7 @@ export class NewNavbarComponent {
 
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.clear();
     window.location.reload();
   }
   //
