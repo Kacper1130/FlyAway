@@ -64,7 +64,7 @@ cd FlyAway
 Before running the project, ensure that you configure the necessary properties.
 
 1. **Config Properties**
-   - Edit the existing `config.properties` file located in `src/main/resources/` and add the following environment variables:
+   - Edit the existing `config.env` file located in `src/main/resources/` and add the following environment variables:
 
 ```properties
 POSTGRES_USERNAME=your_postgres_username
@@ -95,7 +95,7 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 Start all services using Docker Compose:
 
 ```bash
-docker-compose up -d
+docker compose --env-file src/main/resources/config.env up -d
 ```
 
 ### Obtaining STRIPE\_WEBHOOK\_SECRET
@@ -106,7 +106,7 @@ After running Docker, obtain the `STRIPE_WEBHOOK_SECRET` by checking the logs of
 docker logs flyaway_stripe-cli | grep "whsec_"
 ```
 
-- Add the obtained `STRIPE_WEBHOOK_SECRET` to the `config.properties` file.
+- Add the obtained `STRIPE_WEBHOOK_SECRET` to the `config.env` file.
 
 ### Backend Setup
 
