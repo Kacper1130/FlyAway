@@ -4,6 +4,7 @@ import FlyAway.flight.country.dto.CountryDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,37 +23,38 @@ public class CountryController {
     }
 
     @GetMapping
-    public List<CountryDto> getAllCountries() {
+    public ResponseEntity<List<CountryDto>> getAllCountries() {
         List<CountryDto> countries = countryService.getAllCountries();
         LOGGER.info("Retrieved {} countries", countries.size());
-        return countries;
+        return ResponseEntity.ok(countries);
     }
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public CountryDto switchCountryStatus(@PathVariable Integer id) {
+    public ResponseEntity<CountryDto> switchCountryStatus(@PathVariable Integer id) {
         LOGGER.info("Switching status of country id {}", id);
-        return countryService.switchCountryStatus(id);
+        CountryDto countryDto = countryService.switchCountryStatus(id);
+        return ResponseEntity.ok(countryDto);
     }
 
     @GetMapping("/enabled")
-    public List<Country> getAllEnabledCountries() {
+    public ResponseEntity<List<Country>> getAllEnabledCountries() {
         List<Country> countries = countryService.getAllEnabledCountries();
         LOGGER.info("Retrieved {} enabled countries", countries.size());
-        return countries;
+        return ResponseEntity.ok(countries);
     }
 
     @GetMapping("/names")
-    public List<String> getAllCountriesNames() {
+    public ResponseEntity<List<String>> getAllCountriesNames() {
         List<String> countries = countryService.getAllCountriesNames();
         LOGGER.debug("Retrieved {} countries names", countries.size());
-        return countries;
+        return ResponseEntity.ok(countries);
     }
 
     @GetMapping("/is-enabled")
-    public boolean isCountryEnabled(@RequestParam String countryName) {
+    public ResponseEntity<Boolean> isCountryEnabled(@RequestParam String countryName) {
         LOGGER.debug("Checking status of country {}", countryName);
-        return countryService.isCountryEnabled(countryName);
+        return ResponseEntity.ok(countryService.isCountryEnabled(countryName));
     }
 
 }
