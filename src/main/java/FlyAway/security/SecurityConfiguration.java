@@ -44,18 +44,13 @@ public class SecurityConfiguration {
                                         "/api/v1/auth/login",
                                         "/api/v1/auth/confirm-account",
                                         "/api/v1/payment/webhook",
+                                        "/api/v1/ai",
                                         "/ws/**"
                                         ).permitAll()
                                 .requestMatchers("/api/v1/auth/change-password").hasAuthority("ROLE_CLIENT")
                                 .requestMatchers(
                                         "/api/v1/admin/**"
                                 ).hasAuthority("ROLE_ADMIN")
-                                //                                .requestMatchers(
-                                //                                        "/api/v1/employee/**"
-                                //                                ).hasAuthority("ROLE_EMPLOYEE")
-                                .requestMatchers(
-                                        "/api/v1/flights/add"
-                                ).hasAnyAuthority("ROLE_ADMIN", "ROLE_EMPLOYEE")
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

@@ -17,23 +17,25 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
+import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-widget.component";
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    NgForOf,
-    NgIf,
-    FormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    NavbarComponent,
-    NewNavbarComponent,
-    MatSelectModule,
-  ],
+    imports: [
+        NgForOf,
+        NgIf,
+        FormsModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        NavbarComponent,
+        NewNavbarComponent,
+        MatSelectModule,
+        AiChatWidgetComponent,
+    ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

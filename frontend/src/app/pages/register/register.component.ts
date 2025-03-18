@@ -12,29 +12,31 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {NavbarComponent} from "../../components/navbar/navbar.component";
 import {NewNavbarComponent} from "../../components/new-navbar/new-navbar.component";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
+import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    NgForOf,
-    FormsModule,
-    NgIf,
-    MatLabel,
-    MatFormField,
-    MatInput,
-    MatHint,
-    MatIcon,
-    MatIconButton,
-    MatSuffix,
-    MatAnchor,
-    MatButton,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    NavbarComponent,
-    NewNavbarComponent
-  ],
+    imports: [
+        NgForOf,
+        FormsModule,
+        NgIf,
+        MatLabel,
+        MatFormField,
+        MatInput,
+        MatHint,
+        MatIcon,
+        MatIconButton,
+        MatSuffix,
+        MatAnchor,
+        MatButton,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        NavbarComponent,
+        NewNavbarComponent,
+        AiChatWidgetComponent
+    ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'

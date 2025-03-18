@@ -2,7 +2,7 @@ package FlyAway.aiAssitant;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +17,9 @@ public class AiChatController {
         this.chatService = chatService;
     }
 
-    @GetMapping
-    public ResponseEntity<String> useChat(@RequestBody String prompt) {
-        String response = this.chatService.useChat(prompt);
+    @PostMapping
+    public ResponseEntity<AiChatMessage> useChat(@RequestBody AiChatMessage prompt) {
+        AiChatMessage response = this.chatService.useChat(prompt);
         return ResponseEntity.ok(response);
     }
 }

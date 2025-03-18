@@ -9,6 +9,7 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { AiChatMessage } from '../models/ai-chat-message';
 import { useChat } from '../fn/ai-chat/use-chat';
 import { UseChat$Params } from '../fn/ai-chat/use-chat';
 
@@ -25,9 +26,9 @@ export class AiChatService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `useChat()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  useChat$Response(params: UseChat$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  useChat$Response(params: UseChat$Params, context?: HttpContext): Observable<StrictHttpResponse<AiChatMessage>> {
     return useChat(this.http, this.rootUrl, params, context);
   }
 
@@ -35,11 +36,11 @@ export class AiChatService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `useChat$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  useChat(params: UseChat$Params, context?: HttpContext): Observable<string> {
+  useChat(params: UseChat$Params, context?: HttpContext): Observable<AiChatMessage> {
     return this.useChat$Response(params, context).pipe(
-      map((r: StrictHttpResponse<string>): string => r.body)
+      map((r: StrictHttpResponse<AiChatMessage>): AiChatMessage => r.body)
     );
   }
 

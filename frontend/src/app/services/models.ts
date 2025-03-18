@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export { AddEmployeeDto } from './models/add-employee-dto';
+export { AiChatMessage } from './models/ai-chat-message';
 export { Aircraft } from './models/aircraft';
 export { AircraftDto } from './models/aircraft-dto';
 export { Airport } from './models/airport';

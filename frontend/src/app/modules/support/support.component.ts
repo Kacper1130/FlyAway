@@ -6,18 +6,20 @@ import {ClientSupportTicketService} from "../../services/services/client-support
 import {SupportTicketCardComponent} from "./components/support-ticket-card/support-ticket-card.component";
 import {MatButton} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
+import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-support',
   standalone: true,
-  imports: [
-    NewNavbarComponent,
-    NgForOf,
-    NgIf,
-    SupportTicketCardComponent,
-    MatButton,
-    RouterLink
-  ],
+    imports: [
+        NewNavbarComponent,
+        NgForOf,
+        NgIf,
+        SupportTicketCardComponent,
+        MatButton,
+        RouterLink,
+        AiChatWidgetComponent
+    ],
   templateUrl: './support.component.html',
   styleUrl: './support.component.scss'
 })

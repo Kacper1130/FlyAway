@@ -1,0 +1,65 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="chat-title">
+      <mat-icon class="ai-icon">smart_toy</mat-icon>
+      <span>AI Assistant</span>
+    </div>
+  </div>
+
+  <div class="messages-container" #messagesContainer>
+    <div *ngIf="messages.length === 0" class="empty-state">
+      <mat-icon>chat</mat-icon>
+      <h3>Start a conversation</h3>
+      <p>Ask me anything and I'll do my best to help you</p>
+    </div>
+
+    <div *ngFor="let message of messages" class="message-wrapper"
+         [ngClass]="{'user-message': message.sender === 'user', 'ai-message': message.sender === 'ai'}">
+      <div class="message-avatar" *ngIf="message.sender === 'ai'">
+        <mat-icon>smart_toy</mat-icon>
+      </div>
+      <div class="message-avatar user-avatar" *ngIf="message.sender === 'user'">
+        <mat-icon>person</mat-icon>
+      </div>
+      <div class="message-content">
+        <div class="message-header">
+          <span class="sender-name">{{ message.sender === 'user' ? 'You' : 'AI Assistant' }}</span>
+          <span class="message-time">{{ message.timestamp | date:'shortTime' }}</span>
+        </div>
+        <div class="message-text" [innerHTML]="message.content"></div>
+      </div>
+    </div>
+
+    <div *ngIf="isTyping" class="message-wrapper ai-message">
+      <div class="message-avatar">
+        <mat-icon>smart_toy</mat-icon>
+      </div>
+      <div class="message-content typing-indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-container">
+    <mat-form-field appearance="outline" class="chat-input">
+      <textarea
+        matInput
+        placeholder="Type your message..."
+        [formControl]="messageInput"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5"
+        (keydown)="handleKeyDown($event)"></textarea>
+    </mat-form-field>
+    <button
+      mat-fab
+      class="send-button"
+      [disabled]="!messageInput.value || isLoading"
+      (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

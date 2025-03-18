@@ -1,0 +1,13 @@
+<div class="chat-widget">
+  <button
+    mat-fab
+    class="chat-toggle-button"
+    (click)="toggleChat()"
+    matTooltip="AI Assistant">
+    <mat-icon>{{ isChatOpen ? 'close' : 'chat' }}</mat-icon>
+  </button>
+
+  <div class="chat-container" [class.chat-open]="isChatOpen">
+    <app-ai-chat *ngIf="isChatOpen"></app-ai-chat>
+  </div>
+</div>

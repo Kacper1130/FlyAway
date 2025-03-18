@@ -13,10 +13,10 @@ import { EmployeeService } from './services/employee.service';
 import { ClientService } from './services/client.service';
 import { AuthenticationService } from './services/authentication.service';
 import { AircraftService } from './services/aircraft.service';
+import { AiChatService } from './services/ai-chat.service';
 import { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 import { CountryService } from './services/country.service';
 import { EmployeeReservationService } from './services/employee-reservation.service';
-import { AiChatService } from './services/ai-chat.service';
 
 /**
  * Module that provides all services and configuration.
@@ -35,10 +35,10 @@ import { AiChatService } from './services/ai-chat.service';
     ClientService,
     AuthenticationService,
     AircraftService,
+    AiChatService,
     EmployeeSupportTicketService,
     CountryService,
     EmployeeReservationService,
-    AiChatService,
     ApiConfiguration
   ],
 })

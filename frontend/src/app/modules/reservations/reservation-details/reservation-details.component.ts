@@ -4,17 +4,19 @@ import {ActivatedRoute} from "@angular/router";
 import {NewNavbarComponent} from "../../../components/new-navbar/new-navbar.component";
 import {ReservationDetailsClientDto} from "../../../services/models/reservation-details-client-dto";
 import {ClientReservationService} from "../../../services/services/client-reservation.service";
+import {AiChatWidgetComponent} from "../../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-reservation-details',
   standalone: true,
-  imports: [
-    NgClass,
-    DatePipe,
-    CurrencyPipe,
-    NewNavbarComponent,
-    NgIf
-  ],
+    imports: [
+        NgClass,
+        DatePipe,
+        CurrencyPipe,
+        NewNavbarComponent,
+        NgIf,
+        AiChatWidgetComponent
+    ],
   templateUrl: './reservation-details.component.html',
   styleUrl: './reservation-details.component.scss'
 })

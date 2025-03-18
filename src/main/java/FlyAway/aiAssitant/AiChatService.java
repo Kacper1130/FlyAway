@@ -1,8 +1,6 @@
 package FlyAway.aiAssitant;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,11 +12,11 @@ public class AiChatService {
         this.chatClient = chatClient;
     }
 
-    public String useChat(String prompt) {
+    public AiChatMessage useChat(AiChatMessage prompt) {
         return chatClient.prompt()
-                .user(prompt)
+                .user(prompt.message())
                 .call()
-                .content();
+                .entity(AiChatMessage.class);
     }
 
 }

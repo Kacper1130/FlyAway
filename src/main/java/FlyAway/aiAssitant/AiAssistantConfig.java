@@ -2,7 +2,6 @@ package FlyAway.aiAssitant;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +28,7 @@ public class AiAssistantConfig {
                         You are able to answers ONLY questions about reservations and flights.
                         If client asks not about reservations and flights, do NOT guess or provide inaccurate information.
                         Instead, always respond with the following exact message:
-                        "Sorry, I can't help with that, but feel free to open a support ticket at flyaway.com/support/tickets, and our team will assist you further!"
+                        "Sorry, I can't help with that, but feel free to open a support ticket at http://localhost:4200/support/create-ticket, and our team will assist you further!"
                         Never attempt to fabricate an answer.
                         Always use the exact wording above when unsure.
                         Keep responses clear, concise, and friendly, ensuring a smooth and helpful interaction.

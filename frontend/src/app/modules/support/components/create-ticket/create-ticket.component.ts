@@ -5,16 +5,18 @@ import {Router} from "@angular/router";
 import {NgIf} from "@angular/common";
 import {ClientSupportTicketService} from "../../../../services/services/client-support-ticket.service";
 import {CreateSupportTicketDto} from "../../../../services/models/create-support-ticket-dto";
+import {AiChatWidgetComponent} from "../../../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-create-ticket',
   standalone: true,
-  imports: [
-    FormsModule,
-    NewNavbarComponent,
-    ReactiveFormsModule,
-    NgIf
-  ],
+    imports: [
+        FormsModule,
+        NewNavbarComponent,
+        ReactiveFormsModule,
+        NgIf,
+        AiChatWidgetComponent
+    ],
   templateUrl: './create-ticket.component.html',
   styleUrl: './create-ticket.component.scss'
 })

@@ -11,24 +11,26 @@ import {ClientService} from "../../services/services/client.service";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
+import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-client-details',
   standalone: true,
-  imports: [
-    NewNavbarComponent,
-    FormsModule,
-    MatButton,
-    MatDatepicker,
-    MatDatepickerInput,
-    MatDatepickerToggle,
-    MatFormField,
-    MatIcon,
-    MatInput,
-    MatLabel,
-    MatSuffix,
-    MatHint
-  ],
+    imports: [
+        NewNavbarComponent,
+        FormsModule,
+        MatButton,
+        MatDatepicker,
+        MatDatepickerInput,
+        MatDatepickerToggle,
+        MatFormField,
+        MatIcon,
+        MatInput,
+        MatLabel,
+        MatSuffix,
+        MatHint,
+        AiChatWidgetComponent
+    ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss'
 })

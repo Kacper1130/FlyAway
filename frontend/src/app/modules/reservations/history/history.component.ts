@@ -4,16 +4,18 @@ import {NgForOf, NgIf} from "@angular/common";
 import {ReservationCardComponent} from "../reservation-card/reservation-card.component";
 import {ReservationSummaryClientDto} from "../../../services/models/reservation-summary-client-dto";
 import {ClientReservationService} from "../../../services/services/client-reservation.service";
+import {AiChatWidgetComponent} from "../../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-history',
   standalone: true,
-  imports: [
-    NewNavbarComponent,
-    NgForOf,
-    NgIf,
-    ReservationCardComponent
-  ],
+    imports: [
+        NewNavbarComponent,
+        NgForOf,
+        NgIf,
+        ReservationCardComponent,
+        AiChatWidgetComponent
+    ],
   templateUrl: './history.component.html',
   styleUrl: './history.component.scss'
 })
