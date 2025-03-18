@@ -1,9 +1,11 @@
 package FlyAway.aiAssitant;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class AiChatService {
 
     private final ChatClient chatClient;
@@ -13,10 +15,11 @@ public class AiChatService {
     }
 
     public AiChatMessage useChat(AiChatMessage prompt) {
-        return chatClient.prompt()
+        var response = chatClient.prompt()
                 .user(prompt.message())
-                .call()
-                .entity(AiChatMessage.class);
+                .call();
+
+        return new AiChatMessage(response.content());
     }
 
 }
