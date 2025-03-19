@@ -28,6 +28,13 @@ FlyAway is a comprehensive airline management system that provides seamless inte
 - Country and Destination Management
 - Airport and Aircraft Administration
 
+### AI Chatbot Integration
+
+- AI-powered chatbot for customer support
+- Natural language processing using Spring AI
+- LLM integration for intelligent responses
+- Tool calling capability for booking assistance
+
 ## 🔧 Tech Stack
 
 ### Backend
@@ -50,7 +57,7 @@ FlyAway is a comprehensive airline management system that provides seamless inte
 - Docker
 - Docker Compose
 
-## 📦 Installation and Setup
+## 🛆 Installation and Setup
 
 ### Clone the Repository
 
@@ -78,16 +85,17 @@ JWT_SECRET_KEY=your_jwt_secret_key
 STRIPE_SECRET_KEY=your_stripe_secret_key
 
 GROQ_API_KEY=your_groq_api_key
+
+OPENAI_API_KEY=your_openai_api_key
 ```
 
 - Replace the placeholders with your actual configuration details:
-
   - `POSTGRES_USERNAME` and `POSTGRES_PASSWORD`: Your PostgreSQL database credentials.
   - `MONGO_USERNAME` and `MONGO_PASSWORD`: Your MongoDB database credentials.
   - `JWT_SECRET_KEY`: A strong secret key for JWT authentication. You can generate one at [jwtsecret.com](https://jwtsecret.com/generate).
   - `STRIPE_SECRET_KEY`: Your Stripe API secret key. You can obtain it by registering on the [Stripe Dashboard](https://dashboard.stripe.com/register) under **Developers > API Keys**.
   - Leave `STRIPE_WEBHOOK_SECRET` empty for now, it will be obtained later.
-  - `GROQ_API_KEY`: Your Groq API key. You can get it at [groq.com](https://console.groq.com/keys).
+  - `LLM_API_KEY`: Your Groq API key. You can get it at [openrouter.aim](https://openrouter.ai/settings/keys).
 
 - **Note:** Do **not** commit this file to version control as it contains sensitive information.
 
