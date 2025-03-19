@@ -84,9 +84,8 @@ JWT_SECRET_KEY=your_jwt_secret_key
 
 STRIPE_SECRET_KEY=your_stripe_secret_key
 
-GROQ_API_KEY=your_groq_api_key
+LLM_API_KEY=your_groq_api_key
 
-OPENAI_API_KEY=your_openai_api_key
 ```
 
 - Replace the placeholders with your actual configuration details:
