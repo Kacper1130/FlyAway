@@ -5,7 +5,6 @@ import FlyAway.auth.dto.AuthenticationResponse;
 import FlyAway.auth.dto.ChangePasswordRequest;
 import FlyAway.auth.dto.RegistrationRequest;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
+    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) {
         LOGGER.debug("Registering new user: {}", request);
         authenticationService.register(request);
         LOGGER.info("Registered new user successfully");
@@ -43,12 +42,6 @@ public class AuthenticationController {
         var response = authenticationService.authenticate(request);
         LOGGER.info("{} successfully logged in ", request.email());
         return ResponseEntity.ok().body(response);
-    }
-
-    @GetMapping("/confirm-account")
-    public ResponseEntity<?> confirmUserAccount(@RequestParam("token")String confirmationToken) throws MessagingException {
-        authenticationService.verifyUser(confirmationToken);
-        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/change-password")

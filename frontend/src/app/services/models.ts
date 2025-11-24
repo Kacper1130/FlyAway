@@ -1,7 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export { AddEmployeeDto } from './models/add-employee-dto';
-export { AiChatMessage } from './models/ai-chat-message';
 export { Aircraft } from './models/aircraft';
 export { AircraftDto } from './models/aircraft-dto';
 export { Airport } from './models/airport';
@@ -37,7 +36,6 @@ export { RegistrationRequest } from './models/registration-request';
 export { ReservationDetailsClientDto } from './models/reservation-details-client-dto';
 export { ReservationDetailsEmployeeDto } from './models/reservation-details-employee-dto';
 export { ReservationDto } from './models/reservation-dto';
-export { ReservationPaymentResponseDto } from './models/reservation-payment-response-dto';
 export { ReservationSummaryClientDto } from './models/reservation-summary-client-dto';
 export { ReservationSummaryEmployeeDto } from './models/reservation-summary-employee-dto';
 export { ReservationWithoutFlightDto } from './models/reservation-without-flight-dto';

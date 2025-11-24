@@ -7,7 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -17,10 +17,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static org.springframework.http.HttpHeaders.*;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Configuration
-public class SecurityBeans {
+class SecurityBeans {
 
     private final UserDetailsService userDetailsService;
 
@@ -43,7 +42,7 @@ public class SecurityBeans {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
@@ -56,7 +55,8 @@ public class SecurityBeans {
                 ORIGIN,
                 CONTENT_TYPE,
                 ACCEPT,
-                AUTHORIZATION
+                AUTHORIZATION,
+                "X-User-ID"
         ));
         corsConfiguration.setAllowedMethods(Arrays.asList(
                 "GET",

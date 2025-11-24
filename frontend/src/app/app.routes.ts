@@ -5,7 +5,6 @@ import {HomeComponent} from "./pages/home/home/home.component";
 import {authGuard} from "./services/guard/auth.guard";
 import {FlightsComponent} from "./modules/flights/pages/available-flights/flights.component";
 import {ReservationsComponent} from "./modules/reservations/reservations/reservations.component";
-import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {ClientDetailsComponent} from "./pages/client-details/client-details.component";
 import {AdminPanelComponent} from "./modules/admin/pages/admin-panel/admin-panel.component";
 import {AdminEmployeesComponent} from "./modules/admin/pages/admin-employees/admin-employees.component";
@@ -50,10 +49,6 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
-  },
-  {
-    path: 'activate-account',
-    component: ActivateAccountComponent
   },
   {
     path: 'profile',

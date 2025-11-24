@@ -1,41 +1,31 @@
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
 import {AuthenticationRequest} from "../../services/models/authentication-request";
-import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {TokenService} from "../../services/token/token.service";
+import {LocalStorageService} from "../../services/token/local-storage.service";
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
-import {NavbarComponent} from "../../components/navbar/navbar.component";
 import {NewNavbarComponent} from "../../components/new-navbar/new-navbar.component";
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
-import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-widget.component";
+import {AuthenticationResponse} from "../../services/models/authentication-response";
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-    imports: [
-        NgForOf,
-        NgIf,
-        FormsModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        NavbarComponent,
-        NewNavbarComponent,
-        MatSelectModule,
-        AiChatWidgetComponent,
-    ],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    NewNavbarComponent,
+    MatSelectModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -51,7 +41,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    private tokenService: TokenService
+    private localStorageService: LocalStorageService
   ) {
   }
 
@@ -60,11 +50,14 @@ export class LoginComponent {
     this.authService.authenticate({
       body: this.authRequest
     }).subscribe({
-      next: (res) => {
+      next: (res: AuthenticationResponse) => {
         // console.log(res.token)
         // console.log(res)
-        this.tokenService.token = res.token as string;
-        const role = this.tokenService.getRole()[0];
+        this.localStorageService.userId! = res.userId;
+        this.localStorageService.role! = res.role;
+        this.localStorageService.email! = res.email;
+        this.localStorageService.firstname! = res.firstname;
+        const role = res.role;
         console.log(role);
         if (role === 'ROLE_ADMIN') {
           this.router.navigate(['admin']);

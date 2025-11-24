@@ -1,7 +1,5 @@
 package FlyAway.auth.dto;
 
-import FlyAway.validation.Password;
-import FlyAway.validation.PhoneNumber;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -23,11 +21,9 @@ public record RegistrationRequest(
         String email,
         @NotEmpty(message = "Password can not be empty")
         @NotBlank(message = "Password can not be blank")
-        @Password
         String password,
         @NotEmpty(message = "Phone number can not be empty")
         @NotBlank(message = "Phone number can not be blank")
-        @PhoneNumber
         String phoneNumber,
         @NotNull(message = "dateOfBirth is required")
         @Past(message = "Date of brith should be a past date")

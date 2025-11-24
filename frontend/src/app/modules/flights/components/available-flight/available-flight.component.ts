@@ -56,14 +56,13 @@ export class AvailableFlightComponent {
     };
     this.reservationService.createReservation({ body: params }).subscribe({
       next: (response ) => {
-        window.location.href = response.paymentUrl!;
-        // const message = `Reservation created successfully`
-        // this._snackBar.open(message, 'close', {
-        //   horizontalPosition: this.horizontalPosition,
-        //   verticalPosition: this.verticalPosition,
-        //   panelClass: ['snackbar-success'],
-        //   duration: 5000
-        // });
+        const message = `Reservation created successfully`
+        this._snackBar.open(message, 'close', {
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+          panelClass: ['snackbar-success'],
+          duration: 5000
+        });
         this.selectedClass = null;
       },
 

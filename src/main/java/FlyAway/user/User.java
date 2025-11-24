@@ -1,11 +1,14 @@
 package FlyAway.user;
 
 import FlyAway.role.Role;
-import FlyAway.validation.Password;
-import FlyAway.validation.PhoneNumber;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Set;
@@ -33,9 +36,7 @@ public abstract class User {
             + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
             message = "Email should be valid")
     private String email;
-    @Password
     private String password;
-    @PhoneNumber
     private String phoneNumber;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;

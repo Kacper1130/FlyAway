@@ -8,7 +8,6 @@ import {ActivatedRoute} from "@angular/router";
 import SockJS from "sockjs-client";
 import {SupportTicketSummaryDto} from "../../../../services/models/support-ticket-summary-dto";
 import {ClientSupportTicketService} from "../../../../services/services/client-support-ticket.service";
-import {AiChatWidgetComponent} from "../../../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-support-chat',
@@ -20,7 +19,6 @@ import {AiChatWidgetComponent} from "../../../../components/ai-chat-widget/ai-ch
     NgForOf,
     NewNavbarComponent,
     NgClass,
-    AiChatWidgetComponent
   ],
   templateUrl: './support-chat.component.html',
   styleUrl: './support-chat.component.scss'

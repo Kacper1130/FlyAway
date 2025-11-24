@@ -20,7 +20,7 @@ import { GetReservationDetails$Params } from '../fn/client-reservation/get-reser
 import { getReservationHistory } from '../fn/client-reservation/get-reservation-history';
 import { GetReservationHistory$Params } from '../fn/client-reservation/get-reservation-history';
 import { ReservationDetailsClientDto } from '../models/reservation-details-client-dto';
-import { ReservationPaymentResponseDto } from '../models/reservation-payment-response-dto';
+import { ReservationDto } from '../models/reservation-dto';
 import { ReservationSummaryClientDto } from '../models/reservation-summary-client-dto';
 
 @Injectable({ providedIn: 'root' })
@@ -38,7 +38,7 @@ export class ClientReservationService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createReservation$Response(params: CreateReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationPaymentResponseDto>> {
+  createReservation$Response(params: CreateReservation$Params, context?: HttpContext): Observable<StrictHttpResponse<ReservationDto>> {
     return createReservation(this.http, this.rootUrl, params, context);
   }
 
@@ -48,9 +48,9 @@ export class ClientReservationService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  createReservation(params: CreateReservation$Params, context?: HttpContext): Observable<ReservationPaymentResponseDto> {
+  createReservation(params: CreateReservation$Params, context?: HttpContext): Observable<ReservationDto> {
     return this.createReservation$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReservationPaymentResponseDto>): ReservationPaymentResponseDto => r.body)
+      map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
     );
   }
 

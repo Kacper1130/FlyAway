@@ -155,7 +155,47 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReservationDto"
+                  "$ref": "#/components/schemas/ReservationPaymentResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/payment/webhook": {
+      "post": {
+        "tags": [
+          "payment-controller"
+        ],
+        "operationId": "handleStripeWebhook",
+        "parameters": [
+          {
+            "name": "Stripe-Signature",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -429,6 +469,36 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Aircraft"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ai": {
+      "post": {
+        "tags": [
+          "AiChat"
+        ],
+        "operationId": "useChat",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiChatMessage"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiChatMessage"
                 }
               }
             }
@@ -1470,6 +1540,36 @@
         }
       }
     },
+    "/api/v1/auth/confirm-account": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "confirmUserAccount",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/airports/enabled": {
       "get": {
         "tags": [
@@ -1854,6 +1954,17 @@
           }
         }
       },
+      "ReservationPaymentResponseDto": {
+        "type": "object",
+        "properties": {
+          "reservation": {
+            "$ref": "#/components/schemas/ReservationDto"
+          },
+          "paymentUrl": {
+            "type": "string"
+          }
+        }
+      },
       "SeatClassRange": {
         "type": "object",
         "properties": {
@@ -2032,25 +2143,17 @@
         }
       },
       "AuthenticationResponse": {
-        "required": [
-          "email",
-          "firstname",
-          "role",
-          "userId"
-        ],
         "type": "object",
         "properties": {
-          "userId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "role": {
+          "token": {
             "type": "string"
-          },
-          "firstname": {
-            "type": "string"
-          },
-          "email": {
+          }
+        }
+      },
+      "AiChatMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
             "type": "string"
           }
         }

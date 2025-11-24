@@ -36,23 +36,6 @@ services:
     depends_on:
       - mongo
 
-  mailhog:
-    image: mailhog/mailhog
-    container_name: flyaway_mailhog
-    ports:
-      - 1026:1025
-      - 8026:8025
-
-  stripe-cli:
-    image: stripe/stripe-cli
-    container_name: flyaway_stripe-cli
-    command: listen --forward-to http://host.docker.internal:8080/api/v1/payment/webhook
-    environment:
-      - STRIPE_API_KEY=${STRIPE_SECRET_KEY}
-    network_mode: host
-    volumes:
-      - ~/.config/stripe:/root/.config/stripe
-
 volumes:
   postgres_data: {}
   mongo_data: {}

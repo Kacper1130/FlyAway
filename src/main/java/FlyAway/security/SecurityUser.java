@@ -1,7 +1,6 @@
 package FlyAway.security;
 
 
-import FlyAway.client.Client;
 import FlyAway.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

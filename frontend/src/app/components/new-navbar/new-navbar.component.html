@@ -29,13 +29,13 @@
     <!-- Auth Section -->
     <div class="auth-section">
       <!-- Logged Out State -->
-      <div class="auth-buttons" *ngIf="!localStorage.getItem('token')">
+      <div class="auth-buttons" *ngIf="!localStorage.getItem('userId')">
         <a mat-button class="signup-btn" routerLink="/register">Sign up</a>
         <a mat-flat-button class="login-btn" routerLink="/login" color="primary">Log in</a>
       </div>
 
       <!-- Logged In State -->
-      <div class="user-menu" *ngIf="localStorage.getItem('token')">
+      <div class="user-menu" *ngIf="localStorage.getItem('userId')">
         <span class="welcome-text">Welcome,</span>
         <span class="user-name">{{ Firstname }}</span>
 

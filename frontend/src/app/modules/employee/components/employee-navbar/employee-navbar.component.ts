@@ -5,7 +5,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatToolbar} from "@angular/material/toolbar";
 import {PaginatorModule} from "primeng/paginator";
 import {RouterLink, RouterLinkActive} from "@angular/router";
-import {TokenService} from "../../../../services/token/token.service";
+import {LocalStorageService} from "../../../../services/token/local-storage.service";
 import {MatBadge} from "@angular/material/badge";
 import {EmployeeSupportTicketService} from "../../../../services/services/employee-support-ticket.service";
 
@@ -30,7 +30,7 @@ export class EmployeeNavbarComponent implements OnInit {
   ticketsNumber: number = 0;
 
   constructor(
-    private readonly tokenService: TokenService,
+    private readonly tokenService: LocalStorageService,
     private readonly employeeService: EmployeeSupportTicketService
   ) {
   }
@@ -40,11 +40,11 @@ export class EmployeeNavbarComponent implements OnInit {
   }
 
   get Email(): string {
-    return this.tokenService.getEmail();
+    return this.tokenService.email;
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.clear();
     window.location.reload();
   }
 

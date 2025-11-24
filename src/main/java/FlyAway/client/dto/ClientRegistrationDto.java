@@ -1,7 +1,5 @@
 package FlyAway.client.dto;
 
-import FlyAway.validation.Password;
-import FlyAway.validation.PhoneNumber;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
@@ -19,9 +17,7 @@ public record ClientRegistrationDto(
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
                 message = "Email should be valid")
         String email,
-        @Password
         String password,
-        @PhoneNumber
         String phoneNumber,
         @NotNull
         @Past(message = "Date of brith should be a past date")

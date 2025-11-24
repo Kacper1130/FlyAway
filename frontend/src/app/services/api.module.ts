@@ -7,13 +7,11 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 import { AirportService } from './services/airport.service';
 import { ClientSupportTicketService } from './services/client-support-ticket.service';
 import { ClientReservationService } from './services/client-reservation.service';
-import { PaymentControllerService } from './services/payment-controller.service';
 import { FlightService } from './services/flight.service';
 import { EmployeeService } from './services/employee.service';
 import { ClientService } from './services/client.service';
 import { AuthenticationService } from './services/authentication.service';
 import { AircraftService } from './services/aircraft.service';
-import { AiChatService } from './services/ai-chat.service';
 import { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 import { CountryService } from './services/country.service';
 import { EmployeeReservationService } from './services/employee-reservation.service';
@@ -29,13 +27,11 @@ import { EmployeeReservationService } from './services/employee-reservation.serv
     AirportService,
     ClientSupportTicketService,
     ClientReservationService,
-    PaymentControllerService,
     FlightService,
     EmployeeService,
     ClientService,
     AuthenticationService,
     AircraftService,
-    AiChatService,
     EmployeeSupportTicketService,
     CountryService,
     EmployeeReservationService,

@@ -54,12 +54,12 @@ public class ClientReservationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ReservationPaymentResponseDto> createReservation(
+    public ResponseEntity<ReservationDto> createReservation(
             @Valid @RequestBody CreateReservationDto createReservationDto,
             Authentication authentication
     ) {
         LOGGER.debug("Creating new reservation {}", createReservationDto);
-        ReservationPaymentResponseDto reservationDto = reservationService.createReservation(createReservationDto, authentication);
+        ReservationDto reservationDto = reservationService.createReservation(createReservationDto, authentication);
         LOGGER.info("Pending reservation created successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(reservationDto);
     }

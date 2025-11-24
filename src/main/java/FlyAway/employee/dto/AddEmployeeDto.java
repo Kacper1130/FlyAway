@@ -1,6 +1,5 @@
 package FlyAway.employee.dto;
 
-import FlyAway.validation.PhoneNumber;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -23,7 +22,6 @@ public record AddEmployeeDto(
         String email,
         @NotEmpty(message = "Phone number can not be empty")
         @NotBlank(message = "Phone number can not be blank")
-        @PhoneNumber
         String phoneNumber
 ) {
 

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {TokenService} from "../../services/token/token.service";
+import {LocalStorageService} from "../../services/token/local-storage.service";
 import {MatButtonModule} from '@angular/material/button';
 import {MatLabel} from "@angular/material/form-field";
 
@@ -22,7 +22,7 @@ import {MatLabel} from "@angular/material/form-field";
 export class NavbarComponent {
 
   constructor(
-    private tokenService: TokenService
+    private tokenService: LocalStorageService
   ) {
   }
 

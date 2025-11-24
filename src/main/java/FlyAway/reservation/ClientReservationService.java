@@ -2,17 +2,17 @@ package FlyAway.reservation;
 
 import FlyAway.client.Client;
 import FlyAway.client.ClientRepository;
-import FlyAway.email.EmailService;
 import FlyAway.exception.*;
 import FlyAway.flight.Flight;
 import FlyAway.flight.FlightRepository;
 import FlyAway.flight.FlightService;
 import FlyAway.flight.aircraft.AircraftService;
-import FlyAway.payment.PaymentService;
-import FlyAway.reservation.dto.*;
+import FlyAway.reservation.dto.CreateReservationDto;
+import FlyAway.reservation.dto.ReservationDetailsClientDto;
+import FlyAway.reservation.dto.ReservationDto;
+import FlyAway.reservation.dto.ReservationSummaryClientDto;
 import FlyAway.security.SecurityUser;
-import com.stripe.exception.StripeException;
-import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,24 +32,21 @@ public class ClientReservationService {
     private final ReservationRepository reservationRepository;
     private final ClientRepository clientRepository;
     private final FlightRepository flightRepository;
-    private final EmailService emailService;
     private final AircraftService aircraftService;
     private final FlightService flightService;
-    private final PaymentService paymentService;
     private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientReservationService.class);
 
-    public ClientReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, EmailService emailService, AircraftService aircraftService, FlightService flightService, PaymentService paymentService) {
+    public ClientReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, AircraftService aircraftService, FlightService flightService) {
         this.reservationRepository = reservationRepository;
         this.clientRepository = userRepository;
         this.flightRepository = flightRepository;
-        this.emailService = emailService;
         this.aircraftService = aircraftService;
         this.flightService = flightService;
-        this.paymentService = paymentService;
     }
 
-    public ReservationPaymentResponseDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) {
+    @Transactional
+    public ReservationDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) {
         LOGGER.debug("Creating new reservation");
         var securityUser = (SecurityUser) authentication.getPrincipal();
         Client client = (Client) securityUser.getUser();
@@ -71,30 +68,19 @@ public class ClientReservationService {
                 .price(flight.getCabinClassPrices().get(createReservationDto.cabinClass()))
                 .seatNumber(createReservationDto.seatNumber())
                 .cabinClass(aircraftService.getCabinClassBySeatNumber(flight.getAircraft(), createReservationDto.seatNumber()))
-                .status(ReservationStatus.PENDING)
+                .status(ReservationStatus.ACTIVE)
                 .client(client)
                 .flight(flight)
                 .build();
 
         reservationRepository.save(reservation);
 
-        LOGGER.info("Created new pending reservation for client {} and flight {}",
+        LOGGER.info("Created new reservation for client {} and flight {}",
                 client.getId(),
                 createReservationDto.flightId()
         );
 
-        try {
-            String paymentUrl = paymentService.createSession(reservation);
-            return new ReservationPaymentResponseDto(
-                    reservationMapper.reservationToReservationDto(reservation),
-                    paymentUrl
-            );
-        } catch (StripeException e) {
-            reservation.setStatus(ReservationStatus.FAILED);
-            reservationRepository.save(reservation);
-            LOGGER.error("Stripe error for reservation {}: {}", reservation.getId(), e.getMessage());
-            throw new RuntimeException("Payment error");
-        }
+        return reservationMapper.reservationToReservationDto(reservation);
     }
 
     public ReservationDto getReservation(UUID id) {
@@ -109,30 +95,6 @@ public class ClientReservationService {
             LOGGER.error("Reservation with id {} does not exist", id);
             throw new ReservationDoesNotExistException(id);
         });
-    }
-
-    public void handlePaymentCompleted(String reservationId) throws MessagingException {
-        Reservation reservation = reservationRepository.findById(UUID.fromString(reservationId))
-                .orElseThrow(ReservationDoesNotExistException::new);
-        reservation.setStatus(ReservationStatus.ACTIVE);
-        reservationRepository.save(reservation);
-        LOGGER.info("Reservation {} status: ACTIVE", reservation.getId());
-        emailService.sendReservationConfirmationEmail(
-                reservation.getClient().getEmail(),
-                reservation.getClient().getFirstname(),
-                reservation.getClient().getLastname(),
-                reservation.getFlight(),
-                reservation.getCabinClass().toString(),
-                reservation.getSeatNumber()
-        );
-    }
-
-    public void handlePaymentExpired(String reservationId) {
-        Reservation reservation = reservationRepository.findById(UUID.fromString(reservationId))
-                .orElseThrow(ReservationDoesNotExistException::new);
-        reservation.setStatus(ReservationStatus.EXPIRED);
-        reservationRepository.save(reservation);
-        LOGGER.info("Reservation {} status: EXPIRED", reservation.getId());
     }
 
     public List<ReservationSummaryClientDto> getActiveReservations(Authentication authentication) {

@@ -1,6 +1,5 @@
 package FlyAway.client.dto;
 
-import FlyAway.validation.PhoneNumber;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 
@@ -19,7 +18,6 @@ public record ClientDto(
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
                 message = "Email should be valid")
         String email,
-        @PhoneNumber(message = "Phone number is not valid")
         String phoneNumber,
 
         @NotNull(message = "Date of birth must not be null")

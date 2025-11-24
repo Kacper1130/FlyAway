@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {NavbarComponent} from "../../../../components/navbar/navbar.component";
 import {NewNavbarComponent} from "../../../../components/new-navbar/new-navbar.component";
 import {FlightService} from "../../../../services/services/flight.service";
 import {Router} from "@angular/router";
@@ -9,52 +8,43 @@ import {PageResponseFlightDto} from "../../../../services/models/page-response-f
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from "@angular/material/expansion";
 import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {MatFormField, MatFormFieldModule, MatHint, MatLabel} from "@angular/material/form-field";
+import {MatFormField, MatFormFieldModule, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {
-  MatDatepicker,
-  MatDatepickerInput,
   MatDatepickerModule,
   MatDatepickerToggle,
   MatDateRangeInput,
   MatDateRangePicker
 } from "@angular/material/datepicker";
 import {MatOption, MatSelect} from "@angular/material/select";
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatButton} from "@angular/material/button";
 import {provideNativeDateAdapter} from "@angular/material/core";
-import {AiChatWidgetComponent} from "../../../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-flights',
   standalone: true,
-    imports: [
-        NavbarComponent,
-        NewNavbarComponent,
-        NgForOf,
-        AvailableFlightComponent,
-        MatPaginator,
-        MatExpansionPanel,
-        MatExpansionPanelHeader,
-        MatExpansionPanelTitle,
-        ReactiveFormsModule,
-        MatFormField,
-        MatInput,
-        MatDatepickerToggle,
-        MatDatepicker,
-        MatSelect,
-        MatOption,
-        MatButton,
-        MatDatepickerInput,
-        MatLabel,
-        MatIconButton,
-        MatDateRangeInput,
-        MatDateRangePicker,
-        MatHint,
-        MatFormFieldModule,
-        MatDatepickerModule,
-        AiChatWidgetComponent,
+  imports: [
+    NewNavbarComponent,
+    NgForOf,
+    AvailableFlightComponent,
+    MatPaginator,
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatDatepickerToggle,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatLabel,
+    MatDateRangeInput,
+    MatDateRangePicker,
+    MatFormFieldModule,
+    MatDatepickerModule,
 
-    ],
+  ],
   providers: [provideNativeDateAdapter()],
   // changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './flights.component.html',

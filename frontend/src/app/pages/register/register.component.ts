@@ -2,46 +2,39 @@ import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core'
 import {Router} from "@angular/router";
 import {AuthenticationService} from "../../services/services/authentication.service";
 import {RegistrationRequest} from "../../services/models/registration-request";
-import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {MatFormField, MatFormFieldModule, MatHint, MatLabel, MatSuffix} from "@angular/material/form-field";
+import {MatFormField, MatFormFieldModule, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MatInput, MatInputModule} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
 import {MatAnchor, MatButton, MatIconButton} from "@angular/material/button";
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {NavbarComponent} from "../../components/navbar/navbar.component";
 import {NewNavbarComponent} from "../../components/new-navbar/new-navbar.component";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition,} from '@angular/material/snack-bar';
-import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-    imports: [
-        NgForOf,
-        FormsModule,
-        NgIf,
-        MatLabel,
-        MatFormField,
-        MatInput,
-        MatHint,
-        MatIcon,
-        MatIconButton,
-        MatSuffix,
-        MatAnchor,
-        MatButton,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        NavbarComponent,
-        NewNavbarComponent,
-        AiChatWidgetComponent
-    ],
+  imports: [
+    FormsModule,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    MatIcon,
+    MatIconButton,
+    MatSuffix,
+    MatAnchor,
+    MatButton,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    NewNavbarComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+
   registerRequest: RegistrationRequest = {
     email: '',
     password: '',
@@ -68,8 +61,8 @@ export class RegisterComponent {
       body: this.registerRequest
     }).subscribe({
       next: () => {
-        this.router.navigate(['']);
-        const message = 'Thank you for signing up!\nPlease check your email to activate your account.'
+        const message = 'Thank you for signing up!\nYou can now log in!.'
+        this.router.navigate(['login']);
         this._snackBar.open(message, 'close', {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,

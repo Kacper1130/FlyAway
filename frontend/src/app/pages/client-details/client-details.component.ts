@@ -11,7 +11,6 @@ import {ClientService} from "../../services/services/client.service";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {ChangePasswordComponent} from "./change-password/change-password.component";
-import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-widget.component";
 
 @Component({
   selector: 'app-client-details',
@@ -29,7 +28,6 @@ import {AiChatWidgetComponent} from "../../components/ai-chat-widget/ai-chat-wid
         MatLabel,
         MatSuffix,
         MatHint,
-        AiChatWidgetComponent
     ],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.scss'

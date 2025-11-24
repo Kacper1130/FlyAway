@@ -1,16 +1,16 @@
 import {ActivatedRouteSnapshot, CanActivateFn, Router} from '@angular/router';
 import {inject} from "@angular/core";
-import {TokenService} from "../token/token.service";
+import {LocalStorageService} from "../token/local-storage.service";
 
 export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
-  const tokenService = inject(TokenService);
+  const localStorageService = inject(LocalStorageService);
   const router = inject(Router);
-  if (tokenService.isTokenNotValid()) {
+  if (!localStorageService.isLogged()) {
     router.navigate(['login'])
     return false;
   }
-  const userRole = tokenService.getRole();
-  console.log(userRole);
+  const userRole = localStorageService.role;
+  console.log('z auth guarda' + userRole);
   console.log(route.data['role']);
   if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
     router.navigate([''])

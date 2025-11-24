@@ -1,7 +1,6 @@
 package FlyAway.support;
 
 import FlyAway.client.Client;
-import FlyAway.client.ClientRepository;
 import FlyAway.exception.SupportTicketDoesNotExistException;
 import FlyAway.security.SecurityUser;
 import FlyAway.support.chat.ChatMessage;
