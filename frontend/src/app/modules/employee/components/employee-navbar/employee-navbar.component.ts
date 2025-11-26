@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {MatAnchor, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
@@ -6,8 +6,6 @@ import {MatToolbar} from "@angular/material/toolbar";
 import {PaginatorModule} from "primeng/paginator";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {LocalStorageService} from "../../../../services/token/local-storage.service";
-import {MatBadge} from "@angular/material/badge";
-import {EmployeeSupportTicketService} from "../../../../services/services/employee-support-ticket.service";
 
 @Component({
   selector: 'app-employee-navbar',
@@ -20,27 +18,20 @@ import {EmployeeSupportTicketService} from "../../../../services/services/employ
     PaginatorModule,
     RouterLink,
     RouterLinkActive,
-    MatBadge,
     MatAnchor
   ],
   templateUrl: './employee-navbar.component.html',
   styleUrl: './employee-navbar.component.scss'
 })
-export class EmployeeNavbarComponent implements OnInit {
-  ticketsNumber: number = 0;
+export class EmployeeNavbarComponent {
 
   constructor(
-    private readonly tokenService: LocalStorageService,
-    private readonly employeeService: EmployeeSupportTicketService
+    private readonly localStorageService: LocalStorageService,
   ) {
   }
 
-  ngOnInit() {
-    this.loadTicketsNumber();
-  }
-
   get Email(): string {
-    return this.tokenService.email;
+    return this.localStorageService.email;
   }
 
   logout() {
@@ -48,11 +39,4 @@ export class EmployeeNavbarComponent implements OnInit {
     window.location.reload();
   }
 
-  private loadTicketsNumber() {
-    this.employeeService.getActiveTicketsCount().subscribe({
-      next: (res) => {
-        this.ticketsNumber = res;
-      }
-    })
-  }
 }

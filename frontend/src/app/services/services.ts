@@ -1,11 +1,9 @@
 export { AirportService } from './services/airport.service';
-export { ClientSupportTicketService } from './services/client-support-ticket.service';
 export { ClientReservationService } from './services/client-reservation.service';
 export { FlightService } from './services/flight.service';
 export { EmployeeService } from './services/employee.service';
 export { ClientService } from './services/client.service';
 export { AuthenticationService } from './services/authentication.service';
 export { AircraftService } from './services/aircraft.service';
-export { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 export { CountryService } from './services/country.service';
 export { EmployeeReservationService } from './services/employee-reservation.service';

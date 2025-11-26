@@ -5,14 +5,12 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { AirportService } from './services/airport.service';
-import { ClientSupportTicketService } from './services/client-support-ticket.service';
 import { ClientReservationService } from './services/client-reservation.service';
 import { FlightService } from './services/flight.service';
 import { EmployeeService } from './services/employee.service';
 import { ClientService } from './services/client.service';
 import { AuthenticationService } from './services/authentication.service';
 import { AircraftService } from './services/aircraft.service';
-import { EmployeeSupportTicketService } from './services/employee-support-ticket.service';
 import { CountryService } from './services/country.service';
 import { EmployeeReservationService } from './services/employee-reservation.service';
 
@@ -25,14 +23,12 @@ import { EmployeeReservationService } from './services/employee-reservation.serv
   declarations: [],
   providers: [
     AirportService,
-    ClientSupportTicketService,
     ClientReservationService,
     FlightService,
     EmployeeService,
     ClientService,
     AuthenticationService,
     AircraftService,
-    EmployeeSupportTicketService,
     CountryService,
     EmployeeReservationService,
     ApiConfiguration

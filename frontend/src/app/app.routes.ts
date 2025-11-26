@@ -16,7 +16,6 @@ import {AirportsComponent} from "./modules/admin/pages/airports/airports.compone
 import {
   EmployeeReservationsComponent
 } from "./modules/employee/pages/employee-reservations/employee-reservations.component";
-import {EmployeeIssuesComponent} from "./modules/employee/pages/employee-issues/employee-issues.component";
 import {EmployeeFlightsComponent} from "./modules/employee/pages/employee-flights/employee-flights.component";
 import {
   EmployeeFlightDetailsComponent
@@ -29,12 +28,6 @@ import {ReservationDetailsComponent} from "./modules/reservations/reservation-de
 import {
   EmployeeReservationDetailsComponent
 } from "./modules/employee/pages/employee-reservations/employee-reservation-details/employee-reservation-details.component";
-import {SupportComponent} from "./modules/support/support.component";
-import {CreateTicketComponent} from "./modules/support/components/create-ticket/create-ticket.component";
-import {
-  EmployeeSupportChatComponent
-} from "./modules/employee/pages/employee-issues/employee-support-chat/employee-support-chat.component";
-import {SupportChatComponent} from "./modules/support/components/support-chat/support-chat.component";
 import {HistoryComponent} from "./modules/reservations/history/history.component";
 
 export const routes: Routes = [
@@ -68,21 +61,6 @@ export const routes: Routes = [
   {
     path: 'history',
     component: HistoryComponent,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'support',
-    component: SupportComponent,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'support/create-ticket',
-    component: CreateTicketComponent,
-    canActivate: [authGuard]
-  },
-  {
-    path: 'support/:id',
-    component: SupportChatComponent,
     canActivate: [authGuard]
   },
   {
@@ -179,19 +157,6 @@ export const routes: Routes = [
           }
         ]
       },
-      {
-        path: 'issues',
-        children: [
-          {
-            path: '',
-            component: EmployeeIssuesComponent
-          },
-          {
-            path: ':id',
-            component: EmployeeSupportChatComponent
-          }
-        ]
-      }
     ]
   }
 ];
