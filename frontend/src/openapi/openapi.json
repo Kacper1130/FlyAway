@@ -1180,29 +1180,6 @@
         }
       }
     },
-    "/api/v1/clients/deleted": {
-      "get": {
-        "tags": [
-          "Client"
-        ],
-        "operationId": "getAllDeletedUsers",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ClientReservationDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/airports/enabled": {
       "get": {
         "tags": [

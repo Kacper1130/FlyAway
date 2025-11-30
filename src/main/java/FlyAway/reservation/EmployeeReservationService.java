@@ -2,6 +2,7 @@ package FlyAway.reservation;
 
 import FlyAway.common.PageResponse;
 import FlyAway.exception.ReservationDoesNotExistException;
+import FlyAway.reservation.dao.ReservationRepository;
 import FlyAway.reservation.dto.ReservationDetailsEmployeeDto;
 import FlyAway.reservation.dto.ReservationSummaryEmployeeDto;
 import org.mapstruct.factory.Mappers;

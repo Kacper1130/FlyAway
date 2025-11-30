@@ -1,20 +1,19 @@
 package FlyAway;
 
-import FlyAway.admin.Admin;
-import FlyAway.admin.AdminRepository;
 import FlyAway.exception.RoleNotInitializedException;
 import FlyAway.flight.Flight;
-import FlyAway.flight.FlightRepository;
+import FlyAway.flight.dao.FlightRepository;
 import FlyAway.flight.aircraft.Aircraft;
-import FlyAway.flight.aircraft.AircraftRepository;
+import FlyAway.flight.aircraft.dao.AircraftRepository;
 import FlyAway.flight.aircraft.CabinClass;
 import FlyAway.flight.aircraft.SeatClassRange;
 import FlyAway.flight.airport.Airport;
-import FlyAway.flight.airport.AirportRepository;
-import FlyAway.flight.country.CountryRepository;
+import FlyAway.flight.airport.dao.AirportRepository;
+import FlyAway.flight.country.dao.CountryRepository;
 import FlyAway.role.Role;
-import FlyAway.role.RoleRepository;
-import FlyAway.user.UserRepository;
+import FlyAway.role.dao.RoleRepository;
+import FlyAway.user.User;
+import FlyAway.user.dao.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -44,7 +42,6 @@ public class FlyAwayApplication {
     public CommandLineRunner commandLineRunner(
             RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
-            AdminRepository adminRepository,
             UserRepository userRepository,
             AircraftRepository aircraftRepository,
             AirportRepository airportRepository,
@@ -71,7 +68,7 @@ public class FlyAwayApplication {
             var adminRole = roleRepository.findByName("ROLE_ADMIN")
                     .orElseThrow(() -> new RoleNotInitializedException("ROLE_ADMIN"));
 
-            Admin admin1 = Admin.builder()
+            User admin1 = User.builder()
                     .firstname("admin")
                     .lastname("admin")
                     .email("admin@flyaway.com")
@@ -79,10 +76,9 @@ public class FlyAwayApplication {
                     .phoneNumber("1234567890")
                     .roles(Set.of(adminRole))
                     .enabled(true)
-                    .createdAccounts(null)
                     .build();
 
-            adminRepository.save(admin1);
+            userRepository.save(admin1);
 
             Map<CabinClass, SeatClassRange> seatClassRanges = new HashMap<>();
             seatClassRanges.put(CabinClass.FIRST, new SeatClassRange(1, 10));

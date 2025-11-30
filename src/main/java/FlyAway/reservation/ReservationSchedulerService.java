@@ -1,5 +1,6 @@
 package FlyAway.reservation;
 
+import FlyAway.reservation.dao.ReservationRepository;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

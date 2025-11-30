@@ -1,17 +1,18 @@
 package FlyAway.reservation;
 
-import FlyAway.client.Client;
-import FlyAway.client.ClientRepository;
 import FlyAway.exception.*;
 import FlyAway.flight.Flight;
-import FlyAway.flight.FlightRepository;
+import FlyAway.flight.dao.FlightRepository;
 import FlyAway.flight.FlightService;
 import FlyAway.flight.aircraft.AircraftService;
+import FlyAway.reservation.dao.ReservationRepository;
 import FlyAway.reservation.dto.CreateReservationDto;
 import FlyAway.reservation.dto.ReservationDetailsClientDto;
 import FlyAway.reservation.dto.ReservationDto;
 import FlyAway.reservation.dto.ReservationSummaryClientDto;
 import FlyAway.security.SecurityUser;
+import FlyAway.user.User;
+import FlyAway.user.dao.UserRepository;
 import jakarta.transaction.Transactional;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -30,14 +31,14 @@ import java.util.UUID;
 public class ClientReservationService {
 
     private final ReservationRepository reservationRepository;
-    private final ClientRepository clientRepository;
+    private final UserRepository clientRepository;
     private final FlightRepository flightRepository;
     private final AircraftService aircraftService;
     private final FlightService flightService;
     private final ReservationMapper reservationMapper = Mappers.getMapper(ReservationMapper.class);
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientReservationService.class);
 
-    public ClientReservationService(ReservationRepository reservationRepository, ClientRepository userRepository, FlightRepository flightRepository, AircraftService aircraftService, FlightService flightService) {
+    public ClientReservationService(ReservationRepository reservationRepository, UserRepository userRepository, FlightRepository flightRepository, AircraftService aircraftService, FlightService flightService) {
         this.reservationRepository = reservationRepository;
         this.clientRepository = userRepository;
         this.flightRepository = flightRepository;
@@ -49,7 +50,7 @@ public class ClientReservationService {
     public ReservationDto createReservation(CreateReservationDto createReservationDto, Authentication authentication) {
         LOGGER.debug("Creating new reservation");
         var securityUser = (SecurityUser) authentication.getPrincipal();
-        Client client = (Client) securityUser.getUser();
+        User client = (User) securityUser.getUser();
         Flight flight = flightRepository.findById(createReservationDto.flightId())
                 .orElseThrow(FlightDoesNotExistException::new);
 
@@ -99,13 +100,13 @@ public class ClientReservationService {
 
     public List<ReservationSummaryClientDto> getActiveReservations(Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
-        Client client = (Client) securityUser.getUser();
+        User client = (User) securityUser.getUser();
 
         if (!clientRepository.existsById(client.getId())) {
             throw new UserDoesNotExistException();
         }
 
-        var reservations = reservationRepository.findByClientIdActive(client.getId())
+        var reservations = reservationRepository.findActiveByUserId(client.getId())
                 .stream()
                 .map(reservationMapper::reservationToReservationSummaryClientDto)
                 .toList();
@@ -116,13 +117,13 @@ public class ClientReservationService {
 
     public List<ReservationSummaryClientDto> getReservationHistory(Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
-        Client client = (Client) securityUser.getUser();
+        User client = (User) securityUser.getUser();
 
         if (!clientRepository.existsById(client.getId())) {
             throw new UserDoesNotExistException();
         }
 
-        var reservations = reservationRepository.findByClientId(client.getId())
+        var reservations = reservationRepository.findAllByUserId(client.getId())
                 .stream()
                 .filter(reservation -> reservation.getStatus() != ReservationStatus.ACTIVE)
                 .map(reservationMapper::reservationToReservationSummaryClientDto)
@@ -134,7 +135,7 @@ public class ClientReservationService {
 
     public ReservationDetailsClientDto getReservationDetails(UUID id, Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
-        Client client = (Client) securityUser.getUser();
+        User client = (User) securityUser.getUser();
 
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(ReservationDoesNotExistException::new);
@@ -149,7 +150,7 @@ public class ClientReservationService {
 
     public void cancelOwnReservation(UUID id, Authentication authentication) {
         var securityUser = (SecurityUser) authentication.getPrincipal();
-        Client client = (Client) securityUser.getUser();
+        User client = (User) securityUser.getUser();
 
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(ReservationDoesNotExistException::new);

@@ -1,6 +1,7 @@
 package FlyAway.flight.country;
 
 import FlyAway.exception.CountryDoesNotExistException;
+import FlyAway.flight.country.dao.CountryRepository;
 import FlyAway.flight.country.dto.CountryDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,13 @@ public class CountryService {
     }
 
     public List<CountryDto> getAllCountries() {
-        List<CountryDto> countries = countryRepository.findAllWithoutAirports();
+        List<CountryDto> countries = countryRepository.findAllSorted()
+                .stream().map(country -> new CountryDto(
+                        country.getId(),
+                        country.getName(),
+                        country.isEnabled()
+                ))
+                .toList();
         LOGGER.info("Retrieved {} countries", countries.size());
         return countries;
     }
@@ -46,7 +53,7 @@ public class CountryService {
     }
 
     public List<String> getAllCountriesNames() {
-        List<Country> countries = countryRepository.findAll();
+        List<Country> countries = countryRepository.findAllSorted();
         LOGGER.debug("Full countries size: {}", countries.size());
         List<String> countriesNames = new ArrayList<>();
         countries.forEach(c -> countriesNames.add(c.getName()));

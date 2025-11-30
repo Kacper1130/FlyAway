@@ -19,8 +19,6 @@ import { deleteClient } from '../fn/client/delete-client';
 import { DeleteClient$Params } from '../fn/client/delete-client';
 import { getAll } from '../fn/client/get-all';
 import { GetAll$Params } from '../fn/client/get-all';
-import { getAllDeletedUsers } from '../fn/client/get-all-deleted-users';
-import { GetAllDeletedUsers$Params } from '../fn/client/get-all-deleted-users';
 import { getClient } from '../fn/client/get-client';
 import { GetClient$Params } from '../fn/client/get-client';
 import { getClientFromId } from '../fn/client/get-client-from-id';
@@ -244,31 +242,6 @@ export class ClientService extends BaseService {
   getClientReservation(params: GetClientReservation$Params, context?: HttpContext): Observable<ReservationDto> {
     return this.getClientReservation$Response(params, context).pipe(
       map((r: StrictHttpResponse<ReservationDto>): ReservationDto => r.body)
-    );
-  }
-
-  /** Path part for operation `getAllDeletedUsers()` */
-  static readonly GetAllDeletedUsersPath = '/api/v1/clients/deleted';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getAllDeletedUsers()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getAllDeletedUsers$Response(params?: GetAllDeletedUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ClientReservationDto>>> {
-    return getAllDeletedUsers(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getAllDeletedUsers$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getAllDeletedUsers(params?: GetAllDeletedUsers$Params, context?: HttpContext): Observable<Array<ClientReservationDto>> {
-    return this.getAllDeletedUsers$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ClientReservationDto>>): Array<ClientReservationDto> => r.body)
     );
   }
 

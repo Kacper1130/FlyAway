@@ -5,6 +5,7 @@ import FlyAway.exception.CountryDoesNotExistException;
 import FlyAway.exception.FlightDoesNotExistException;
 import FlyAway.exception.MissingCabinClassPriceException;
 import FlyAway.flight.aircraft.CabinClass;
+import FlyAway.flight.dao.FlightRepository;
 import FlyAway.flight.dto.*;
 import FlyAway.reservation.ReservationStatus;
 import org.mapstruct.factory.Mappers;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,7 +39,7 @@ public class FlightService {
     public PageResponse<FlightDto> getFlights(int page, int size) {
         LOGGER.debug("Retrieving {} page with size {} from repository", page, size);
         Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").ascending());
-        Page<Flight> flights = flightRepository.findByDepartureDateAfter(pageable, LocalDateTime.now());
+        Page<Flight> flights = flightRepository.findFutureFlights(pageable, LocalDateTime.now());
         List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
         LOGGER.info("Retrieved {} flights from repository", flightsResponse.size());
         return new PageResponse<>(
@@ -54,13 +54,21 @@ public class FlightService {
     }
 
     public PageResponse<FlightDto> getFlightsByFilter(Map<String, Object> filters, int page, int size) {
+        // 1. Logika biznesowa (czyszczenie inputu) zostaje w serwisie
         Map<String, Object> validFilters = cleanFilters(filters);
         LOGGER.info("Valid filters {}", validFilters);
-        Specification<Flight> spec = FlightSpecification.filterFlights(validFilters);
+
+        // 2. Tworzymy Pageable (to jest uniwersalne dla Spring Data)
         Pageable pageable = PageRequest.of(page, size, Sort.by("departureDate").ascending());
-        Page<Flight> flights = flightRepository.findAll(spec, pageable);
+
+        // 3. Wywołujemy Port
+        // Nie budujemy tu Specification! Przekazujemy mapę dalej.
+        Page<Flight> flights = flightRepository.findByFilters(validFilters, pageable);
+
+        // 4. Mapowanie na DTO (standard)
         List<FlightDto> flightsResponse = flights.stream().map(flightMapper::flightToFlightDto).toList();
         LOGGER.info("Retrieved {} filtered flights from repository", flightsResponse.size());
+
         return new PageResponse<>(
                 flightsResponse,
                 flights.getNumber(),

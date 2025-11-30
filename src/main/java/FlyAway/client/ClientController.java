@@ -36,14 +36,6 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("/deleted")
-    public ResponseEntity<List<ClientReservationDto>> getAllDeletedUsers() {
-        LOGGER.debug("Retrieving deleted client");
-        List<ClientReservationDto> clients = clientService.getAllDeletedClients();
-        LOGGER.info("Retrieved {} deleted clients", clients.size());
-        return ResponseEntity.ok(clients);
-    }
-
     @PostMapping("/add")
     public ResponseEntity<?> add(@Valid @RequestBody ClientRegistrationDto userRegistrationDto) {
         LOGGER.debug("Adding new client " + userRegistrationDto);

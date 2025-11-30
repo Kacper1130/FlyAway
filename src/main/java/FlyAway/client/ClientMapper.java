@@ -5,6 +5,7 @@ import FlyAway.client.dto.ClientNameDto;
 import FlyAway.client.dto.ClientRegistrationDto;
 import FlyAway.client.dto.ClientReservationDto;
 import FlyAway.reservation.ReservationMapper;
+import FlyAway.user.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -12,11 +13,11 @@ import org.mapstruct.factory.Mappers;
 public interface ClientMapper {
     ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
-    ClientDto clientToClientDto(Client client);
+    ClientDto clientToClientDto(User client);
 
-    Client clientRegistrationDtoToClient(ClientRegistrationDto clientRegistrationDto);
+    User clientRegistrationDtoToClient(ClientRegistrationDto clientRegistrationDto);
 
-    ClientReservationDto clientToClientReservationDto(Client client);
+    ClientReservationDto clientToClientReservationDto(User client);
 
-    ClientNameDto clientToClientNameDto(Client client);
+    ClientNameDto clientToClientNameDto(User client);
 }

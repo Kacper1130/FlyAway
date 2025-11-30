@@ -4,15 +4,13 @@ import FlyAway.auth.dto.AuthenticationRequest;
 import FlyAway.auth.dto.AuthenticationResponse;
 import FlyAway.auth.dto.ChangePasswordRequest;
 import FlyAway.auth.dto.RegistrationRequest;
-import FlyAway.client.Client;
-import FlyAway.employee.Employee;
-import FlyAway.exception.AccountNotActivatedException;
 import FlyAway.exception.EmailExistsException;
 import FlyAway.exception.IncorrectOldPasswordException;
 import FlyAway.exception.PasswordsDoNotMatchException;
-import FlyAway.role.RoleRepository;
+import FlyAway.role.dao.RoleRepository;
 import FlyAway.security.SecurityUser;
-import FlyAway.user.UserRepository;
+import FlyAway.user.User;
+import FlyAway.user.dao.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,11 +46,11 @@ public class AuthenticationService {
         LOGGER.info("Created new client: {}", client.getEmail());
     }
 
-    private Client createClientFromRegistrationRequest(RegistrationRequest request) {
+    private User createClientFromRegistrationRequest(RegistrationRequest request) {
         var userRole = roleRepository.findByName("ROLE_CLIENT")
                 .orElseThrow(() -> new IllegalStateException("ROLE CLIENT was not initialized"));
 
-        return Client.builder()
+        return User.builder()
                 .firstname(request.firstname())
                 .lastname(request.lastname())
                 .email(request.email())
@@ -66,9 +64,6 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        if (userRepository.existsByEmailAndEnabledFalse(request.email())) {
-            throw new AccountNotActivatedException();
-        }
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
@@ -79,9 +74,9 @@ public class AuthenticationService {
         var securityUser = ((SecurityUser) auth.getPrincipal());
         var user = securityUser.getUser();
 
-        if (user instanceof Employee employee) {
-            employee.setLastLogin(LocalDateTime.now());
-            userRepository.save(employee);
+        if (user.getRoles().stream().findFirst().equals("ROLE_EMPLOYEE")) {
+            user.setLastLogin(LocalDateTime.now());
+            userRepository.save(user);
         }
 
         LOGGER.info("{} has logged in", user.getEmail());

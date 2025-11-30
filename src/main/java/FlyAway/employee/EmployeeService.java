@@ -5,9 +5,10 @@ import FlyAway.employee.dto.DisplayEmployeeDto;
 import FlyAway.employee.dto.EmployeeCredentialsDto;
 import FlyAway.exception.EmailExistsException;
 import FlyAway.exception.RoleNotInitializedException;
-import FlyAway.role.RoleRepository;
+import FlyAway.role.dao.RoleRepository;
 import FlyAway.security.PasswordService;
-import FlyAway.user.UserRepository;
+import FlyAway.user.User;
+import FlyAway.user.dao.UserRepository;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,14 @@ import java.util.Set;
 @Service
 public class EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+    private final UserRepository employeeRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordService passwordService;
     private final EmployeeMapper employeeMapper = Mappers.getMapper(EmployeeMapper.class);
 
-    public EmployeeService(EmployeeRepository employeeRepository, RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, PasswordService passwordService) {
+    public EmployeeService(UserRepository employeeRepository, RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, PasswordService passwordService) {
         this.employeeRepository = employeeRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -35,7 +36,7 @@ public class EmployeeService {
     }
 
     public List<DisplayEmployeeDto> getAll(){
-        List<Employee> employees = employeeRepository.findAll();
+        List<User> employees = employeeRepository.findAllUsersByRole("ROLE_EMPLOYEE");
         return employees.stream()
                 .map(employeeMapper::employeeToDisplayEmployeeDto)
                 .toList();
@@ -50,7 +51,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new RoleNotInitializedException("ROLE_EMPLOYEE"));
 
         String generatedPassword = passwordService.generatePassword();
-        Employee employee = new Employee();
+        User employee = new User();
         employee.setFirstname(addEmployeeDto.firstname());
         employee.setLastname(addEmployeeDto.lastname());
         employee.setEmail(addEmployeeDto.email());

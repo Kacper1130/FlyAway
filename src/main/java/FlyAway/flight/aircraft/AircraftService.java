@@ -1,6 +1,7 @@
 package FlyAway.flight.aircraft;
 
 import FlyAway.exception.*;
+import FlyAway.flight.aircraft.dao.AircraftRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
 package FlyAway.reservation;
 
 import FlyAway.flight.Flight;
-import FlyAway.client.Client;
 import FlyAway.flight.aircraft.CabinClass;
+import FlyAway.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -32,7 +32,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationStatus status;
     @ManyToOne(fetch = FetchType.EAGER)
-    private Client client;
+    private User client;
     @ManyToOne(fetch = FetchType.EAGER)
     private Flight flight;
 

@@ -1,9 +1,7 @@
 package FlyAway.security;
 
-import FlyAway.client.Client;
-import FlyAway.client.ClientRepository;
 import FlyAway.user.User;
-import FlyAway.user.UserRepository;
+import FlyAway.user.dao.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

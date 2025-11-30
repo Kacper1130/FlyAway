@@ -2,10 +2,11 @@ package FlyAway.flight.airport;
 
 import FlyAway.exception.AirportDoesNotExistException;
 import FlyAway.exception.CountryDoesNotExistException;
+import FlyAway.flight.airport.dao.AirportRepository;
 import FlyAway.flight.airport.dto.AirportDto;
 import FlyAway.flight.airport.dto.CreateAirportDto;
 import FlyAway.flight.country.Country;
-import FlyAway.flight.country.CountryRepository;
+import FlyAway.flight.country.dao.CountryRepository;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ public class AirportService {
 
     public List<AirportDto> getAllAirports() {
         LOGGER.debug("Retrieving all airports from repository");
-        List<AirportDto> airports = airportRepository.findAll()
+        List<AirportDto> airports = airportRepository.findAllSortedByCountry()
                         .stream().map(airportMapper::airportToAirportDto).toList();
         LOGGER.info("Retrieved {} airports from repository", airports.size());
         return airports;

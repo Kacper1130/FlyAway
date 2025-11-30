@@ -1,9 +1,11 @@
 package FlyAway.user;
 
+import FlyAway.reservation.Reservation;
 import FlyAway.role.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -20,8 +25,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,4 +45,20 @@ public abstract class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
     private boolean enabled;
+
+    // --- CLIENT ---
+    // Usuwamy @NotNull, bo Admin tego nie ma!
+    @Past(message = "Date of birth should be a past date")
+    private LocalDate dayOfBirth;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
+    // Uwaga: w klasie Reservation musisz zmienić pole 'client' na 'user'!
+    private List<Reservation> reservations;
+
+    private boolean deleted;
+
+    // --- EMPLOYEE ---
+    private LocalDate hireDate;
+    private boolean mustChangePassword;
+    private LocalDateTime lastLogin;
 }

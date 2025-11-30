@@ -1,6 +1,6 @@
 package FlyAway.security;
 
-import FlyAway.user.UserRepository;
+import FlyAway.user.dao.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
