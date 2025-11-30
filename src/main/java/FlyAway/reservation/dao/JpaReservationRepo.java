@@ -16,9 +16,9 @@ public interface JpaReservationRepo extends JpaRepository<Reservation, UUID> {
 
     // ZMIANA: r.user.id zamiast r.client.id
     @Query("SELECT r FROM Reservation r WHERE r.client.id = :userId AND r.status = 'ACTIVE'")
-    List<Reservation> findActiveByUserId(@Param("userId") Long userId);
+    List<Reservation> findActiveByUserId(@Param("userId") UUID userId);
 
     // ZMIANA: r.user.id zamiast r.client.id
     @Query("SELECT r FROM Reservation r WHERE r.client.id = :userId")
-    List<Reservation> findAllByUserId(@Param("userId") Long userId);
+    List<Reservation> findAllByUserId(@Param("userId") UUID userId);
 }

@@ -1,5 +1,7 @@
 package FlyAway.exception;
 
+import java.util.UUID;
+
 public class UserDoesNotExistException extends RuntimeException {
 
     public UserDoesNotExistException() {
@@ -10,7 +12,7 @@ public class UserDoesNotExistException extends RuntimeException {
         super(message);
     }
 
-    public UserDoesNotExistException(Long id) {
+    public UserDoesNotExistException(UUID id) {
         super("User with id " + id + " does not exist");
     }
 }

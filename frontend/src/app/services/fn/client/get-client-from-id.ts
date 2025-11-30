@@ -9,7 +9,7 @@ import { RequestBuilder } from '../../request-builder';
 import { ClientDto } from '../../models/client-dto';
 
 export interface GetClientFromId$Params {
-  id: number;
+  id: string;
 }
 
 export function getClientFromId(http: HttpClient, rootUrl: string, params: GetClientFromId$Params, context?: HttpContext): Observable<StrictHttpResponse<ClientDto>> {

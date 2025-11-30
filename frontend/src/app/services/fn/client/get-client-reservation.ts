@@ -9,7 +9,7 @@ import { RequestBuilder } from '../../request-builder';
 import { ReservationDto } from '../../models/reservation-dto';
 
 export interface GetClientReservation$Params {
-  id: number;
+  id: string;
   reservationId: string;
 }
 

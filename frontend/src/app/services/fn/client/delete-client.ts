@@ -8,7 +8,7 @@ import { RequestBuilder } from '../../request-builder';
 
 
 export interface DeleteClient$Params {
-  id: number;
+  id: string;
 }
 
 export function deleteClient(http: HttpClient, rootUrl: string, params: DeleteClient$Params, context?: HttpContext): Observable<StrictHttpResponse<{

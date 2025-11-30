@@ -1,17 +1,15 @@
 package FlyAway;
 
-import FlyAway.exception.RoleNotInitializedException;
 import FlyAway.flight.Flight;
-import FlyAway.flight.dao.FlightRepository;
 import FlyAway.flight.aircraft.Aircraft;
-import FlyAway.flight.aircraft.dao.AircraftRepository;
 import FlyAway.flight.aircraft.CabinClass;
 import FlyAway.flight.aircraft.SeatClassRange;
+import FlyAway.flight.aircraft.dao.AircraftRepository;
 import FlyAway.flight.airport.Airport;
 import FlyAway.flight.airport.dao.AirportRepository;
 import FlyAway.flight.country.dao.CountryRepository;
+import FlyAway.flight.dao.FlightRepository;
 import FlyAway.role.Role;
-import FlyAway.role.dao.RoleRepository;
 import FlyAway.user.User;
 import FlyAway.user.dao.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -27,7 +25,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @SpringBootApplication
 @EnableAsync
@@ -40,7 +37,6 @@ public class FlyAwayApplication {
     @Bean
     @Profile("!test")
     public CommandLineRunner commandLineRunner(
-            RoleRepository roleRepository,
             PasswordEncoder passwordEncoder,
             UserRepository userRepository,
             AircraftRepository aircraftRepository,
@@ -52,29 +48,13 @@ public class FlyAwayApplication {
 
             if (userRepository.count() != 0) return;
 
-            Role client = new Role();
-            client.setName("ROLE_CLIENT");
-
-            Role employee = new Role();
-            employee.setName("ROLE_EMPLOYEE");
-
-            Role admin = new Role();
-            admin.setName("ROLE_ADMIN");
-
-            roleRepository.save(client);
-            roleRepository.save(employee);
-            roleRepository.save(admin);
-
-            var adminRole = roleRepository.findByName("ROLE_ADMIN")
-                    .orElseThrow(() -> new RoleNotInitializedException("ROLE_ADMIN"));
-
             User admin1 = User.builder()
                     .firstname("admin")
                     .lastname("admin")
                     .email("admin@flyaway.com")
                     .password(passwordEncoder.encode("password"))
                     .phoneNumber("1234567890")
-                    .roles(Set.of(adminRole))
+                    .role(Role.ROLE_ADMIN)
                     .enabled(true)
                     .build();
 

@@ -9,7 +9,7 @@ import { RequestBuilder } from '../../request-builder';
 import { ClientReservationDto } from '../../models/client-reservation-dto';
 
 export interface GetClientWithReservations$Params {
-  id: number;
+  id: string;
 }
 
 export function getClientWithReservations(http: HttpClient, rootUrl: string, params: GetClientWithReservations$Params, context?: HttpContext): Observable<StrictHttpResponse<ClientReservationDto>> {

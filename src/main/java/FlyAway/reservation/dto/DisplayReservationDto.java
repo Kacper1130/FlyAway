@@ -14,7 +14,7 @@ public record DisplayReservationDto(
         CabinClass cabinClass,
         Integer seatNumber,
         ReservationStatus status,
-        Long clientId,
+        UUID clientId,
         UUID flightId
 ) {
 }

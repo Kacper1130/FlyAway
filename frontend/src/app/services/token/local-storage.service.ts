@@ -5,13 +5,13 @@ import {Injectable} from '@angular/core';
 })
 export class LocalStorageService {
 
-  set userId(userId: number) {
-    localStorage.setItem('userId', userId.toString())
+  set userId(userId: string) {
+    localStorage.setItem('userId', userId)
   }
 
   get userId() {
-    const userIdString = localStorage.getItem('userId');
-    return userIdString ? Number(userIdString) : 0;
+    const userId: string = localStorage.getItem('userId')!;
+    return userId;
   }
 
   set role(role: string) {

@@ -46,7 +46,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientDto> getClientFromId(@PathVariable Long id) {
+    public ResponseEntity<ClientDto> getClientFromId(@PathVariable UUID id) {
         LOGGER.debug("Retrieving client with id {}", id);
         ClientDto clientDto = clientService.getClientFromId(id);
         LOGGER.info("Successfully retrieved client");
@@ -70,7 +70,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}/reservations")
-    public ResponseEntity<ClientReservationDto> getClientWithReservations(@PathVariable Long id) {
+    public ResponseEntity<ClientReservationDto> getClientWithReservations(@PathVariable UUID id) {
         LOGGER.debug("Retrieving client's reservation, user id " + id);
         ClientReservationDto clientReservationDto = clientService.getClientWithReservations(id);
         LOGGER.info("Successfully retrieved client with reservations");
@@ -79,7 +79,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}/reservations/{reservationId}")
-    public ResponseEntity<ReservationDto> getClientReservation(@PathVariable("id") Long userId, @PathVariable UUID reservationId) {
+    public ResponseEntity<ReservationDto> getClientReservation(@PathVariable("id") UUID userId, @PathVariable UUID reservationId) {
         LOGGER.debug("Retrieving client reservation, client id {}, reservation id {}", userId, reservationId);
         ReservationDto reservationDto = clientService.getClientReservation(userId, reservationId);
         return ResponseEntity.ok(reservationDto);
@@ -87,7 +87,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{userId}/reservations/{reservationId}/cancel")
-    public ResponseEntity<?> cancelReservation(@PathVariable Long userId, @PathVariable UUID reservationId) {
+    public ResponseEntity<?> cancelReservation(@PathVariable UUID userId, @PathVariable UUID reservationId) {
         LOGGER.debug("Cancelling reservation, client id {}, reservation id {}", userId, reservationId);
         clientService.cancelReservation(userId, reservationId);
         LOGGER.info("Successfully cancelled reservation");
@@ -96,7 +96,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<?> deleteClient(@PathVariable UUID id) {
         LOGGER.debug("Deleting client with id {}", id);
         clientService.deleteClient(id);
         LOGGER.info("Successfully deleted client with id {}", id);

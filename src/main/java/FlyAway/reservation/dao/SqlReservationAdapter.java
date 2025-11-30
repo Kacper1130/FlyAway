@@ -32,12 +32,12 @@ public class SqlReservationAdapter implements ReservationRepository {
     }
 
     @Override
-    public List<Reservation> findActiveByUserId(Long userId) {
+    public List<Reservation> findActiveByUserId(UUID userId) {
         return jpaRepo.findActiveByUserId(userId);
     }
 
     @Override
-    public List<Reservation> findAllByUserId(Long userId) {
+    public List<Reservation> findAllByUserId(UUID userId) {
         return jpaRepo.findAllByUserId(userId);
     }
 

@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -27,8 +27,8 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @NotBlank
     @Size(min = 2)
     private String firstname;
@@ -42,23 +42,18 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private boolean enabled;
 
     // --- CLIENT ---
-    // Usuwamy @NotNull, bo Admin tego nie ma!
     @Past(message = "Date of birth should be a past date")
     private LocalDate dayOfBirth;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "client")
-    // Uwaga: w klasie Reservation musisz zmienić pole 'client' na 'user'!
     private List<Reservation> reservations;
-
     private boolean deleted;
 
     // --- EMPLOYEE ---
     private LocalDate hireDate;
-    private boolean mustChangePassword;
     private LocalDateTime lastLogin;
 }

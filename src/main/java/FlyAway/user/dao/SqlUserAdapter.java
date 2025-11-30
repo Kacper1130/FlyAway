@@ -1,14 +1,16 @@
 package FlyAway.user.dao;
 
+import FlyAway.role.Role;
 import FlyAway.user.User;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-@Profile("sql") // <--- KLUCZOWE: To jest wtyczka SQL
+@Profile("sql")
 public class SqlUserAdapter implements UserRepository {
 
     private final JpaUserRepository jpaRepo; // Używamy narzędzia z Kroku 1
@@ -21,7 +23,7 @@ public class SqlUserAdapter implements UserRepository {
         return jpaRepo.save(user);
     }
 
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(UUID id) {
         return jpaRepo.findById(id);
     }
 
@@ -36,27 +38,27 @@ public class SqlUserAdapter implements UserRepository {
     }
 
     @Override
-    public List<User> findAllActiveUsersByRole(String roleName) {
+    public List<User> findAllActiveUsersByRole(Role roleName) {
         return jpaRepo.findAllActiveByRole(roleName);
     }
 
     @Override
-    public List<User> findAllDeletedUsersByRole(String roleName) {
+    public List<User> findAllDeletedUsersByRole(Role roleName) {
         return jpaRepo.findAllDeletedByRole(roleName);
     }
 
     @Override
-    public Optional<User> findActiveById(Long id) {
+    public Optional<User> findActiveById(UUID id) {
         return jpaRepo.findActiveById(id);
     }
 
     @Override
-    public List<User> findAllUsersByRole(String roleName) {
+    public List<User> findAllUsersByRole(Role roleName) {
         return jpaRepo.findAllByRole(roleName);
     }
 
     @Override
-    public boolean existsById(Long id) {
+    public boolean existsById(UUID id) {
         return jpaRepo.existsById(id);
     }
 

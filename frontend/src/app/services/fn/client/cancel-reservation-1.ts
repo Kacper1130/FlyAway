@@ -8,7 +8,7 @@ import { RequestBuilder } from '../../request-builder';
 
 
 export interface CancelReservation1$Params {
-  userId: number;
+  userId: string;
   reservationId: string;
 }
 

@@ -4,5 +4,5 @@ export interface AuthenticationResponse {
   email: string;
   firstname: string;
   role: string;
-  userId: number;
+  userId: string;
 }

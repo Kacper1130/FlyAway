@@ -16,8 +16,8 @@ public interface ReservationRepository {
     Optional<Reservation> findById(UUID id);
 
     // Dla ClientReservationService
-    List<Reservation> findActiveByUserId(Long userId);
-    List<Reservation> findAllByUserId(Long userId);
+    List<Reservation> findActiveByUserId(UUID userId);
+    List<Reservation> findAllByUserId(UUID userId);
 
     // Dla EmployeeReservationService (Paginacja)
     // Spring Data Mongo też obsługuje Pageable, więc możemy to zostawić w interfejsie

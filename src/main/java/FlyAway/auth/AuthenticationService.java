@@ -7,7 +7,7 @@ import FlyAway.auth.dto.RegistrationRequest;
 import FlyAway.exception.EmailExistsException;
 import FlyAway.exception.IncorrectOldPasswordException;
 import FlyAway.exception.PasswordsDoNotMatchException;
-import FlyAway.role.dao.RoleRepository;
+import FlyAway.role.Role;
 import FlyAway.security.SecurityUser;
 import FlyAway.user.User;
 import FlyAway.user.dao.UserRepository;
@@ -19,18 +19,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Service
 public class AuthenticationService {
 
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
-    public AuthenticationService(RoleRepository roleRepository, UserRepository userRepository, AuthenticationManager authenticationManager) {
-        this.roleRepository = roleRepository;
+    public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
     }
@@ -47,8 +44,6 @@ public class AuthenticationService {
     }
 
     private User createClientFromRegistrationRequest(RegistrationRequest request) {
-        var userRole = roleRepository.findByName("ROLE_CLIENT")
-                .orElseThrow(() -> new IllegalStateException("ROLE CLIENT was not initialized"));
 
         return User.builder()
                 .firstname(request.firstname())
@@ -57,7 +52,7 @@ public class AuthenticationService {
                 .password(request.password())
                 .phoneNumber(request.phoneNumber())
                 .dayOfBirth(request.dayOfBirth())
-                .roles(Set.of(userRole))
+                .role(Role.ROLE_CLIENT)
                 .enabled(true)
                 .build();
 
@@ -74,17 +69,14 @@ public class AuthenticationService {
         var securityUser = ((SecurityUser) auth.getPrincipal());
         var user = securityUser.getUser();
 
-        if (user.getRoles().stream().findFirst().equals("ROLE_EMPLOYEE")) {
+        if (user.getRole().name().equals("ROLE_EMPLOYEE")) {
             user.setLastLogin(LocalDateTime.now());
             userRepository.save(user);
         }
 
         LOGGER.info("{} has logged in", user.getEmail());
 
-        String roleName = user.getRoles().stream()
-                .findFirst()
-                .map(role -> role.getName())
-                .get();
+        String roleName = user.getRole().name();
 
         return new AuthenticationResponse(user.getId(), roleName, user.getFirstname(), user.getEmail());
     }
