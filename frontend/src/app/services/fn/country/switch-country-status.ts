@@ -9,7 +9,7 @@ import { RequestBuilder } from '../../request-builder';
 import { CountryDto } from '../../models/country-dto';
 
 export interface SwitchCountryStatus$Params {
-  id: number;
+  id: string;
 }
 
 export function switchCountryStatus(http: HttpClient, rootUrl: string, params: SwitchCountryStatus$Params, context?: HttpContext): Observable<StrictHttpResponse<CountryDto>> {

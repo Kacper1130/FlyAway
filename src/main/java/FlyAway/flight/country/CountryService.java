@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CountryService {
@@ -32,7 +33,7 @@ public class CountryService {
         return countries;
     }
 
-    public CountryDto switchCountryStatus(Integer id) {
+    public CountryDto switchCountryStatus(UUID id) {
         Country country = countryRepository.findById(id)
                 .orElseThrow(CountryDoesNotExistException::new);
         LOGGER.info("Current status of {} - {}", country.getName(), country.isEnabled());

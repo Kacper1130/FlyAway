@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface JpaCountryRepo extends JpaRepository<Country, Integer> { // ID to Integer
 
@@ -16,4 +17,5 @@ public interface JpaCountryRepo extends JpaRepository<Country, Integer> { // ID 
     // Twoje sortowanie: najpierw włączone, potem alfabetycznie
     @Query("SELECT c FROM Country c ORDER BY c.enabled DESC, c.name ASC")
     List<Country> findAllSorted();
+    Optional<Country> findById(UUID id);
 }

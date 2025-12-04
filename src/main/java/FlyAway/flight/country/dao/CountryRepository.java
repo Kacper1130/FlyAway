@@ -4,6 +4,7 @@ import FlyAway.flight.country.Country;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface CountryRepository {
 
@@ -18,5 +19,5 @@ public interface CountryRepository {
     // Zwracamy CAŁE obiekty Country, posortowane.
     List<Country> findAllSorted();
 
-    Optional<Country> findById(Integer id);
+    Optional<Country> findById(UUID id);
 }

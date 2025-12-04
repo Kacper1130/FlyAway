@@ -1,7 +1,9 @@
 package FlyAway.flight.country.dto;
 
+import java.util.UUID;
+
 public record CountryDto(
-        Integer id,
+        UUID id,
         String name,
         boolean enabled
 

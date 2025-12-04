@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Profile("sql")
@@ -43,7 +44,6 @@ public class SqlCountryAdapter implements CountryRepository {
     }
 
     @Override
-    public Optional<Country> findById(Integer id) {
-        return jpaRepo.findById(id);
-    }
+    public Optional<Country> findById(UUID id) {return jpaRepo.findById(id); }
+
 }

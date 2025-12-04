@@ -7,6 +7,7 @@ import FlyAway.flight.aircraft.SeatClassRange;
 import FlyAway.flight.aircraft.dao.AircraftRepository;
 import FlyAway.flight.airport.Airport;
 import FlyAway.flight.airport.dao.AirportRepository;
+import FlyAway.flight.country.Country;
 import FlyAway.flight.country.dao.CountryRepository;
 import FlyAway.flight.dao.FlightRepository;
 import FlyAway.role.Role;
@@ -48,6 +49,18 @@ public class FlyAwayApplication {
 
             if (userRepository.count() != 0) return;
 
+            Country poland = countryRepository.save(
+                    Country.builder().name("Poland").enabled(true).build()
+            );
+
+            Country usa = countryRepository.save(
+                    Country.builder().name("United States").enabled(true).build()
+            );
+
+            Country uk = countryRepository.save(
+                    Country.builder().name("United Kingdom").enabled(true).build()
+            );
+
             User admin1 = User.builder()
                     .firstname("admin")
                     .lastname("admin")
@@ -73,14 +86,14 @@ public class FlyAwayApplication {
                     .seatClassRanges(seatClassRanges)
                     .build();
 
-            aircraftRepository.save(aircraft);
+            var savedAircraft1 = aircraftRepository.save(aircraft);
 
             Airport warsawAirport = Airport.builder()
                     .name("Warsaw Chopin Airport")
                     .IATACode("WAW")
                     .city("Warsaw")
                     .enabled(true)
-                    .country(countryRepository.findByName("Poland").get())
+                    .country(poland)
                     .build();
 
             Airport newYorkAirport = Airport.builder()
@@ -88,7 +101,7 @@ public class FlyAwayApplication {
                     .IATACode("JFK")
                     .city("New York")
                     .enabled(true)
-                    .country(countryRepository.findByName("United States").get())
+                    .country(usa)
                     .build();
 
             Airport londonAirport = Airport.builder()
@@ -96,7 +109,7 @@ public class FlyAwayApplication {
                     .IATACode("LHR")
                     .city("London")
                     .enabled(true)
-                    .country(countryRepository.findByName("United Kingdom").get())
+                    .country(uk)
                     .build();
 
             airportRepository.saveAll(List.of(warsawAirport, newYorkAirport, londonAirport));
@@ -110,7 +123,7 @@ public class FlyAwayApplication {
                     .arrivalAirport(newYorkAirport)
                     .departureDate(LocalDateTime.of(2026,2,11, 10,20))
                     .arrivalDate(LocalDateTime.of(2026,2,11, 19,50))
-                    .aircraft(aircraft)
+                    .aircraft(savedAircraft1)
                     .cabinClassPrices(cabinClassPrices1)
                     .build();
 
@@ -123,7 +136,7 @@ public class FlyAwayApplication {
                     .arrivalAirport(londonAirport)
                     .departureDate(LocalDateTime.of(2026,4,26, 8,0))
                     .arrivalDate(LocalDateTime.of(2026,4,26, 10,40))
-                    .aircraft(aircraft)
+                    .aircraft(savedAircraft1)
                     .cabinClassPrices(cabinClassPrices2)
                     .build();
 

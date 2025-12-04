@@ -66,9 +66,4 @@ public class SqlUserAdapter implements UserRepository {
     public long count() {
         return jpaRepo.count();
     }
-
-    // Musisz zaimplementować też save i findById (z JpaRepository)
-    // Jeśli nie ma ich w UserRepository, dodaj je tam!
-    // @Override
-    // public User save(User user) { return jpaRepo.save(user); }
 }

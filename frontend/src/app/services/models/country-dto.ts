@@ -2,6 +2,6 @@
 /* eslint-disable */
 export interface CountryDto {
   enabled?: boolean;
-  id?: number;
+  id?: string;
   name?: string;
 }

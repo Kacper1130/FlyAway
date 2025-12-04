@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/countries")
@@ -31,7 +32,7 @@ public class CountryController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CountryDto> switchCountryStatus(@PathVariable Integer id) {
+    public ResponseEntity<CountryDto> switchCountryStatus(@PathVariable UUID id) {
         LOGGER.info("Switching status of country id {}", id);
         CountryDto countryDto = countryService.switchCountryStatus(id);
         return ResponseEntity.ok(countryDto);
