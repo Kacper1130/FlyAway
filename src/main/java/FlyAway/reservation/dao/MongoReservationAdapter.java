@@ -180,7 +180,14 @@ public class MongoReservationAdapter implements ReservationRepository {
         if (d.getAircraftId() != null) {
             AircraftDocument acDoc = mongoTemplate.findById(d.getAircraftId(), AircraftDocument.class);
             if(acDoc != null) {
-                aircraft = Aircraft.builder().id(acDoc.getId()).model(acDoc.getModel()).build(); // Uproszczone
+                aircraft = Aircraft.builder()
+                        .id(acDoc.getId())
+                        .model(acDoc.getModel())
+                        .productionYear(acDoc.getProductionYear())
+                        .registration(acDoc.getRegistration())
+                        .totalSeats(acDoc.getTotalSeats())
+                        .seatClassRanges(acDoc.getSeatClassRanges())
+                        .build();
             }
         }
 
